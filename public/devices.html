@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> <!-- نفترض الانجليزية هي الافتراضية -->
+<html> <!-- نفترض الانجليزية هي الافتراضية -->
 
 <head>
   <meta charset="UTF-8">
@@ -22,6 +22,8 @@
     rel="stylesheet">
 
   <style>
+        html{ animation: fadeIn .2s ease-in forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     /* ضبط الخط والاتجاه وفق اللغة المختارة */
     html[lang="ar"] body {
       font-family: 'Tajawal', sans-serif;
@@ -1698,7 +1700,7 @@
       clearMessages();
       showLoading();
       try {
-        const resp = await fetch('https://hr.iraqsapp.com/api/devices', {
+        const resp = await fetch('http://192.168.1.239:3500/api/devices', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) {
@@ -1826,7 +1828,7 @@
       editModeDeviceId = id;
       showLoading();
       try {
-        const resp = await fetch(`https://hr.iraqsapp.com/api/devices/${id}`, {
+        const resp = await fetch(`http://192.168.1.239:3500/api/devices/${id}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('Failed to get device data');
@@ -1866,10 +1868,10 @@
       };
 
       try {
-        let url = 'https://hr.iraqsapp.com/api/devices';
+        let url = 'http://192.168.1.239:3500/api/devices';
         let method = 'POST';
         if (deviceId) {
-          url = `https://hr.iraqsapp.com/api/devices/${deviceId}`;
+          url = `http://192.168.1.239:3500/api/devices/${deviceId}`;
           method = 'PUT';
         }
 
@@ -1900,7 +1902,7 @@
 
       showLoading();
       try {
-        const resp = await fetch(`https://hr.iraqsapp.com/api/devices/${id}`, {
+        const resp = await fetch(`http://192.168.1.239:3500/api/devices/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
@@ -2115,7 +2117,7 @@
         inout: rec.inout
       };
 
-      let resp = await fetch(`https://hr.iraqsapp.com/api/fingerprints`, {
+      let resp = await fetch(`http://192.168.1.239:3500/api/fingerprints`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

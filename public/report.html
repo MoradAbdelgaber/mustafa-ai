@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html>
 
 <head>
   <meta charset="UTF-8">
@@ -16,6 +16,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
+    html{ animation: fadeIn .2s ease-in forwards; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     /* عند العربية: الخط Tajawal + RTL */
     html[lang="ar"] body {
       font-family: 'Tajawal', sans-serif;
@@ -777,7 +779,7 @@ html[lang="en"] .mainContent { order: 1; }
 async function setLanguage(lang) {
     await loadLanguageFile(lang);
     await loadReportLangFile(lang);
-    localStorage.setItem(LEAVES_LANG_KEY, lang);
+    localStorage.setItem(LANG_KEY, lang);
     applyTranslations(lang);
     applyReportTranslations(lang);
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html>
 <head>
   <meta charset="UTF-8">
   <title>نظام إدارة الحضور والانصراف - الإجازات</title>
@@ -26,6 +26,8 @@
     rel="stylesheet">
   
   <style>
+        html{ animation: fadeIn .2s ease-in forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     /* عند العربية: Tajawal + RTL */
     html[lang="ar"] body {
       font-family: 'Tajawal', sans-serif;
@@ -543,7 +545,7 @@
       errorMsg.textContent=''; 
       successMsg.textContent='';
 
-      fetch('https://hr.iraqsapp.com/api/vacations', {
+      fetch('http://192.168.1.239:3500/api/vacations', {
         headers:{ 'Authorization': 'Bearer '+authToken }
       })
       .then(resp=>{
@@ -616,7 +618,7 @@
     }
 
     function loadEmployees(){
-      fetch('https://hr.iraqsapp.com/api/employees?page=1&limit=9999', {
+      fetch('http://192.168.1.239:3500/api/employees?page=1&limit=9999', {
         headers:{ 'Authorization': 'Bearer '+authToken }
       })
       .then(resp=>{
@@ -645,7 +647,7 @@
     }
  
     function loadVacationTypes(){
-      fetch('https://hr.iraqsapp.com/api/vacation-Types', {
+      fetch('http://192.168.1.239:3500/api/vacation-Types', {
         headers:{ 'Authorization': 'Bearer '+authToken}
       })
       .then(resp=>{
@@ -716,7 +718,7 @@
       errorMsg.textContent=''; 
       successMsg.textContent='';
 
-      fetch(`https://hr.iraqsapp.com/api/vacations/${id}`, {
+      fetch(`http://192.168.1.239:3500/api/vacations/${id}`, {
         headers:{ 'Authorization': 'Bearer '+authToken }
       })
       .then(resp=>{
@@ -782,10 +784,10 @@
         status
       };
 
-      let url='https://hr.iraqsapp.com/api/vacations';
+      let url='http://192.168.1.239:3500/api/vacations';
       let method='POST';
       if(vacationId){
-        url= `https://hr.iraqsapp.com/api/vacations/${vacationId}`;
+        url= `http://192.168.1.239:3500/api/vacations/${vacationId}`;
         method='PUT';
       }
       fetch(url, {
@@ -817,7 +819,7 @@
 
       if(!confirm('هل أنت متأكد من حذف الإجازة؟')) return;
 
-      fetch(`https://hr.iraqsapp.com/api/vacations/${id}`, {
+      fetch(`http://192.168.1.239:3500/api/vacations/${id}`, {
         method:'DELETE',
         headers:{ 'Authorization': 'Bearer '+authToken }
       })

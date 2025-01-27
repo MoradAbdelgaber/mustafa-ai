@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html>
 <head>
   <meta charset="UTF-8">
   <!-- تفعيل التصميم المتجاوب -->
@@ -29,6 +29,9 @@
     rel="stylesheet">
 
   <style>
+
+    html{ animation: fadeIn .2s ease-in forwards; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     /* عند اللغة العربية: الخط Tajawal + اتجاه RTL */
     html[lang="ar"] body {
       font-family: 'Tajawal', sans-serif;

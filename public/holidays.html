@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html>
 
 <head>
   <meta charset="UTF-8">
@@ -22,6 +22,8 @@
     rel="stylesheet">
 
   <style>
+        html{ animation: fadeIn .2s ease-in forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     /* عند العربية: الخط Tajawal + RTL */
     html[lang="ar"] body {
       font-family: 'Tajawal', sans-serif;
@@ -527,7 +529,7 @@
       successMsg.textContent = '';
 
       try {
-        const resp = await fetch('https://hr.iraqsapp.com/api/official-holidays', {
+        const resp = await fetch('http://192.168.1.239:3500/api/official-holidays', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('فشل جلب العطل الرسمية');
@@ -610,7 +612,7 @@
       editModeHolidayId = id;
 
       try {
-        const resp = await fetch(`https://hr.iraqsapp.com/api/official-holidays/${id}`, {
+        const resp = await fetch(`http://192.168.1.239:3500/api/official-holidays/${id}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('فشل جلب بيانات العطلة');
@@ -650,10 +652,10 @@
       };
 
       try {
-        let url = 'https://hr.iraqsapp.com/api/official-holidays';
+        let url = 'http://192.168.1.239:3500/api/official-holidays';
         let method = 'POST';
         if (holidayId) {
-          url = `https://hr.iraqsapp.com/api/official-holidays/${holidayId}`;
+          url = `http://192.168.1.239:3500/api/official-holidays/${holidayId}`;
           method = 'PUT';
         }
         const resp = await fetch(url, {
@@ -684,7 +686,7 @@
       if (!confirm('هل أنت متأكد من حذف العطلة؟')) return;
 
       try {
-        const resp = await fetch(`https://hr.iraqsapp.com/api/official-holidays/${id}`, {
+        const resp = await fetch(`http://192.168.1.239:3500/api/official-holidays/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
