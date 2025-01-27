@@ -1087,7 +1087,7 @@
       const tbody = document.getElementById('pendingVacationsBody');
       tbody.innerHTML = '<tr><td colspan="4">' + getTranslate("dash_table_loading") + '</td></tr>';
       try {
-        let resp = await fetch('https://hr.iraqsapp.com/api/vacations?status=pending', {
+        let resp = await fetch('https://hr.iraqsapp.com/api/vacations?status=Pending', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(getTranslate("failed_to_bring_pending_leave"));
