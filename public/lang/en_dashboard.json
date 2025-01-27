@@ -18,7 +18,24 @@
     "dash_chart_attendance_distribution": "Attendance Distribution",
     "dash_chart_period_stats": "Period Statistics",
     "dash_chart_late_overtime_early": "Late - Overtime - Early Exit",
+
+
+    "attendence_chart": "Attendance",
+    "absence_chart": "Absence",
+    "late_chart": "Late",
+    "early_chatr": "Early Leave",
+    "ocer_chart": "Overtime",
+    "other_chat": "Other",
+
+
+    "chart_2": "Attendance count (Present + Late) for each day",
+
   
+    "chart_31": "Late",
+    "chart_32": "Overtime",
+    "chart_33": "Early Leave",
+
+
     "dash_table_latest_holidays": "Latest 5 Official Holidays",
     "dash_table_name": "Name",
     "dash_table_start_date": "Start Date",

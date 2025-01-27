@@ -669,7 +669,7 @@
         <i class="bi bi-building"></i>
         <span data-lng="attend_sidebar_departments">الأقسام</span>
       </div>
-      <div class="navItem" onclick="location.href='leaves-type.html'">
+      <div class="navItem" onclick="location.href='settings.html'">
         <i class="bi bi-gear-fill"></i>
         <span data-lng="attend_sidebar_settings">الإعدادات</span>
       </div>
@@ -709,6 +709,7 @@
       document.getElementById('langSelector').addEventListener('change', async function () {
         localStorage.setItem("lng", this.value)
         setDashboardLanguage(this.value);
+        loadDashboardData()
         // applyAttendTranslations(this.value);
       });
 
@@ -883,10 +884,11 @@
         if (window.attendanceChartInstance) {
           window.attendanceChartInstance.destroy();
         }
+        const labels = ["attendence_chart", "absence_chart", "late_chart","early_chatr","ocer_chart","other_chat"].map(str => dashTranslations[str])
         window.attendanceChartInstance = new Chart(ctx, {
           type: 'pie',
           data: {
-            labels: ['حضور', 'غياب', 'متأخر', 'خروج مبكر', 'أوفر تايم', 'أخرى'],
+            labels: labels,
             datasets: [{
               data: [presentCount, absentCount, lateCount, earlyCount, overtimeCount, otherCount],
               backgroundColor: ['#28a745', '#dc3545', '#ffc107', '#17a2b8', '#6f42c1', '#6c757d']
@@ -958,7 +960,7 @@
           data: {
             labels: labels,
             datasets: [{
-              label: 'عدد الحضور (حضور + تأخير) لكل يوم',
+              label: dashTranslations['chart_2'],
               data: values,
               backgroundColor: 'rgba(0,123,255,0.2)',
               borderColor: '#007bff',
@@ -1013,10 +1015,11 @@
         if (window.lateOvertimeEarlyChartInstance) {
           window.lateOvertimeEarlyChartInstance.destroy();
         }
+        const labels = ["chart_31", "chart_32", "chart_33",].map(str => dashTranslations[str])
         window.lateOvertimeEarlyChartInstance = new Chart(ctx, {
           type: 'bar',
           data: {
-            labels: ['متأخر', 'أوفر تايم', 'خروج مبكر'],
+            labels: labels,
             datasets: [{
               label: 'العدد',
               data: [lateCount, overtimeCount, earlyExitCount],

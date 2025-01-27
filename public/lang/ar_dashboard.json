@@ -19,6 +19,23 @@
     "dash_chart_period_stats": "إحصائيات الفترة المحددة",
     "dash_chart_late_overtime_early": "التأخير - الأوفر تايم - الخروج المبكر",
   
+
+
+    "attendence_chart":"حضور",
+    "absence_chart":"غياب",
+    "late_chart":"متأخر",
+    "early_chatr":"خروج مبكر",
+    "ocer_chart":"أوفر تايم",
+    "other_chat":"أخرى",
+
+    "chart_2": "عدد الحضور (حضور + تأخير) لكل يوم",
+
+    "chart_31": "متاخر",
+    "chart_32": "أوفر تايم",
+    "chart_33": "خروج مبكر",
+
+
+
     "dash_table_latest_holidays": "أحدث 5 عطل رسمية",
     "dash_table_name": "الاسم",
     "dash_table_start_date": "تاريخ البداية",
