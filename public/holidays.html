@@ -527,7 +527,7 @@
       successMsg.textContent = '';
 
       try {
-        const resp = await fetch('http://192.168.1.239:3500/api/official-holidays', {
+        const resp = await fetch('https://hr.iraqsapp.com/api/official-holidays', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('فشل جلب العطل الرسمية');
@@ -610,7 +610,7 @@
       editModeHolidayId = id;
 
       try {
-        const resp = await fetch(`http://192.168.1.239:3500/api/official-holidays/${id}`, {
+        const resp = await fetch(`https://hr.iraqsapp.com/api/official-holidays/${id}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('فشل جلب بيانات العطلة');
@@ -650,10 +650,10 @@
       };
 
       try {
-        let url = 'http://192.168.1.239:3500/api/official-holidays';
+        let url = 'https://hr.iraqsapp.com/api/official-holidays';
         let method = 'POST';
         if (holidayId) {
-          url = `http://192.168.1.239:3500/api/official-holidays/${holidayId}`;
+          url = `https://hr.iraqsapp.com/api/official-holidays/${holidayId}`;
           method = 'PUT';
         }
         const resp = await fetch(url, {
@@ -684,7 +684,7 @@
       if (!confirm('هل أنت متأكد من حذف العطلة؟')) return;
 
       try {
-        const resp = await fetch(`http://192.168.1.239:3500/api/official-holidays/${id}`, {
+        const resp = await fetch(`https://hr.iraqsapp.com/api/official-holidays/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });

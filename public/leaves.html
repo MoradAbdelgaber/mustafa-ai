@@ -543,7 +543,7 @@
       errorMsg.textContent=''; 
       successMsg.textContent='';
 
-      fetch('http://192.168.1.239:3500/api/vacations', {
+      fetch('https://hr.iraqsapp.com/api/vacations', {
         headers:{ 'Authorization': 'Bearer '+authToken }
       })
       .then(resp=>{
@@ -616,7 +616,7 @@
     }
 
     function loadEmployees(){
-      fetch('http://192.168.1.239:3500/api/employees?page=1&limit=9999', {
+      fetch('https://hr.iraqsapp.com/api/employees?page=1&limit=9999', {
         headers:{ 'Authorization': 'Bearer '+authToken }
       })
       .then(resp=>{
@@ -645,7 +645,7 @@
     }
  
     function loadVacationTypes(){
-      fetch('http://192.168.1.239:3500/api/vacation-Types', {
+      fetch('https://hr.iraqsapp.com/api/vacation-Types', {
         headers:{ 'Authorization': 'Bearer '+authToken}
       })
       .then(resp=>{
@@ -716,7 +716,7 @@
       errorMsg.textContent=''; 
       successMsg.textContent='';
 
-      fetch(`http://192.168.1.239:3500/api/vacations/${id}`, {
+      fetch(`https://hr.iraqsapp.com/api/vacations/${id}`, {
         headers:{ 'Authorization': 'Bearer '+authToken }
       })
       .then(resp=>{
@@ -782,10 +782,10 @@
         status
       };
 
-      let url='http://192.168.1.239:3500/api/vacations';
+      let url='https://hr.iraqsapp.com/api/vacations';
       let method='POST';
       if(vacationId){
-        url= `http://192.168.1.239:3500/api/vacations/${vacationId}`;
+        url= `https://hr.iraqsapp.com/api/vacations/${vacationId}`;
         method='PUT';
       }
       fetch(url, {
@@ -817,7 +817,7 @@
 
       if(!confirm('هل أنت متأكد من حذف الإجازة؟')) return;
 
-      fetch(`http://192.168.1.239:3500/api/vacations/${id}`, {
+      fetch(`https://hr.iraqsapp.com/api/vacations/${id}`, {
         method:'DELETE',
         headers:{ 'Authorization': 'Bearer '+authToken }
       })
