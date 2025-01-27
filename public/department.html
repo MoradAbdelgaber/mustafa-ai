@@ -22,8 +22,20 @@
     rel="stylesheet">
 
   <style>
-        html{ animation: fadeIn .2s ease-in forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    html {
+      animation: fadeIn .2s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
     /* عند العربية: استخدم Tajawal مع اتجاه RTL */
     html[lang="ar"] body {
       font-family: 'Tajawal', sans-serif;
@@ -581,7 +593,7 @@
       clearMessages();
       showLoading();
       try {
-        const resp = await fetch('http://192.168.1.239:3500/api/departments', {
+        const resp = await fetch('https://hr.iraqsapp.com/api/departments', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) {
@@ -667,7 +679,7 @@
       editModeDeptId = id;
       showLoading();
       try {
-        const resp = await fetch(`http://192.168.1.239:3500/api/departments/${id}`, {
+        const resp = await fetch(`https://hr.iraqsapp.com/api/departments/${id}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('فشل جلب بيانات القسم');
@@ -703,10 +715,10 @@
       };
 
       try {
-        let url = 'http://192.168.1.239:3500/api/departments';
+        let url = 'https://hr.iraqsapp.com/api/departments';
         let method = 'POST';
         if (deptId) {
-          url = `http://192.168.1.239:3500/api/departments/${deptId}`;
+          url = `https://hr.iraqsapp.com/api/departments/${deptId}`;
           method = 'PUT';
         }
 
@@ -736,7 +748,7 @@
       if (!confirm('هل أنت متأكد من حذف هذا القسم؟')) return;
       showLoading();
       try {
-        const resp = await fetch(`http://192.168.1.239:3500/api/departments/${id}`, {
+        const resp = await fetch(`https://hr.iraqsapp.com/api/departments/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });

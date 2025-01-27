@@ -1,32 +1,45 @@
 <!DOCTYPE html>
 <html> <!-- نجعل الافتراضي الإنجليزية -->
+
 <head>
   <meta charset="UTF-8">
   <title>Login - Attendance System</title>
-  
+
   <!-- ربط خطوط Tajawal (للعربية) + Open Sans (للإنجليزية) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link 
-    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap" 
-    rel="stylesheet"
-  >
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+    rel="stylesheet">
 
   <style>
-        html{ animation: fadeIn .2s ease-in forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    html {
+      animation: fadeIn .2s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
     /* قاعدة عامة: إذا كانت الصفحة lang="ar"، استخدم Tajawal، وإذا كانت lang="en"، استخدم Open Sans */
     html[lang="ar"] body {
       font-family: 'Tajawal', sans-serif;
       direction: rtl;
     }
+
     html[lang="en"] body {
       font-family: 'Open Sans', sans-serif;
       direction: ltr;
     }
 
     /* يمكنك أيضاً وضع أية تنسيقات أخرى مشتركة هنا */
-    html, body {
+    html,
+    body {
       margin: 0;
       padding: 0;
       height: 100%;
@@ -38,6 +51,7 @@
       width: 100%;
       height: 100%;
     }
+
     .top-section {
       flex: 1;
       background: linear-gradient(45deg, #0062cc, #004085);
@@ -47,14 +61,16 @@
       padding: 20px;
       color: #fff;
     }
+
     .login-box {
       background: #f9f9f9;
       border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       padding: 25px 30px;
       min-width: 320px;
       color: #444;
     }
+
     .login-box select.lang-select {
       margin-bottom: 16px;
       padding: 6px;
@@ -64,15 +80,18 @@
       border: 1px solid #ccc;
       font-family: inherit;
     }
+
     .login-box h2 {
       text-align: center;
       margin-bottom: 20px;
     }
+
     .login-box label {
       display: block;
       margin-bottom: 6px;
       font-weight: 500;
     }
+
     .login-box input {
       width: 100%;
       padding: 10px;
@@ -81,6 +100,7 @@
       border-radius: 6px;
       font-family: inherit;
     }
+
     .login-box button {
       width: 100%;
       padding: 12px;
@@ -93,16 +113,20 @@
       transition: background 0.3s;
       font-family: inherit;
     }
+
     .login-box button:hover {
       background: #0056b3;
     }
+
     .error-msg {
       color: red;
       margin: 10px 0;
       font-size: 0.9rem;
-      display: none; /* مخفي افتراضياً */
+      display: none;
+      /* مخفي افتراضياً */
       text-align: center;
     }
+
     .bottom-section {
       flex: 1;
       background: #fff;
@@ -114,18 +138,20 @@
       padding: 20px;
       text-align: center;
     }
+
     .bottom-section h1 {
       font-size: 2rem;
       margin-bottom: 15px;
     }
+
     .bottom-section p {
       font-size: 1.1rem;
       max-width: 400px;
       line-height: 1.6;
     }
-
   </style>
 </head>
+
 <body>
   <div class="container">
     <!-- القسم العلوي: تسجيل الدخول -->
@@ -141,7 +167,7 @@
         <h2 id="login_title">Login</h2>
 
         <div id="errorMsg" class="error-msg"></div>
-        
+
         <label id="login_username_label" for="user_name"></label>
         <input type="text" id="user_name" placeholder="">
 
@@ -156,16 +182,17 @@
     <div class="bottom-section">
       <h1 id="login_main_heading">Attendance Management System</h1>
       <p id="login_main_paragraph">
-        Welcome to the best system for managing employee attendance. Monitor your system smartly and easily, and get comprehensive reports at any time.
+        Welcome to the best system for managing employee attendance. Monitor your system smartly and easily, and get
+        comprehensive reports at any time.
       </p>
     </div>
   </div>
 
   <script>
     // مجلد حفظ ملفات JSON
-    const LANG_PATH = './lang'; 
+    const LANG_PATH = './lang';
     // المفتاح الذي سنستخدمه في localStorage لتخزين لغة المستخدم
-    const LANG_KEY  = 'lng'; 
+    const LANG_KEY = 'lng';
 
     let translations = {};
 
@@ -189,20 +216,20 @@
      */
     function applyTranslations(lang) {
       // ضبط اتجاه الصفحة بناءً على اللغة
-      document.documentElement.dir  = (lang === 'ar') ? 'rtl' : 'ltr';
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
       document.documentElement.lang = lang;
 
-      document.getElementById('login_title').textContent          = translations['login_title'];
+      document.getElementById('login_title').textContent = translations['login_title'];
       document.getElementById('login_username_label').textContent = translations['login_username_label'];
       document.getElementById('login_password_label').textContent = translations['login_password_label'];
-      document.getElementById('login_button').textContent         = translations['login_button'];
-      
+      document.getElementById('login_button').textContent = translations['login_button'];
+
       // placeholders
       document.getElementById('user_name').placeholder = translations['login_placeholder_username'];
-      document.getElementById('pass').placeholder      = translations['login_placeholder_password'];
+      document.getElementById('pass').placeholder = translations['login_placeholder_password'];
 
       // القسم السفلي
-      document.getElementById('login_main_heading').textContent   = translations['login_main_heading'];
+      document.getElementById('login_main_heading').textContent = translations['login_main_heading'];
       document.getElementById('login_main_paragraph').textContent = translations['login_main_paragraph'];
     }
 
@@ -221,7 +248,7 @@
     /**
      * عند تغيير المستخدم اللغة في الـ select
      */
-    document.getElementById('langSelector').addEventListener('change', async function() {
+    document.getElementById('langSelector').addEventListener('change', async function () {
       await setLanguage(this.value);
     });
 
@@ -242,19 +269,19 @@
      */
     async function login() {
       const userName = document.getElementById('user_name').value.trim();
-      const pass     = document.getElementById('pass').value.trim();
+      const pass = document.getElementById('pass').value.trim();
       const errorMsg = document.getElementById('errorMsg');
 
       errorMsg.style.display = 'none';
-      errorMsg.textContent   = '';
+      errorMsg.textContent = '';
 
       try {
-        const resp = await fetch('http://192.168.1.239:3500/api/users/login', {
+        const resp = await fetch('https://hr.iraqsapp.com/api/users/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ user_name: userName, pass })
         });
-        
+
         if (!resp.ok) {
           // نص الخطأ العام
           throw new Error(translations['login_error_generic']);
@@ -277,4 +304,5 @@
     }
   </script>
 </body>
+
 </html>

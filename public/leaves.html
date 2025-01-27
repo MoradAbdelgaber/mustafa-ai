@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title>نظام إدارة الحضور والانصراف - الإجازات</title>
@@ -7,32 +8,39 @@
   <!-- مكتبة jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- مكتبة Select2 -->
-  <link 
-    href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" 
-    rel="stylesheet" />
-  <script 
-    src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
   <!-- أيقونات Bootstrap -->
-  <link 
-    rel="stylesheet" 
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
   <!-- استيراد خطّي Tajawal (للعربية) وOpen Sans (للإنجليزية) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link 
-    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap" 
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
     rel="stylesheet">
-  
+
   <style>
-        html{ animation: fadeIn .2s ease-in forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    html {
+      animation: fadeIn .2s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
     /* عند العربية: Tajawal + RTL */
     html[lang="ar"] body {
       font-family: 'Tajawal', sans-serif;
       direction: rtl;
     }
+
     /* عند الإنجليزية: Open Sans + LTR */
     html[lang="en"] body {
       font-family: 'Open Sans', sans-serif;
@@ -40,9 +48,9 @@
     }
 
     body {
-      margin: 0; 
-      padding: 0; 
-      background: #f2f2f2; 
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
     }
 
     /* رأس الصفحة */
@@ -50,24 +58,27 @@
       background: linear-gradient(45deg, #0062cc, #004085);
       color: #fff;
       padding: 10px 20px;
-      display: flex; 
-      justify-content: space-between; 
+      display: flex;
+      justify-content: space-between;
       align-items: center;
     }
+
     header h1 {
-      margin: 0; 
+      margin: 0;
       font-size: 1.2rem;
     }
+
     header button {
-      background: #dc3545; 
+      background: #dc3545;
       color: #fff;
-      border: none; 
+      border: none;
       padding: 8px 14px;
-      border-radius: 4px; 
+      border-radius: 4px;
       cursor: pointer;
       font-size: 0.9rem;
       transition: background 0.3s;
     }
+
     header button:hover {
       background: #c82333;
     }
@@ -78,67 +89,76 @@
     }
 
     .mainContent {
-      flex: 1; 
+      flex: 1;
       padding: 20px;
     }
 
     .sidebar {
-      width: 240px; 
+      width: 240px;
       background: #fff;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      min-height: 100vh; 
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      min-height: 100vh;
       padding: 20px 10px;
     }
+
     .sidebar h2 {
-      margin-bottom: 15px; 
-      font-size: 1rem; 
-      text-align: center; 
+      margin-bottom: 15px;
+      font-size: 1rem;
+      text-align: center;
       color: #444;
     }
+
     .navItem {
-      padding: 12px 10px; 
-      margin: 6px 0; 
+      padding: 12px 10px;
+      margin: 6px 0;
       border-radius: 4px;
-      cursor: pointer; 
-      color: #333; 
+      cursor: pointer;
+      color: #333;
       font-weight: 500;
       transition: background 0.3s, color 0.3s;
-      display: flex; 
+      display: flex;
       align-items: center;
       gap: 8px;
     }
+
     .navItem i {
-      font-size: 1.1rem; 
-      color: #666; 
+      font-size: 1.1rem;
+      color: #666;
       transition: color 0.3s;
     }
+
     .navItem:hover {
       background: #f0f0f0;
     }
+
     .navItem.active {
-      background: #007bff; 
+      background: #007bff;
       color: #fff;
     }
+
     .navItem.active i {
       color: #fff;
     }
 
-    .errorMsg, .successMsg {
-      margin: 10px 0; 
+    .errorMsg,
+    .successMsg {
+      margin: 10px 0;
       font-size: 0.95rem;
       font-weight: 600;
     }
+
     .errorMsg {
-      color: red; 
+      color: red;
     }
+
     .successMsg {
-      color: green; 
+      color: green;
     }
 
     .addVacationBtn {
-      background: #28a745; 
+      background: #28a745;
       color: #fff;
-      padding: 8px 14px; 
+      padding: 8px 14px;
       border-radius: 4px;
       margin-bottom: 15px;
       transition: background 0.3s;
@@ -146,113 +166,132 @@
       border: none;
       cursor: pointer;
     }
+
     .addVacationBtn:hover {
       background: #218838;
     }
 
     .searchFilters {
-      background: #fff; 
-      padding: 10px; 
+      background: #fff;
+      padding: 10px;
       margin-bottom: 15px;
-      display: flex; 
-      flex-wrap: wrap; 
+      display: flex;
+      flex-wrap: wrap;
       gap: 10px;
-      align-items: center; 
+      align-items: center;
       border-radius: 6px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+
     .searchFilters label {
-      margin-right: 4px; 
+      margin-right: 4px;
       font-weight: 500;
     }
-    .searchFilters select, 
-    .searchFilters input[type="date"], 
+
+    .searchFilters select,
+    .searchFilters input[type="date"],
     .searchFilters input[type="text"] {
-      padding: 6px; 
-      border: 1px solid #ccc; 
+      padding: 6px;
+      border: 1px solid #ccc;
       border-radius: 4px;
       font-size: 0.9rem;
       font-family: inherit;
     }
 
     table {
-      width: 100%; 
-      border-collapse: collapse; 
+      width: 100%;
+      border-collapse: collapse;
       background: #fff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      border-radius: 6px; 
-      overflow: hidden; 
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      overflow: hidden;
     }
+
     table thead {
-      background: #007bff; 
+      background: #007bff;
       color: #fff;
     }
-    table th, 
+
+    table th,
     table td {
-      border: 1px solid #ddd; 
-      padding: 8px; 
+      border: 1px solid #ddd;
+      padding: 8px;
       text-align: center;
       font-size: 0.9rem;
     }
+
     table tbody tr:hover {
       background: #f9f9f9;
     }
 
     .btnDanger {
-      background: #dc3545; 
-      color: #fff; 
-      border-radius: 4px; 
+      background: #dc3545;
+      color: #fff;
+      border-radius: 4px;
       padding: 6px 10px;
       font-size: 0.8rem;
       transition: background 0.3s;
       cursor: pointer;
       border: none;
     }
+
     .btnDanger:hover {
       background: #c82333;
     }
+
     .btnEdit {
-      background: #007bff; 
-      color: #fff; 
-      border-radius: 4px; 
+      background: #007bff;
+      color: #fff;
+      border-radius: 4px;
       padding: 6px 10px;
       font-size: 0.8rem;
       transition: background 0.3s;
       cursor: pointer;
       border: none;
     }
+
     .btnEdit:hover {
       background: #0056b3;
     }
 
     .modalOverlay {
-      display: none; 
-      position: fixed; 
-      top: 0; 
-      left: 0; 
-      right: 0; 
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
       bottom: 0;
-      background: rgba(0,0,0,0.5);
-      justify-content: center; 
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
       align-items: center;
       z-index: 9999;
     }
+
     .modalContent {
-      width: 400px; 
+      width: 400px;
       max-width: 90%;
       border-radius: 8px;
-      background: #fff; 
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      animation: fadeInModal 0.3s ease; 
+      animation: fadeInModal 0.3s ease;
       position: relative;
     }
+
     @keyframes fadeInModal {
-      from { transform: scale(0.9); opacity: 0; }
-      to   { transform: scale(1);   opacity: 1; }
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
+
     .modalHeader {
       background: #007bff;
       color: #fff;
@@ -261,10 +300,12 @@
       justify-content: space-between;
       align-items: center;
     }
+
     .modalHeader h2 {
-      margin: 0; 
+      margin: 0;
       font-size: 1rem;
     }
+
     .modalCloseBtn {
       background: none;
       border: none;
@@ -273,52 +314,59 @@
       cursor: pointer;
       transition: color 0.3s;
     }
+
     .modalCloseBtn:hover {
       color: #ffdddd;
     }
+
     .modalBody {
       padding: 20px;
     }
+
     .modalBody label {
-      display: block; 
-      margin: 8px 0 4px; 
+      display: block;
+      margin: 8px 0 4px;
       font-weight: 500;
     }
-    .modalBody input, 
+
+    .modalBody input,
     .modalBody select {
-      width: 100%; 
-      padding: 8px; 
-      border: 1px solid #ccc; 
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
       border-radius: 4px;
       margin-bottom: 10px;
       font-size: 0.9rem;
       font-family: inherit;
     }
+
     .modalSaveBtn {
-      background: #28a745; 
-      color: #fff; 
-      border: none; 
+      background: #28a745;
+      color: #fff;
+      border: none;
       border-radius: 4px;
-      padding: 10px 14px; 
-      cursor: pointer; 
+      padding: 10px 14px;
+      cursor: pointer;
       margin-top: 10px;
       font-size: 0.9rem;
       transition: background 0.3s;
     }
+
     .modalSaveBtn:hover {
       background: #218838;
     }
 
     .lang-select {
-    margin-left: 10px;
-    padding: 5px;
-    border: none;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    cursor: pointer;
-}
-   /* زر اختيار اللغة */
-   #langSelector {
+      margin-left: 10px;
+      padding: 5px;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    /* زر اختيار اللغة */
+    #langSelector {
       margin: 10px;
       padding: 6px;
       font-size: 0.9rem;
@@ -327,19 +375,20 @@
     }
   </style>
 </head>
+
 <body onload="initPage()">
   <!-- هيدر -->
   <header>
     <h1>نظام إدارة الحضور والانصراف - الإجازات</h1>
-  <div>
-    <button onclick="logout()">خروج</button>
-    <!-- اختيار اللغة (مثل صفحة اللوجن) -->
-    <select id="langSelector" id="langSelector">
-      <option value="en">English</option>
-      <option value="ar">العربية</option>
-    </select>
+    <div>
+      <button onclick="logout()">خروج</button>
+      <!-- اختيار اللغة (مثل صفحة اللوجن) -->
+      <select id="langSelector" id="langSelector">
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+      </select>
 
-  </div>
+    </div>
   </header>
 
   <!-- الحاوية العامة -->
@@ -351,8 +400,9 @@
 
       <div class="searchFilters">
         <label for="searchEmployee" data-lng="leaves_filter_employee_label">اسم الموظف:</label>
-        <input type="text" id="searchEmployee" data-lng-placeholder="searchNamePlaceholder" oninput="filterVacationsLocally()" placeholder="Search by Name" />
-        
+        <input type="text" id="searchEmployee" data-lng-placeholder="searchNamePlaceholder"
+          oninput="filterVacationsLocally()" placeholder="Search by Name" />
+
         <label for="searchType" data-lng="leaves_filter_type_label">نوع الإجازة:</label>
         <select id="searchType" onchange="filterVacationsLocally()">
           <option value="" data-lng="leaves_filter_type_all">جميع الأنواع</option>
@@ -362,8 +412,7 @@
         <input type="date" id="searchDate" onchange="filterVacationsLocally()" />
 
         <label for="searchCreation" data-lng="leaves_filter_creation_date_label">تاريخ الإضافة:</label>
-        <input type="date" id="searchCreation" 
-        onchange="filterVacationsLocally()" />
+        <input type="date" id="searchCreation" onchange="filterVacationsLocally()" />
       </div>
 
       <button class="addVacationBtn" onclick="openModalForAdd()" data-lng="leaves_button_add_vacation">
@@ -393,64 +442,64 @@
     <div class="sidebar">
       <!-- Sidebar title -->
       <h2 data-lng="leaves_sidebar_title">القائمة</h2>
-      
+
       <!-- Menu Items with data-lng for translation -->
-      <div class="navItem" onclick="location.href='dashboard.html'" >
+      <div class="navItem" onclick="location.href='dashboard.html'">
         <i class="bi bi-house-fill"></i>
         <span data-lng="leaves_sidebar_overview">نظرة عامة</span>
       </div>
-      
-      <div class="navItem" onclick="location.href='employee.html'" >
+
+      <div class="navItem" onclick="location.href='employee.html'">
         <i class="bi bi-people-fill"></i>
         <span data-lng="leaves_sidebar_employees">الموظفين</span>
       </div>
-      
-      <div class="navItem" onclick="location.href='report.html'" >
+
+      <div class="navItem" onclick="location.href='report.html'">
         <i class="bi bi-bar-chart-line-fill"></i>
         <span data-lng="leaves_sidebar_report">تقرير الحضور</span>
       </div>
-      
-      <div class="navItem" onclick="location.href='time-based-leaves.html'" >
+
+      <div class="navItem" onclick="location.href='time-based-leaves.html'">
         <i class="bi bi-clock-fill"></i>
         <span data-lng="leaves_sidebar_time_leaves">إجازات زمنية</span>
       </div>
-      
-      <div class="navItem" onclick="location.href='holidays.html'" >
+
+      <div class="navItem" onclick="location.href='holidays.html'">
         <i class="bi bi-calendar-event-fill"></i>
         <span data-lng="leaves_sidebar_holidays">العطل الرسمية</span>
       </div>
-      
-      <div class="navItem active" onclick="location.href='leaves.html'" >
+
+      <div class="navItem active" onclick="location.href='leaves.html'">
         <i class="bi bi-calendar3"></i>
         <span data-lng="leaves_sidebar_leaves">أجازات</span>
       </div>
-      
-      <div class="navItem" onclick="location.href='attend.html'" >
+
+      <div class="navItem" onclick="location.href='attend.html'">
         <i class="bi bi-journal-check"></i>
         <span data-lng="leaves_sidebar_attend">سجل الحضور</span>
       </div>
-      
-      <div class="navItem" onclick="location.href='rewards.html'" >
+
+      <div class="navItem" onclick="location.href='rewards.html'">
         <i class="bi bi-gift-fill"></i>
         <span data-lng="leaves_sidebar_rewards">مكافآت وعقوبات</span>
       </div>
-      
-      <div class="navItem" onclick="location.href='devices.html'" >
+
+      <div class="navItem" onclick="location.href='devices.html'">
         <i class="bi bi-device-hdd-fill"></i>
         <span data-lng="leaves_sidebar_devices">الأجهزة</span>
       </div>
-      
-      <div class="navItem" onclick="location.href='requests.html'" >
+
+      <div class="navItem" onclick="location.href='requests.html'">
         <i class="bi bi-list-check"></i>
         <span data-lng="leaves_sidebar_requests">الأوامر</span>
       </div>
-      
-      <div class="navItem" onclick="location.href='department.html'" >
+
+      <div class="navItem" onclick="location.href='department.html'">
         <i class="bi bi-building"></i>
         <span data-lng="leaves_sidebar_departments">الأقسام</span>
       </div>
-      
-      <div class="navItem" onclick="location.href='settings.html'" >
+
+      <div class="navItem" onclick="location.href='settings.html'">
         <i class="bi bi-gear-fill"></i>
         <span data-lng="leaves_sidebar_settings">الإعدادات</span>
       </div>
@@ -463,7 +512,7 @@
         <span data-lng="employee_summary_report"></span>
       </div>
     </div>
-    
+
   </div>
 
   <!-- مودال الإجازات -->
@@ -475,7 +524,7 @@
       </div>
       <div class="modalBody">
         <input type="hidden" id="vacationId" />
-        
+
         <label for="employeeSelect" data-lng="employee:">اسم الموظف:</label>
         <select id="employeeSelect" style="width:100%;"></select>
 
@@ -497,7 +546,7 @@
           <option value="false" data-lng="no">لا</option>
         </select>
 
-        <label for="status" data-lng="leaves_modal_status" >حالة الإجازة:</label>
+        <label for="status" data-lng="leaves_modal_status">حالة الإجازة:</label>
         <select id="status">
           <option value="Approved" data-lng="approved">Approved</option>
           <option value="Pending" data-lng="pending">Pending</option>
@@ -518,13 +567,13 @@
     let editModeVacationId = null;
     const LANG_PATH = './lang';        // مجلد ملفات JSON
     const LANG_KEY = 'lng';
-    function initPage(){
+    function initPage() {
       let storedLang = localStorage.getItem(LANG_KEY);
       document.getElementById('langSelector').value = storedLang;
       setLanguage(storedLang).then(() => {
         authToken = localStorage.getItem('authToken');
-        if(!authToken){
-          window.location.href='login.html';
+        if (!authToken) {
+          window.location.href = 'login.html';
           return;
         }
         loadVacations();
@@ -533,45 +582,45 @@
       });
     }
 
-    function logout(){
+    function logout() {
       localStorage.removeItem('authToken');
-      window.location.href='login.html';
+      window.location.href = 'login.html';
     }
-    
 
-    function loadVacations(){
+
+    function loadVacations() {
       const errorMsg = document.getElementById('errorMsg');
-      const successMsg= document.getElementById('successMsg');
-      errorMsg.textContent=''; 
-      successMsg.textContent='';
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
 
-      fetch('http://192.168.1.239:3500/api/vacations', {
-        headers:{ 'Authorization': 'Bearer '+authToken }
+      fetch('https://hr.iraqsapp.com/api/vacations', {
+        headers: { 'Authorization': 'Bearer ' + authToken }
       })
-      .then(resp=>{
-        if(!resp.ok) throw new Error('فشل جلب الإجازات');
-        return resp.json();
-      })
-      .then(data=>{
-        allVacations = data; 
-        renderVacations(data);
-      })
-      .catch(err=>{
-        errorMsg.textContent= err.message;
-      });
+        .then(resp => {
+          if (!resp.ok) throw new Error('فشل جلب الإجازات');
+          return resp.json();
+        })
+        .then(data => {
+          allVacations = data;
+          renderVacations(data);
+        })
+        .catch(err => {
+          errorMsg.textContent = err.message;
+        });
     }
 
-    function renderVacations(vacArr){
-      const tb= document.querySelector('#vacationsTable tbody');
-      tb.innerHTML='';
+    function renderVacations(vacArr) {
+      const tb = document.querySelector('#vacationsTable tbody');
+      tb.innerHTML = '';
 
-      vacArr.forEach((v,i)=>{
-        const creationDate = v.createdAt 
-          ? (new Date(v.createdAt)).toISOString().split('T')[0] 
+      vacArr.forEach((v, i) => {
+        const creationDate = v.createdAt
+          ? (new Date(v.createdAt)).toISOString().split('T')[0]
           : '';
-        const tr= document.createElement('tr');
-        tr.innerHTML= `
-          <td>${i+1}</td>
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i + 1}</td>
           <td>${v.employee_name || ''}</td>
           <td>${v.vacation_start_date || ''}</td>
           <td>${v.vacation_end_date || ''}</td>
@@ -590,190 +639,190 @@
       });
     }
 
-    function filterVacationsLocally(){
+    function filterVacationsLocally() {
       const empName = document.getElementById('searchEmployee').value.toLowerCase().trim();
-      const typeId  = document.getElementById('searchType').value; 
-      const vacDate = document.getElementById('searchDate').value; 
-      const creationDate = document.getElementById('searchCreation').value; 
+      const typeId = document.getElementById('searchType').value;
+      const vacDate = document.getElementById('searchDate').value;
+      const creationDate = document.getElementById('searchCreation').value;
 
-      let filtered = allVacations.filter(v=>{
-        if(empName && !v.employee_name?.toLowerCase().includes(empName)){
+      let filtered = allVacations.filter(v => {
+        if (empName && !v.employee_name?.toLowerCase().includes(empName)) {
           return false;
         }
-        if(typeId && v.vacation_type_id !== typeId){
+        if (typeId && v.vacation_type_id !== typeId) {
           return false;
         }
-        if(vacDate){
-          if(!(vacDate >= v.vacation_start_date && vacDate <= v.vacation_end_date)){
+        if (vacDate) {
+          if (!(vacDate >= v.vacation_start_date && vacDate <= v.vacation_end_date)) {
             return false;
           }
         }
-        if(creationDate){
-          let cdate = v.createdAt? (new Date(v.createdAt)).toISOString().split('T')[0] : '';
-          if(cdate !== creationDate) return false;
+        if (creationDate) {
+          let cdate = v.createdAt ? (new Date(v.createdAt)).toISOString().split('T')[0] : '';
+          if (cdate !== creationDate) return false;
         }
         return true;
       });
       renderVacations(filtered);
     }
 
-    function loadEmployees(){
-      fetch('http://192.168.1.239:3500/api/employees?page=1&limit=9999', {
-        headers:{ 'Authorization': 'Bearer '+authToken }
+    function loadEmployees() {
+      fetch('https://hr.iraqsapp.com/api/employees?page=1&limit=9999', {
+        headers: { 'Authorization': 'Bearer ' + authToken }
       })
-      .then(resp=>{
-        if(!resp.ok) throw new Error('فشل جلب الموظفين');
-        return resp.json();
-      })
-      .then(data=>{
-        employees = data.data || [];
-        const sel= document.getElementById('employeeSelect');
-        sel.innerHTML = '';
-        employees.forEach(e=>{
-          const opt= document.createElement('option');
-          opt.value= e.enroll_id; 
-          opt.textContent= e.name || ('موظف '+ e.enroll_id);
-          sel.appendChild(opt);
+        .then(resp => {
+          if (!resp.ok) throw new Error('فشل جلب الموظفين');
+          return resp.json();
+        })
+        .then(data => {
+          employees = data.data || [];
+          const sel = document.getElementById('employeeSelect');
+          sel.innerHTML = '';
+          employees.forEach(e => {
+            const opt = document.createElement('option');
+            opt.value = e.enroll_id;
+            opt.textContent = e.name || ('موظف ' + e.enroll_id);
+            sel.appendChild(opt);
+          });
+          // تفعيل Select2
+          $('#employeeSelect').select2({
+            width: '100%',
+            dropdownParent: $('#vacationModal .modalBody')
+          });
+        })
+        .catch(err => {
+          console.error(err);
         });
-        // تفعيل Select2
-        $('#employeeSelect').select2({ 
-          width:'100%',
-          dropdownParent: $('#vacationModal .modalBody')
-        });
-      })
-      .catch(err=>{
-        console.error(err);
-      });
-    }
- 
-    function loadVacationTypes(){
-      fetch('http://192.168.1.239:3500/api/vacation-Types', {
-        headers:{ 'Authorization': 'Bearer '+authToken}
-      })
-      .then(resp=>{
-        if(!resp.ok) throw new Error('فشل جلب أنواع الإجازة');
-        return resp.json();
-      })
-      .then(data=>{
-        vacationTypes= data;
-        // تعبئة قائمة المودال
-        const vacSel= document.getElementById('vacTypeSelect');
-        vacSel.innerHTML = '';
-        
-        // تعبئة قائمة البحث
-        const searchTypeSel= document.getElementById('searchType');
-        // searchTypeSel.innerHTML='<option value="">جميع الأنواع</option>';
-
-        vacationTypes.forEach(t=>{
-          const opt= document.createElement('option');
-          opt.value= t._id;
-          opt.textContent= t.vacation_name || ('نوع '+ t._id);
-          vacSel.appendChild(opt);
-
-          const sopt= document.createElement('option');
-          sopt.value= t._id;
-          sopt.textContent= t.vacation_name || ('نوع '+ t._id);
-          searchTypeSel.appendChild(sopt);
-        });
-
-        // تفعيل Select2
-        $('#vacTypeSelect').select2({ 
-          width:'100%', 
-          dropdownParent: $('#vacationModal .modalBody')
-        });
-      })
-      .catch(err=>{
-        console.error(err);
-      });
     }
 
-    function openModalForAdd(){
-      editModeVacationId= null; 
+    function loadVacationTypes() {
+      fetch('https://hr.iraqsapp.com/api/vacation-Types', {
+        headers: { 'Authorization': 'Bearer ' + authToken }
+      })
+        .then(resp => {
+          if (!resp.ok) throw new Error('فشل جلب أنواع الإجازة');
+          return resp.json();
+        })
+        .then(data => {
+          vacationTypes = data;
+          // تعبئة قائمة المودال
+          const vacSel = document.getElementById('vacTypeSelect');
+          vacSel.innerHTML = '';
+
+          // تعبئة قائمة البحث
+          const searchTypeSel = document.getElementById('searchType');
+          // searchTypeSel.innerHTML='<option value="">جميع الأنواع</option>';
+
+          vacationTypes.forEach(t => {
+            const opt = document.createElement('option');
+            opt.value = t._id;
+            opt.textContent = t.vacation_name || ('نوع ' + t._id);
+            vacSel.appendChild(opt);
+
+            const sopt = document.createElement('option');
+            sopt.value = t._id;
+            sopt.textContent = t.vacation_name || ('نوع ' + t._id);
+            searchTypeSel.appendChild(sopt);
+          });
+
+          // تفعيل Select2
+          $('#vacTypeSelect').select2({
+            width: '100%',
+            dropdownParent: $('#vacationModal .modalBody')
+          });
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+
+    function openModalForAdd() {
+      editModeVacationId = null;
       // document.getElementById('modalTitle').textContent= 'إضافة إجازة';
       // document.getElementById('vacationId').value= '';
 
       const today = new Date().toISOString().split('T')[0];
-      document.getElementById('vacStart').value= today;
-      document.getElementById('vacEnd').value= today;
+      document.getElementById('vacStart').value = today;
+      document.getElementById('vacEnd').value = today;
 
-      if(employees.length>0){
-        document.getElementById('employeeSelect').value= employees[0].enroll_id;
+      if (employees.length > 0) {
+        document.getElementById('employeeSelect').value = employees[0].enroll_id;
         $('#employeeSelect').trigger('change.select2');
       }
-      if(vacationTypes.length>0){
-        document.getElementById('vacTypeSelect').value= vacationTypes[0]._id;
+      if (vacationTypes.length > 0) {
+        document.getElementById('vacTypeSelect').value = vacationTypes[0]._id;
         $('#vacTypeSelect').trigger('change.select2');
       }
-      document.getElementById('reason').value= '';
-      document.getElementById('isPaid').value= 'true';
-      document.getElementById('status').value= 'Approved';
+      document.getElementById('reason').value = '';
+      document.getElementById('isPaid').value = 'true';
+      document.getElementById('status').value = 'Approved';
 
       showModal();
     }
 
-    function openModalForEdit(id){
-      editModeVacationId= id;
-      const errorMsg= document.getElementById('errorMsg');
-      const successMsg= document.getElementById('successMsg');
-      errorMsg.textContent=''; 
-      successMsg.textContent='';
+    function openModalForEdit(id) {
+      editModeVacationId = id;
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
 
-      fetch(`http://192.168.1.239:3500/api/vacations/${id}`, {
-        headers:{ 'Authorization': 'Bearer '+authToken }
+      fetch(`https://hr.iraqsapp.com/api/vacations/${id}`, {
+        headers: { 'Authorization': 'Bearer ' + authToken }
       })
-      .then(resp=>{
-        if(!resp.ok) throw new Error('فشل جلب بيانات الإجازة');
-        return resp.json();
-      })
-      .then(v=>{
-        document.getElementById('modalTitle').textContent= 'تعديل إجازة';
-        document.getElementById('vacationId').value= v._id || '';
+        .then(resp => {
+          if (!resp.ok) throw new Error('فشل جلب بيانات الإجازة');
+          return resp.json();
+        })
+        .then(v => {
+          document.getElementById('modalTitle').textContent = 'تعديل إجازة';
+          document.getElementById('vacationId').value = v._id || '';
 
-        if(v.enroll_id){
-          document.getElementById('employeeSelect').value= v.enroll_id;
-          $('#employeeSelect').trigger('change.select2');
-        }
-        if(v.vacation_start_date){
-          document.getElementById('vacStart').value= v.vacation_start_date.split('T')[0];
-        }
-        if(v.vacation_end_date){
-          document.getElementById('vacEnd').value= v.vacation_end_date.split('T')[0];
-        }
-        if(v.vacation_type_id){
-          document.getElementById('vacTypeSelect').value= v.vacation_type_id;
-          $('#vacTypeSelect').trigger('change.select2');
-        }
-        document.getElementById('reason').value= v.reason || '';
-        document.getElementById('isPaid').value= v.is_paid ? 'true' : 'false';
-        document.getElementById('status').value= v.status || 'Approved';
+          if (v.enroll_id) {
+            document.getElementById('employeeSelect').value = v.enroll_id;
+            $('#employeeSelect').trigger('change.select2');
+          }
+          if (v.vacation_start_date) {
+            document.getElementById('vacStart').value = v.vacation_start_date.split('T')[0];
+          }
+          if (v.vacation_end_date) {
+            document.getElementById('vacEnd').value = v.vacation_end_date.split('T')[0];
+          }
+          if (v.vacation_type_id) {
+            document.getElementById('vacTypeSelect').value = v.vacation_type_id;
+            $('#vacTypeSelect').trigger('change.select2');
+          }
+          document.getElementById('reason').value = v.reason || '';
+          document.getElementById('isPaid').value = v.is_paid ? 'true' : 'false';
+          document.getElementById('status').value = v.status || 'Approved';
 
-        showModal();
-      })
-      .catch(err=>{
-        errorMsg.textContent= err.message;
-      });
+          showModal();
+        })
+        .catch(err => {
+          errorMsg.textContent = err.message;
+        });
     }
 
-    function saveVacation(){
-      const errorMsg= document.getElementById('errorMsg');
-      const successMsg= document.getElementById('successMsg');
-      errorMsg.textContent=''; 
-      successMsg.textContent='';
+    function saveVacation() {
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
 
-      const vacationId= document.getElementById('vacationId').value;
-      const empSelect= document.getElementById('employeeSelect');
-      const enroll_id= +empSelect.value; 
-      const employee_name= empSelect.options[empSelect.selectedIndex]?.textContent || '';
+      const vacationId = document.getElementById('vacationId').value;
+      const empSelect = document.getElementById('employeeSelect');
+      const enroll_id = +empSelect.value;
+      const employee_name = empSelect.options[empSelect.selectedIndex]?.textContent || '';
 
-      const vacStart= document.getElementById('vacStart').value;
-      const vacEnd= document.getElementById('vacEnd').value;
-      const vacTypeSelect= document.getElementById('vacTypeSelect');
-      const vacation_type_id= vacTypeSelect.value;
-      const reason= document.getElementById('reason').value.trim();
-      const isPaidVal= (document.getElementById('isPaid').value==='true');
-      const status= document.getElementById('status').value;
+      const vacStart = document.getElementById('vacStart').value;
+      const vacEnd = document.getElementById('vacEnd').value;
+      const vacTypeSelect = document.getElementById('vacTypeSelect');
+      const vacation_type_id = vacTypeSelect.value;
+      const reason = document.getElementById('reason').value.trim();
+      const isPaidVal = (document.getElementById('isPaid').value === 'true');
+      const status = document.getElementById('status').value;
 
-      const bodyObj= {
+      const bodyObj = {
         enroll_id,
         employee_name,
         vacation_start_date: vacStart,
@@ -784,223 +833,224 @@
         status
       };
 
-      let url='http://192.168.1.239:3500/api/vacations';
-      let method='POST';
-      if(vacationId){
-        url= `http://192.168.1.239:3500/api/vacations/${vacationId}`;
-        method='PUT';
+      let url = 'https://hr.iraqsapp.com/api/vacations';
+      let method = 'POST';
+      if (vacationId) {
+        url = `https://hr.iraqsapp.com/api/vacations/${vacationId}`;
+        method = 'PUT';
       }
       fetch(url, {
         method,
-        headers:{
-          'Authorization': 'Bearer '+authToken,
+        headers: {
+          'Authorization': 'Bearer ' + authToken,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(bodyObj)
       })
-      .then(resp=>{
-        if(!resp.ok) {
-          throw new Error(`فشل ${vacationId ? 'تعديل' : 'إضافة'} الإجازة`);
-        }
-        successMsg.textContent= `تم ${vacationId ? 'تعديل' : 'إضافة'} الإجازة بنجاح.`;
-        closeModal();
-        loadVacations();
-      })
-      .catch(err=>{
-        errorMsg.textContent= err.message;
-      });
+        .then(resp => {
+          if (!resp.ok) {
+            throw new Error(`فشل ${vacationId ? 'تعديل' : 'إضافة'} الإجازة`);
+          }
+          successMsg.textContent = `تم ${vacationId ? 'تعديل' : 'إضافة'} الإجازة بنجاح.`;
+          closeModal();
+          loadVacations();
+        })
+        .catch(err => {
+          errorMsg.textContent = err.message;
+        });
     }
 
-    function deleteVacation(id){
-      const errorMsg= document.getElementById('errorMsg');
-      const successMsg= document.getElementById('successMsg');
-      errorMsg.textContent=''; 
-      successMsg.textContent='';
+    function deleteVacation(id) {
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
 
-      if(!confirm('هل أنت متأكد من حذف الإجازة؟')) return;
+      if (!confirm('هل أنت متأكد من حذف الإجازة؟')) return;
 
-      fetch(`http://192.168.1.239:3500/api/vacations/${id}`, {
-        method:'DELETE',
-        headers:{ 'Authorization': 'Bearer '+authToken }
+      fetch(`https://hr.iraqsapp.com/api/vacations/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + authToken }
       })
-      .then(resp=>{
-        if(!resp.ok) throw new Error('فشل حذف الإجازة');
-        successMsg.textContent='تم حذف الإجازة بنجاح.';
-        loadVacations();
-      })
-      .catch(err=>{
-        errorMsg.textContent= err.message;
-      });
+        .then(resp => {
+          if (!resp.ok) throw new Error('فشل حذف الإجازة');
+          successMsg.textContent = 'تم حذف الإجازة بنجاح.';
+          loadVacations();
+        })
+        .catch(err => {
+          errorMsg.textContent = err.message;
+        });
     }
 
-    function showModal(){
-      document.getElementById('vacationModal').style.display='flex';
+    function showModal() {
+      document.getElementById('vacationModal').style.display = 'flex';
     }
-    function closeModal(){
-      document.getElementById('vacationModal').style.display='none';
-      document.getElementById('vacationId').value='';
-      document.getElementById('modalTitle').textContent='إضافة إجازة';
+    function closeModal() {
+      document.getElementById('vacationModal').style.display = 'none';
+      document.getElementById('vacationId').value = '';
+      document.getElementById('modalTitle').textContent = 'إضافة إجازة';
 
       const today = new Date().toISOString().split('T')[0];
-      document.getElementById('vacStart').value= today;
-      document.getElementById('vacEnd').value= today;
-      document.getElementById('reason').value='';
-      document.getElementById('isPaid').value='true';
-      document.getElementById('status').value='Approved';
+      document.getElementById('vacStart').value = today;
+      document.getElementById('vacEnd').value = today;
+      document.getElementById('reason').value = '';
+      document.getElementById('isPaid').value = 'true';
+      document.getElementById('status').value = 'Approved';
     }
   </script>
 
-<script>
-  const LEAVES_LANG_KEY = 'language'; // Make sure the key is consistent across pages
-const LEAVES_LANG_PATH = './lang'; // Path to ar_leaves.json and en_leaves.json
-let translations = {}; // General translations
-let leavesTranslations = {}; // Leaves-specific translations
+  <script>
+    const LEAVES_LANG_KEY = 'language'; // Make sure the key is consistent across pages
+    const LEAVES_LANG_PATH = './lang'; // Path to ar_leaves.json and en_leaves.json
+    let translations = {}; // General translations
+    let leavesTranslations = {}; // Leaves-specific translations
 
-// Function to load the general language file
-async function loadLanguageFile(lang) {
-    try {
+    // Function to load the general language file
+    async function loadLanguageFile(lang) {
+      try {
         const response = await fetch(`${LEAVES_LANG_PATH}/${lang}.json`); // General lang file (e.g., en.json or ar.json)
         if (!response.ok) {
-            throw new Error(`Error loading ${lang}.json`);
+          throw new Error(`Error loading ${lang}.json`);
         }
         translations = await response.json();
-    } catch (error) {
+      } catch (error) {
         console.error("Error loading translation file:", error);
+      }
     }
-}
 
-// Function to load the leaves language file
-async function loadLeavesLangFile(lang) {
-    try {
+    // Function to load the leaves language file
+    async function loadLeavesLangFile(lang) {
+      try {
         const response = await fetch(`${LEAVES_LANG_PATH}/${lang}_leaves.json`); // Specific leaves lang file (e.g., en_leaves.json or ar_leaves.json)
         if (!response.ok) {
-            throw new Error(`Error loading ${lang}_leaves.json`);
+          throw new Error(`Error loading ${lang}_leaves.json`);
         }
         leavesTranslations = await response.json();
-    } catch (error) {
+      } catch (error) {
         console.error("Leaves translation file error:", error);
+      }
     }
-}
 
-// Function to set the language (load files and apply translations)
-async function setLanguage(lang) {
-    await loadLanguageFile(lang);
-    await loadLeavesLangFile(lang);
-    localStorage.setItem(LEAVES_LANG_KEY, lang);
-    applyTranslations(lang);
-    applyLeavesTranslations(lang);
-}
+    // Function to set the language (load files and apply translations)
+    async function setLanguage(lang) {
+      await loadLanguageFile(lang);
+      await loadLeavesLangFile(lang);
+      localStorage.setItem(LEAVES_LANG_KEY, lang);
+      applyTranslations(lang);
+      applyLeavesTranslations(lang);
+    }
 
-// Function to apply general translations
-// Function to apply general translations
-function applyTranslations(lang) {
-    document.documentElement.lang = lang;
-    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+    // Function to apply general translations
+    // Function to apply general translations
+    function applyTranslations(lang) {
+      document.documentElement.lang = lang;
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
 
-    // Apply translations to elements with data-lng attribute (general translations)
-    document.querySelectorAll('[data-lng]').forEach(el => {
+      // Apply translations to elements with data-lng attribute (general translations)
+      document.querySelectorAll('[data-lng]').forEach(el => {
         const key = el.getAttribute('data-lng');
         if (translations[key]) {
-            if (el.tagName === 'OPTION') {
-                console.log(`Translating ${key}: ${translations[key]}`); // Log for debugging
-                el.textContent = translations[key]; // Apply translation to <option> text
-            } else {
-                el.textContent = translations[key]; // Apply translation to other elements
-            }
+          if (el.tagName === 'OPTION') {
+            console.log(`Translating ${key}: ${translations[key]}`); // Log for debugging
+            el.textContent = translations[key]; // Apply translation to <option> text
+          } else {
+            el.textContent = translations[key]; // Apply translation to other elements
+          }
         }
-    });
+      });
 
-    // Apply translations to placeholders
-    document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+      // Apply translations to placeholders
+      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
         const key = el.getAttribute('data-lng-placeholder');
         if (translations[key]) {
-            el.placeholder = translations[key];
+          el.placeholder = translations[key];
         }
-    });
+      });
 
-    // Apply translations to options
-    document.querySelectorAll('[data-lng-option]').forEach(el => {
+      // Apply translations to options
+      document.querySelectorAll('[data-lng-option]').forEach(el => {
         const key = el.getAttribute('data-lng-option');
         if (translations[key]) {
-            el.textContent = translations[key];
+          el.textContent = translations[key];
         }
-    });
-}
+      });
+    }
 
-// Function to apply leaves-specific translations
-// Function to apply leaves-specific translations
-// Function to apply leaves-specific translations
-function applyLeavesTranslations(lang) {
-    // Apply leaves-specific translations to elements with data-lng attribute
-    document.querySelectorAll('[data-lng]').forEach(el => {
+    // Function to apply leaves-specific translations
+    // Function to apply leaves-specific translations
+    // Function to apply leaves-specific translations
+    function applyLeavesTranslations(lang) {
+      // Apply leaves-specific translations to elements with data-lng attribute
+      document.querySelectorAll('[data-lng]').forEach(el => {
         const key = el.getAttribute('data-lng');
         if (leavesTranslations[key]) {
-            // For elements like <H2>, <DIV>, <SPAN>, set textContent
-            if (el.tagName === 'H2' || el.tagName === 'DIV' || el.tagName === 'SPAN') {
-                el.textContent = leavesTranslations[key];
-            } else {
-                // For other elements, set innerHTML
-                el.innerHTML = leavesTranslations[key];
-            }
+          // For elements like <H2>, <DIV>, <SPAN>, set textContent
+          if (el.tagName === 'H2' || el.tagName === 'DIV' || el.tagName === 'SPAN') {
+            el.textContent = leavesTranslations[key];
+          } else {
+            // For other elements, set innerHTML
+            el.innerHTML = leavesTranslations[key];
+          }
         }
-    });
+      });
 
-    // Apply translations to placeholders (using data-lng-placeholder attribute)
-    document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+      // Apply translations to placeholders (using data-lng-placeholder attribute)
+      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
         const key = el.getAttribute('data-lng-placeholder');
         if (leavesTranslations[key]) {
-            el.placeholder = leavesTranslations[key]; // Set translated placeholder
+          el.placeholder = leavesTranslations[key]; // Set translated placeholder
         }
-    });
+      });
 
-    // Apply translations to options (for <select> dropdowns)
-    document.querySelectorAll('option[data-lng]').forEach(option => {
+      // Apply translations to options (for <select> dropdowns)
+      document.querySelectorAll('option[data-lng]').forEach(option => {
         const key = option.getAttribute('data-lng');
         if (leavesTranslations[key]) {
-            option.textContent = leavesTranslations[key]; // Set translated option text
+          option.textContent = leavesTranslations[key]; // Set translated option text
         }
+      });
+
+      // Update the modal title translation if present
+      const modalTitle = document.getElementById('modalTitle');
+      if (modalTitle && leavesTranslations['leaves_modal_title_add']) {
+        modalTitle.textContent = leavesTranslations['leaves_modal_title_add'];
+      }
+
+      // Update the <title> with leaves-specific title
+      if (leavesTranslations['leaves_head_title']) {
+        document.title = leavesTranslations['leaves_head_title'];
+      }
+
+      // Update the header title if present
+      const headerTitle = document.querySelector('header h1');
+      if (headerTitle && leavesTranslations['leaves_header_title']) {
+        headerTitle.textContent = leavesTranslations['leaves_header_title'];
+      }
+
+      // Update the logout button if present
+      const logoutButton = document.querySelector('header button');
+      if (logoutButton && leavesTranslations['leaves_logout']) {
+        logoutButton.textContent = leavesTranslations['leaves_logout'];
+      }
+    }
+
+    // Language selection event listener
+    document.getElementById('langSelector').addEventListener('change', (event) => {
+      const selectedLang = event.target.value;
+      setLanguage(selectedLang);
     });
 
-    // Update the modal title translation if present
-    const modalTitle = document.getElementById('modalTitle');
-    if (modalTitle && leavesTranslations['leaves_modal_title_add']) {
-        modalTitle.textContent = leavesTranslations['leaves_modal_title_add'];
-    }
+    // Initialize language settings on page load
+    window.addEventListener('DOMContentLoaded', async () => {
+      let storedLang = localStorage.getItem(LEAVES_LANG_KEY) || 'en';
+      await loadLanguageFile(storedLang);
+      await loadLeavesLangFile(storedLang);
+      applyTranslations(storedLang);
+      applyLeavesTranslations(storedLang);
+    });
 
-    // Update the <title> with leaves-specific title
-    if (leavesTranslations['leaves_head_title']) {
-        document.title = leavesTranslations['leaves_head_title'];
-    }
-
-    // Update the header title if present
-    const headerTitle = document.querySelector('header h1');
-    if (headerTitle && leavesTranslations['leaves_header_title']) {
-        headerTitle.textContent = leavesTranslations['leaves_header_title'];
-    }
-
-    // Update the logout button if present
-    const logoutButton = document.querySelector('header button');
-    if (logoutButton && leavesTranslations['leaves_logout']) {
-        logoutButton.textContent = leavesTranslations['leaves_logout'];
-    }
-}
-
-// Language selection event listener
-document.getElementById('langSelector').addEventListener('change', (event) => {
-    const selectedLang = event.target.value;
-    setLanguage(selectedLang);
-});
-
-// Initialize language settings on page load
-window.addEventListener('DOMContentLoaded', async () => {
-    let storedLang = localStorage.getItem(LEAVES_LANG_KEY) || 'en';
-    await loadLanguageFile(storedLang);
-    await loadLeavesLangFile(storedLang);
-    applyTranslations(storedLang);
-    applyLeavesTranslations(storedLang);
-});
-
-</script>
+  </script>
 
 </body>
+
 </html>
