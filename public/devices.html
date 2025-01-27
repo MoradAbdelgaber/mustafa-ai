@@ -1947,31 +1947,31 @@
           const secs = String(now.getSeconds()).padStart(2, '0');
           const formattedTime = `${year}-${month}-${day} ${hours}:${mins}:${secs}`;
           bodyObj = { sn: serial, time: formattedTime };
-          url = `http://${serverip}/api/settime`;
+          url = `${serverip}/api/settime`;
 
         } else if (action === 'reboot') {
           bodyObj = { sn: serial };
-          url = `http://${serverip}/api/reboot`;
+          url = `${serverip}/api/reboot`;
 
         } else if (action === 'cleanuser') {
           bodyObj = { sn: serial };
-          url = `http://${serverip}/api/cleanuser`;
+          url = `${serverip}/api/cleanuser`;
 
         } else if (action === 'cleanlog') {
           bodyObj = { sn: serial };
-          url = `http://${serverip}/api/cleanlog`;
+          url = `${serverip}/api/cleanlog`;
 
         } else if (action === 'initsys') {
           bodyObj = { sn: serial };
-          url = `http://${serverip}/api/initsys`;
+          url = `${serverip}/api/initsys`;
 
         } else if (action === 'cleanadmin') {
           bodyObj = { sn: serial };
-          url = `http://${serverip}/api/cleanadmin`;
+          url = `${serverip}/api/cleanadmin`;
 
         } else if (action === 'opendoor') {
           bodyObj = { sn: serial };
-          url = `http://${serverip}/api/opendoor`;
+          url = `${serverip}/api/opendoor`;
         } else {
           hideLoading();
           return;
@@ -2005,7 +2005,7 @@
     // فحص الاتصال
     async function updateDeviceConnectionStatus(serverip, serial, cell) {
       try {
-        const resp = await fetch(`http://${serverip}/api/status`, {
+        const resp = await fetch(`${serverip}/api/status`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ sn: serial })
@@ -2099,7 +2099,7 @@
 
     async function fetchLogsChunk(serial, from, to, stn) {
       const bodyObj = { sn: serial, from, to, stn };
-      const resp = await fetch('http://192.168.1.239:4000/api/getalllog', {
+      const resp = await fetch('https://hr-socket.iraqsapp.com/api/getalllog', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bodyObj)
@@ -2175,7 +2175,7 @@
       currentDeviceSN = serial;
       showLoading();
       try {
-        const resp = await fetch('http://192.168.1.239:4000/api/getdevinfo', {
+        const resp = await fetch('https://hr-socket.iraqsapp.com/api/getdevinfo', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ sn: serial })
@@ -2512,7 +2512,7 @@
       showLoading();
       try {
         const bodyObj = collectSettingsForm();
-        const resp = await fetch('http://192.168.1.239:4000/api/setdevinfo', {
+        const resp = await fetch('https://hr-socket.iraqsapp.com/api/setdevinfo', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(bodyObj)
@@ -2547,7 +2547,7 @@
       currentLockSN = serial;
       showLoading();
       try {
-        const resp = await fetch('http://192.168.1.239:4000/api/getdevlock', {
+        const resp = await fetch('https://hr-socket.iraqsapp.com/api/getdevlock', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ sn: serial }),
@@ -2684,7 +2684,7 @@
           sn: currentLockSN,
           devLockInfo: lockObj
         };
-        const resp = await fetch('http://192.168.1.239:4000/api/setdevlock', {
+        const resp = await fetch('https://hr-socket.iraqsapp.com/api/setdevlock', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(bodyObj)
@@ -2766,7 +2766,7 @@
           payload
         };
 
-        const resp = await fetch('http://192.168.1.239:4000/api/dynamic', {
+        const resp = await fetch('https://hr-socket.iraqsapp.com/api/dynamic', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -2794,8 +2794,8 @@
     function openDeviceInfo(serverip, serial) {
       clearMessages();
       showLoading();
-      // نأتي بمعلومات الجهاز من السيرفر الوسيط (مثال: http://192.168.1.239:4000/api/getdeviceinfo)
-      fetch('http://192.168.1.239:4000/api/getdeviceinfo', {
+      // نأتي بمعلومات الجهاز من السيرفر الوسيط (مثال: https://hr-socket.iraqsapp.com/api/getdeviceinfo)
+      fetch('https://hr-socket.iraqsapp.com/api/getdeviceinfo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sn: serial })

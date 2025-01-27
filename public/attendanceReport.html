@@ -186,7 +186,7 @@
       const show_weekly_off_days = document.getElementById("showWeeklyOff").value;
 
       // عدل الرابط حسب سيرفرك
-      const baseURL = "http://127.0.0.1:3500/api/reports/attendance";
+      const baseURL = "https://hr.iraqsapp.com/api/reports/attendance";
       // بناة الاستعلام
       const query = `?start_date=${start_date}&end_date=${end_date}&employee_id=${employee_id}&department_id=${department_id}&show_official_holidays=${show_official_holidays}&show_weekly_off_days=${show_weekly_off_days}&timezone=Asia/Baghdad`;
       const fullURL = baseURL + query;

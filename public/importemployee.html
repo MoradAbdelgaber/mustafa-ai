@@ -597,7 +597,7 @@
       myHeaders.append('Content-Type', 'application/json');
 
       // مثال لاستدعاء getuserlist:
-      const url = `http://${serverIp}/api/getuserlist`;
+      const url = `${serverIp}/api/getuserlist`;
       const bodyObj = {
         "sn": serial,
         "from": 0,
@@ -648,7 +648,7 @@
         }
       };
 
-      const resp = await fetch('http://localhost:4000/api/dynamic', {
+      const resp = await fetch('https://hr-socket.iraqsapp.com/api/dynamic', {
         method: 'POST',
         headers: myHeaders,
         body: JSON.stringify(bodyObj)
