@@ -1,5 +1,5 @@
-// controllers/fingerPrintLogController.js
-const FingerPrintLog = require('../models/FingerPrintLog');
+const FingerPrintLog = require("../models/FingerPrintLog");
+const Device = require("../models/Device");
 
 /**
  * إنشاء سجل جديد مع شرط عدم الإضافة في حال وجود سجل مسبق بنفس الوقت والسيريال نمبر
@@ -8,24 +8,25 @@ exports.createLog = async (req, res) => {
   try {
     // في السكيمة لدينا الحقل device_sn بدل "serialNumber"
     // أيضاً نحتاج إضافة شرط المالك (owner)
-    
+
     // جهّز بيانات السجل الجديدة
     const logData = {
       ...req.body,
-      owner: req.userId // تأكّد من وجود Middleware يضع userId في req.userId
+      owner: req.userId, // تأكّد من وجود Middleware يضع userId في req.userId
     };
 
     // ابحث عن سجل موجود مسبقًا بنفس time + device_sn + owner
     const existingLog = await FingerPrintLog.findOne({
       time: req.body.time,
       device_sn: req.body.device_sn,
-      owner: req.userId
+      owner: req.userId,
     });
 
     if (existingLog) {
       return res.status(200).json({
         success: true,
-        message: 'هناك سجل يحمل نفس الوقت والجهاز لدى نفس المستخدم. الإدخال ناجح ولكن لم تتم الإضافة.',
+        message:
+          "هناك سجل يحمل نفس الوقت والجهاز لدى نفس المستخدم. الإدخال ناجح ولكن لم تتم الإضافة.",
       });
     }
 
@@ -33,15 +34,53 @@ exports.createLog = async (req, res) => {
     const log = await FingerPrintLog.create(logData);
     return res.status(201).json({
       success: true,
-      message: 'تم إنشاء السجل بنجاح',
+      message: "تم إنشاء السجل بنجاح",
       data: log,
     });
   } catch (error) {
     console.error(error);
-    return res.status(400).json({ error: 'Error creating log' });
+    return res.status(400).json({ error: "Error creating log" });
   }
 };
 
+exports.createLogFromSocket = async (req, res) => {
+  try {
+    const device = await Device.findOne({ serial: req.body.device_sn });
+    if (!device) throw new Error("Device not found");
+
+    // جهّز بيانات السجل الجديدة
+    const logData = {
+      ...req.body,
+      owner: device.owner,
+    };
+
+    // ابحث عن سجل موجود مسبقًا بنفس time + device_sn + owner
+    const existingLog = await FingerPrintLog.findOne({
+      time: req.body.time,
+      device_sn: req.body.device_sn,
+      owner: req.userId,
+    });
+
+    if (existingLog) {
+      return res.status(200).json({
+        success: true,
+        message:
+          "هناك سجل يحمل نفس الوقت والجهاز لدى نفس المستخدم. الإدخال ناجح ولكن لم تتم الإضافة.",
+      });
+    }
+
+    // إنشاء سجل جديد
+    const log = await FingerPrintLog.create(logData);
+    return res.status(201).json({
+      success: true,
+      message: "تم إنشاء السجل بنجاح",
+      data: log,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ error });
+  }
+};
 
 /**
  * جلب السجلات مع إمكانية الفلترة والتجزئة (Pagination)
@@ -109,10 +148,9 @@ exports.getLogs = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Error fetching logs' });
+    return res.status(500).json({ error: "Error fetching logs" });
   }
 };
-
 
 /**
  * جلب سجل واحد بالمعرّف (id)
@@ -123,12 +161,14 @@ exports.getLogById = async (req, res) => {
     // بدلاً من findById(id) -> نستخدم findOne مع owner
     const log = await FingerPrintLog.findOne({ _id: id, owner: req.userId });
     if (!log) {
-      return res.status(404).json({ message: 'Log not found or not owned by you' });
+      return res
+        .status(404)
+        .json({ message: "Log not found or not owned by you" });
     }
     return res.json(log);
   } catch (error) {
     console.error(error);
-    return res.status(400).json({ error: 'Error fetching log' });
+    return res.status(400).json({ error: "Error fetching log" });
   }
 };
 
@@ -145,15 +185,16 @@ exports.updateLog = async (req, res) => {
       { new: true }
     );
     if (!updatedLog) {
-      return res.status(404).json({ message: 'Log not found or not owned by you' });
+      return res
+        .status(404)
+        .json({ message: "Log not found or not owned by you" });
     }
     return res.json(updatedLog);
   } catch (error) {
     console.error(error);
-    return res.status(400).json({ error: 'Error updating log' });
+    return res.status(400).json({ error: "Error updating log" });
   }
 };
-
 
 /**
  * حذف سجل محدد
@@ -162,13 +203,18 @@ exports.deleteLog = async (req, res) => {
   try {
     const { id } = req.params;
     // حذف بسجل يخص نفس المالك
-    const deletedLog = await FingerPrintLog.findOneAndDelete({ _id: id, owner: req.userId });
+    const deletedLog = await FingerPrintLog.findOneAndDelete({
+      _id: id,
+      owner: req.userId,
+    });
     if (!deletedLog) {
-      return res.status(404).json({ message: 'Log not found or not owned by you' });
+      return res
+        .status(404)
+        .json({ message: "Log not found or not owned by you" });
     }
-    return res.json({ message: 'Log deleted successfully' });
+    return res.json({ message: "Log deleted successfully" });
   } catch (error) {
     console.error(error);
-    return res.status(400).json({ error: 'Error deleting log' });
+    return res.status(400).json({ error: "Error deleting log" });
   }
 };
