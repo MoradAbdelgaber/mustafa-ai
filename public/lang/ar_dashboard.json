@@ -1,0 +1,65 @@
+{
+    "dash_head_title": "نظام إدارة الحضور والانصراف - اللوحة الرئيسية",
+    "dash_system_name": "نظام إدارة الحضور والانصراف",
+    "dash_logout": "خروج",
+    "dash_filter_month": "اختر الشهر:",
+    "dash_filter_day": "اختر يوم محدد:",
+    "dash_filter_button": "جلب الإحصائيات",
+  
+    "dash_card_total_employees": "إجمالي الموظفين",
+    "dash_card_total_departments": "عدد الأقسام",
+    "dash_card_total_holidays": "عدد العُطل الرسمية",
+    "dash_card_pending_leaves": "طلبات الإجازة بالانتظار",
+    "dash_card_total_late": "عدد الأشخاص المتأخرين",
+    "dash_card_total_absent": "عدد الغائبين",
+    "dash_card_overtime": "عدد مَن قام بأوفر تايم",
+    "dash_card_total_leaves": "إجمالي الإجازات",
+  
+    "dash_chart_attendance_distribution": "توزيع حالات الحضور",
+    "dash_chart_period_stats": "إحصائيات الفترة المحددة",
+    "dash_chart_late_overtime_early": "التأخير - الأوفر تايم - الخروج المبكر",
+  
+    "dash_table_latest_holidays": "أحدث 5 عطل رسمية",
+    "dash_table_name": "الاسم",
+    "dash_table_start_date": "تاريخ البداية",
+    "dash_table_end_date": "تاريخ النهاية",
+    "dash_table_loading": "جاري التحميل...",
+    "dash_table_no_data": "لا توجد بيانات",
+  
+    "dash_table_pending_vacations": "الإجازات بالانتظار",
+    "dash_table_employee": "الموظف",
+    "dash_table_leave_type": "نوع الإجازة",
+  
+    "dash_table_latest_fingerprints": "أحدث 5 بصمات دخول",
+    "dash_table_status": "الحالة",
+  
+    "attend_sidebar_title": "القائمة",
+    "attend_sidebar_overview": "نظرة عامة",
+    "attend_sidebar_employees": "الموظفين",
+    "attend_sidebar_report": "تقرير الحضور",
+    "attend_sidebar_time_leaves": "إجازات زمنية",
+    "attend_sidebar_holidays": "العطل الرسمية",
+    "attend_sidebar_leaves": "أجازات",
+    "attend_sidebar_attend": "سجل الحضور",
+    "attend_sidebar_rewards": "مكافآت وعقوبات",
+    "attend_sidebar_devices": "الأجهزة",
+    "attend_sidebar_requests": "الأوامر",
+    "attend_sidebar_departments": "الأقسام",
+    "attend_sidebar_settings": "الإعدادات",
+    "attend_sidebar_unregistered": "غير المسجلين",
+    "employee_summary_report": "تقرير ملخص الموظفين",
+
+
+    "date":"التاريخ",
+    "failed_to_bring_pending_leave":"فشل جلب الإجازات بالانتظار",
+    "no_holidays_waiting":"لا توجد إجازات بالانتظار",
+    "not_none":"غير معروف",
+    "undefined":"غير محدد",
+    "failed_to_fetch_fingerprint_records":"فشل جلب بصمات دخول",
+    "invalid_data_received_or_missing_fingerprint_logs":"بيانات غير صحيحة أو لا يوجد سجلات بصمات دخول",
+    "no_fingerprint_logs_available":"لا توجد سجلات بصمات دخول",
+
+    "failed_to_official_holidays":"فشل جلب العطل الرسمية",
+    "failed_to_fetch_third_chart_data":"فشل جلب بيانات المخطط الثالث"
+  }
+  

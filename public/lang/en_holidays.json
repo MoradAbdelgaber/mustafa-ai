@@ -1,0 +1,53 @@
+{
+    "holidays_head_title": "Attendance Management System - Official Holidays",
+    "holidays_header_title": "Attendance Management System - Official Holidays",
+    "holidays_logout": "Logout",
+  
+    "holidays_placeholder_search_desc": "Search by Description",
+    "holidays_filter_date_label": "Holiday Date:",
+    "holidays_filter_desc_label": "Description:",
+    "holidays_filter_creation_label": "Creation Date:",
+  
+    "holidays_button_add_holiday": "Add Official Holiday",
+  
+    "holidays_table_header_index": "#",
+    "holidays_table_header_date": "Holiday Date",
+    "holidays_table_header_description": "Description",
+    "holidays_table_header_note": "Note",
+    "holidays_table_header_created": "Created At",
+    "holidays_table_header_edit": "Edit",
+    "holidays_table_header_delete": "Delete",
+  
+    "holidays_sidebar_title": "Menu",
+    "holidays_sidebar_overview": "Overview",
+    "holidays_sidebar_employees": "Employees",
+    "holidays_sidebar_report": "Attendance Report",
+    "holidays_sidebar_time_leaves": "Time-based Leaves",
+    "holidays_sidebar_holidays": "Official Holidays",
+    "holidays_sidebar_leaves": "Leaves",
+    "holidays_sidebar_attend": "Attendance Log",
+    "holidays_sidebar_rewards": "Rewards & Sanctions",
+    "holidays_sidebar_devices": "Devices",
+    "holidays_sidebar_requests": "Requests",
+    "holidays_sidebar_departments": "Departments",
+    "holidays_sidebar_settings": "Settings",
+    "attend_sidebar_unregistered": "Unregistered employees",
+    "employee_summary_report": "Employee  Summary Report",
+  
+    "holidays_modal_title_add": "Add Official Holiday",
+    "holidays_modal_title_edit": "Edit Official Holiday",
+    "holidays_modal_date_label": "Holiday Date:",
+    "holidays_modal_description_label": "Description:",
+    "holidays_modal_note_label": "Note:",
+    "holidays_modal_save_button": "Save",
+  
+    "holidays_msg_confirm_delete": "Are you sure you want to delete this holiday?",
+    "holidays_msg_error_fetch": "Failed to fetch official holidays",
+    "holidays_msg_error_fetch_one": "Failed to fetch holiday data",
+    "holidays_msg_error_add": "Failed to add official holiday",
+    "holidays_msg_error_edit": "Failed to edit official holiday",
+    "holidays_msg_success_add": "Official holiday added successfully.",
+    "holidays_msg_success_edit": "Official holiday edited successfully.",
+    "holidays_msg_success_delete": "Official holiday deleted successfully."
+  }
+  

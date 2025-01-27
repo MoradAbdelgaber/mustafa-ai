@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>لوحة التحكم - تقرير الحضور</title>
+  <!-- استدعاء مكتبة jQuery و Select2 (للبحث داخل الـselect) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link 
+    href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" 
+    rel="stylesheet" />
+  <script 
+    src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <!-- خط Tajawal من Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" 
+    rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0; 
+      padding: 0; 
+      font-family: 'Tajawal', sans-serif;
+      background: #f2f2f2; 
+      direction: rtl;
+    }
+    /* رأس الصفحة */
+    header {
+      background: linear-gradient(45deg, #0062cc, #004085); 
+      color: #fff;
+      padding: 10px 20px;
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+    }
+    header h1 {
+      margin: 0; 
+      font-size: 1.2rem;
+    }
+    header button {
+      background: #dc3545; 
+      color: #fff;
+      border: none; 
+      padding: 8px 14px;
+      border-radius: 4px; 
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+    header button:hover {
+      background: #c82333;
+    }
+
+    /* الحاوية العامة بعكس الاتجاه لعرض الـSidebar يمينًا */
+    .container {
+      display: flex;
+      flex-direction: row-reverse;
+    }
+
+    /* المحتوى الرئيسي */
+    .mainContent {
+      flex: 1; 
+      padding: 20px;
+    }
+
+    /* الشريط الجانبي (Sidebar) */
+    .sidebar {
+      width: 240px; 
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      min-height: 100vh; 
+      padding: 20px 10px;
+    }
+    .sidebar h2 {
+      margin-bottom: 15px; 
+      font-size: 1rem; 
+      text-align: center; 
+      color: #444;
+    }
+    .navItem {
+      padding: 12px 10px; 
+      margin: 6px 0; 
+      border-radius: 4px;
+      cursor: pointer; 
+      color: #333; 
+      font-weight: 500;
+      transition: background 0.3s, color 0.3s;
+    }
+    .navItem:hover {
+      background: #f0f0f0;
+    }
+    .navItem.active {
+      background: #007bff; 
+      color: #fff;
+    }
+
+    /* صناديق التحكم بالتقرير (الفلاتر) */
+    .filters {
+      background: #fff; 
+      padding: 15px;
+      border-radius: 6px; 
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px; 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 10px;
+      align-items: center;
+    }
+    .filters label {
+      margin-right: 6px; 
+      font-weight: 500;
+    }
+    .filters select, .filters input[type="date"] {
+      padding: 8px; 
+      border: 1px solid #ccc; 
+      border-radius: 4px;
+      min-width: 140px;
+      font-size: 0.9rem;
+    }
+    .filters button {
+      background: #007bff; 
+      color: #fff;
+      border: none; 
+      border-radius: 4px;
+      padding: 10px 14px; 
+      cursor: pointer; 
+      margin-left: auto;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+    .filters button:hover {
+      background: #0056b3;
+    }
+
+    /* بطاقات الملخص الإحصائي */
+    .cards {
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 20px; 
+      margin-bottom: 20px;
+    }
+    .card {
+      background: #fff; 
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      flex: 1; 
+      min-width: 220px; 
+      padding: 15px; 
+      text-align: center;
+    }
+    .card h3 { 
+      margin: 0; 
+      font-size: 1.1rem; 
+      margin-bottom: 8px; 
+      color: #444;
+    }
+    .card .value {
+      font-size: 1.6rem; 
+      color: #007bff; 
+      font-weight: bold;
+    }
+
+    /* جدول التقرير */
+    table {
+      width: 100%; 
+      border-collapse: collapse; 
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 6px; 
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    table thead {
+      background: #007bff; 
+      color: #fff;
+    }
+    table th, table td {
+      border: 1px solid #ddd; 
+      padding: 8px; 
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .errorMsg { 
+      color: red; 
+      margin: 10px 0; 
+      font-size: 0.95rem; 
+      font-weight: 600;
+    }
+    .summaryRow {
+      background: #ffe5b4; /* لون مميز للصف الملخص */
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body onload="initPage()">
+  <header>
+    <h1>لوحة التحكم - تقرير الحضور</h1>
+    <button onclick="logout()">خروج</button>
+  </header>
+  <div class="container">
+    <div class="mainContent">
+
+      <!-- فلاتر -->
+      <div class="filters">
+        <label for="startDate">من تاريخ:</label>
+        <input type="date" id="startDate" value="2025-01-01" />
+
+        <label for="endDate">إلى تاريخ:</label>
+        <input type="date" id="endDate" value="2025-01-15" />
+
+        <label for="employeeSelect">الموظف:</label>
+        <select id="employeeSelect">
+          <option value="0">جميع الموظفين</option>
+        </select>
+
+        <label for="departmentSelect">القسم:</label>
+        <select id="departmentSelect">
+          <option value="0">جميع الأقسام</option>
+        </select>
+
+        <label for="statusSelect">الحالة:</label>
+        <select id="statusSelect" onchange="renderReport()">
+          <option value="">جميع الحالات</option>
+          <option value="absent">غائب</option>
+          <option value="late">متأخر</option>
+          <option value="early_exit">خروج مبكر</option>
+          <option value="present">موجود</option>
+          <option value="semi_present">حضور جزئي</option>
+          <option value="late_and_early_exit">متأخر + خروج مبكر</option>
+          <option value="overtime">أوفر تايم</option>
+        </select>
+
+        <button onclick="loadReport()">جلب التقرير</button>
+      </div>
+
+      <!-- بطاقات ملخص إحصائي -->
+      <div class="cards">
+        <div class="card">
+          <h3>عدد السجلات</h3>
+          <div class="value" id="recordsCount">-</div>
+        </div>
+        <div class="card">
+          <h3>مجموع التأخير (دقيقة)</h3>
+          <div class="value" id="delaySum">-</div>
+        </div>
+        <div class="card">
+          <h3>مجموع الخروج المبكر (دقيقة)</h3>
+          <div class="value" id="earlySum">-</div>
+        </div>
+        <div class="card">
+          <h3>صافي الراتب الكلي</h3>
+          <div class="value" id="netSum">-</div>
+        </div>
+      </div>
+
+      <div class="errorMsg" id="errorMsg"></div>
+
+      <!-- جدول التقرير -->
+      <table id="reportTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>تاريخ</th>
+            <th>اسم الموظف</th>
+            <th>حالة الحضور</th>
+            <th>وقت الدخول</th>
+            <th>وقت الخروج</th>
+            <th>التأخير (دقيقة)</th>
+            <th>الخروج المبكر (دقيقة)</th>
+            <th>ساعات العمل</th>
+            <th>صافي الراتب</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- القائمة الجانبية -->
+    <div class="sidebar">
+      <h2>القائمة</h2>
+      <!-- استبدل هذه بالمسارات الفعلية لديك أو أضف أيقونات حسب الرغبة -->
+      <div class="navItem" onclick="location.href='dashboard.html'">الرئيسية</div>
+      <div class="navItem" onclick="location.href='employee.html'">الموظفين</div>
+      <div class="navItem active" onclick="location.href='report.html'">التقرير</div>
+      <div class="navItem" onclick="location.href='leaves.html'">الإجازات</div>
+      <div class="navItem" onclick="location.href='holidays.html'">العطل الرسمية</div>
+      <div class="navItem" onclick="location.href='rewards.html'">مكافآت وعقوبات</div>
+      <div class="navItem" onclick="location.href='leaves-type.html'">الإعدادات</div>
+      <div class="navItem" onclick="location.href='devices.html'">الأجهزة</div>
+    </div>
+  </div>
+
+  <script>
+    let authToken = null;
+    let originalReportData = [];
+
+    function initPage(){
+      authToken = localStorage.getItem('authToken');
+      if(!authToken){
+        window.location.href = 'login.html';
+        return;
+      }
+      loadEmployees();
+      loadDepartments();
+
+      // تفعيل ميزة البحث داخل الـselect باستخدام مكتبة select2
+      $(document).ready(function(){
+        $('#employeeSelect').select2({
+          width: '150px',
+          placeholder: 'اختر موظفًا'
+        });
+        $('#departmentSelect').select2({
+          width: '150px',
+          placeholder: 'اختر قسمًا'
+        });
+        $('#statusSelect').select2({
+          width: '130px',
+          placeholder: 'كل الحالات'
+        });
+      });
+    }
+
+    async function loadEmployees(){
+      const sel = document.getElementById('employeeSelect');
+      try {
+        const url = 'http://localhost:3500/api/employees?page=1&limit=9999';
+        const resp = await fetch(url, {
+          headers: { 'Authorization': 'Bearer '+authToken }
+        });
+        if(!resp.ok) throw new Error('فشل جلب قائمة الموظفين');
+        const data = await resp.json();
+        const arr = data.data || [];
+        arr.forEach(emp=>{
+          const opt = document.createElement('option');
+          opt.value = emp.enroll_id;
+          opt.textContent = emp.name;
+          sel.appendChild(opt);
+        });
+      } catch(err){
+        console.error(err);
+      }
+    }
+
+    async function loadDepartments(){
+      const sel = document.getElementById('departmentSelect');
+      try {
+        const url = 'http://localhost:3500/api/departments';
+        const resp = await fetch(url, {
+            headers: { 'Authorization': 'Bearer '+authToken }
+        });
+        if(!resp.ok) throw new Error('فشل جلب قائمة الأقسام');
+        const data = await resp.json();
+        data.forEach(dept=>{
+          const opt = document.createElement('option');
+          opt.value = dept._id;
+          opt.textContent = dept.department_name;
+          sel.appendChild(opt);
+        });
+      } catch(err){
+        console.error(err);
+      }
+    }
+
+    async function loadReport(){
+      const errorMsg = document.getElementById('errorMsg');
+      errorMsg.textContent = '';
+
+      const startD = document.getElementById('startDate').value || '2025-01-01';
+      const endD   = document.getElementById('endDate').value   || '2025-01-15';
+      const empId  = document.getElementById('employeeSelect').value || '0';
+      const deptId = document.getElementById('departmentSelect').value || '0';
+
+      let url = 'http://localhost:3500/api/reports/attendance';
+      url += `?start_date=${startD}&end_date=${endD}`;
+      url += `&employee_id=${empId}`;
+      url += `&department_id=${deptId}`;
+      url += '&show_official_holidays=1&show_weekly_off_days=1';
+
+      try {
+        const resp = await fetch(url, {
+            headers: { 'Authorization': 'Bearer '+authToken }
+        });
+        if(!resp.ok){
+          throw new Error('فشل جلب التقرير: ' + resp.status);
+        }
+        const data = await resp.json();
+        originalReportData = data;
+        renderReport();
+      } catch(err){
+        errorMsg.textContent = err.message;
+      }
+    }
+
+    function renderReport(){
+      const statusVal = document.getElementById('statusSelect').value;
+      const tableBody = document.querySelector('#reportTable tbody');
+      tableBody.innerHTML = '';
+
+      let count = 0;
+      let sumDelay = 0;
+      let sumEarly = 0;
+      let sumNet = 0;
+
+      let summaryRowData = null;
+
+      originalReportData.forEach((row)=>{
+        // إن وجدت بيانات تلخص الصفوف (مثال: row.attendance_status==='-- SUMMARY --')
+        if(row.attendance_status === '-- SUMMARY --'){
+          summaryRowData = row;
+          return;
+        }
+        // فلترة بالحالة
+        if(statusVal && row.status_code !== statusVal){
+          return;
+        }
+        count++;
+        sumDelay += (row.delay_minutes || 0);
+        sumEarly += (row.early_exit_minutes || 0);
+        sumNet   += (row.net_salary || 0);
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${count}</td>
+          <td>${row.attendance_date || ''}</td>
+          <td>${row.employee_name || ''}</td>
+          <td>${row.attendance_status || ''}</td>
+          <td>${row.check_in || ''}</td>
+          <td>${row.check_out || ''}</td>
+          <td>${row.delay_minutes || 0}</td>
+          <td>${row.early_exit_minutes || 0}</td>
+          <td>${row.work_hours || 0}</td>
+          <td>${row.net_salary || 0}</td>
+        `;
+        tableBody.appendChild(tr);
+      });
+
+      document.getElementById('recordsCount').textContent = count;
+      document.getElementById('delaySum').textContent     = sumDelay;
+      document.getElementById('earlySum').textContent     = sumEarly;
+      document.getElementById('netSum').textContent       = sumNet.toFixed(2);
+
+      // في حال أردت إضافة صف ملخّص خاص
+      if(summaryRowData){
+        const trSum = document.createElement('tr');
+        trSum.classList.add('summaryRow');
+        trSum.innerHTML = `<td colspan="10">${summaryRowData.employee_name||''}</td>`;
+        tableBody.appendChild(trSum);
+      }
+    }
+
+    function logout(){
+      localStorage.removeItem('authToken');
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>

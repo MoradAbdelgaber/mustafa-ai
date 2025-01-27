@@ -1,0 +1,16 @@
+{
+    "login_title": "تسجيل الدخول",
+    "login_username_label": "اسم المستخدم",
+    "login_password_label": "كلمة المرور",
+    "login_button": "دخول",
+    "login_error_generic": "خطأ في تسجيل الدخول",
+    "login_error_invalid_credentials": "اسم المستخدم أو كلمة المرور غير صحيح",
+    "login_error_fail": "فشل تسجيل الدخول",
+    
+    "login_main_heading": "نظام إدارة الحضور والانصراف",
+    "login_main_paragraph": "أهلاً بك في أفضل الأنظمة لإدارة حضور وانصراف الموظفين. راقب نظامك بذكاء وسهولة، واحصل على تقارير شاملة في أي وقت.",
+  
+    "login_placeholder_username": "mo",
+    "login_placeholder_password": "********"
+  }
+  

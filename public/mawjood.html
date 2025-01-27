@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title data-lng="Fingerprint and employee capture and transfer (with separate token fields)"></title>
+  <style>
+    body {
+      /* direction: rtl;  */
+      font-family: sans-serif;
+      margin: 20px;
+    }
+    /* عند العربية: استخدم Tajawal مع اتجاه RTL */
+    html[lang="ar"] body {
+      font-family: 'Tajawal', sans-serif;
+      direction: rtl;
+    }
+    /* عند الإنجليزية: استخدم Open Sans مع اتجاه LTR */
+    html[lang="en"] body {
+      font-family: 'Open Sans', sans-serif;
+      direction: ltr;
+    }
+
+    header{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #langSelector {
+      margin: 10px;
+      padding: 6px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    label, button {
+      display: block;
+      margin: 10px 0;
+    }
+    input {
+      padding: 5px;
+      margin-bottom: 10px;
+      width: 250px;
+    }
+    .section {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .loading {
+      color: blue;
+      font-weight: bold;
+    }
+    .success {
+      color: green;
+      font-weight: bold;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body onload="initPage()">
+  <header>
+    <h1 data-lng="Form for bringing fingerprints and employees and transferring them"></h1>
+    <select id="langSelector" class="lang-select">
+      <option value="en">English</option>
+      <option value="ar">العربية</option>
+    </select>
+
+  </header>
+
+  <!-- قسم إدخال التوكنات -->
+  <div class="section">
+    <h2 data-lng="Token Settings"></h2>
+    <label >
+      <span data-lng="Fingerprints Token"></span>
+      <input type="text" id="fingerprintsToken" data-lng-placeholder="Enter fingerprints token" />
+    </label>
+    <label>
+      <span data-lng="Employees token"></span>
+
+      <input type="text" id="employeesToken" data-lng-placeholder="Enter employees token" placeholder="" />
+    </label>
+  </div>
+  
+  <!-- قسم جلب البصمات -->
+  <div class="section">
+    <h2 data-lng="Bring fingerprints"></h2>
+    <label >
+      <span data-lng="Username"></span>
+      <input type="text" id="username"  data-lng-placeholder="Username placeholder" placeholder="" />
+    </label>
+    <label >
+      <span data-lng="Password"></span>
+      <input type="password" id="password"  data-lng-placeholder="Password placeholder" placeholder="" />
+    </label>
+    <label>
+      <span data-lng="From date"></span>
+      <input type="date" id="startDate" />
+    </label>
+    <label>
+      <span data-lng="To date"></span>
+      <input type="date" id="endDate" />
+    </label>
+    <button id="fetchBtn" data-lng="Get employee fingerprints"></button>
+    <div id="result"></div>
+  </div>
+
+  <!-- قسم جلب الموظفين -->
+  <div class="section">
+    <h2 data-lng="Get employees"></h2>
+    <label>
+      <span data-lng="Company ID"></span>
+      <input type="text" id="companyId" data-lng-placeholder="Company ID" placeholder="Company ID" />
+    </label>
+    <label>
+      <span data-lng="Branch ID"></span>
+      <input type="text" id="branchId" data-lng-placeholder="Branch ID" placeholder="Branch ID" />
+    </label>
+    <label >
+      <span data-lng="Department ID"></span>
+      <input type="text" id="departmentId" data-lng-placeholder="Department ID" placeholder="Department ID" />
+    </label>
+    <button id="fetchEmployeesBtn" data-lng="Get employees and store them"></button>
+    <div id="employeesResult"></div>
+  </div>
+  
+  <script>
+    let translations = {}
+    const LANG_PATH = "./lang";        // مجلد ملفات JSON
+    const LANG_KEY = 'mawjood';
+
+    function initPage() {
+      let storedLang = localStorage.getItem("lng");
+      if (!storedLang) storedLang = 'en'; // افتراضي إنجليزي
+      document.getElementById('langSelector').value = storedLang;
+      setLanguage(storedLang);
+    }
+
+
+    // LANGUAGES
+    // _______________________________________/
+    async function loadLanguageFile(lang) {
+      try {
+
+        console.log(`${LANG_PATH}/${lang}_${LANG_KEY}.json`);
+
+
+        const response = await fetch(`${LANG_PATH}/${lang}_${LANG_KEY}.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}.json`);
+        }
+        
+        translations = await response.json();
+        console.log(translations);
+        
+      } catch (error) {
+        console.error("Error loading translation file:", error);
+      }
+    }
+
+    async function setLanguage(lang) {      
+      await loadLanguageFile(lang);
+      localStorage.setItem("lng", lang);
+      applyTranslations(lang);
+    }
+
+    function getTranslate(key) {
+      return translations[key] || key;
+    }
+
+
+    function applyTranslations(lang) {
+      // تغيير اتجاه الصفحة ولغتها
+      document.documentElement.lang = lang;
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+      // طبيق النصوص على العناصر data-lng="..."
+      document.querySelectorAll('[data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+        if (translations[key]) {
+          el.textContent = translations[key];
+        }
+      });
+
+      // تطبيق placeholder
+      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-lng-placeholder');
+        if (translations[key]) {
+          el.placeholder = translations[key];
+        }
+      });
+
+      // تطبيق نص للأوبشن
+      document.querySelectorAll('[data-lng-option]').forEach(el => {
+        const key = el.getAttribute('data-lng-option');
+        if (translations[key]) {
+          el.textContent = translations[key];
+        }
+      });
+
+    }
+
+
+        // تغيير اللغة من الـselect
+    document.getElementById('langSelector').addEventListener('change', async function () {
+      await setLanguage(this.value);
+      localStorage.setItem("lng",this.value)
+    });
+
+    // _______________________________________/
+    // _______________________________________/
+
+
+
+    // =========================== [ إعدادات عامة ] ===========================
+    //Endpoints الخاصة بالبصمات
+    const apiGetEndpoint = 'http://209.250.237.58:3000/original-fingerprints'; // السيرفر الأول (لجلب البصمات)
+    const apiPostEndpoint = 'https://hr.iraqsapp.com/api/fingerprints';         // السيرفر الثاني (لحفظ البصمات)
+    
+    //Endpoints الخاصة بالموظفين
+    const apiGetEmployeesEndpoint = 'http://209.250.237.58:3000/users';       // السيرفر الأول (لجلب الموظفين)
+    const apiPostEmployeesEndpoint = 'https://hr.iraqsapp.com/api/employees';   // السيرفر الثاني (لحفظ الموظفين)
+
+    // ======================= [ جلب البصمات وإرسالها ] ======================
+    const sentFingerprints = new Set(); // لتجنب التكرار في نفس الجلسة
+    document.getElementById('fetchBtn').addEventListener('click', async () => {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const startDateValue = document.getElementById('startDate').value;
+      const endDateValue = document.getElementById('endDate').value;
+      const fingerprintsToken = document.getElementById('fingerprintsToken').value.trim(); // التوكن للبصمات
+      const resultDiv = document.getElementById('result');
+
+      if (!fingerprintsToken) {
+        alert(getTranslate("Please enter a fingerprints token."));
+        return;
+      }
+
+      if (!startDateValue || !endDateValue) {
+        alert(getTranslate("Please select start date and end date."));
+        return;
+      }
+
+      // تحويل التاريخين إلى رقم (تايم ستامب بالميلي ثانية)
+      const startTimestamp = new Date(startDateValue).getTime();
+      const endTimestamp = new Date(endDateValue).getTime();
+
+      const limit = 20;
+      let skip = 0; 
+      let totalFetched = 0;
+      let totalSent = 0;
+
+      // مسح محتوى النتيجة قبل البدء
+      resultDiv.className = 'loading';
+      resultDiv.innerText = getTranslate("...Fingerprint data is being retrieved and sent...");
+
+      try {
+        while(true) {
+          const url = `${apiGetEndpoint}?company=5f1312ad8a3ede0994f574bc&startDate=${startTimestamp}&endDate=${endTimestamp}&skip=${skip}`;
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(getTranslate("Failed to load data"));
+          }
+          
+          const fingerprints = await response.json();
+
+          // إذا كانت المصفوفة فارغة، يعني انتهينا
+          if (!fingerprints.length) {
+            console.log('انتهى الجلب: لم تعد هناك سجلات جديدة.');
+            break;
+          }
+
+          totalFetched += fingerprints.length;
+
+          // إرسال كل بصمة للـAPI الثاني
+          for (const fp of fingerprints) {
+            const enrollId = fp.enrollId;
+            const time = fp.time; // تاريخ البصمة
+
+            const uniqueKey = enrollId + '_' + time;
+            if (sentFingerprints.has(uniqueKey)) {
+              console.log('تخطي بصمة مكررة:', uniqueKey);
+              continue;
+            }
+
+            // بيانات الـBody للـAPI الثاني
+            const dataToSend = {
+              enrollid: enrollId,
+              name: 'mawjoodapp',  
+              time: time,         
+              event: 1            
+            };
+
+            try {
+              const postRes = await fetch(apiPostEndpoint, {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${fingerprintsToken}`,
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToSend)
+              });
+              
+              if (postRes.ok) {
+                sentFingerprints.add(uniqueKey);
+                totalSent++;
+                console.log(`تم إرسال البصمة بنجاح: enrollId=${enrollId}, time=${time}`);
+              } else {
+                console.error('فشل في إرسال البصمة:', enrollId, await postRes.text());
+              }
+            } catch (err) {
+              console.error('حدث خطأ أثناء إرسال البصمة:', err);
+            }
+          }
+
+          skip += limit;
+        }
+
+        resultDiv.className = 'success';
+        resultDiv.innerText = `انتهى الجلب والإرسال. تم جلب ${totalFetched} بصمة وإرسال ${totalSent} بنجاح.`;
+        resultDiv.innerText = `انتهى الجلب والإرسال. تم جلب ${totalFetched} بصمة وإرسال ${totalSent} بنجاح.`;
+
+      } catch (error) {
+        console.error(error);
+        resultDiv.className = 'error';
+        resultDiv.innerText = getTranslate("An error occurred during the operation. Check the console for more details.");
+      }
+    });
+
+
+    // =============== [ جلب الموظفين من السيرفر الأول وحفظهم في الثاني ] ===============
+    document.getElementById('fetchEmployeesBtn').addEventListener('click', async () => {
+      const companyId = document.getElementById('companyId').value.trim();
+      const branchId  = document.getElementById('branchId').value.trim();
+      const departmentId = document.getElementById('departmentId').value.trim();
+      const employeesToken = document.getElementById('employeesToken').value.trim(); // التوكن للموظفين
+      const employeesResultDiv = document.getElementById('employeesResult');
+
+      if (!employeesToken) {
+        alert(getTranslate( "Please enter an employees token."));
+        return;
+      }
+      if (!companyId || !branchId) {
+        alert(getTranslate( "Please enter company ID and branch ID."));
+        return;
+      }
+
+      // إظهار حالة تحميل
+      employeesResultDiv.className = 'loading';
+      employeesResultDiv.innerText = getTranslate("'...Retrieving employee data...'");
+
+      try {
+        // بناء رابط جلب الموظفين من السيرفر الأول
+        const url = `${apiGetEmployeesEndpoint}?company=${companyId}&branch=${branchId}&archive=false`;
+        const resp = await fetch(url);
+        if (!resp.ok) {
+          throw new Error('خطأ في جلب بيانات الموظفين من السيرفر الأول');
+        }
+
+        const employees = await resp.json();
+        console.log('عدد الموظفين الذي تم جلبه:', employees.length);
+
+        // بدء عملية الإرسال
+        employeesResultDiv.innerText = 'جاري تحويل وإرسال بيانات الموظفين للسيرفر الثاني...';
+
+        let sentCount = 0;
+
+        // دالة مساعدة لتحويل صورة من URL إلى Base64
+        async function urlToBase64Image(fullUrl) {
+          try {
+            const response = await fetch(fullUrl);
+            if (!response.ok) {
+              // لو فشل الجلب نرجع نص فارغ أو أي بديل
+              return '';
+            }
+            const blob = await response.blob();
+            return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => resolve(reader.result); // image in base64 (Data URL)
+              reader.onerror = (err) => reject(err);
+              reader.readAsDataURL(blob);
+            });
+          } catch (err) {
+            return '';
+          }
+        }
+
+        // خريطة الأيام الرقمية إلى اختصارات أسماء الأيام
+        const dayNameMap = {
+          0: 'Sun',
+          1: 'Mon',
+          2: 'Tue',
+          3: 'Wed',
+          4: 'Thu',
+          5: 'Fri',
+          6: 'Sat'
+        };
+
+        // التكرار على كل موظف
+        for (let i = 0; i < employees.length; i++) {
+          const emp = employees[i];
+
+          // تكوين رابط الصورة الكامل
+          let imageFullUrl = '';
+          if (emp.image) {
+            imageFullUrl = `https://mawjood.iraqsapp.com/images/${emp.image}`;
+          }
+          const base64Image = await urlToBase64Image(imageFullUrl);
+
+          // تكوين مصفوفة الدوام لأيام الأسبوع باستثناء يوم الجمعة (day=5)
+          const weekSchedules = [];
+          if (Array.isArray(emp.workingDays)) {
+            emp.workingDays.forEach(wd => {
+              if (wd.day === 5) {
+                // استثناء الجمعة
+                return;
+              }
+              const mappedDay = dayNameMap[wd.day] || 'Sun'; // احتياط لو لم يوجد
+              
+              // تحويل ساعات البداية والنهاية إلى شكل HH:MM:SS
+              const startH = wd.startHour.toString().padStart(2, '0');
+              const startM = wd.startMinutes.toString().padStart(2, '0');
+              const endH   = wd.endHour.toString().padStart(2, '0');
+              const endM   = wd.endMinutes.toString().padStart(2, '0');
+
+              weekSchedules.push({
+                day: mappedDay,
+                startTime: `${startH}:${startM}:00`,
+                endTime: `${endH}:${endM}:00`,
+                endDayOffset: 0,
+                overtimeStart: "00:00:00", // يمكنك التعديل
+                hourPrice: 0,             // يمكنك التعديل
+                overtimePrice: 0,         // يمكنك التعديل
+
+                allowed_delay_minutes: 0,
+                allowed_exit_minutes: 0,
+
+                official_working_hours: emp.hourPerDay || 8,
+                late_cutting_by_count: 0,
+                absent_cutting: 0,
+                daily_salary: 0,
+                early_cutting_by_count: 0,
+                late_min_prices: 0,
+                early_min_prices: 0,
+                minimum_working_hours_overtime: 0,
+                work_registration_start_time: "00:00:00",
+                last_entry_prevention_time: "00:00:00",
+                works_for_daily_wage: false,
+                overtime_eligible: false
+              });
+            });
+          }
+
+          // تكوين جسم الطلب للسيرفر الثاني
+          const postData = {
+            enroll_id: emp.biometricId || null,
+            name: emp.displayName || '',
+            department: 'موجود',       // ثابت مثال
+            department_id: departmentId, 
+            joining_date: emp.createdAt ? emp.createdAt.split('T')[0] : null, // أخذ التاريخ بدون الوقت
+            leave_date: null,
+            works_past_midnight: false,
+            image: base64Image, // الصورة بصيغة Base64
+            weekSchedules
+          };
+
+          // إرسال البيانات للسيرفر الثاني
+          try {
+            const postRes = await fetch(apiPostEmployeesEndpoint, {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${employeesToken}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(postData)
+            });
+
+            if (postRes.ok) {
+              sentCount++;
+              console.log(`تم إضافة الموظف بنجاح: ${postData.name}, enroll_id=${postData.enroll_id}`);
+            } else {
+              const errMsg = await postRes.text();
+              console.error('فشل في إضافة الموظف:', postData.enroll_id, errMsg);
+            }
+          } catch (err) {
+            console.error('خطأ أثناء إرسال بيانات الموظف:', err);
+          }
+
+          // تحديث شاشة التحميل بالعدد
+          employeesResultDiv.innerText = `جارٍ معالجة الموظفين (${i+1}/${employees.length})...`;
+        }
+
+        // بعد الانتهاء
+        employeesResultDiv.className = 'success';
+        employeesResultDiv.innerText = `تم الانتهاء من إرسال الموظفين. نجحت إضافة ${sentCount} من أصل ${employees.length}.`;
+
+      } catch (err) {
+        console.error(err);
+        employeesResultDiv.className = 'error';
+        employeesResultDiv.innerText = 'حدث خطأ في عملية جلب/إرسال الموظفين. تفقد الـConsole.';
+      }
+    });
+  </script>
+</body>
+</html>

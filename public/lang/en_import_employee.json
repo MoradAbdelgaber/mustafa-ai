@@ -1,0 +1,50 @@
+{
+    "Unregistered employees":"Unregistered employees",
+    "Logout":"Logout",
+    "Serial":"Serial",
+    "Job number (enrollid)":"Job number (enrollid)",
+    "Fingerprint type":"Fingerprint type",
+    "Image":"Image",
+    "Device name":"Device name",
+    "Time week":"Time week",
+    "Department":"Department",
+    "Other data":"Other data",
+    "Control":"Control",
+
+
+    "attend_sidebar_title": "Menu",
+    "attend_sidebar_overview": "Overview",
+    "attend_sidebar_employees": "Employees",
+    "attend_sidebar_report": "Attendance Report",
+    "attend_sidebar_time_leaves": "Time-based Leaves",
+    "attend_sidebar_holidays": "Official Holidays",
+    "attend_sidebar_leaves": "Leaves",
+    "attend_sidebar_attend": "Attendance Log",
+    "attend_sidebar_rewards": "Rewards & Sanctions",
+    "attend_sidebar_devices": "Devices",
+    "attend_sidebar_requests": "Requests",
+    "attend_sidebar_departments": "Departments",
+    "attend_sidebar_settings": "Settings",
+    "attend_sidebar_unregistered": "Unregistered employees",
+    "employee_summary_report": "Staff Summary Report",
+
+
+    "Device without name":"Device without name",
+    "The list of unregistered employees has been successfully fetched.":"The list of unregistered employees has been successfully fetched.",
+    "An error occurred: ":"An error occurred: ",
+    "Failed to fetch devices":"Failed to fetch devices",
+    "Failed to fetch local employees":"Failed to fetch local employees",
+    "<Put device token here>":"<Put device token here>",
+    "Failed to fetch device users":"Failed to fetch device users",
+    "Failed to fetch user information from":"Failed to fetch user information from",
+    "Not none":"Not none", 
+    "Fingerprint":"Fingerprint",
+    "Card":"Card",
+    "Face":"Face",
+    "Extract employee data":"Extract employee data",
+    "Failed to add employee.":"Failed to add employee.",
+    "Error while retrieving employee data:":"Error while retrieving employee data: ",
+    "Employee data has been successfully retrieved and added.":"Employee data has been successfully retrieved and added. "
+
+
+}

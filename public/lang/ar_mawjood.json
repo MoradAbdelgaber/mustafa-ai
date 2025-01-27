@@ -1,0 +1,34 @@
+{
+    "Fingerprint and employee capture and transfer (with separate token fields)":"جلب البصمات و الموظفين ونقلهم (مع حقول توكن منفصلة)",
+    "Form for bringing fingerprints and employees and transferring them":"نموذج جلب البصمات و الموظفين ونقلهم",
+    "Token Settings":"إعدادات التوكن",
+    "Fingerprints Token":"توكن البصمات",
+    "Enter fingerprints token":"ادخل توكن البصمات",
+    "Employees token":"توكن الموظفين",
+    "Enter employees token":"ادخل توكن الموظفين",
+    "Bring fingerprints":"جلب البصمات",
+    "Username":"اسم المستخدم:",
+    "Username placeholder":"اسم المستخدم",
+    "Password":"كلمة المرور:",
+    "Password placeholder":"كلمة المرور",
+    "From date": "من تاريخ:",
+    "To date": "إلى تاريخ:",
+    "Get employee fingerprints":"جلب بصمات الموظفين",
+    "Get employees":"جلب الموظفين",
+    "Company ID":"الشركة",
+    "Branch ID":"الفرع",
+    "Department ID":"القسم",
+    "Get employees and store them":"جلب الموظفين وتخزينهم",
+
+
+    "...Fingerprint data is being retrieved and sent...":"... جاري جلب وإرسال بيانات البصمات ...",
+    "Failed to load data":"فشل في تحميل البيانات",
+
+    "An error occurred during the operation. Check the console for more details.":"حدث خطأ أثناء العملية. تفقد وحدة التحكم لمزيد من التفاصيل.",
+    "Please enter a fingerprints token.":"الرجاء إدخال توكن البصمات.",
+    "Please select start date and end date.":"الرجاء تحديد تاريخ البدء والنهاية.",
+    "Please enter an employees token.":"الرجاء إدخال توكن الموظفين.",
+    "Please enter company ID and branch ID.":"الرجاء إدخال company ID و branch ID.",
+    "'...Retrieving employee data...'":"... جاري جلب بيانات الموظفين ..."
+
+}   

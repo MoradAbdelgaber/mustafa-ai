@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <!-- تفعيل التصميم المتجاوب -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>نظام إدارة الحضور والانصراف - الإجازات الزمنية</title>
+
+  <!-- مكتبة jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- مكتبة Select2 -->
+  <link 
+    href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" 
+    rel="stylesheet" />
+  <script 
+    src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <!-- أيقونات Bootstrap -->
+  <link 
+    rel="stylesheet" 
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- استيراد خطّي Tajawal (للعربية) وOpen Sans (للإنجليزية) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap" 
+    rel="stylesheet">
+
+  <style>
+    /* عند اللغة العربية: الخط Tajawal + اتجاه RTL */
+    html[lang="ar"] body {
+      font-family: 'Tajawal', sans-serif;
+      direction: rtl;
+    }
+    /* عند اللغة الإنجليزية: الخط Open Sans + اتجاه LTR */
+    html[lang="en"] body {
+      font-family: 'Open Sans', sans-serif;
+      direction: ltr;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
+    }
+    #langSelector {
+      margin: 10px;
+      padding: 6px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    /* رأس الصفحة */
+    header {
+      background: linear-gradient(45deg, #0062cc, #004085);
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+    header button {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+    header button:hover {
+      background: #c82333;
+    }
+
+    /* الحاوية العامة: sidebar + mainContent */
+    .container {
+      display: flex;
+      flex-direction: row-reverse; /* لأن الصفحة عربية (sidebar يمين) */
+      min-height: calc(100vh - 60px); /* لتعبئة طول الشاشة تقريباً */
+    }
+
+    .mainContent {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .sidebar {
+      width: 240px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      min-height: 100%;
+      padding: 20px 10px;
+    }
+    .sidebar h2 {
+      margin-bottom: 15px;
+      font-size: 1rem;
+      text-align: center;
+      color: #444;
+    }
+    .navItem {
+      padding: 12px 10px;
+      margin: 6px 0;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #333;
+      font-weight: 500;
+      transition: background 0.3s, color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .navItem i {
+      font-size: 1.1rem;
+      color: #666;
+      transition: color 0.3s;
+    }
+    .navItem:hover {
+      background: #f0f0f0;
+    }
+    .navItem.active {
+      background: #007bff;
+      color: #fff;
+    }
+    .navItem.active i {
+      color: #fff;
+    }
+
+    .errorMsg, .successMsg {
+      margin: 10px 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .errorMsg {
+      color: red;
+    }
+    .successMsg {
+      color: green;
+    }
+
+    .addVacationBtn {
+      background: #28a745;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      transition: background 0.3s;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+    }
+    .addVacationBtn:hover {
+      background: #218838;
+    }
+
+    .searchFilters {
+      background: #fff;
+      padding: 10px;
+      margin-bottom: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .searchFilters label {
+      margin-right: 4px;
+      font-weight: 500;
+    }
+    .searchFilters select,
+    .searchFilters input[type="date"],
+    .searchFilters input[type="text"] {
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    table thead {
+      background: #007bff;
+      color: #fff;
+    }
+    table th,
+    table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .btnDanger {
+      background: #dc3545;
+      color: #fff;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      transition: background 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+    .btnDanger:hover {
+      background: #c82333;
+    }
+    .btnEdit {
+      background: #007bff;
+      color: #fff;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      transition: background 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+    .btnEdit:hover {
+      background: #0056b3;
+    }
+
+    .modalOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .modalContent {
+      width: 400px;
+      max-width: 90%;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: fadeInModal 0.3s ease;
+      position: relative;
+    }
+    @keyframes fadeInModal {
+      from { transform: scale(0.9); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+    .modalHeader {
+      background: #007bff;
+      color: #fff;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modalHeader h2 {
+      margin: 0;
+      font-size: 1rem;
+    }
+    .modalCloseBtn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .modalCloseBtn:hover {
+      color: #ffdddd;
+    }
+    .modalBody {
+      padding: 20px;
+    }
+    .modalBody label {
+      display: block;
+      margin: 8px 0 4px;
+      font-weight: 500;
+    }
+    .modalBody input,
+    .modalBody select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+    .modalSaveBtn {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 14px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+    .modalSaveBtn:hover {
+      background: #218838;
+    }
+
+    /* ================= Media Queries لتصميم متجاوب ================= */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .container {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        order: 0;
+        min-height: auto;
+      }
+      .mainContent {
+        order: 1;
+        width: 100%;
+        padding: 10px;
+      }
+
+      .searchFilters {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body onload="initPage()">
+  <!-- هيدر -->
+  <header>
+    <h1>نظام إدارة الحضور والانصراف - الإجازات الزمنية</h1>
+    <div>
+      <button onclick="logout()">خروج</button>
+      <select id="langSelector">
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- الحاوية العامة -->
+  <div class="container">
+    <!-- المحتوى الرئيسي -->
+    <div class="mainContent">
+      <div class="errorMsg" id="errorMsg"></div>
+      <div class="successMsg" id="successMsg"></div>
+
+      <!-- حاوية البحث أعلى الجدول -->
+      <div class="searchFilters">
+        <label for="searchEmployee">اسم الموظف:</label>
+        <input type="text" id="searchEmployee" oninput="filterLeavesLocally()" data-lng-placeholder="searchName" placeholder="بحث بالاسم" />
+
+        <label for="searchDate">تاريخ الإجازة:</label>
+        <input type="date" id="searchDate" onchange="filterLeavesLocally()" />
+
+        <label for="searchStatus">الحالة:</label>
+        <select id="searchStatus" onchange="filterLeavesLocally()">
+          <option value="" data-lng-option="allStates">جميع الحالات</option>
+          <option value="Pending">Pending</option>
+          <option value="Approved">Approved</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+      </div>
+
+      <button class="addVacationBtn" onclick="openModalForAdd()">
+        إضافة إجازة زمنية
+      </button>
+
+      <table id="timeBasedLeavesTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>اسم الموظف</th>
+            <th>تاريخ الإجازة</th>
+            <th>من الساعة</th>
+            <th>إلى الساعة</th>
+            <th>مدة الدخول</th>
+            <th>مدة الخروج</th>
+            <th>مدفوعة؟</th>
+            <th>الحالة</th>
+            <th>السبب</th>
+            <th>تاريخ الإضافة</th>
+            <th>تحرير</th>
+            <th>حذف</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- الشريط الجانبي -->
+    <div class="sidebar">
+      <h2>القائمة</h2>
+      <div class="navItem" onclick="location.href='dashboard.html'">
+        <i class="bi bi-house-fill"></i>
+        نظرة عامة
+      </div>
+      <div class="navItem" onclick="location.href='employee.html'">
+        <i class="bi bi-people-fill"></i>
+        الموظفين
+      </div>
+      <div class="navItem" onclick="location.href='report.html'">
+        <i class="bi bi-bar-chart-line-fill"></i>
+        تقرير الحضور
+      </div>
+      <div class="navItem active" onclick="location.href='time-based-leaves.html'">
+        <i class="bi bi-clock-fill"></i>
+        إجازات زمنية
+      </div>
+      <div class="navItem" onclick="location.href='holidays.html'">
+        <i class="bi bi-calendar-event-fill"></i>
+        العطل الرسمية
+      </div>
+      <div class="navItem" onclick="location.href='leaves.html'">
+        <i class="bi bi-calendar3"></i>
+        أجازات
+      </div>
+      <div class="navItem" onclick="location.href='attend.html'">
+        <i class="bi bi-journal-check"></i>
+        سجل الحضور
+      </div>
+      <div class="navItem" onclick="location.href='rewards.html'">
+        <i class="bi bi-gift-fill"></i>
+        مكافآت وعقوبات
+      </div>
+      <div class="navItem" onclick="location.href='devices.html'">
+        <i class="bi bi-device-hdd-fill"></i>
+        الأجهزة
+      </div>
+      <div class="navItem" onclick="location.href='requests.html'">
+        <i class="bi bi-list-check"></i>
+        الأوامر
+      </div>
+      <div class="navItem" onclick="location.href='department.html'">
+        <i class="bi bi-building"></i>
+        الأقسام
+      </div>
+      <div class="navItem" onclick="location.href='settings.html'">
+        <i class="bi bi-gear-fill"></i>
+        الإعدادات
+      </div>
+      <div class="navItem" onclick="location.href='importemployee.html'">
+        <i class="bi bi-person-exclamation"></i>
+        <span></span>
+      </div>
+      <div class="navItem" onclick="location.href='employee-summary-report.html'">
+        <i class="bi bi-people-fill"></i>
+        <span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- مودال الإجازات الزمنية -->
+  <div class="modalOverlay" id="timeBasedLeaveModal">
+    <div class="modalContent">
+      <div class="modalHeader">
+        <h2 id="modalTitle">إضافة إجازة زمنية</h2>
+        <button class="modalCloseBtn" onclick="closeModal()">×</button>
+      </div>
+      <div class="modalBody">
+        <input type="hidden" id="leaveId" />
+
+        <label for="employeeSelect">اسم الموظف:</label>
+        <select id="employeeSelect" style="width:100%;"></select>
+
+        <label for="leaveDate">تاريخ الإجازة:</label>
+        <input type="date" id="leaveDate" />
+
+        <label for="fromTime">من الساعة:</label>
+        <input type="time" id="fromTime" value="08:00"/>
+
+        <label for="toTime">إلى الساعة:</label>
+        <input type="time" id="toTime" value="14:00"/>
+
+        <label for="durationEntry">مدة الدخول (بالدقائق):</label>
+        <input type="number" id="durationEntry" placeholder="مثال: 7" />
+
+        <label for="durationExit">مدة الخروج (بالدقائق):</label>
+        <input type="number" id="durationExit" placeholder="مثال: 0" />
+
+        <label for="paidOrUnpaid">هل هي مدفوعة؟</label>
+        <select id="paidOrUnpaid">
+          <option id="id_Paid" value="Paid">نعم</option>
+          <option id="id_Unpaid" value="Unpaid">لا</option>
+        </select>
+
+        <label for="status">حالة الإجازة:</label>
+        <select id="status">
+          <option id="id_Pending" value="Pending">Pending</option>
+          <option id="id_Approved" value="Approved">Approved</option>
+          <option id="id_Rejected" value="Rejected">Rejected</option>
+        </select>
+
+        <label for="leaveReason">السبب:</label>
+        <input type="text" id="leaveReason" placeholder="سبب الإجازة" />
+
+        <label for="addedDate">تاريخ الإضافة:</label>
+        <input type="date" id="addedDate" />
+
+        <button class="modalSaveBtn" onclick="saveTimeBasedLeave()">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- السكربتات الأصلية (دوال جلب/عرض البيانات ...) -->
+  <script>
+        /***************************************************
+     * 1) آلية اللغة الموحدة (كما في صفحة اللوجن)
+     ***************************************************/
+     const LANG_PATH = './lang';        // مجلد ملفات JSON
+    const LANG_KEY = 'time-based';
+    let translations = {};
+
+    async function loadLanguageFile(lang) {
+      try {
+        const response = await fetch(`${LANG_PATH}/${lang}_${LANG_KEY}.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}.json`);
+        }
+        translations = await response.json();
+      } catch (error) {
+        console.error("Error loading translation file:", error);
+      }
+    }
+
+    function applyTranslations(lang) {
+      // تغيير اتجاه الصفحة ولغتها
+      document.documentElement.lang = lang;
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+      // طبيق النصوص على العناصر data-lng="..."
+      document.querySelectorAll('[data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+        if (translations[key]) {
+          el.textContent = translations[key];
+        }
+      });
+
+      // تطبيق placeholder
+      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-lng-placeholder');
+        if (translations[key]) {
+          el.placeholder = translations[key];
+        }
+      });
+
+      // تطبيق نص للأوبشن
+      document.querySelectorAll('[data-lng-option]').forEach(el => {
+        const key = el.getAttribute('data-lng-option');
+        if (translations[key]) {
+          el.textContent = translations[key];
+        }
+      });
+    }
+
+    async function setLanguage(lang) {
+      await loadLanguageFile(lang);
+      localStorage.setItem('lng', lang);
+      applyTranslations(lang);
+    }
+
+
+    let authToken = null;
+    let employees = [];
+    let allLeaves = [];
+    let editModeLeaveId = null;
+
+    function initPage() {
+      // (أ) إعداد اللغة أولاً
+      let storedLang = localStorage.getItem('lng');
+      if (!storedLang) {
+        storedLang = 'en'; // افتراضي إنجليزي
+      }
+      document.getElementById('langSelector').value = storedLang;
+      setLanguage(storedLang).then( ()=> {
+        authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+          window.location.href = 'login.html';
+          return;
+        }
+        loadTimeBasedLeaves();
+        loadEmployees();
+  
+        // تفعيل Select2
+        $(document).ready(function(){
+          $('#employeeSelect').select2({
+            width: '100%',
+            placeholder: penaltiesTranslations['employee_placeholder'],
+            dropdownParent: $('#timeBasedLeaveModal .modalBody')
+          });
+        });
+      })
+    }
+
+    document.getElementById('langSelector').addEventListener('change', function () {
+      setLanguage(this.value);
+    });
+
+
+    function logout() {
+      localStorage.removeItem('authToken');
+      window.location.href = 'login.html';
+    }
+
+    // جلب جميع الإجازات الزمنية
+    async function loadTimeBasedLeaves() {
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+
+      try {
+        const resp = await fetch('https://hr.iraqsapp.com/api/time-based-leaves', {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!resp.ok) throw new Error('فشل جلب الإجازات الزمنية');
+        const data = await resp.json();
+        allLeaves = data;
+        renderTimeBasedLeaves(data);
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      }
+    }
+
+    // عرض الإجازات في الجدول
+    function renderTimeBasedLeaves(leavesArray) {
+      const tb = document.querySelector('#timeBasedLeavesTable tbody');
+      tb.innerHTML = '';
+
+      leavesArray.forEach((leave, i) => {
+        let addedDate = leave.added_date 
+          ? new Date(leave.added_date).toISOString().split('T')[0]
+          : '';
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i + 1}</td>
+          <td>${leave.employee_name || ''}</td>
+          <td>${leave.leave_date || ''}</td>
+          <td>${leave.from_time || ''}</td>
+          <td>${leave.to_time || ''}</td>
+          <td>${leave.leave_duration_for_entry || 0}</td>
+          <td>${leave.leave_duration_for_exit || 0}</td>
+          <td>${leave.paid_or_unpaid === 'Paid' ? 'نعم' : 'لا'}</td>
+          <td>${leave.status || ''}</td>
+          <td>${leave.leave_reason || ''}</td>
+          <td>${addedDate}</td>
+          <td>
+            <button class="btnEdit" onclick="openModalForEdit('${leave._id}')">تعديل</button>
+          </td>
+          <td>
+            <button class="btnDanger" onclick="deleteTimeBasedLeave('${leave._id}')">حذف</button>
+          </td>
+        `;
+        tb.appendChild(tr);
+      });
+    }
+
+    // فلترة محلية حسب الاسم والتاريخ والحالة
+    function filterLeavesLocally() {
+      const empName = document.getElementById('searchEmployee').value.toLowerCase().trim();
+      const leaveDate = document.getElementById('searchDate').value;
+      const leaveStatus = document.getElementById('searchStatus').value;
+
+      let filtered = allLeaves.filter(leave => {
+        if (empName && !leave.employee_name?.toLowerCase().includes(empName)) {
+          return false;
+        }
+        if (leaveDate && leave.leave_date !== leaveDate) {
+          return false;
+        }
+        if (leaveStatus && leave.status !== leaveStatus) {
+          return false;
+        }
+        return true;
+      });
+
+      renderTimeBasedLeaves(filtered);
+    }
+
+    // جلب قائمة الموظفين
+    async function loadEmployees() {
+      try {
+        const resp = await fetch('https://hr.iraqsapp.com/api/employees?page=1&limit=9999', {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!resp.ok) throw new Error('فشل جلب الموظفين');
+        const data = await resp.json();
+        employees = data.data || [];
+
+        const sel = document.getElementById('employeeSelect');
+        sel.innerHTML = '';
+        employees.forEach(e => {
+          const opt = document.createElement('option');
+          opt.value = e.enroll_id;
+          opt.textContent = e.name || ('موظف ' + e.enroll_id);
+          sel.appendChild(opt);
+        });
+        // إعادة تهيئة select2 بعد التحديث
+        $('#employeeSelect').trigger('change.select2');
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    // فتح المودال للإضافة
+    function openModalForAdd() {
+      editModeLeaveId = null;
+      document.getElementById('modalTitle').textContent = penaltiesTranslations['penalties_modal_title_add'];
+      document.getElementById('leaveId').value = '';
+
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('leaveDate').value = today;
+      document.getElementById('addedDate').value = today;
+
+      if (employees.length > 0) {
+        document.getElementById('employeeSelect').value = employees[0].enroll_id;
+        $('#employeeSelect').trigger('change.select2');
+      }
+      $(document).ready(function(){
+          $('#employeeSelect').select2({
+            width: '100%',
+            placeholder: penaltiesTranslations['employee_placeholder'],
+            dropdownParent: $('#timeBasedLeaveModal .modalBody')
+          });
+        });
+      document.getElementById('fromTime').value = "08:00";
+      document.getElementById('toTime').value = "14:00";
+      document.getElementById('durationEntry').value = 0;
+      document.getElementById('durationExit').value = 0;
+      document.getElementById('paidOrUnpaid').value = 'Paid';
+      document.getElementById('id_Paid').textContent = penaltiesTranslations['payed']
+      document.getElementById('id_Unpaid').textContent = penaltiesTranslations['notPayed']
+      document.getElementById('id_Pending').textContent = penaltiesTranslations['pending']
+      document.getElementById('id_Approved').textContent = penaltiesTranslations['approved']
+      document.getElementById('id_Rejected').textContent = penaltiesTranslations['rejected']
+      document.getElementById('status').value = 'Pending';
+      document.getElementById('leaveReason').value = '';
+      document.getElementById('leaveReason').placeholder = penaltiesTranslations['reason_placeholder'];
+
+      showModal();
+    }
+
+    // فتح المودال للتعديل
+    async function openModalForEdit(id) {
+      editModeLeaveId = id;
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+
+      try {
+        const resp = await fetch(`https://hr.iraqsapp.com/api/time-based-leaves/${id}`, {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!resp.ok) throw new Error('فشل جلب بيانات الإجازة الزمنية');
+        const leave = await resp.json();
+
+        document.getElementById('modalTitle').textContent = penaltiesTranslations['penalties_modal_title_edit']
+        document.getElementById('leaveId').value = leave._id || '';
+
+        // الموظف
+        if (leave.enroll_id) {
+          document.getElementById('employeeSelect').value = leave.enroll_id;
+          $('#employeeSelect').trigger('change.select2');
+        }
+
+        // التواريخ والأوقات
+        document.getElementById('leaveDate').value = leave.leave_date || '';
+        document.getElementById('fromTime').value = leave.from_time || '08:00';
+        document.getElementById('toTime').value = leave.to_time || '14:00';
+
+        // المدادات
+        document.getElementById('durationEntry').value = leave.leave_duration_for_entry || 0;
+        document.getElementById('durationExit').value = leave.leave_duration_for_exit || 0;
+
+        // مدفوعة أم لا
+        document.getElementById('paidOrUnpaid').value = (leave.paid_or_unpaid === 'Paid') ? 'Paid' : 'Unpaid';
+
+        // الحالة
+        document.getElementById('id_Pending').textContent = penaltiesTranslations['pending']
+        document.getElementById('id_Approved').textContent = penaltiesTranslations['approved']
+        document.getElementById('id_Rejected').textContent = penaltiesTranslations['rejected']
+       
+        document.getElementById('status').value = leave.status || 'Pending';
+
+        // السبب
+        document.getElementById('leaveReason').value = leave.leave_reason || '';
+
+        // تاريخ الإضافة
+        if (leave.added_date) {
+          document.getElementById('addedDate').value = new Date(leave.added_date).toISOString().split('T')[0];
+        } else {
+          document.getElementById('addedDate').value = '';
+        }
+
+        showModal();
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      }
+    }
+
+    // حفظ (إضافة/تعديل)
+    async function saveTimeBasedLeave() {
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+
+      const leaveId = document.getElementById('leaveId').value;
+      const empSelect = document.getElementById('employeeSelect');
+      const enroll_id = +empSelect.value;
+      const employee_name = empSelect.options[empSelect.selectedIndex]?.textContent || '';
+
+      const leave_date = document.getElementById('leaveDate').value;
+      const from_time = document.getElementById('fromTime').value;
+      const to_time = document.getElementById('toTime').value;
+      const leave_duration_for_entry = +document.getElementById('durationEntry').value;
+      const leave_duration_for_exit = +document.getElementById('durationExit').value;
+
+      const paid_or_unpaid = document.getElementById('paidOrUnpaid').value;
+      const status = document.getElementById('status').value;
+      const leave_reason = document.getElementById('leaveReason').value.trim();
+      const added_by = 'admin';  // يمكن ملؤه تلقائياً من معلومات المستخدم
+      const added_date = document.getElementById('addedDate').value;
+
+      const bodyObj = {
+        enroll_id,
+        employee_name,
+        leave_date,
+        from_time,
+        to_time,
+        leave_duration_for_entry,
+        leave_duration_for_exit,
+        paid_or_unpaid,
+        leave_reason,
+        added_by,
+        added_date,
+        status
+      };
+
+      try {
+        let url = 'https://hr.iraqsapp.com/api/time-based-leaves';
+        let method = 'POST';
+        if (leaveId) {
+          url = `https://hr.iraqsapp.com/api/time-based-leaves/${leaveId}`;
+          method = 'PUT';
+        }
+
+        const resp = await fetch(url, {
+          method,
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(bodyObj)
+        });
+
+        if (!resp.ok) {
+          throw new Error(`فشل ${leaveId ? 'تعديل' : 'إضافة'} الإجازة الزمنية`);
+        }
+
+        successMsg.textContent = `تم ${leaveId ? 'تعديل' : 'إضافة'} الإجازة الزمنية بنجاح.`;
+        closeModal();
+        loadTimeBasedLeaves();
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      }
+    }
+
+    // حذف إجازة زمنية
+    async function deleteTimeBasedLeave(id) {
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+
+      if (!confirm('هل أنت متأكد من حذف الإجازة الزمنية؟')) return;
+
+      try {
+        const resp = await fetch(`https://hr.iraqsapp.com/api/time-based-leaves/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!resp.ok) throw new Error('فشل حذف الإجازة الزمنية');
+        successMsg.textContent = 'تم حذف الإجازة الزمنية بنجاح.';
+        loadTimeBasedLeaves();
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      }
+    }
+
+    function showModal() {
+      document.getElementById('timeBasedLeaveModal').style.display = 'flex';
+    }
+    function closeModal() {
+      document.getElementById('timeBasedLeaveModal').style.display = 'none';
+      document.getElementById('leaveId').value = '';
+      document.getElementById('modalTitle').textContent = 'إضافة إجازة زمنية';
+    }
+  </script>
+
+  <!-- سكربت الترجمة الخاص بالعقوبات (penalties) -->
+  <script>
+    const PENALTIES_LANG_PATH = './lang';             // حيث يوجد ar_penalties.json و en_penalties.json
+    let penaltiesTranslations = {};
+
+    /**
+     * تحميل ملف الترجمة (ar_penalties.json أو en_penalties.json)
+     */
+    async function loadPenaltiesLangFile(lang) {
+      try {
+        const response = await fetch(`${PENALTIES_LANG_PATH}/${lang}_penalties.json`);
+        if(!response.ok) {
+          throw new Error(`Error loading ${lang}_penalties.json`);
+        }
+        penaltiesTranslations = await response.json();
+      } catch(error) {
+        console.error("Penalties translation file error:", error);
+      }
+    }
+
+    /**
+     * تطبيق النصوص في الصفحة
+     */
+    function applyPenaltiesTranslations(lang) {
+      // ضبط اتجاه الصفحة
+      document.documentElement.dir  = (lang === 'ar') ? 'rtl' : 'ltr';
+      document.documentElement.lang = lang;
+
+      // <title>
+      if(penaltiesTranslations['penalties_head_title']){
+        document.title = penaltiesTranslations['penalties_head_title'];
+      }
+
+      // الرأس (header)
+      if(penaltiesTranslations['penalties_header_title']){
+        document.querySelector('header h1').textContent = penaltiesTranslations['penalties_header_title'];
+      }
+      if(penaltiesTranslations['penalties_logout']){
+        document.querySelector('header button').textContent = penaltiesTranslations['penalties_logout'];
+      }
+
+      // الفلاتر
+      if(penaltiesTranslations['penalties_filter_employee_label']){
+        document.querySelector('label[for="searchEmployee"]').textContent = penaltiesTranslations['penalties_filter_employee_label'];
+      }
+      if(penaltiesTranslations['penalties_filter_date_label']){
+        document.querySelector('label[for="searchDate"]').textContent = penaltiesTranslations['penalties_filter_date_label'];
+      }
+      if(penaltiesTranslations['penalties_filter_status_label']){
+        document.querySelector('label[for="searchStatus"]').textContent = penaltiesTranslations['penalties_filter_status_label'];
+      }
+
+      // زر الإضافة
+      if(penaltiesTranslations['penalties_button_add_penalty']){
+        document.querySelector('.addVacationBtn').textContent = penaltiesTranslations['penalties_button_add_penalty'];
+      }
+
+      // عناوين الجدول
+      const tableHeads = document.querySelectorAll('#timeBasedLeavesTable thead th');
+      // يفترض: 13 عمود...
+      if(tableHeads.length >= 13){
+        if(penaltiesTranslations['penalties_table_header_index'])    tableHeads[0].textContent  = penaltiesTranslations['penalties_table_header_index'];
+        if(penaltiesTranslations['penalties_table_header_employee']) tableHeads[1].textContent  = penaltiesTranslations['penalties_table_header_employee'];
+        if(penaltiesTranslations['penalties_table_header_date'])     tableHeads[2].textContent  = penaltiesTranslations['penalties_table_header_date'];
+        if(penaltiesTranslations['penalties_table_header_from_time']) tableHeads[3].textContent = penaltiesTranslations['penalties_table_header_from_time'];
+        if(penaltiesTranslations['penalties_table_header_to_time'])   tableHeads[4].textContent = penaltiesTranslations['penalties_table_header_to_time'];
+        if(penaltiesTranslations['penalties_table_header_entry'])     tableHeads[5].textContent = penaltiesTranslations['penalties_table_header_entry'];
+        if(penaltiesTranslations['penalties_table_header_exit'])      tableHeads[6].textContent = penaltiesTranslations['penalties_table_header_exit'];
+        if(penaltiesTranslations['penalties_table_header_paid'])      tableHeads[7].textContent = penaltiesTranslations['penalties_table_header_paid'];
+        if(penaltiesTranslations['penalties_table_header_status'])    tableHeads[8].textContent = penaltiesTranslations['penalties_table_header_status'];
+        if(penaltiesTranslations['penalties_table_header_reason'])    tableHeads[9].textContent = penaltiesTranslations['penalties_table_header_reason'];
+        if(penaltiesTranslations['penalties_table_header_created'])   tableHeads[10].textContent= penaltiesTranslations['penalties_table_header_created'];
+        if(penaltiesTranslations['penalties_table_header_edit'])      tableHeads[11].textContent= penaltiesTranslations['penalties_table_header_edit'];
+        if(penaltiesTranslations['penalties_table_header_delete'])    tableHeads[12].textContent= penaltiesTranslations['penalties_table_header_delete'];
+      }
+
+      // الشريط الجانبي
+      const sidebarTitle = document.querySelector('.sidebar h2');
+      if(sidebarTitle && penaltiesTranslations['penalties_sidebar_title']){
+        sidebarTitle.textContent = penaltiesTranslations['penalties_sidebar_title'];
+      }
+      const sideItems = document.querySelectorAll('.sidebar .navItem');
+      // نفترض 12 عنصر
+      if(sideItems.length >= 12){
+        if(penaltiesTranslations['penalties_sidebar_overview'])   sideItems[0].innerHTML = `<i class="bi bi-house-fill"></i> ${penaltiesTranslations['penalties_sidebar_overview']}`;
+        if(penaltiesTranslations['penalties_sidebar_employees'])  sideItems[1].innerHTML = `<i class="bi bi-people-fill"></i> ${penaltiesTranslations['penalties_sidebar_employees']}`;
+        if(penaltiesTranslations['penalties_sidebar_report'])     sideItems[2].innerHTML = `<i class="bi bi-bar-chart-line-fill"></i> ${penaltiesTranslations['penalties_sidebar_report']}`;
+        if(penaltiesTranslations['penalties_sidebar_time_leaves']) sideItems[3].innerHTML = `<i class="bi bi-clock-fill"></i> ${penaltiesTranslations['penalties_sidebar_time_leaves']}`;
+        if(penaltiesTranslations['penalties_sidebar_holidays'])   sideItems[4].innerHTML = `<i class="bi bi-calendar-event-fill"></i> ${penaltiesTranslations['penalties_sidebar_holidays']}`;
+        if(penaltiesTranslations['penalties_sidebar_leaves'])     sideItems[5].innerHTML = `<i class="bi bi-calendar3"></i> ${penaltiesTranslations['penalties_sidebar_leaves']}`;
+        if(penaltiesTranslations['penalties_sidebar_attend'])     sideItems[6].innerHTML = `<i class="bi bi-journal-check"></i> ${penaltiesTranslations['penalties_sidebar_attend']}`;
+        if(penaltiesTranslations['penalties_sidebar_rewards'])    sideItems[7].innerHTML = `<i class="bi bi-gift-fill"></i> ${penaltiesTranslations['penalties_sidebar_rewards']}`;
+        if(penaltiesTranslations['penalties_sidebar_devices'])    sideItems[8].innerHTML = `<i class="bi bi-device-hdd-fill"></i> ${penaltiesTranslations['penalties_sidebar_devices']}`;
+        if(penaltiesTranslations['penalties_sidebar_requests'])   sideItems[9].innerHTML = `<i class="bi bi-list-check"></i> ${penaltiesTranslations['penalties_sidebar_requests']}`;
+        if(penaltiesTranslations['penalties_sidebar_departments']) sideItems[10].innerHTML= `<i class="bi bi-building"></i> ${penaltiesTranslations['penalties_sidebar_departments']}`;
+        if(penaltiesTranslations['penalties_sidebar_settings'])   sideItems[11].innerHTML= `<i class="bi bi-gear-fill"></i> ${penaltiesTranslations['penalties_sidebar_settings']}`;
+        if(penaltiesTranslations['attend_sidebar_unregistered'])   sideItems[12].innerHTML= `<i class="bi bi-person-exclamation"></i> ${penaltiesTranslations['attend_sidebar_unregistered']}`;
+        if(penaltiesTranslations['employee_summary_report'])   sideItems[13].innerHTML= `<i class="bi bi-people-fill"></i> ${penaltiesTranslations['employee_summary_report']}`;
+      }
+
+      // المودال
+      const leaveId = document.getElementById('leaveId').value;
+      if(!leaveId && penaltiesTranslations['penalties_modal_title_add']){
+        document.getElementById('modalTitle').textContent = penaltiesTranslations['penalties_modal_title_add'];
+      }
+
+      if(penaltiesTranslations['penalties_modal_employee_label']){
+        document.querySelector('label[for="employeeSelect"]').textContent = penaltiesTranslations['penalties_modal_employee_label'];
+      }
+      if(penaltiesTranslations['penalties_modal_penalty_date_label']){
+        document.querySelector('label[for="leaveDate"]').textContent = penaltiesTranslations['penalties_modal_penalty_date_label'];
+      }
+      if(penaltiesTranslations['penalties_modal_from_time_label']){
+        document.querySelector('label[for="fromTime"]').textContent = penaltiesTranslations['penalties_modal_from_time_label'];
+      }
+      if(penaltiesTranslations['penalties_modal_to_time_label']){
+        document.querySelector('label[for="toTime"]').textContent = penaltiesTranslations['penalties_modal_to_time_label'];
+      }
+      if(penaltiesTranslations['penalties_modal_duration_entry_label']){
+        document.querySelector('label[for="durationEntry"]').textContent = penaltiesTranslations['penalties_modal_duration_entry_label'];
+      }
+      if(penaltiesTranslations['penalties_modal_duration_exit_label']){
+        document.querySelector('label[for="durationExit"]').textContent = penaltiesTranslations['penalties_modal_duration_exit_label'];
+      }
+      if(penaltiesTranslations['penalties_modal_paid_label']){
+        document.querySelector('label[for="paidOrUnpaid"]').textContent = penaltiesTranslations['penalties_modal_paid_label'];
+      }
+      if(penaltiesTranslations['penalties_modal_status_label']){
+        document.querySelector('label[for="status"]').textContent = penaltiesTranslations['penalties_modal_status_label'];
+      }
+      if(penaltiesTranslations['penalties_modal_reason_label']){
+        document.querySelector('label[for="leaveReason"]').textContent = penaltiesTranslations['penalties_modal_reason_label'];
+      }
+      if(penaltiesTranslations['penalties_modal_created_label']){
+        document.querySelector('label[for="addedDate"]').textContent = penaltiesTranslations['penalties_modal_created_label'];
+      }
+      if(penaltiesTranslations['penalties_modal_button_save']){
+        document.querySelector('.modalSaveBtn').textContent = penaltiesTranslations['penalties_modal_button_save'];
+      }
+    }
+
+    
+    document.getElementById('langSelector').addEventListener('change', async function () {
+      await loadPenaltiesLangFile(this.value);
+      applyPenaltiesTranslations(this.value);
+      localStorage.setItem('lng', this.value);
+    });
+    /**
+     * عند تحميل الصفحة، نقرأ اللغة من الـ localStorage ونطبقها
+     */
+    window.addEventListener('DOMContentLoaded', async () => {
+      let storedLang = localStorage.getItem('lng');
+      if(!storedLang) {
+        storedLang = 'en'; // أو ar إذا أردت العربية افتراضية
+      }
+      await loadPenaltiesLangFile(storedLang);
+      applyPenaltiesTranslations(storedLang);
+    });
+  </script>
+</body>
+</html>

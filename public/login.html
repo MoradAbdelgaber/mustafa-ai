@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- نجعل الافتراضي الإنجليزية -->
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Attendance System</title>
+  
+  <!-- ربط خطوط Tajawal (للعربية) + Open Sans (للإنجليزية) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap" 
+    rel="stylesheet"
+  >
+
+  <style>
+    /* قاعدة عامة: إذا كانت الصفحة lang="ar"، استخدم Tajawal، وإذا كانت lang="en"، استخدم Open Sans */
+    html[lang="ar"] body {
+      font-family: 'Tajawal', sans-serif;
+      direction: rtl;
+    }
+    html[lang="en"] body {
+      font-family: 'Open Sans', sans-serif;
+      direction: ltr;
+    }
+
+    /* يمكنك أيضاً وضع أية تنسيقات أخرى مشتركة هنا */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+    }
+    .top-section {
+      flex: 1;
+      background: linear-gradient(45deg, #0062cc, #004085);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #fff;
+    }
+    .login-box {
+      background: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      padding: 25px 30px;
+      min-width: 320px;
+      color: #444;
+    }
+    .login-box select.lang-select {
+      margin-bottom: 16px;
+      padding: 6px;
+      font-size: 0.9rem;
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-family: inherit;
+    }
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .login-box label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-family: inherit;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-family: inherit;
+    }
+    .login-box button:hover {
+      background: #0056b3;
+    }
+    .error-msg {
+      color: red;
+      margin: 10px 0;
+      font-size: 0.9rem;
+      display: none; /* مخفي افتراضياً */
+      text-align: center;
+    }
+    .bottom-section {
+      flex: 1;
+      background: #fff;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+    }
+    .bottom-section h1 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+    .bottom-section p {
+      font-size: 1.1rem;
+      max-width: 400px;
+      line-height: 1.6;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- القسم العلوي: تسجيل الدخول -->
+    <div class="top-section">
+      <div class="login-box">
+
+        <!-- اختيار اللغة -->
+        <select id="langSelector" class="lang-select">
+          <option value="en">English</option>
+          <option value="ar">العربية</option>
+        </select>
+
+        <h2 id="login_title">Login</h2>
+
+        <div id="errorMsg" class="error-msg"></div>
+        
+        <label id="login_username_label" for="user_name"></label>
+        <input type="text" id="user_name" placeholder="">
+
+        <label id="login_password_label" for="pass"></label>
+        <input type="password" id="pass" placeholder="">
+
+        <button id="login_button" onclick="login()">Sign In</button>
+      </div>
+    </div>
+
+    <!-- القسم السفلي: معلومات أو شعار -->
+    <div class="bottom-section">
+      <h1 id="login_main_heading">Attendance Management System</h1>
+      <p id="login_main_paragraph">
+        Welcome to the best system for managing employee attendance. Monitor your system smartly and easily, and get comprehensive reports at any time.
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // مجلد حفظ ملفات JSON
+    const LANG_PATH = './lang'; 
+    // المفتاح الذي سنستخدمه في localStorage لتخزين لغة المستخدم
+    const LANG_KEY  = 'lng'; 
+
+    let translations = {};
+
+    /**
+     * تحميل ملف الترجمة (ar أو en)
+     */
+    async function loadLanguageFile(lang) {
+      try {
+        const response = await fetch(`${LANG_PATH}/${lang}.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}.json`);
+        }
+        translations = await response.json();
+      } catch (error) {
+        console.error("خطأ عند تحميل ملف الترجمة:", error);
+      }
+    }
+
+    /**
+     * تطبيق النصوص المترجمة على عناصر الصفحة
+     */
+    function applyTranslations(lang) {
+      // ضبط اتجاه الصفحة بناءً على اللغة
+      document.documentElement.dir  = (lang === 'ar') ? 'rtl' : 'ltr';
+      document.documentElement.lang = lang;
+
+      document.getElementById('login_title').textContent          = translations['login_title'];
+      document.getElementById('login_username_label').textContent = translations['login_username_label'];
+      document.getElementById('login_password_label').textContent = translations['login_password_label'];
+      document.getElementById('login_button').textContent         = translations['login_button'];
+      
+      // placeholders
+      document.getElementById('user_name').placeholder = translations['login_placeholder_username'];
+      document.getElementById('pass').placeholder      = translations['login_placeholder_password'];
+
+      // القسم السفلي
+      document.getElementById('login_main_heading').textContent   = translations['login_main_heading'];
+      document.getElementById('login_main_paragraph').textContent = translations['login_main_paragraph'];
+    }
+
+    /**
+     * دالة شاملة لتعيين اللغة:
+     * - تحميل ملف الترجمة
+     * - تخزين اللغة في localStorage
+     * - تطبيق النصوص
+     */
+    async function setLanguage(lang) {
+      await loadLanguageFile(lang);
+      localStorage.setItem(LANG_KEY, lang);
+      applyTranslations(lang);
+    }
+
+    /**
+     * عند تغيير المستخدم اللغة في الـ select
+     */
+    document.getElementById('langSelector').addEventListener('change', async function() {
+      await setLanguage(this.value);
+    });
+
+    /**
+     * عند تحميل الصفحة، نحاول قراءة اللغة المخزنة أو نعتمد الإنجليزية افتراضياً
+     */
+    window.addEventListener('load', async () => {
+      let storedLang = localStorage.getItem(LANG_KEY);
+      if (!storedLang) {
+        storedLang = 'en'; // الإنجليزية هي الافتراضية
+      }
+      document.getElementById('langSelector').value = storedLang;
+      await setLanguage(storedLang);
+    });
+
+    /**
+     * دالة تسجيل الدخول
+     */
+    async function login() {
+      const userName = document.getElementById('user_name').value.trim();
+      const pass     = document.getElementById('pass').value.trim();
+      const errorMsg = document.getElementById('errorMsg');
+
+      errorMsg.style.display = 'none';
+      errorMsg.textContent   = '';
+
+      try {
+        const resp = await fetch('http://192.168.1.239:3500/api/users/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_name: userName, pass })
+        });
+        
+        if (!resp.ok) {
+          // نص الخطأ العام
+          throw new Error(translations['login_error_generic']);
+        }
+
+        const data = await resp.json();
+
+        if (data.token) {
+          localStorage.setItem('authToken', data.token);
+          window.location.href = 'dashboard.html';
+        } else {
+          // رسالة خطأ لدقة البيانات
+          throw new Error(translations['login_error_invalid_credentials']);
+        }
+
+      } catch (err) {
+        errorMsg.textContent = err.message || translations['login_error_fail'];
+        errorMsg.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+    "Fingerprint and employee capture and transfer (with separate token fields)":"Fingerprint and employee capture and transfer (with separate token fields)",
+    "Form for bringing fingerprints and employees and transferring them":"Form for bringing fingerprints and employees and transferring them",
+    "Token Settings":"Token Settings",
+    "Fingerprints Token":"Fingerprints Token",
+    "Enter fingerprints token":"Enter fingerprints token",
+    "Employees token":"Employees token",
+    "Enter employees token":"Enter employees token",
+    "Bring fingerprints":"Bring fingerprints",
+    "Username":"Username:",
+    "Username placeholder":"Username",
+    "Password":"Password:",
+    "Password placeholder":"Password",
+    "From date": "From date:",
+    "To date": "To date:",
+    "Get employee fingerprints":"Get employee fingerprints",
+    "Get employees":"Get employees",
+    "Company ID":"Company ID",
+    "Branch ID":"Branch ID",
+    "Department ID":"Department ID",
+    "Get employees and store them":"Get employees and store them",
+
+
+    "...Fingerprint data is being retrieved and sent...":"...Fingerprint data is being retrieved and sent...",
+    "Failed to load data":"Failed to load data",
+
+    "An error occurred during the operation. Check the console for more details.":"An error occurred during the operation. Check the console for more details.",
+
+    "Please enter a fingerprints token.":"Please enter a fingerprints token.",
+    "Please select start date and end date.":"Please select start date and end date.",
+
+    "Please enter an employees token.":"Please enter an employees token.",
+    "Please enter company ID and branch ID.":"Please enter company ID and branch ID.",
+    "'...Retrieving employee data...'":"... Retrieving employee data..."
+}

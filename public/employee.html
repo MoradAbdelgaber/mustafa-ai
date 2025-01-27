@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- نجعل الافتراضي الإنجليزية -->
+
+<head>
+  <meta charset="UTF-8">
+  <title data-lng="pageTitle"></title>
+
+  <!-- 1) مكتبة jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- 2) مكتبة Select2 (CSS ثم JS) -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <!-- 3) أيقونات Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- 4) خطوط (تاجوال للعربية، وأوبن سانس للإنجليزية) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* إذا كانت الصفحة lang="ar" => اتجاه RTL وخط تاجوال */
+    html[lang="ar"] body {
+      font-family: 'Tajawal', sans-serif;
+      direction: rtl;
+    }
+
+    /* إذا كانت الصفحة lang="en" => اتجاه LTR وخط أوبن سانس */
+    html[lang="en"] body {
+      font-family: 'Open Sans', sans-serif;
+      direction: ltr;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
+    }
+
+    /* بقية التنسيقات كما بالكود الأصلي */
+    header {
+      background: linear-gradient(45deg, #0062cc, #004085);
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    header button {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+
+    header button:hover {
+      background: #c82333;
+    }
+
+    /* زر اختيار اللغة */
+    #langSelector {
+      margin: 10px;
+      padding: 6px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .container {
+      display: flex;
+      /* في حال العربية، نريد الشريط الجانبي يمينًا، ولو الإنجليزية نريد sidebar يسارًا
+         ولكن في الأساس الكود الأصلي جعل الاتجاه دائمًا rtl. يمكنك اعتماد ما يناسبك. */
+      flex-direction: row-reverse;
+    }
+
+    .mainContent {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .sidebar {
+      width: 240px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      min-height: 100vh;
+      padding: 20px 10px;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 15px;
+      font-size: 1rem;
+      text-align: center;
+      color: #444;
+    }
+
+    .navItem {
+      padding: 12px 10px;
+      margin: 6px 0;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #333;
+      font-weight: 500;
+      transition: background 0.3s, color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .navItem i {
+      font-size: 1.1rem;
+      color: #666;
+      transition: color 0.3s;
+    }
+
+    .navItem:hover {
+      background: #f0f0f0;
+    }
+
+    .navItem.active {
+      background: #007bff;
+      color: #fff;
+    }
+
+    .navItem.active i {
+      color: #fff;
+    }
+
+    .errorMsg,
+    .successMsg {
+      margin: 10px 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .errorMsg {
+      color: red;
+    }
+
+    .successMsg {
+      color: green;
+    }
+
+    .searchFilters {
+      background: #fff;
+      padding: 10px;
+      margin-bottom: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .searchFilters label {
+      margin-right: 4px;
+      font-weight: 500;
+    }
+
+    .searchFilters select,
+    .searchFilters input[type="text"] {
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    table thead {
+      background: #007bff;
+      color: #fff;
+    }
+
+    table th,
+    table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .addEmployeeBtn {
+      background: #28a745;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      transition: background 0.3s;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .addEmployeeBtn:hover {
+      background: #218838;
+    }
+
+    img.employeeImage {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .iconBtn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin: 0 3px;
+      padding: 5px;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    .iconBtn:hover {
+      background: #f0f0f0;
+    }
+
+    .iconBtn i {
+      font-size: 1.1rem;
+      color: #007bff;
+    }
+
+    .iconBtn.edit i {
+      color: #007bff;
+    }
+
+    .iconBtn.delete i {
+      color: #dc3545;
+    }
+
+    .iconBtn.schedule i {
+      color: #17a2b8;
+    }
+
+    .iconBtn.devices i {
+      color: #6f42c1;
+    }
+
+    .iconBtn.send i {
+      color: #28a745;
+    }
+
+    .iconBtn.face i {
+      color: #fd7e14;
+    }
+
+    .iconBtn.card i {
+      color: #343a40;
+    }
+
+    .modalOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .modalContent {
+      width: 400px;
+      max-width: 90%;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: fadeInModal 0.3s ease;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 2px solid #eee;
+    }
+
+    @keyframes fadeInModal {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .modalHeader {
+      background: #007bff;
+      color: #fff;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modalHeader h2 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .modalCloseBtn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .modalCloseBtn:hover {
+      color: #ffdddd;
+    }
+
+    .modalBody {
+      padding: 20px;
+    }
+
+    .modalBody label {
+      display: block;
+      margin: 8px 0 4px;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .modalBody input,
+    .modalBody select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+
+    .modalSaveBtn {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 14px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+
+    .modalSaveBtn:hover {
+      background: #218838;
+    }
+
+    .modalContent.scheduleWidth {
+      width: 600px;
+      max-height: 90vh;
+    }
+
+    .scheduleTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .scheduleTable thead {
+      background: #17a2b8;
+      color: #fff;
+    }
+
+    .scheduleTable th,
+    .scheduleTable td {
+      border: 1px solid #ddd;
+      padding: 5px;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    .btnSmall {
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 2px;
+      border: none;
+    }
+
+    .btnSmall:hover {
+      opacity: 0.9;
+    }
+
+    #devicesModal .modalContent {
+      width: 300px;
+      max-width: 95%;
+      max-height: none;
+      height: 500px;
+      background: linear-gradient(to bottom right, #fff, #f8f8f8);
+    }
+
+    .loaderOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 99999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .loader {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .paginationContainer {
+      margin-top: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .paginationContainer .pageBtn {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.3s;
+      margin: 0 3px;
+      min-width: 35px;
+      text-align: center;
+    }
+
+    .paginationContainer .pageBtn:hover {
+      background: #f0f0f0;
+    }
+
+    .paginationContainer .pageBtn.active {
+      background: #007bff;
+      color: #fff;
+      border-color: #007bff;
+    }
+
+    .paginationContainer select {
+      padding: 5px;
+      border-radius: 4px;
+    }
+
+    #faceModal .modalContent {
+      width: 300px;
+    }
+
+    #faceAdminLabel {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin: 8px 0;
+    }
+
+    #cardModal .modalContent {
+      width: 300px;
+    }
+  </style>
+</head>
+
+<body onload="initPage()">
+  <!-- هيدر -->
+  <header>
+    <!-- عنوان الهيدر ديناميكي: data-lng="headerTitle" -->
+    <h1 data-lng="headerTitle"></h1>
+    <!-- زر الخروج ديناميكي: data-lng="headerLogout" -->
+     <div>
+
+       <button data-lng="headerLogout" onclick="logout()"></button>
+       <select id="langSelector">
+         <option value="en">English</option>
+         <option value="ar">العربية</option>
+        </select>
+      </div>
+  </header>
+
+  <!-- اختيار اللغة (مثل صفحة اللوجن) -->
+
+
+  <!-- الحاوية العامة -->
+  <div class="container">
+    <!-- المحتوى الرئيسي -->
+    <div class="mainContent">
+      <div class="errorMsg" id="errorMsg"></div>
+      <div class="successMsg" id="successMsg"></div>
+
+      <!-- حاوية البحث أعلى الجدول -->
+      <div class="searchFilters">
+        <label data-lng="searchNameLabel" for="searchName"></label>
+        <input type="text" id="searchName" oninput="filterEmployeesLocally()"
+          data-lng-placeholder="searchNamePlaceholder" />
+
+        <label data-lng="searchDeptLabel" for="searchDept"></label>
+        <select id="searchDept" onchange="filterEmployeesLocally()">
+          <!-- الخيار الأول يحتوي data-lng-option="searchDeptAllOption" -->
+          <option value="" data-lng-option="searchDeptAllOption"></option>
+        </select>
+      </div>
+
+      <!-- زر إضافة موظف -->
+      <button class="addEmployeeBtn" data-lng="addEmployeeBtn" onclick="openModalForAdd()"></button>
+
+      <!-- جدول الموظفين -->
+      <table id="employeeTable">
+        <thead>
+          <tr>
+            <th data-lng="tableHead1"></th>
+            <th data-lng="tableHead2"></th>
+            <th data-lng="tableHead3"></th>
+            <th data-lng="tableHead4"></th>
+            <th data-lng="tableHead5"></th>
+            <th data-lng="tableHead6"></th>
+            <th data-lng="tableHead7"></th>
+            <th data-lng="tableHead8"></th>
+            <th data-lng="tableHead9"></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <!-- أدوات التصفح بالصفحات -->
+      <div class="paginationContainer" id="paginationControls"></div>
+    </div>
+
+    <!-- الشريط الجانبي -->
+    <div class="sidebar">
+      <h2 data-lng="sidebarTitle"></h2>
+      <div class="navItem" onclick="location.href='dashboard.html'">
+        <i class="bi bi-house-fill"></i>
+        <span data-lng="navOverview"></span>
+      </div>
+      <div class="navItem active" onclick="location.href='employee.html'">
+        <i class="bi bi-people-fill"></i>
+        <span data-lng="navEmployees"></span>
+      </div>
+      <div class="navItem" onclick="location.href='report.html'">
+        <i class="bi bi-bar-chart-line-fill"></i>
+        <span data-lng="navReport"></span>
+      </div>
+      <div class="navItem" onclick="location.href='time-based-leaves.html'">
+        <i class="bi bi-clock-fill"></i>
+        <span data-lng="navTimeLeaves"></span>
+      </div>
+      <div class="navItem" onclick="location.href='holidays.html'">
+        <i class="bi bi-calendar-event-fill"></i>
+        <span data-lng="navHolidays"></span>
+      </div>
+      <div class="navItem" onclick="location.href='leaves.html'">
+        <i class="bi bi-calendar3"></i>
+        <span data-lng="navLeaves"></span>
+      </div>
+      <div class="navItem" onclick="location.href='attend.html'">
+        <i class="bi bi-journal-check"></i>
+        <span data-lng="navAttend"></span>
+      </div>
+      <div class="navItem" onclick="location.href='rewards.html'">
+        <i class="bi bi-gift-fill"></i>
+        <span data-lng="navRewards"></span>
+      </div>
+      <div class="navItem" onclick="location.href='devices.html'">
+        <i class="bi bi-device-hdd-fill"></i>
+        <span data-lng="navDevices"></span>
+      </div>
+      <div class="navItem" onclick="location.href='requests.html'">
+        <i class="bi bi-list-check"></i>
+        <span data-lng="navRequests"></span>
+      </div>
+      <div class="navItem" onclick="location.href='department.html'">
+        <i class="bi bi-building"></i>
+        <span data-lng="navDepartment"></span>
+      </div>
+      <div class="navItem" onclick="location.href='settings.html'">
+        <i class="bi bi-gear-fill"></i>
+        <span data-lng="navSettings"></span>
+      </div>
+      <div class="navItem" onclick="location.href='importemployee.html'">
+        <i class="bi bi-person-exclamation"></i>
+        <span data-lng="attend_sidebar_unregistered"></span>
+      </div>
+      <div class="navItem" onclick="location.href='employee-summary-report.html'">
+        <i class="bi bi-people-fill"></i>
+        <span data-lng="employee_summary_report"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- مودال إضافة/تعديل الموظف -->
+  <div class="modalOverlay" id="employeeModal">
+    <div class="modalContent">
+      <div class="modalHeader">
+        <h2 id="employeeModalTitle" data-lng="employeeModalTitleAdd"></h2>
+        <button class="modalCloseBtn" onclick="closeEmployeeModal()">×</button>
+      </div>
+      <div class="modalBody">
+        <input type="hidden" id="employeeDbId" />
+
+        <label data-lng="lblEnrollId" for="enrollId"></label>
+        <input type="text" id="enrollId" data-lng-placeholder="phEnrollId" />
+
+        <label data-lng="lblEmpName" for="empName"></label>
+        <input type="text" id="empName" data-lng-placeholder="phEmpName" />
+
+        <label data-lng="lblEmpDept" for="empDepartment"></label>
+        <select id="empDepartment"></select>
+
+        <label data-lng="lblEmpJoinDate" for="empJoinDate"></label>
+        <input type="date" id="empJoinDate" />
+
+        <label data-lng="lblEmpLeaveDate" for="empLeaveDate"></label>
+        <input type="date" id="empLeaveDate" />
+
+        <label data-lng="lblMainSalary" for="mainSalary"></label>
+        <input type="number" id="mainSalary" data-lng-placeholder="phMainSalary" />
+
+        <label data-lng="lblWeekZone" for="weekZone"></label>
+        <select id="weekZone">
+          <option value="">--</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+        </select>
+
+        <label data-lng="lblEmpImage" for="empImage"></label>
+        <input type="file" id="empImage" accept="image/*" />
+
+        <label data-lng="lblEmpCard" for="empCard"></label>
+        <input type="text" id="empCard" data-lng-placeholder="phEmpCard" />
+
+        <button class="modalSaveBtn" data-lng="btnSaveEmployee" onclick="saveEmployee()"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- مودال جدول الدوام -->
+  <div class="modalOverlay" id="scheduleModal">
+    <div class="modalContent scheduleWidth">
+      <div class="modalHeader">
+        <h2 id="scheduleModalTitle" data-lng="lblScheduleTitle"></h2>
+        <button class="modalCloseBtn" onclick="closeScheduleModal()">×</button>
+      </div>
+      <div class="modalBody">
+        <table class="scheduleTable" id="scheduleTable">
+          <thead>
+            <tr>
+              <th data-lng="schDay"></th>
+              <th data-lng="schStart"></th>
+              <th data-lng="schEnd"></th>
+              <th data-lng="schOTStart"></th>
+              <th data-lng="schOffset"></th>
+              <th data-lng="schHourPrice"></th>
+              <th data-lng="schOTPrice"></th>
+              <th data-lng="schEdit"></th>
+              <th data-lng="schDelete"></th>
+              <th data-lng="schCopy"></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <button class="modalSaveBtn" style="margin-top:10px;" data-lng="btnAddDay" onclick="addScheduleDay()"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- مودال تعديل/إضافة يوم في الجدول -->
+  <div class="modalOverlay" id="dayModal">
+    <div class="modalContent">
+      <div class="modalHeader">
+        <h2 id="dayModalTitle" data-lng="lblDayModalTitle"></h2>
+        <button class="modalCloseBtn" onclick="closeDayModal()">×</button>
+      </div>
+      <div class="modalBody">
+        <input type="hidden" id="dayIndex" />
+
+        <label data-lng="lblDaySelect" for="daySelect"></label>
+        <select id="daySelect">
+          <option value="Sun">Sun</option>
+          <option value="Mon">Mon</option>
+          <option value="Tue">Tue</option>
+          <option value="Wed">Wed</option>
+          <option value="Thu">Thu</option>
+          <option value="Fri">Fri</option>
+          <option value="Sat">Sat</option>
+        </select>
+
+        <label data-lng="lblDayStart" for="dayStart"></label>
+        <input type="time" id="dayStart" />
+
+        <label data-lng="lblDayEnd" for="dayEnd"></label>
+        <input type="time" id="dayEnd" />
+
+        <label data-lng="lblDayOTStart" for="dayOTStart"></label>
+        <input type="time" id="dayOTStart" />
+
+        <label data-lng="lblDayOffset" for="dayOffset"></label>
+        <input type="number" id="dayOffset" />
+
+        <label data-lng="lblDayHourPrice" for="dayHourPrice"></label>
+        <input type="number" id="dayHourPrice" />
+
+        <label data-lng="lblDayOTPrice" for="dayOTPrice"></label>
+        <input type="number" id="dayOTPrice" />
+
+        <label data-lng="lblDayAllowedDelay" for="dayAllowedDelay"></label>
+        <input type="number" id="dayAllowedDelay" />
+
+        <label data-lng="lblDayAllowedExit" for="dayAllowedExit"></label>
+        <input type="number" id="dayAllowedExit" />
+
+        <label data-lng="lblDayOfficialHours" for="dayOfficialHours"></label>
+        <input type="number" id="dayOfficialHours" />
+
+        <label data-lng="lblDayLateCutCount" for="dayLateCutCount"></label>
+        <input type="number" id="dayLateCutCount" />
+
+        <label data-lng="lblDayAbsentCut" for="dayAbsentCut"></label>
+        <input type="number" id="dayAbsentCut" />
+
+        <label data-lng="lblDayDailySalary" for="dayDailySalary"></label>
+        <input type="number" id="dayDailySalary" />
+
+        <label data-lng="lblDayEarlyCutCount" for="dayEarlyCutCount"></label>
+        <input type="number" id="dayEarlyCutCount" />
+
+        <label data-lng="lblDayLateMinPrice" for="dayLateMinPrice"></label>
+        <input type="number" id="dayLateMinPrice" />
+
+        <label data-lng="lblDayEarlyMinPrice" for="dayEarlyMinPrice"></label>
+        <input type="number" id="dayEarlyMinPrice" />
+
+        <label data-lng="lblDayMinOTHours" for="dayMinOTHours"></label>
+        <input type="number" id="dayMinOTHours" />
+
+        <label data-lng="lblDayWrStart" for="dayWrStart"></label>
+        <input type="time" id="dayWrStart" />
+
+        <label data-lng="lblDayLastEntry" for="dayLastEntry"></label>
+        <input type="time" id="dayLastEntry" />
+
+        <label data-lng="lblDayFirstExit" for="dayFirstExit"></label>
+        <input type="time" id="dayFirstExit" />
+
+        <label data-lng="lblDayLastExit" for="dayLastExit"></label>
+        <input type="time" id="dayLastExit" />
+
+        <label data-lng="lblDayDailyWage" for="dayDailyWage"></label>
+        <select id="dayDailyWage">
+          <option value="false">false</option>
+          <option value="true">true</option>
+        </select>
+
+        <label data-lng="lblDayOTEligible" for="dayOTEligible"></label>
+        <select id="dayOTEligible">
+          <option value="false">false</option>
+          <option value="true">true</option>
+        </select>
+
+        <label data-lng="lblDayAllowedMinRest" for="dayAllowedMinRest"></label>
+        <input type="number" id="dayAllowedMinRest" />
+
+        <label data-lng="lblDayRestMinPrice" for="dayRestMinPrice"></label>
+        <input type="number" id="dayRestMinPrice" />
+
+        <button class="modalSaveBtn" data-lng="btnSaveDay" onclick="saveDay()"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- مودال تعيين الأجهزة -->
+  <div class="modalOverlay" id="devicesModal">
+    <div class="modalContent">
+      <div class="modalHeader">
+        <h2 id="devicesModalTitle" data-lng="lblDevicesModalTitle"></h2>
+        <button class="modalCloseBtn" onclick="closeDevicesModal()">×</button>
+      </div>
+      <div class="modalBody">
+        <label data-lng="lblChooseDevices" for="devicesSelect"></label>
+        <select id="devicesSelect" multiple></select>
+        <button class="modalSaveBtn" data-lng="btnSaveDevices" onclick="saveEmployeeDevices()"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- مودال سحب بصمة الوجه -->
+  <div class="modalOverlay" id="faceModal">
+    <div class="modalContent">
+      <div class="modalHeader">
+        <h2 data-lng="lblFaceModalTitle"></h2>
+        <button class="modalCloseBtn" onclick="closeFaceModal()">×</button>
+      </div>
+      <div class="modalBody">
+        <label data-lng="lblFaceDeviceSelect" for="faceDeviceSelect"></label>
+        <select id="faceDeviceSelect"></select>
+
+        <label id="faceAdminLabel">
+          <input type="checkbox" id="faceAdminCheckbox" />
+          <span data-lng="lblFaceAdminCheck"></span>
+        </label>
+
+        <button class="modalSaveBtn" data-lng="btnCaptureFace" onclick="captureFace()"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- مودال سحب رقم الكارت -->
+  <div class="modalOverlay" id="cardModal">
+    <div class="modalContent">
+      <div class="modalHeader">
+        <h2 data-lng="lblCardModalTitle"></h2>
+        <button class="modalCloseBtn" onclick="closeCardModal()">×</button>
+      </div>
+      <div class="modalBody">
+        <label data-lng="lblCardDeviceSelect" for="cardDeviceSelect"></label>
+        <select id="cardDeviceSelect"></select>
+
+        <button class="modalSaveBtn" data-lng="btnCaptureCard" onclick="captureCard()"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- لودر الإرسال للأجهزة -->
+  <div class="loaderOverlay" id="loaderOverlay">
+    <div class="loader"></div>
+  </div>
+
+  <!-- سكربت الصفحة -->
+  <script>
+    /***************************************************
+     * 1) آلية اللغة الموحدة (كما في صفحة اللوجن)
+     ***************************************************/
+    const LANG_PATH = './lang';        // مجلد ملفات JSON
+    const LANG_KEY = 'lng';
+    let translations = {};
+
+    async function loadLanguageFile(lang) {
+      try {
+        const response = await fetch(`${LANG_PATH}/emlang_${lang}.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}.json`);
+        }
+        translations = await response.json();
+      } catch (error) {
+        console.error("Error loading translation file:", error);
+      }
+    }
+
+    function applyTranslations(lang) {
+      // تغيير اتجاه الصفحة ولغتها
+      document.documentElement.lang = lang;
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+      // طبيق النصوص على العناصر data-lng="..."
+      document.querySelectorAll('[data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+        if (translations[key]) {
+          el.textContent = translations[key];
+        }
+      });
+
+      // تطبيق placeholder
+      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-lng-placeholder');
+        if (translations[key]) {
+          el.placeholder = translations[key];
+        }
+      });
+
+      // تطبيق نص للأوبشن
+      document.querySelectorAll('[data-lng-option]').forEach(el => {
+        const key = el.getAttribute('data-lng-option');
+        if (translations[key]) {
+          el.textContent = translations[key];
+        }
+      });
+    }
+
+    async function setLanguage(lang) {
+      await loadLanguageFile(lang);
+      localStorage.setItem(LANG_KEY, lang);
+      applyTranslations(lang);
+    }
+
+    /********************************************************
+     * 2) بقية الدوال الخاصة بالصفحة (إدارة الموظفين)
+     ********************************************************/
+    let authToken = null;
+    let allEmployees = [];
+    let allDepartments = [];
+    let filteredEmployees = [];
+    let currentSchedules = [];
+    let currentEmployeeIndex = null;
+    let dayIndex = null;
+    let allDevices = [];
+    let currentPage = 1;
+    let pageSize = 10;
+
+    function initPage() {
+      // (أ) إعداد اللغة أولاً
+      let storedLang = localStorage.getItem(LANG_KEY);
+      if (!storedLang) {
+        storedLang = 'en'; // افتراضي إنجليزي
+      }
+      document.getElementById('langSelector').value = storedLang;
+      setLanguage(storedLang).then(() => {
+        // (ب) بعد تطبيق اللغة، نتحقق من التوكن ونحمّل البيانات
+        authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+          window.location.href = 'login.html';
+          return;
+        }
+        loadEmployees();
+        loadDepartments();
+        loadAllDevices();
+        // تهيئة select2
+        $('#devicesSelect').select2({
+          width: '100%',
+          placeholder: 'Choose devices',
+          dropdownParent: $('#devicesModal .modalBody'),
+          closeOnSelect: false
+        });
+      });
+    }
+
+    // تغيير اللغة من الـselect
+    document.getElementById('langSelector').addEventListener('change', function () {
+      setLanguage(this.value);
+    });
+
+    function logout() {
+      localStorage.removeItem('authToken');
+      window.location.href = 'login.html';
+    }
+
+    // جلب الموظفين
+    async function loadEmployees() {
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+
+      try {
+        const resp = await fetch('https://hr.iraqsapp.com/api/employees?page=1&limit=9999999', {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!resp.ok) throw new Error('Failed to fetch employees');
+        const data = await resp.json();
+        allEmployees = data.data || data;
+        filteredEmployees = [...allEmployees];
+        currentPage = 1;
+        renderEmployees(filteredEmployees);
+        renderPaginationControls();
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      }
+    }
+
+    // جلب الأقسام
+    async function loadDepartments() {
+      try {
+        const resp = await fetch('https://hr.iraqsapp.com/api/departments', {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!resp.ok) throw new Error('Failed to fetch departments');
+        const data = await resp.json();
+        allDepartments = data;
+
+        const searchDeptSel = document.getElementById('searchDept');
+        // الخيار الأول بالفعل يوجد به data-lng-option="searchDeptAllOption"
+        // بقية الأقسام:
+        allDepartments.forEach(dep => {
+          const opt = document.createElement('option');
+          opt.value = dep._id;
+          opt.textContent = dep.department_name || ('Dept ' + dep._id);
+          searchDeptSel.appendChild(opt);
+        });
+
+        const empDeptSel = document.getElementById('empDepartment');
+        empDeptSel.innerHTML = '';
+        const emptyOption = document.createElement('option');
+        emptyOption.value = '';
+        emptyOption.textContent = '';
+        empDeptSel.appendChild(emptyOption);
+
+        allDepartments.forEach(dep => {
+          const opt = document.createElement('option');
+          opt.value = dep._id;
+          opt.textContent = dep.department_name;
+          empDeptSel.appendChild(opt);
+        });
+
+        initSelect2Department();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    // جلب الأجهزة
+    async function loadAllDevices() {
+      try {
+        const resp = await fetch('https://hr.iraqsapp.com/api/devices', {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!resp.ok) throw new Error('Failed to fetch devices');
+        const data = await resp.json();
+        allDevices = data;
+
+        // تعبئة قائمة #devicesSelect
+        const devicesSelect = document.getElementById('devicesSelect');
+        devicesSelect.innerHTML = '';
+        allDevices.forEach(d => {
+          const opt = document.createElement('option');
+          opt.value = d._id;
+          opt.textContent = d.name || `Device ${d._id}`;
+          devicesSelect.appendChild(opt);
+        });
+
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function initSelect2Department() {
+      $('#empDepartment').select2({
+        width: '100%',
+        placeholder: 'Choose Department',
+        allowClear: true,
+        dropdownParent: $('#employeeModal .modalBody')
+      });
+    }
+
+    // عرض الموظفين
+    function renderEmployees(empArr) {
+      const tb = document.getElementById('employeeTable').querySelector('tbody');
+      tb.innerHTML = '';
+      const startIndex = (currentPage - 1) * pageSize;
+      const endIndex = startIndex + pageSize;
+      const pageEmployees = empArr.slice(startIndex, endIndex);
+
+      pageEmployees.forEach((emp, i) => {
+        const globalIndex = startIndex + i;
+        const dateJoin = emp.joining_date ? emp.joining_date.split('T')[0] : '';
+        const dateLeave = emp.leave_date ? emp.leave_date.split('T')[0] : '';
+        const departmentName = emp.department || '';
+
+        let imgTag = emp.image
+          ? `<img src="${emp.image}" alt="" class="employeeImage" />`
+          : `<img src="" alt="" class="employeeImage" />`;
+
+        const devicesCount = Array.isArray(emp.devices) ? emp.devices.length : 0;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${globalIndex + 1}</td>
+          <td>${imgTag}</td>
+          <td>${emp.enroll_id || ''}</td>
+          <td>${emp.name || ''}</td>
+          <td>${departmentName}</td>
+          <td>${dateJoin}</td>
+          <td>${dateLeave}</td>
+          <td>${emp.main_salary || 0}</td>
+          <td>
+            <button class="iconBtn edit" onclick="openModalForEdit(${globalIndex})" title="Edit">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <button class="iconBtn delete" onclick="deleteEmployee('${emp._id}')" title="Delete">
+              <i class="bi bi-trash-fill"></i>
+            </button>
+            <button class="iconBtn schedule" onclick="openScheduleModal(${globalIndex})" title="Schedule">
+              <i class="bi bi-calendar3"></i>
+            </button>
+            <button class="iconBtn devices" onclick="openDevicesModal(${globalIndex})" title="Devices (${devicesCount})">
+              <i class="bi bi-hdd-network"></i>
+            </button>
+            <button class="iconBtn send" onclick="sendUserToDevices(${globalIndex})" title="Send to Devices">
+              <i class="bi bi-send"></i>
+            </button>
+            <button class="iconBtn face" onclick="openFaceModal(${globalIndex})" title="Face">
+              <i class="bi bi-person-bounding-box"></i>
+            </button>
+            <button class="iconBtn card" onclick="openCardModal(${globalIndex})" title="Card Number">
+              <i class="bi bi-credit-card-2-front"></i>
+            </button>
+          </td>
+        `;
+        tb.appendChild(tr);
+      });
+    }
+
+    function renderPaginationControls() {
+      const paginationDiv = document.getElementById('paginationControls');
+      paginationDiv.innerHTML = '';
+      const totalPages = Math.ceil(filteredEmployees.length / pageSize);
+      if (totalPages <= 0) return;
+
+      const prevBtn = document.createElement('button');
+      prevBtn.textContent = 'Prev';
+      prevBtn.className = 'pageBtn';
+      prevBtn.disabled = (currentPage === 1);
+      prevBtn.onclick = () => goToPrevPage();
+      paginationDiv.appendChild(prevBtn);
+
+      const maxPagesToShow = 6;
+      let startPage = Math.max(1, currentPage - 2);
+      let endPage = startPage + maxPagesToShow - 1;
+      if (endPage > totalPages) {
+        endPage = totalPages;
+        startPage = Math.max(1, endPage - maxPagesToShow + 1);
+      }
+      for (let p = startPage; p <= endPage; p++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.textContent = p;
+        pageBtn.className = 'pageBtn' + (p === currentPage ? ' active' : '');
+        pageBtn.onclick = () => goToPage(p);
+        paginationDiv.appendChild(pageBtn);
+      }
+
+      const nextBtn = document.createElement('button');
+      nextBtn.textContent = 'Next';
+      nextBtn.className = 'pageBtn';
+      nextBtn.disabled = (currentPage === totalPages);
+      nextBtn.onclick = () => goToNextPage();
+      paginationDiv.appendChild(nextBtn);
+
+      const selectPageSize = document.createElement('select');
+      [10, 25, 50, 100].forEach(size => {
+        const opt = document.createElement('option');
+        opt.value = size;
+        opt.textContent = size;
+        if (size === pageSize) opt.selected = true;
+        selectPageSize.appendChild(opt);
+      });
+      selectPageSize.onchange = (e) => changePageSize(+e.target.value);
+      paginationDiv.appendChild(selectPageSize);
+    }
+    function goToPage(page) { currentPage = page; renderEmployees(filteredEmployees); renderPaginationControls(); }
+    function goToPrevPage() { if (currentPage > 1) { currentPage--; renderEmployees(filteredEmployees); renderPaginationControls(); } }
+    function goToNextPage() {
+      const totalPages = Math.ceil(filteredEmployees.length / pageSize);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderEmployees(filteredEmployees);
+        renderPaginationControls();
+      }
+    }
+    function changePageSize(newSize) {
+      pageSize = newSize;
+      currentPage = 1;
+      renderEmployees(filteredEmployees);
+      renderPaginationControls();
+    }
+
+    function filterEmployeesLocally() {
+      const nameVal = document.getElementById('searchName').value.toLowerCase();
+      const deptVal = document.getElementById('searchDept').value;
+      filteredEmployees = allEmployees.filter(e => {
+        if (nameVal) {
+          if (!(e.name || '').toLowerCase().includes(nameVal)) return false;
+        }
+        if (deptVal) {
+          if (e.department_id !== deptVal) return false;
+        }
+        return true;
+      });
+      currentPage = 1;
+      renderEmployees(filteredEmployees);
+      renderPaginationControls();
+    }
+
+    function openModalForAdd() {
+      // بدلنا data-lng عنوان المودال كي يقرأ "Add Employee" من ملف الترجمة
+      document.getElementById('employeeModalTitle').setAttribute('data-lng', 'employeeModalTitleAdd');
+      document.getElementById('employeeDbId').value = '';
+      document.getElementById('enrollId').value = '';
+      document.getElementById('empName').value = '';
+      $('#empDepartment').val('').trigger('change');
+
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('empJoinDate').value = today;
+      document.getElementById('empLeaveDate').value = 'NULL';
+      document.getElementById('mainSalary').value = '0';
+
+      document.getElementById('weekZone').value = '';
+      document.getElementById('empImage').value = '';
+      document.getElementById('empCard').value = '';
+
+      showEmployeeModal();
+    }
+
+    function openModalForEdit(indexInFiltered) {
+      document.getElementById('employeeModalTitle').setAttribute('data-lng', 'employeeModalTitleEdit');
+      const emp = filteredEmployees[indexInFiltered];
+      document.getElementById('employeeDbId').value = emp._id || '';
+      document.getElementById('enrollId').value = emp.enroll_id || '';
+      document.getElementById('empName').value = emp.name || '';
+      if (emp.department_id) {
+        $('#empDepartment').val(emp.department_id).trigger('change');
+      } else {
+        $('#empDepartment').val('').trigger('change');
+      }
+      if (emp.joining_date) {
+        document.getElementById('empJoinDate').value = emp.joining_date.split('T')[0];
+      }
+      if (emp.leave_date) {
+        document.getElementById('empLeaveDate').value = emp.leave_date.split('T')[0];
+      } else {
+        document.getElementById('empLeaveDate').value = 'NULL';
+      }
+      document.getElementById('mainSalary').value = emp.main_salary || 0;
+      document.getElementById('weekZone').value = emp.week_zone || '';
+      document.getElementById('empImage').value = '';
+      document.getElementById('empCard').value = emp.card || '';
+
+      showEmployeeModal();
+    }
+
+    async function saveEmployee() {
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+      const dbId = document.getElementById('employeeDbId').value;
+      let enrollId = document.getElementById('enrollId').value.trim();
+      const empName = document.getElementById('empName').value.trim();
+      const departmentId = document.getElementById('empDepartment').value;
+      const depObj = allDepartments.find(d => d._id === departmentId);
+      const depName = depObj ? depObj.department_name : '';
+      const joinD = document.getElementById('empJoinDate').value || null;
+      const leaveD = document.getElementById('empLeaveDate').value || null;
+      const mainSal = +document.getElementById('mainSalary').value || 0;
+      const weekZoneVal = document.getElementById('weekZone').value;
+      let weekZoneNum = weekZoneVal ? +weekZoneVal : 0;
+      const empCard = document.getElementById('empCard').value.trim();
+
+      if (!enrollId) {
+        enrollId = generateUniqueEnrollId();
+      }
+      let imageBase64 = '';
+      const fileInput = document.getElementById('empImage');
+      if (fileInput.files && fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        imageBase64 = await fileToBase64(file);
+      }
+
+      const bodyObj = {
+        enroll_id: +enrollId,
+        name: empName,
+        department_id: departmentId,
+        department: depName,
+        joining_date: joinD,
+        leave_date: leaveD,
+        main_salary: mainSal,
+        week_zone: weekZoneNum,
+        card: empCard
+      };
+      if (imageBase64) {
+        bodyObj.image = imageBase64;
+      }
+
+      try {
+        let url = 'https://hr.iraqsapp.com/api/employees';
+        let method = 'POST';
+        if (dbId) {
+          url = `https://hr.iraqsapp.com/api/employees/${dbId}`;
+          method = 'PUT';
+        }
+        const resp = await fetch(url, {
+          method,
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(bodyObj)
+        });
+        if (!resp.ok) throw new Error(`Fail to ${dbId ? 'edit' : 'add'} employee`);
+        successMsg.textContent = `Employee ${dbId ? 'updated' : 'added'} successfully.`;
+        closeEmployeeModal();
+        loadEmployees();
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      }
+    }
+
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (err) => reject(err);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function generateUniqueEnrollId() {
+      while (true) {
+        let randId = Math.floor(Math.random() * 90000) + 10000;
+        let used = allEmployees.some(e => +e.enroll_id === randId);
+        if (!used) {
+          return randId.toString();
+        }
+      }
+    }
+
+    async function deleteEmployee(dbId) {
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+      if (!confirm('Are you sure to delete this employee?')) return;
+      try {
+        const resp = await fetch(`https://hr.iraqsapp.com/api/employees/${dbId}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!resp.ok) throw new Error('Fail to delete employee');
+        successMsg.textContent = 'Employee deleted successfully.';
+        loadEmployees();
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      }
+    }
+
+    function openScheduleModal(indexInFiltered) {
+      const emp = filteredEmployees[indexInFiltered];
+      currentEmployeeIndex = findEmployeeIndexInAll(emp._id);
+      currentSchedules = emp.weekSchedules || [];
+      document.getElementById('scheduleModalTitle').setAttribute('data-lng', 'lblScheduleTitle');
+      renderSchedule(currentSchedules);
+      showScheduleModal();
+    }
+    function findEmployeeIndexInAll(id) {
+      return allEmployees.findIndex(e => e._id === id);
+    }
+    function renderSchedule(sch) {
+      const tb = document.getElementById('scheduleTable').querySelector('tbody');
+      tb.innerHTML = '';
+      sch.forEach((dayObj, i) => {
+        let row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${dayObj.day || ''}</td>
+          <td>${dayObj.startTime || ''}</td>
+          <td>${dayObj.endTime || ''}</td>
+          <td>${dayObj.overtimeStart || ''}</td>
+          <td>${dayObj.endDayOffset || 0}</td>
+          <td>${dayObj.hourPrice || 0}</td>
+          <td>${dayObj.overtimePrice || 0}</td>
+          <td><button class="btnSmall" style="background:#007bff;color:#fff;" onclick="openDayModal(${i})">Edit</button></td>
+          <td><button class="btnSmall" style="background:#dc3545;color:#fff;" onclick="deleteDay(${i})">Del</button></td>
+          <td><button class="btnSmall" style="background:#17a2b8;color:#fff;" onclick="copyDay(${i})">Copy</button></td>
+        `;
+        tb.appendChild(row);
+      });
+    }
+    function addScheduleDay() {
+      const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      if (currentSchedules.length === 0) {
+        currentSchedules.push({
+          day: 'Sun',
+          startTime: '08:00:00',
+          endTime: '17:00:00',
+          overtimeStart: '17:30:00',
+          endDayOffset: 0,
+          hourPrice: 0,
+          overtimePrice: 0,
+          allowed_delay_minutes: 0,
+          allowed_exit_minutes: 0,
+          official_working_hours: 8,
+          late_cutting_by_count: 0,
+          absent_cutting: 0,
+          daily_salary: 0,
+          early_cutting_by_count: 0,
+          late_min_prices: 0,
+          early_min_prices: 0,
+          minimum_working_hours_overtime: 10,
+          work_registration_start_time: '06:00:00',
+          last_entry_prevention_time: '11:00:00',
+          first_exit_allowed_time: '15:00:00',
+          last_exit_allowed_time: '20:00:00',
+          works_for_daily_wage: false,
+          overtime_eligible: false,
+          allowed_min_rest: 0,
+          rest_min_prices: 0
+        });
+      } else {
+        const lastDayObj = currentSchedules[currentSchedules.length - 1];
+        const dayOrderIndex = dayOrder.indexOf(lastDayObj.day);
+        if (dayOrderIndex < 0) {
+          alert('Unknown day');
+          return;
+        }
+        if (dayOrderIndex === 6) {
+          alert('Saturday is the last day, no day after it');
+          return;
+        }
+        let newDayObj = { ...lastDayObj };
+        newDayObj.day = dayOrder[dayOrderIndex + 1];
+        currentSchedules.push(newDayObj);
+      }
+      renderSchedule(currentSchedules);
+    }
+    function deleteDay(i) {
+      if (!confirm('Delete this day?')) return;
+      currentSchedules.splice(i, 1);
+      renderSchedule(currentSchedules);
+    }
+    function openDayModal(i) {
+      dayIndex = i;
+      const dayObj = currentSchedules[i];
+      document.getElementById('dayModalTitle').setAttribute('data-lng', 'lblDayModalTitle');
+      document.getElementById('dayIndex').value = i;
+      document.getElementById('daySelect').value = dayObj.day || 'Sun';
+      document.getElementById('dayStart').value = dayObj.startTime || '08:00:00';
+      document.getElementById('dayEnd').value = dayObj.endTime || '17:00:00';
+      document.getElementById('dayOTStart').value = dayObj.overtimeStart || '17:30:00';
+      document.getElementById('dayOffset').value = dayObj.endDayOffset || 0;
+      document.getElementById('dayHourPrice').value = dayObj.hourPrice || 0;
+      document.getElementById('dayOTPrice').value = dayObj.overtimePrice || 0;
+      document.getElementById('dayAllowedDelay').value = dayObj.allowed_delay_minutes || 0;
+      document.getElementById('dayAllowedExit').value = dayObj.allowed_exit_minutes || 0;
+      document.getElementById('dayOfficialHours').value = dayObj.official_working_hours || 8;
+      document.getElementById('dayLateCutCount').value = dayObj.late_cutting_by_count || 0;
+      document.getElementById('dayAbsentCut').value = dayObj.absent_cutting || 0;
+      document.getElementById('dayDailySalary').value = dayObj.daily_salary || 0;
+      document.getElementById('dayEarlyCutCount').value = dayObj.early_cutting_by_count || 0;
+      document.getElementById('dayLateMinPrice').value = dayObj.late_min_prices || 0;
+      document.getElementById('dayEarlyMinPrice').value = dayObj.early_min_prices || 0;
+      document.getElementById('dayMinOTHours').value = dayObj.minimum_working_hours_overtime || 10;
+      document.getElementById('dayWrStart').value = dayObj.work_registration_start_time || '06:00:00';
+      document.getElementById('dayLastEntry').value = dayObj.last_entry_prevention_time || '11:00:00';
+      document.getElementById('dayFirstExit').value = dayObj.first_exit_allowed_time || '15:00:00';
+      document.getElementById('dayLastExit').value = dayObj.last_exit_allowed_time || '20:00:00';
+      document.getElementById('dayDailyWage').value = dayObj.works_for_daily_wage ? 'true' : 'false';
+      document.getElementById('dayOTEligible').value = dayObj.overtime_eligible ? 'true' : 'false';
+      document.getElementById('dayAllowedMinRest').value = dayObj.allowed_min_rest || 0;
+      document.getElementById('dayRestMinPrice').value = dayObj.rest_min_prices || 0;
+      showDayModal();
+    }
+    function saveDay() {
+      const i = +document.getElementById('dayIndex').value;
+      const dayObj = currentSchedules[i];
+      dayObj.day = document.getElementById('daySelect').value;
+      dayObj.startTime = document.getElementById('dayStart').value;
+      dayObj.endTime = document.getElementById('dayEnd').value;
+      dayObj.overtimeStart = document.getElementById('dayOTStart').value;
+      dayObj.endDayOffset = +document.getElementById('dayOffset').value;
+      dayObj.hourPrice = +document.getElementById('dayHourPrice').value;
+      dayObj.overtimePrice = +document.getElementById('dayOTPrice').value;
+      dayObj.allowed_delay_minutes = +document.getElementById('dayAllowedDelay').value;
+      dayObj.allowed_exit_minutes = +document.getElementById('dayAllowedExit').value;
+      dayObj.official_working_hours = +document.getElementById('dayOfficialHours').value;
+      dayObj.late_cutting_by_count = +document.getElementById('dayLateCutCount').value;
+      dayObj.absent_cutting = +document.getElementById('dayAbsentCut').value;
+      dayObj.daily_salary = +document.getElementById('dayDailySalary').value;
+      dayObj.early_cutting_by_count = +document.getElementById('dayEarlyCutCount').value;
+      dayObj.late_min_prices = +document.getElementById('dayLateMinPrice').value;
+      dayObj.early_min_prices = +document.getElementById('dayEarlyMinPrice').value;
+      dayObj.minimum_working_hours_overtime = +document.getElementById('dayMinOTHours').value;
+      dayObj.work_registration_start_time = document.getElementById('dayWrStart').value;
+      dayObj.last_entry_prevention_time = document.getElementById('dayLastEntry').value;
+      dayObj.first_exit_allowed_time = document.getElementById('dayFirstExit').value;
+      dayObj.last_exit_allowed_time = document.getElementById('dayLastExit').value;
+      dayObj.works_for_daily_wage = (document.getElementById('dayDailyWage').value === 'true');
+      dayObj.overtime_eligible = (document.getElementById('dayOTEligible').value === 'true');
+      dayObj.allowed_min_rest = +document.getElementById('dayAllowedMinRest').value;
+      dayObj.rest_min_prices = +document.getElementById('dayRestMinPrice').value;
+      renderSchedule(currentSchedules);
+      closeDayModal();
+    }
+    function copyDay(i) {
+      const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      let currentDayObj = currentSchedules[i];
+      let currentDayIndex = dayOrder.indexOf(currentDayObj.day);
+      if (currentDayIndex < 0) {
+        alert('Cannot copy unknown day!');
+        return;
+      }
+      if (currentDayIndex === 6) {
+        alert('Cannot copy from Sat');
+        return;
+      }
+      let newDayObj = { ...currentSchedules[i] };
+      newDayObj.day = dayOrder[currentDayIndex + 1];
+      currentSchedules.splice(i + 1, 0, newDayObj);
+      renderSchedule(currentSchedules);
+    }
+    function closeScheduleModal() {
+      document.getElementById('scheduleModal').style.display = 'none';
+      saveScheduleToEmployee();
+    }
+    async function saveScheduleToEmployee() {
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+      const emp = allEmployees[currentEmployeeIndex];
+      emp.weekSchedules = currentSchedules;
+      try {
+        const resp = await fetch(`https://hr.iraqsapp.com/api/employees/${emp._id}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(emp)
+        });
+        if (!resp.ok) throw new Error('Failed to save schedule');
+        successMsg.textContent = 'Schedule saved.';
+        loadEmployees();
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      }
+    }
+
+    function openDevicesModal(indexInFiltered) {
+      const emp = filteredEmployees[indexInFiltered];
+      currentEmployeeIndex = findEmployeeIndexInAll(emp._id);
+      document.getElementById('devicesModalTitle').setAttribute('data-lng', 'lblDevicesModalTitle');
+      const chosenDevices = emp.devices || [];
+      $('#devicesSelect').val(chosenDevices).trigger('change');
+      showDevicesModal();
+    }
+    function showDevicesModal() { document.getElementById('devicesModal').style.display = 'flex'; }
+    function closeDevicesModal() { document.getElementById('devicesModal').style.display = 'none'; }
+    async function saveEmployeeDevices() {
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+      const emp = allEmployees[currentEmployeeIndex];
+      const selectedDevices = $('#devicesSelect').val() || [];
+      emp.devices = selectedDevices;
+      try {
+        const resp = await fetch(`https://hr.iraqsapp.com/api/employees/${emp._id}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(emp)
+        });
+        if (!resp.ok) throw new Error('Failed to save devices');
+        successMsg.textContent = 'Devices saved.';
+        closeDevicesModal();
+        loadEmployees();
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      }
+    }
+
+    function showLoader() { document.getElementById('loaderOverlay').style.display = 'flex'; }
+    function hideLoader() { document.getElementById('loaderOverlay').style.display = 'none'; }
+
+    async function sendUserToDevices(indexInFiltered) {
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+      showLoader();
+      try {
+        const emp = filteredEmployees[indexInFiltered];
+        if (!emp.devices || emp.devices.length === 0) {
+          throw new Error('No assigned devices for this employee.');
+        }
+        const recordBase64 = emp.image || '';
+        const userInfoTemplate = {
+          enrollid: emp.enroll_id,
+          name: emp.name || '',
+          backupnum: 50,
+          admin: 0,
+          record: recordBase64.replace(/^data:image\/[a-zA-Z]+;base64,/, ''),
+          zoneid: emp.week_zone || 0,
+          departmant: emp.department || '',
+          card: emp.card || ''
+        };
+
+        for (const devId of emp.devices) {
+          const dev = allDevices.find(d => d._id === devId);
+          if (!dev) {
+            console.warn(`No device data found ID=${devId}`);
+            continue;
+          }
+          const sn = dev.serial;
+          const serverIp = dev.serverip;
+
+          const bodyObj = {
+            sn: sn,
+            userInfo: userInfoTemplate
+          };
+          const url = `http://${serverIp}/api/setuserinfo`;
+          const resp = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(bodyObj)
+          });
+          if (!resp.ok) {
+            const errText = await resp.text();
+            throw new Error(`Fail to send data to device: ${dev.name || dev._id} | ${errText}`);
+          }
+        }
+        successMsg.textContent = 'Employee data sent to devices.';
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      } finally {
+        hideLoader();
+      }
+    }
+
+    let faceModalIndex = null;
+    function openFaceModal(indexInFiltered) {
+      faceModalIndex = indexInFiltered;
+      const faceSelect = document.getElementById('faceDeviceSelect');
+      faceSelect.innerHTML = '';
+      allDevices.forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d._id;
+        opt.textContent = d.name || `Device ${d._id}`;
+        faceSelect.appendChild(opt);
+      });
+      document.getElementById('faceAdminCheckbox').checked = false;
+      document.getElementById('faceModal').style.display = 'flex';
+    }
+    function closeFaceModal() {
+      document.getElementById('faceModal').style.display = 'none';
+      faceModalIndex = null;
+    }
+    async function captureFace() {
+      if (faceModalIndex == null) return;
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+      showLoader();
+      try {
+        const emp = filteredEmployees[faceModalIndex];
+        const selectedDeviceId = document.getElementById('faceDeviceSelect').value;
+        const faceAdmin = document.getElementById('faceAdminCheckbox').checked;
+        if (!selectedDeviceId) {
+          throw new Error('Select device first');
+        }
+        const dev = allDevices.find(d => d._id === selectedDeviceId);
+        if (!dev) {
+          throw new Error('Device not found');
+        }
+        const sn = dev.serial;
+        const bodyObj = {
+          sn: sn,
+          userInfo: {
+            enrollid: +emp.enroll_id,
+            name: emp.name || '',
+            backupnum: 50,
+            admin: faceAdmin ? 1 : 0
+          }
+        };
+        // نفترض هنا أن الخدمة موجودة على 4000
+        const resp = await fetch('http://localhost:4000/api/adduserinfo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bodyObj)
+        });
+        if (!resp.ok) {
+          const txt = await resp.text();
+          throw new Error('Capture request failed: ' + txt);
+        }
+        const result = await resp.json();
+        if (!result.success) {
+          throw new Error('Operation failed on device');
+        }
+        const recordBase64 = result.data?.record;
+        if (!recordBase64) {
+          throw new Error('No face image received from device');
+        }
+        const newImage = 'data:image/jpeg;base64,' + recordBase64;
+        const updateBody = { image: newImage };
+        const updateResp = await fetch(`https://hr.iraqsapp.com/api/employees/${emp._id}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updateBody)
+        });
+        if (!updateResp.ok) throw new Error('DB update fail');
+
+        successMsg.textContent = 'Face captured and saved.';
+        closeFaceModal();
+        loadEmployees();
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      } finally {
+        hideLoader();
+      }
+    }
+
+    let cardModalIndex = null;
+    function openCardModal(indexInFiltered) {
+      cardModalIndex = indexInFiltered;
+      const cardSelect = document.getElementById('cardDeviceSelect');
+      cardSelect.innerHTML = '';
+      allDevices.forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d._id;
+        opt.textContent = d.name || `Device ${d._id}`;
+        cardSelect.appendChild(opt);
+      });
+      document.getElementById('cardModal').style.display = 'flex';
+    }
+    function closeCardModal() {
+      document.getElementById('cardModal').style.display = 'none';
+      cardModalIndex = null;
+    }
+    async function captureCard() {
+      if (cardModalIndex == null) return;
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+      showLoader();
+      try {
+        const emp = filteredEmployees[cardModalIndex];
+        const selectedDeviceId = document.getElementById('cardDeviceSelect').value;
+        if (!selectedDeviceId) {
+          throw new Error('Select device first');
+        }
+        const dev = allDevices.find(d => d._id === selectedDeviceId);
+        if (!dev) {
+          throw new Error('Device not found');
+        }
+        const sn = dev.serial;
+        const bodyObj = {
+          sn: sn,
+          userInfo: {
+            enrollid: +emp.enroll_id,
+            name: emp.name || '',
+            backupnum: 11
+          }
+        };
+        const resp = await fetch('http://localhost:4000/api/adduserinfo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bodyObj)
+        });
+        if (!resp.ok) {
+          const txt = await resp.text();
+          throw new Error('Card read request failed: ' + txt);
+        }
+        const result = await resp.json();
+        if (!result.success) {
+          throw new Error('Operation failed on device');
+        }
+        const cardNum = result.data?.record;
+        if (!cardNum) {
+          throw new Error('No card number received from device');
+        }
+        const updateBody = { card: cardNum };
+        const updateResp = await fetch(`https://hr.iraqsapp.com/api/employees/${emp._id}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(updateBody)
+        });
+        if (!updateResp.ok) throw new Error('Fail to save card in DB');
+
+        successMsg.textContent = 'Card number captured and saved.';
+        closeCardModal();
+        loadEmployees();
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      } finally {
+        hideLoader();
+      }
+    }
+
+    /******************************************
+     * 3) دوال إظهار/إخفاء المودالات
+     ******************************************/
+    function showEmployeeModal() { document.getElementById('employeeModal').style.display = 'flex'; }
+    function closeEmployeeModal() {
+      document.getElementById('employeeModal').style.display = 'none';
+      document.getElementById('employeeDbId').value = '';
+      document.getElementById('enrollId').value = '';
+      document.getElementById('empName').value = '';
+      $('#empDepartment').val('').trigger('change');
+      document.getElementById('empJoinDate').value = '';
+      document.getElementById('empLeaveDate').value = '';
+      document.getElementById('mainSalary').value = '0';
+      document.getElementById('weekZone').value = '';
+      document.getElementById('empImage').value = '';
+      document.getElementById('empCard').value = '';
+    }
+    function showScheduleModal() { document.getElementById('scheduleModal').style.display = 'flex'; }
+    function showDayModal() { document.getElementById('dayModal').style.display = 'flex'; }
+    function closeDayModal() {
+      document.getElementById('dayModal').style.display = 'none';
+      dayIndex = null;
+      document.getElementById('dayIndex').value = '';
+    }
+  </script>
+</body>
+
+</html>

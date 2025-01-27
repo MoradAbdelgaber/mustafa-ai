@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title data-lng="Unregistered employees"></title>
+
+  <!-- مكتبة jQuery (اختيارية) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- مكتبة Select2 (اختيارية) -->
+  <link 
+    href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" 
+    rel="stylesheet" />
+  <script 
+    src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <!-- أيقونات Bootstrap -->
+  <link 
+    rel="stylesheet" 
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- خطوط (Tajawal للعربية، Open Sans للإنجليزية) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap" 
+    rel="stylesheet">
+
+  <style>
+    /* عند العربية: استخدم Tajawal مع اتجاه RTL */
+    html[lang="ar"] body {
+      font-family: 'Tajawal', sans-serif;
+      direction: rtl;
+    }
+    /* عند الإنجليزية: استخدم Open Sans مع اتجاه LTR */
+    html[lang="en"] body {
+      font-family: 'Open Sans', sans-serif;
+      direction: ltr;
+    }
+
+    #langSelector {
+      margin: 10px;
+      padding: 6px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    body {
+      margin: 0; 
+      padding: 0; 
+      background: #f2f2f2; 
+    }
+
+    header {
+      background: linear-gradient(45deg, #0062cc, #004085);
+      color: #fff;
+      padding: 10px 20px;
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+    }
+    header h1 {
+      margin: 0; 
+      font-size: 1.2rem;
+    }
+    header button {
+      background: #dc3545; 
+      color: #fff;
+      border: none; 
+      padding: 8px 14px;
+      border-radius: 4px; 
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+    header button:hover {
+      background: #c82333;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row-reverse; /* لأن اللغة عربية */
+    }
+
+    .mainContent {
+      flex: 1; 
+      padding: 20px;
+    }
+
+    .sidebar {
+      width: 240px; 
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      min-height: 100vh; 
+      padding: 20px 10px;
+    }
+    .sidebar h2 {
+      margin-bottom: 15px; 
+      font-size: 1rem; 
+      text-align: center; 
+      color: #444;
+    }
+    .navItem {
+      padding: 12px 10px; 
+      margin: 6px 0; 
+      border-radius: 4px;
+      cursor: pointer; 
+      color: #333; 
+      font-weight: 500;
+      transition: background 0.3s, color 0.3s;
+      display: flex; 
+      align-items: center;
+      gap: 8px;
+    }
+    .navItem i {
+      font-size: 1.1rem; 
+      color: #666; 
+      transition: color 0.3s;
+    }
+    .navItem:hover {
+      background: #f0f0f0;
+    }
+    .navItem.active {
+      background: #007bff; 
+      color: #fff;
+    }
+    .navItem.active i {
+      color: #fff;
+    }
+
+    .errorMsg, .successMsg {
+      margin: 10px 0; 
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 10px;
+      border-radius: 4px;
+    }
+    .errorMsg {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+      display: none;
+    }
+    .successMsg {
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+      display: none;
+    }
+
+    .searchFilters {
+      background: #fff; 
+      padding: 10px; 
+      margin-bottom: 15px;
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 10px;
+      align-items: center; 
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    table {
+      width: 100%; 
+      border-collapse: collapse; 
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 6px; 
+      overflow: hidden; 
+    }
+    table thead {
+      background: #007bff; 
+      color: #fff;
+    }
+    table th, 
+    table td {
+      border: 1px solid #ddd; 
+      padding: 8px; 
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .actionIcon {
+      color: #007bff;
+      cursor: pointer;
+      font-size: 1.1rem;
+      margin: 0 6px;
+      transition: color 0.3s;
+    }
+    .actionIcon:hover {
+      color: #0056b3;
+    }
+
+    .loadingOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+    }
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body onload="initPage()">
+  <header>
+    <h1 data-lng="Unregistered employees"></h1>
+    <div>
+      <button onclick="logout()" data-lng="Logout"></button>
+      <select id="langSelector" class="lang-select">
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- شاشة التحميل -->
+  <div class="loadingOverlay" id="loadingOverlay">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="container">
+    <!-- المحتوى الرئيسي -->
+    <div class="mainContent">
+      <div class="errorMsg" id="errorMsg"></div>
+      <div class="successMsg" id="successMsg"></div>
+
+      <!-- الجدول: الموظفون غير المسجلين -->
+      <table id="unregisteredTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th data-lng="Serial"></th>
+            <th data-lng="Job number (enrollid)"></th>
+            <th data-lng="Fingerprint type"></th>
+            <th data-lng="Image"></th>
+            <th data-lng="Device name"></th>     
+            <th data-lng="Time week"></th>  
+            <th data-lng="Department"></th>           
+            <th data-lng="Other data"></th>     
+            <th data-lng="Control"></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+    </div>
+
+    <!-- الشريط الجانبي -->
+    <div class="sidebar">
+      <h2 data-lng="attend_sidebar_title"></h2>
+      <div class="navItem" onclick="location.href='dashboard.html'">
+        <i class="bi bi-house-fill"></i>
+        <span data-lng="attend_sidebar_overview"></span>
+      </div>
+      <div class="navItem" onclick="location.href='employee.html'">
+        <i class="bi bi-people-fill"></i>
+        <span data-lng="attend_sidebar_employees"></span>
+      </div>
+      <div class="navItem" onclick="location.href='report.html'">
+        <i class="bi bi-bar-chart-line-fill"></i>
+        <span data-lng="attend_sidebar_report"></span>
+      </div>
+      <div class="navItem" onclick="location.href='time-based-leaves.html'">
+        <i class="bi bi-clock-fill"></i>
+        <span data-lng="attend_sidebar_time_leaves"></span>
+      </div>
+      <div class="navItem" onclick="location.href='holidays.html'">
+        <i class="bi bi-calendar-event-fill"></i>
+        <span data-lng="attend_sidebar_holidays"></span>
+      </div>
+      <div class="navItem" onclick="location.href='leaves.html'">
+        <i class="bi bi-calendar3"></i>
+        <span data-lng="attend_sidebar_leaves"></span>
+      </div>
+      <div class="navItem" onclick="location.href='attend.html'">
+        <i class="bi bi-journal-check"></i>
+        <span data-lng="attend_sidebar_attend"></span>
+      </div>
+      <div class="navItem" onclick="location.href='rewards.html'">
+        <i class="bi bi-gift-fill"></i>
+        <span data-lng="attend_sidebar_rewards"></span>
+      </div>
+      <div class="navItem" onclick="location.href='devices.html'">
+        <i class="bi bi-device-hdd-fill"></i>
+        <span data-lng="attend_sidebar_devices"></span>
+      </div>
+      <div class="navItem" onclick="location.href='requests.html'">
+        <i class="bi bi-list-check"></i>
+        <span data-lng="attend_sidebar_requests"></span>
+      </div>
+      <div class="navItem" onclick="location.href='department.html'">
+        <i class="bi bi-building"></i>
+        <span data-lng="attend_sidebar_departments"></span>
+      </div>
+      <div class="navItem" onclick="location.href='leaves-type.html'">
+        <i class="bi bi-gear-fill"></i>
+        <span data-lng="attend_sidebar_settings"></span>
+      </div>
+      <!-- عنصر يدل أننا في هذه الصفحة -->
+      <div class="navItem active" onclick="location.href='importemployee.html'">
+        <i class="bi bi-person-exclamation"></i>
+        <span data-lng="attend_sidebar_unregistered"></span>
+      </div>
+      <div class="navItem" onclick="location.href='employee-summary-report.html'">
+        <i class="bi bi-people-fill"></i>
+        <span data-lng="employee_summary_report"></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // دالة لإزالة أي محرف خارج نطاق ASCII من سلسلة ما
+    function removeNonASCII(str) {
+      return str.replace(/[^\x00-\x7F]/g, '');
+    }
+
+    let authToken        = null;
+    let allLocalEmployees= [];  // قائمة الموظفين من الـ DB
+    let unregisteredList = [];  // الموظفون غير المسجلين
+    let devicesList      = [];  // قائمة الأجهزة
+    const LANG_PATH = "./lang";        // مجلد ملفات JSON
+    const LANG_KEY = 'import_employee';
+
+
+    async function initPage(){
+      authToken = localStorage.getItem('authToken');
+      if(!authToken){
+        window.location.href = 'login.html';
+        return;
+      }
+
+      let storedLang = localStorage.getItem("lng");
+      if (!storedLang) storedLang = 'en'; // افتراضي إنجليزي
+      document.getElementById('langSelector').value = storedLang;
+      setLanguage(storedLang);
+
+      // البدء في جلب البيانات
+      await loadUnregisteredEmployees();
+    }
+
+    // LANGUAGES
+    // _______________________________________/
+    async function loadLanguageFile(lang) {
+      try {
+
+        console.log(`${LANG_PATH}/${lang}_${LANG_KEY}.json`);
+
+
+        const response = await fetch(`${LANG_PATH}/${lang}_${LANG_KEY}.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}.json`);
+        }
+        
+        translations = await response.json();
+      } catch (error) {
+        console.error("Error loading translation file:", error);
+      }
+    }
+
+    async function setLanguage(lang) {      
+      await loadLanguageFile(lang);
+      localStorage.setItem("lng", lang);
+      applyTranslations(lang);
+    }
+
+    function getTranslate(key) {
+      return translations[key] || key;
+    }
+
+
+    function applyTranslations(lang) {
+      // تغيير اتجاه الصفحة ولغتها
+      document.documentElement.lang = lang;
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+      // طبيق النصوص على العناصر data-lng="..."
+      document.querySelectorAll('[data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+        if (translations[key]) {
+          el.textContent = translations[key];
+        }
+      });
+
+      // تطبيق placeholder
+      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-lng-placeholder');
+        if (translations[key]) {
+          el.placeholder = translations[key];
+        }
+      });
+
+      // تطبيق نص للأوبشن
+      document.querySelectorAll('[data-lng-option]').forEach(el => {
+        const key = el.getAttribute('data-lng-option');
+        if (translations[key]) {
+          el.textContent = translations[key];
+        }
+      });
+
+      document.querySelectorAll('[data-lng-title]').forEach(el => {
+        const key = el.getAttribute('data-lng-title');
+        if (translations[key]) {
+          el.textContent = translations[key];
+        }
+      });
+    }
+
+
+        // تغيير اللغة من الـselect
+    document.getElementById('langSelector').addEventListener('change', async function () {
+      await setLanguage(this.value);
+      localStorage.setItem("lng",this.value)
+    });
+
+    // _______________________________________/
+    // _______________________________________/
+
+
+    function logout(){
+      localStorage.removeItem('authToken');
+      window.location.href='login.html';
+    }
+
+    // إظهار/إخفاء شاشة التحميل
+    function showLoading(){ document.getElementById('loadingOverlay').style.display = 'flex'; }
+    function hideLoading(){ document.getElementById('loadingOverlay').style.display = 'none'; }
+
+    // عرض رسائل
+    function showError(msg){
+      document.getElementById('errorMsg').textContent = msg;
+      document.getElementById('errorMsg').style.display = 'block';
+      document.getElementById('successMsg').style.display = 'none';
+    }
+    function showSuccess(msg){
+      document.getElementById('successMsg').textContent = msg;
+      document.getElementById('successMsg').style.display = 'block';
+      document.getElementById('errorMsg').style.display = 'none';
+    }
+    function clearMessages(){
+      document.getElementById('errorMsg').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'none';
+    }
+
+    /**
+     * الدالة الرئيسية: تجلب الأجهزة + الموظفين المحليين + موظفي كل جهاز
+     * وتعرض غير المسجلين.
+     */
+    async function loadUnregisteredEmployees(){
+      clearMessages();
+      showLoading();
+
+      try {
+        // 1) جلب قائمة الأجهزة
+        devicesList = await fetchDevices();
+
+        // 2) جلب جميع الموظفين المسجلين في الـ DB
+        allLocalEmployees = await fetchLocalEmployees();
+
+        // 3) جلب الموظفين من كل جهاز
+        let allDeviceUsers = [];
+        for(const dev of devicesList){
+          const deviceName = dev.device_name || getTranslate("Device without name"); 
+          const serverIp   = dev.serverip;
+          const serial     = dev.serial;
+
+          // جلب المستخدمين من هذا الجهاز
+          const deviceUsers = await fetchDeviceUsers(serverIp, serial);
+          
+          // إضافة معلومات الجهاز لكل مستخدم (اختياري)
+          deviceUsers.forEach(u => {
+            u.device_name = deviceName;
+            u.device_sn   = serial;
+          });
+
+          // دمج في مصفوفة واحدة
+          allDeviceUsers = allDeviceUsers.concat(deviceUsers);
+        }
+
+        // 4) تصفية من هم غير موجودين في الـ DB
+        unregisteredList = allDeviceUsers.filter(du => {
+          const found = allLocalEmployees.some(le => le.enroll_id == du.enrollid);
+          return !found;
+        });
+
+        // 5) عرض الجدول
+        await renderUnregistered(unregisteredList);
+
+        showSuccess(getTranslate("The list of unregistered employees has been successfully fetched."));
+      } catch(err){
+        showError(getTranslate("An error occurred: ") + err.message);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    // جلب قائمة الأجهزة من السيرفر (مثلاً منفذ 3500)
+    async function fetchDevices(){
+      const safeToken = removeNonASCII(authToken);
+      const myHeaders = new Headers();
+      myHeaders.append('Authorization', 'Bearer ' + safeToken);
+
+      const resp = await fetch('https://hr.iraqsapp.com/api/devices', {
+        method: 'GET',
+        headers: myHeaders
+      });
+
+      if(!resp.ok){
+        throw new Error(getTranslate("Failed to fetch devices"));
+      }
+      return await resp.json();
+    }
+
+    // جلب جميع الموظفين المحليين (من الـ DB)
+    async function fetchLocalEmployees() {
+      const safeToken = removeNonASCII(authToken);
+      const myHeaders = new Headers();
+      myHeaders.append('Authorization', 'Bearer ' + safeToken);
+    
+      const resp = await fetch('https://hr.iraqsapp.com/api/employees?page=1&limit=9999', {
+        method: 'GET',
+        headers: myHeaders
+      });
+    
+      if (!resp.ok) {
+        throw new Error(getTranslate("Failed to fetch local employees"));
+      }
+    
+      const responseData = await resp.json();
+      // إعادة مصفوفة الموظفين فقط
+      return responseData.data;
+    }
+
+    // جلب موظفي جهاز معيّن باستخدام serverIP + sn
+    async function fetchDeviceUsers(serverIp, serial){
+      // قد يكون المنفذ 4000 مثلاً، عدّلها حسب الحاجة
+      // تحتاج توكن خاص بالأجهزة (إن كان مختلفاً)
+      const deviceToken = getTranslate("<Put device token here>"); 
+      const safeDeviceToken = removeNonASCII(deviceToken);
+
+      const myHeaders = new Headers();
+      myHeaders.append('Authorization', 'Bearer ' + safeDeviceToken);
+      myHeaders.append('Content-Type', 'application/json');
+
+      // مثال لاستدعاء getuserlist:
+      const url = `http://${serverIp}/api/getuserlist`;
+      const bodyObj = {
+        "sn": serial,
+        "from": 0,
+        "to": 10000
+      };
+
+      const resp = await fetch(url, {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(bodyObj)
+      });
+
+      if(!resp.ok){
+        throw new Error(`${getTranslate("Failed to fetch device users")} ${serial}`);
+      }
+      const result = await resp.json();
+      if(!result.data || !result.data.record){
+        return [];
+      }
+      return result.data.record;
+    }
+
+    /**
+     * جلب معلومات المستخدم التفصيلية من الـAPI الثاني (dynamic)
+     * - name        => اسم (قد يكون اسم الموظف)
+     * - departmant  => القسم
+     * - weekzone     => الأسبوع الزمني
+     * - record      => قد تكون صورة بصمة أو وجه (base64)
+     * - card        => رقم الكارت (إن وجد)
+     * - starttime   => يمكن اعتباره joining_date إن وجد
+     */
+    async function fetchDynamicUserInfo(sn, enrollid, backupnum){
+      // ضع التوكن الصحيح إن كنت تستخدم توكنًا مختلفًا
+      const devToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.---';
+      const safeDevToken = removeNonASCII(devToken);
+
+      const myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('Authorization', 'Bearer ' + safeDevToken);
+
+      const bodyObj = {
+        "sn": sn,
+        "payload": {
+          "password": "aa",
+          "cmd": "getuserinfo",
+          "enrollid": Number(enrollid), 
+          "backupnum": Number(backupnum)
+        }
+      };
+
+      const resp = await fetch('http://localhost:4000/api/dynamic', {
+        method: 'POST',
+        headers: myHeaders,
+        body: JSON.stringify(bodyObj)
+      });
+
+      if(!resp.ok){
+        throw new Error( getTranslate("Failed to fetch user information from") + ' /api/dynamic.');
+      }
+
+      const result = await resp.json();
+      if(!result.data) return {};
+
+      // من واقع الاستجابة في الصورة:
+      //  "name", "departmant", "weekzone", "backupnum", "record", "card", "starttime"...
+      return {
+        userName   : result.data.name         || '',
+        department : result.data.departmant   || '',
+        weekzone    : result.data.zoneid      || '',
+        base64Data : result.data.record       || '',
+        card       : result.data.card         || '',
+        starttime  : result.data.starttime    || ''
+      };
+    }
+
+    // دالة الرسم الأساسية
+    async function renderUnregistered(list){
+      const tb = document.querySelector('#unregisteredTable tbody');
+      tb.innerHTML = '';
+
+      for(let i=0; i<list.length; i++){
+        const item = list[i];
+
+        // تحديد نوع البصمة
+        let backupType = getTranslate("Not none");
+        if(item.backupnum == 0) {
+          backupType = getTranslate("Fingerprint"); 
+        } else if(item.backupnum == 11) {
+          backupType = getTranslate("Card"); 
+        } else if(item.backupnum == 50) {
+          backupType = getTranslate("Face"); 
+        }
+
+        // حقول للعرض في الجدول
+        let deviceNameFromApi = '-';
+        let department        = '-';
+        let weekzone           = '-';
+        let faceImgHtml       = '-';
+        let otherDataHtml     = '-';
+
+        // نجلب بيانات المستخدم التفصيلية
+        try {
+          const info = await fetchDynamicUserInfo(item.device_sn, item.enrollid, item.backupnum);
+          
+          deviceNameFromApi = info.userName   || '-';
+          department        = info.department || '-';
+          weekzone           = info.weekzone    || '-';
+
+          // لو كانت بصمة وجه، نعرض الصورة
+          if(item.backupnum == 50 && info.base64Data){
+            faceImgHtml = `
+              <img 
+                src="data:image/jpeg;base64,${info.base64Data}" 
+                alt="${getTranslate("Face")}"
+                style="width: 70px; border-radius: 6px;">
+            `;
+          } 
+          // لو لم تكن بصمة وجه، نعرض قيمة record في "بيانات أخرى"
+          else if(item.backupnum != 50 && info.base64Data) {
+            otherDataHtml = `<div style="max-width:300px;overflow-wrap:break-word;">${info.base64Data}</div>`;
+          }
+
+        } catch(e) {
+          console.warn("fetchDynamicUserInfo error:", e);
+        }
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i + 1}</td>
+          <td>${item.device_sn || ''}</td>
+          <td>${item.enrollid || ''}</td>
+          <td>${backupType}</td>
+          <td>${faceImgHtml}</td>
+          <td>${deviceNameFromApi}</td>
+          <td>${weekzone}</td>
+          <td>${department}</td>
+          <td>${otherDataHtml}</td>
+          <td>
+            <i class="bi bi-arrow-down-circle-fill actionIcon"
+              data-lng-title="Extract employee data"
+               title="سحب بيانات الموظف"
+               onclick="pullEmployee('${item.device_sn}', '${item.enrollid}', '${item.backupnum}')"></i>
+          </td>
+        `;
+        tb.appendChild(tr);
+      }
+    }
+
+    // دالة "سحب بيانات الموظف" وإضافته إلى قاعدة البيانات
+    async function pullEmployee(deviceSN, enrollid, backupnum){
+      clearMessages();
+      showLoading();
+
+      try {
+        // 1) نجلب المعلومات التفصيلية من الـAPI الديناميكي
+        const info = await fetchDynamicUserInfo(deviceSN, enrollid, backupnum);
+
+        // 2) تجهيز الحقول حسب الطلب
+        //    enroll_id = enrollid
+        //    name = info.userName
+        //    department = info.department
+        //    joining_date = info.starttime || تاريخ افتراضي
+        //    week_zone = info.weekzone
+        //    fingerprint = record إذا backupnum=11
+        //    image = record إذا backupnum=50
+        //    card = info.card (إن وجد)
+        //    leave_date = null
+
+        let fingerprintVal = '';
+        let imageVal = '';
+        if(backupnum == 11){
+          fingerprintVal = info.base64Data; 
+        }
+        if(backupnum == 50){
+          imageVal = info.base64Data;
+        }
+
+        const bodyObj = {
+          enroll_id   : Number(enrollid),
+          name        : info.userName || 'NoName',
+          department  : info.department || '',
+          joining_date: info.starttime || '2025-01-01', 
+          leave_date  : null,
+          week_zone   : info.weekzone ? Number(info.weekzone) : 0,
+          card        : info.card || '',
+          fingerprint : fingerprintVal,
+          image       : "data:image/jpg;base64,"+imageVal
+        };
+
+        // 3) استدعاء API الإدخال في قاعدة البيانات
+        const safeToken = removeNonASCII(authToken);
+        const myHeaders = new Headers();
+        myHeaders.append('Authorization', 'Bearer ' + safeToken);
+        myHeaders.append('Content-Type', 'application/json');
+
+        const resp = await fetch('https://hr.iraqsapp.com/api/employees', {
+          method: 'POST',
+          headers: myHeaders,
+          body: JSON.stringify(bodyObj)
+        });
+        
+        if(!resp.ok){
+          const errData = await resp.json();
+          throw new Error(errData.message || getTranslate("Failed to add employee."));
+        }
+
+        // نجاح
+        showSuccess(`${getTranslate("")} (EnrollID = ${enrollid}).`);
+      } catch(err){
+        showError(getTranslate("Error while retrieving employee data:") + err.message);
+      } finally {
+        hideLoading();
+      }
+    }
+  </script>
+</body>
+</html>

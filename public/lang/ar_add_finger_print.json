@@ -1,0 +1,10 @@
+{
+    "Add attendance fingerprint":"إضافة بصمة حضور",
+    "lblTokenInput":"التوكن (JWT) :",
+    "lblEmployeeSelect":"اختر الموظف",
+    "lblDateInput":"التاريخ",
+    "lblHourInput":"الساعة",
+    "lblMinuteInput":"الدقيقة",
+    "lblEventSelect":"نوع الحدث",
+    "btnAddLog":"إضافة البصمة"
+}

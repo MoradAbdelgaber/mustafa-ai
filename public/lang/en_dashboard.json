@@ -1,0 +1,66 @@
+{
+    "dash_head_title": "Attendance Management System - Dashboard",
+    "dash_system_name": "Attendance Management System",
+    "dash_logout": "Logout",
+    "dash_filter_month": "Select Month:",
+    "dash_filter_day": "Select Day:",
+    "dash_filter_button": "Fetch Stats",
+  
+    "dash_card_total_employees": "Total Employees",
+    "dash_card_total_departments": "Total Departments",
+    "dash_card_total_holidays": "Official Holidays",
+    "dash_card_pending_leaves": "Pending Leaves",
+    "dash_card_total_late": "Late Employees",
+    "dash_card_total_absent": "Absent Employees",
+    "dash_card_overtime": "Overtime",
+    "dash_card_total_leaves": "Total Leaves",
+  
+    "dash_chart_attendance_distribution": "Attendance Distribution",
+    "dash_chart_period_stats": "Period Statistics",
+    "dash_chart_late_overtime_early": "Late - Overtime - Early Exit",
+  
+    "dash_table_latest_holidays": "Latest 5 Official Holidays",
+    "dash_table_name": "Name",
+    "dash_table_start_date": "Start Date",
+    "dash_table_end_date": "End Date",
+    "dash_table_loading": "Loading...",
+    "dash_table_no_data": "No Data",
+  
+    "dash_table_pending_vacations": "Pending Vacations",
+    "dash_table_employee": "Employee",
+    "dash_table_leave_type": "Leave Type",
+  
+    "dash_table_latest_fingerprints": "Latest 5 Fingerprint Logs",
+    "dash_table_status": "Status",
+  
+    "attend_sidebar_title": "Menu",
+    "attend_sidebar_overview": "Overview",
+    "attend_sidebar_employees": "Employees",
+    "attend_sidebar_report": "Attendance Report",
+    "attend_sidebar_time_leaves": "Time-based Leaves",
+    "attend_sidebar_holidays": "Official Holidays",
+    "attend_sidebar_leaves": "Leaves",
+    "attend_sidebar_attend": "Attendance Log",
+    "attend_sidebar_rewards": "Rewards & Sanctions",
+    "attend_sidebar_devices": "Devices",
+    "attend_sidebar_requests": "Requests",
+    "attend_sidebar_departments": "Departments",
+    "attend_sidebar_settings": "Settings",
+    "attend_sidebar_unregistered": "Unregistered employees",
+    "employee_summary_report": "Employee  Summary Report",
+
+    
+    "date":"Date",
+    "failed_to_bring_pending_leave":"Failed to bring pending leaves",
+    "no_holidays_waiting":"No holidays waiting",
+    "not_none":"Not known",
+    "undefined":"Undefined",
+    "failed_to_fetch_fingerprint_records":"Failed to fetch fingerprint records",
+    "invalid_data_received_or_missing_fingerprint_logs":"Invalid data received or missing fingerprint logs",
+    "no_fingerprint_logs_available":"No fingerprint logs available",
+    
+    "failed_to_official_holidays":"Failed to fetch official holidays",
+    "failed_to_fetch_third_chart_data":"Failed to fetch third chart data"
+
+  }
+  

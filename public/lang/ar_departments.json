@@ -1,0 +1,55 @@
+{
+    "dep_head_title": "نظام إدارة الحضور والانصراف - الأقسام",
+    "dep_header_title": "نظام إدارة الحضور والانصراف - الأقسام",
+    "dep_logout": "خروج",
+  
+    "dep_placeholder_search_name": "بحث بالاسم...",
+    "dep_all_status": "كل الحالات",
+    "dep_active_status": "مفعل",
+    "dep_inactive_status": "غير مفعل",
+    "dep_filter_name_label": "اسم القسم:",
+    "dep_filter_status_label": "الحالة:",
+    "dep_filter_date_label": "تاريخ الإضافة:",
+  
+    "dep_button_add_dept": "إضافة قسم",
+  
+    "dep_table_header_index": "#",
+    "dep_table_header_name": "اسم القسم",
+    "dep_table_header_status": "الحالة",
+    "dep_table_header_mawjood": "Mawjood ID",
+    "dep_table_header_created": "تاريخ الإضافة",
+    "dep_table_header_actions": "التحكم",
+  
+    "dep_sidebar_title": "القائمة",
+    "dep_sidebar_overview": "نظرة عامة",
+    "dep_sidebar_employees": "الموظفين",
+    "dep_sidebar_report": "تقرير الحضور",
+    "dep_sidebar_time_leaves": "إجازات زمنية",
+    "dep_sidebar_holidays": "العطل الرسمية",
+    "dep_sidebar_leaves": "أجازات",
+    "dep_sidebar_attend": "سجل الحضور",
+    "dep_sidebar_rewards": "مكافآت وعقوبات",
+    "dep_sidebar_devices": "الأجهزة",
+    "dep_sidebar_requests": "الأوامر",
+    "dep_sidebar_departments": "الأقسام",
+    "dep_sidebar_settings": "الإعدادات",
+    "attend_sidebar_unregistered": "غير المسجلين",
+    "employee_summary_report": "تقرير ملخص الموظفين",
+  
+    "dep_modal_title_add": "إضافة قسم",
+    "dep_modal_title_edit": "تعديل قسم",
+    "dep_modal_field_dept_name": "اسم القسم:",
+    "dep_modal_field_dept_status": "الحالة:",
+    "dep_modal_field_mawjood": "Mawjood ID:",
+    "dep_modal_save_button": "حفظ",
+  
+    "dep_msg_confirm_delete": "هل أنت متأكد من حذف هذا القسم؟",
+    "dep_msg_error_fetch": "فشل جلب الأقسام",
+    "dep_msg_error_fetch_one": "فشل جلب بيانات القسم",
+    "dep_msg_error_add": "فشل إضافة القسم",
+    "dep_msg_error_edit": "فشل تعديل القسم",
+    "dep_msg_success_add": "تم إضافة القسم بنجاح.",
+    "dep_msg_success_edit": "تم تعديل القسم بنجاح.",
+    "dep_msg_success_delete": "تم حذف القسم بنجاح."
+  }
+  

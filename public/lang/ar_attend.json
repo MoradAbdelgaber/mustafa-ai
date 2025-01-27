@@ -1,0 +1,87 @@
+{
+    "attend_head_title": "نظام إدارة الحضور والانصراف - الحضور",
+    "attend_header_title": "نظام إدارة الحضور والانصراف - الحضور",
+    "attend_logout": "خروج",
+    "loading":"جارٍ التحميل...",
+    "placeholder-ex":"مثال: 4433",
+
+    "attend_filter_from_label": "من تاريخ:",
+    "attend_filter_to_label": "إلى تاريخ:",
+    "attend_filter_enroll_label": "رقم الموظف (EnrollID):",
+    "attend_filter_event_label": "الحدث:",
+    "attend_filter_event_label_all":"جميع الأحداث",
+    "attend_filter_event_label_attendance":"غير محدد",
+    "attend_filter_event_label_enter":"دخول",
+    "attend_filter_event_label_exit":"خروج",
+    "attend_filter_event_label_vacation_enter":"دخول استراحة",
+    "attend_filter_event_label_vacation_exit":"خروج استراحة",
+    "not_none":"غير معروف",
+
+    "attend_filter_button_search": "بحث",
+    "attend_filter_button_showall": "عرض الكل",
+
+
+    "attend_pagination_prev": "السابق",
+    "attend_pagination_next": "التالي",
+    "attend_pagination_info": "صفحة {current} من {total}",
+  
+    "attend_button_add_fingerprint": "إضافة سجل بصمة",
+  
+    "attend_table_header_index": "#",
+    "attend_table_header_enroll": "Enroll ID",
+    "attend_table_header_name": "اسم الموظف",
+    "attend_table_header_event": "الحدث",
+    "attend_table_header_time": "الوقت",
+    "attend_table_header_created": "تاريخ الإضافة",
+    "attend_table_header_image": "الصورة",
+    "attend_table_header_actions": "العمليات",
+  
+    "attend_sidebar_title": "القائمة",
+    "attend_sidebar_overview": "نظرة عامة",
+    "attend_sidebar_employees": "الموظفين",
+    "attend_sidebar_report": "تقرير الحضور",
+    "attend_sidebar_time_leaves": "إجازات زمنية",
+    "attend_sidebar_holidays": "العطل الرسمية",
+    "attend_sidebar_leaves": "أجازات",
+    "attend_sidebar_attend": "سجل الحضور",
+    "attend_sidebar_rewards": "مكافآت وعقوبات",
+    "attend_sidebar_devices": "الأجهزة",
+    "attend_sidebar_requests": "الأوامر",
+    "attend_sidebar_departments": "الأقسام",
+    "attend_sidebar_settings": "الإعدادات",
+    "attend_sidebar_unregistered": "غير المسجلين",
+    "employee_summary_report": "تقرير ملخص الموظفين",
+  
+    "attend_modal_add_title": "إضافة سجل بصمة",
+    "attend_modal_edit_title": "تعديل سجل بصمة",
+    "attend_modal_label_employee": "اسم الموظف:",
+    "attend_modal_label_enroll": "Enroll ID:",
+    "attend_modal_label_name": "اسم الموظف:",
+    "attend_modal_label_event": "الحدث:",
+    "attend_modal_label_time": "التاريخ/الوقت:",
+    "attend_modal_label_modreason": "سبب التعديل:",
+    "enter_attend_modal_label_modreason": "أدخل سبب التعديل",
+
+    "attend_modal_button_save": "حفظ",
+
+    "select_employee":"اختر الموظف",
+    "it_will_be_filled_automatically":"سيتم تعبئته تلقائياً",
+
+    "attend_msg_confirm_delete": "هل أنت متأكد من حذف هذا السجل؟",
+    "attend_msg_error_fetch": "فشل جلب سجلات البصمات",
+    "attend_msg_error_fetch_one": "فشل جلب بيانات السجل",
+    "attend_msg_error_fetch_employees": "فشل جلب الموظفين",
+    "attend_msg_error_add": "فشل إضافة السجل",
+    "attend_msg_error_edit": "فشل تعديل السجل",
+    "attend_msg_success_add": "تم إضافة السجل بنجاح.",
+    "attend_msg_success_edit": "تم تعديل السجل بنجاح.",
+    "attend_msg_success_delete": "تم حذف السجل بنجاح.",
+    "attend_msg_already_modified": "لا يمكن تعديل هذا السجل؛ لقد تم تعديله مسبقًا لمرة واحدة.",
+    "attend_msg_no_image": "no_image.png",
+    "view_all_records":"عرض جميع السجلات",
+    "operation_failed":"فشل العملية",
+    "record_deletion_failed":"فشل حذف السجل",
+    "employee":"موظف"
+
+  }
+  

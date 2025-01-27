@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <title>إضافة بصمة حضور</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <style>
+    html[lang="ar"] body {
+      font-family: 'Tajawal', sans-serif;
+      direction: rtl;
+    }
+
+    /* إذا كانت الصفحة lang="en" => اتجاه LTR وخط أوبن سانس */
+    html[lang="en"] body {
+      font-family: 'Open Sans', sans-serif;
+      direction: ltr;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      margin: 1rem;
+      background-color: #f7f7f7;
+    }
+    h1 {
+      margin-bottom: 1rem;
+    }
+    .container {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 5px;
+      max-width: 600px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body dir="rtl" onload="initPage()">
+  <div class="container">
+    <select id="langSelector" class="lang-select">
+      <option value="en">English</option>
+      <option value="ar">العربية</option>
+    </select>
+    <h1 data-lng="Add attendance fingerprint"></h1>
+
+    <!-- حقل إدخال التوكن -->
+    <div class="mb-3">
+      <label for="tokenInput" class="form-label" data-lng="lblTokenInput"></label>
+      <input type="text" id="tokenInput" class="form-control" placeholder="Bearer eyJhbGciOi..." />
+    </div>
+
+    <!-- اختيار الموظف -->
+    <div class="mb-3">
+      <label for="employeeSelect" class="form-label" data-lng="lblEmployeeSelect"></label>
+      <select id="employeeSelect" class="form-select">
+        <option value="122">Salah (122)</option>
+        <option value="125">Mahmoud (125)</option>
+        <!-- أضف ما تشاء -->
+      </select>
+    </div>
+
+    <!-- التاريخ -->
+    <div class="mb-3">
+      <label for="dateInput" class="form-label" data-lng="lblDateInput"></label>
+      <input type="date" id="dateInput" class="form-control" value="2025-01-16" />
+    </div>
+
+    <!-- الساعة والدقيقة -->
+    <div class="row mb-3">
+      <div class="col">
+        <label for="hourInput" class="form-label" data-lng="lblHourInput"></label>
+        <input type="number" id="hourInput" class="form-control" min="0" max="23" value="7" />
+      </div>
+      <div class="col">
+        <label for="minuteInput" class="form-label" data-lng="lblMinuteInput"></label>
+        <input type="number" id="minuteInput" class="form-control" min="0" max="59" value="30" />
+      </div>
+    </div>
+
+    <!-- نوع الحدث -->
+    <div class="mb-3">
+      <label for="eventSelect" class="form-label" data-lng="lblEventSelect"></label>
+      <select id="eventSelect" class="form-select">
+        <option value="1">1 - دخول قديم</option>
+        <option value="2">2 - دخول رسمي</option>
+        <option value="3">3 - خروج رسمي</option>
+        <option value="4">4 - دخول استراحة</option>
+        <option value="5">5 - خروج استراحة</option>
+        <option value="6">6 - ...</option>
+        <option value="7">7 - ...</option>
+        <option value="8">8 - ...</option>
+      </select>
+    </div>
+
+    <!-- زر الإرسال -->
+    <button id="addLogBtn" class="btn btn-primary" data-lng="btnAddLog"></button>
+
+  </div>
+
+  <script>
+
+    const LANG_PATH = './lang';        // مجلد ملفات JSON
+    const LANG_KEY = 'add_finger_print';
+    let translations = {};
+
+    async function loadLanguageFile(lang) {
+      try {
+
+        console.log(`${LANG_PATH}/${lang}_${LANG_KEY}.json`);
+
+
+        const response = await fetch(`${LANG_PATH}/${lang}_${LANG_KEY}.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}.json`);
+        }
+        
+        translations = await response.json();
+      } catch (error) {
+        console.error("Error loading translation file:", error);
+      }
+    }
+
+    function applyTranslations(lang) {
+      // تغيير اتجاه الصفحة ولغتها
+      document.documentElement.lang = lang;
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+      // طبيق النصوص على العناصر data-lng="..."
+      document.querySelectorAll('[data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+        if (translations[key]) {
+          el.textContent = translations[key];
+        }
+      });
+
+      // تطبيق placeholder
+      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-lng-placeholder');
+        if (translations[key]) {
+          el.placeholder = translations[key];
+        }
+      });
+
+      // تطبيق نص للأوبشن
+      document.querySelectorAll('[data-lng-option]').forEach(el => {
+        const key = el.getAttribute('data-lng-option');
+        if (translations[key]) {
+          el.textContent = translations[key];
+        }
+      });
+    }
+
+    async function setLanguage(lang) {      
+      await loadLanguageFile(lang);
+      localStorage.setItem(LANG_KEY, lang);
+      applyTranslations(lang);
+    }
+
+
+    
+    function initPage() {
+      // (أ) إعداد اللغة أولاً
+      let storedLang = localStorage.getItem(LANG_KEY);
+      if (!storedLang) {
+        storedLang = 'en'; // افتراضي إنجليزي
+      }
+      loadLanguageFile(storedLang);
+      document.getElementById('langSelector').value = storedLang;
+      setLanguage(storedLang);
+      
+    }
+
+    // تغيير اللغة من الـselect
+    document.getElementById('langSelector').addEventListener('change', function () {
+      setLanguage(this.value);
+    });
+
+
+
+    // عند الضغط على زر "إضافة البصمة"
+    document.getElementById("addLogBtn").addEventListener("click", async () => {
+      // جلب المدخلات
+      const token = document.getElementById("tokenInput").value.trim(); // التوكن
+      const enrollId = document.getElementById("employeeSelect").value;
+      const eventVal = document.getElementById("eventSelect").value;
+
+      // تجميع التاريخ والوقت
+      const dateStr = document.getElementById("dateInput").value; // "2025-01-16"
+      const hourStr = document.getElementById("hourInput").value.padStart(2,"0");
+      const minStr = document.getElementById("minuteInput").value.padStart(2,"0");
+
+      // بناء time ISO (تقريبي)
+      // سيصبح "2025-01-16T07:30:00"
+      const timeString = `${dateStr}T${hourStr}:${minStr}:00`;
+      // ملاحظة: لو تريد اضافه Z ليدل على UTC -> timeString += "Z" (حسب منطقك)
+
+      // بناء جسم الطلب
+      const bodyData = {
+        enrollid: +enrollId,
+        event: +eventVal,
+        time: timeString,
+        name: "",       // يمكن أن تضيف اسم الموظف لو تحب
+        is_paid: false, // أو true لو لديك حقل
+        device_sn: "WebManual", // أي شيء
+        // أضف أي حقول أخرى تحتاجها مثل "department", ...
+      };
+
+      // نداء API
+      // عدّل الرابط حسب مشروعك
+      const apiURL = "http://127.0.0.1:3500/api/fingerprints"; // مثلا
+
+      try {
+        const response = await fetch(apiURL, {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { "Authorization": token } : {})
+          },
+          body: JSON.stringify(bodyData)
+        });
+        if(!response.ok) {
+          throw new Error("HTTP Error: "+ response.status);
+        }
+        const result = await response.json();
+        alert("تمت الإضافة بنجاح!\n" + JSON.stringify(result));
+      } catch(err) {
+        console.error(err);
+        alert("فشل إضافة البصمة: " + err.message);
+      }
+    });
+  </script>
+</body>
+</html>

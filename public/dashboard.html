@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <!-- إضافة وسم الـviewport لجعل التصميم متجاوباً على الشاشات الصغيرة -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>نظام إدارة الحضور والانصراف - اللوحة الرئيسية</title>
+  <!-- مكتبة jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- مكتبة Chart.js لرسم المخططات -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- أيقونات Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- استيراد خطّي Tajawal (للعربية) وOpen Sans (للإنجليزية) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap" 
+    rel="stylesheet"
+  >
+
+  <style>
+    /* عند اللغة العربية: استخدام Tajawal واتجاه RTL */
+    html[lang="ar"] body {
+      font-family: 'Tajawal', sans-serif;
+      direction: rtl;
+    }
+    /* عند اللغة الإنجليزية: استخدام Open Sans واتجاه LTR */
+    html[lang="en"] body {
+      font-family: 'Open Sans', sans-serif;
+      direction: ltr;
+    }
+
+    body {
+      margin: 0; 
+      padding: 0; 
+      background: #f2f2f2;
+      font-size: 0.9rem; 
+    }
+
+    header {
+      background: linear-gradient(45deg, #0062cc, #004085);
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header .rightArea {
+      display: flex; 
+      align-items: center; 
+      gap: 20px;
+    }
+    header .systemName {
+      font-size: 1.2rem; 
+      font-weight: bold; 
+      margin: 0;
+    }
+    header .dateTimeContainer {
+      display: flex; 
+      gap: 20px; 
+      font-size: 1rem; 
+      align-items: center;
+    }
+    header .dateTimeContainer .digitalClock {
+      font-weight: bold; 
+      font-size: 1rem;
+    }
+    header button {
+      background: #dc3545; 
+      color: #fff;
+      border: none; 
+      padding: 8px 14px;
+      border-radius: 4px; 
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: background 0.3s;
+    }
+    header button:hover {
+      background: #c82333;
+    }
+
+   /* زر اختيار اللغة */
+   #langSelector {
+      margin: 10px;
+      padding: 6px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row-reverse; /* في العربية يظهر الـsidebar يميناً */
+      min-height: calc(100vh - 60px); /* لملء الشاشة تقريبياً */
+    }
+
+    .mainContent {
+      flex: 1;   
+      order: 1;  
+      padding: 20px;
+    }
+
+    .sidebar {
+      order: 2;  
+      width: 240px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      min-height: 100%; 
+      padding: 20px 10px;
+    }
+    .sidebar h2 {
+      margin-bottom: 15px; 
+      font-size: 1rem; 
+      text-align: center; 
+      color: #444;
+    }
+    .navItem {
+      padding: 12px 10px; 
+      margin: 6px 0; 
+      border-radius: 4px;
+      cursor: pointer; 
+      color: #333; 
+      font-weight: 500;
+      transition: background 0.3s, color 0.3s;
+      display: flex; 
+      align-items: center;
+      gap: 8px;
+    }
+    .navItem i {
+      font-size: 1.1rem; 
+      color: #666; 
+      transition: color 0.3s;
+    }
+    .navItem:hover {
+      background: #f0f0f0;
+    }
+    .navItem.active {
+      background: #007bff; 
+      color: #fff;
+    }
+    .navItem.active i {
+      color: #fff;
+    }
+
+    .filters {
+      background: #fff; 
+      padding: 15px; 
+      margin-bottom: 20px;
+      border-radius: 6px; 
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: flex; 
+      flex-wrap: wrap; 
+      align-items: center; 
+      gap: 10px;
+    }
+    .filters label {
+      font-weight: 500; 
+      margin-left: 5px;
+      font-size: 0.9rem;
+    }
+    .filters input[type="month"], 
+    .filters input[type="date"] {
+      padding: 8px; 
+      border: 1px solid #ccc;
+      border-radius: 4px; 
+      font-size: 0.85rem;
+      font-family: inherit;
+    }
+    .filters button {
+      margin-right: auto; 
+      background: #007bff; 
+      color: #fff;
+      border: none; 
+      border-radius: 4px;
+      padding: 8px 12px; 
+      cursor: pointer; 
+      font-size: 0.85rem;
+      transition: background 0.3s;
+      font-family: inherit;
+    }
+    .filters button:hover {
+      background: #0056b3;
+    }
+
+    .statsCards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .card {
+      border-radius: 12px; 
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 15px; 
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      color: #fff;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+    .card .icon {
+      font-size: 2.5rem; 
+      color: rgba(255,255,255,0.3);
+      position: absolute; 
+      top: 10px; 
+      left: 10px;
+      pointer-events: none;
+      user-select: none;
+    }
+    .card h3 {
+      margin: 0; 
+      font-size: 0.95rem; 
+      margin-bottom: 8px; 
+      z-index: 2; 
+      position: relative;
+    }
+    .card .value {
+      font-size: 1.4rem; 
+      font-weight: bold;
+      z-index: 2; 
+      position: relative;
+    }
+    .statsCards .card:nth-child(1) {
+      background-color: #007bff; /* أزرق */
+    }
+    .statsCards .card:nth-child(2) {
+      background-color: #28a745; /* أخضر */
+    }
+    .statsCards .card:nth-child(3) {
+      background-color: #dc3545; /* أحمر */
+    }
+    .statsCards .card:nth-child(4) {
+      background-color: #ffc107; /* أصفر */
+      color: #fff;
+    }
+    .statsCards .card:nth-child(5) {
+      background-color: #17a2b8; /* سماوي */
+    }
+    .statsCards .card:nth-child(6) {
+      background-color: #6f42c1; /* بنفسجي */
+    }
+    .statsCards .card:nth-child(7) {
+      background-color: #20c997; /* أخضر فاتح */
+    }
+    .statsCards .card:nth-child(8) {
+      background-color: #343a40; /* رمادي داكن */
+    }
+
+    .charts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px; 
+      margin-bottom: 20px;
+    }
+    .chartContainer {
+      background: #fff; 
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 15px; 
+      text-align: center;
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: flex-start;
+    }
+    .chartContainer h3 {
+      margin-top: 0; 
+      font-size: 0.95rem; 
+      margin-bottom: 10px; 
+      color: #333;
+    }
+    .chartContainer canvas {
+      max-width: 100%; 
+      height: 220px; 
+    }
+    .chartContainer.smallPieChart canvas {
+      height: 200px; 
+      max-height: 200px;
+    }
+
+    .miniTables {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .tableCard {
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .tableCard h4 {
+      background: #007bff;
+      color: #fff;
+      margin: 0;
+      padding: 10px;
+      font-size: 0.95rem;
+    }
+    .tableCard table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .tableCard table thead {
+      background: #f2f2f2;
+    }
+    .tableCard table thead th {
+      padding: 8px;
+      font-size: 0.85rem;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+    .tableCard table tbody td {
+      padding: 8px;
+      font-size: 0.85rem;
+      border-bottom: 1px solid #eee;
+      text-align: center;
+    }
+    .tableCard table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .errorMsg {
+      color: red; 
+      margin: 10px 0; 
+      text-align: center;
+    }
+
+    /* =========== Media Queries لجعل التصميم متجاوباً =========== */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 10px;
+      }
+      header .dateTimeContainer {
+        gap: 10px;
+      }
+
+      .container {
+        flex-direction: column;
+      }
+      /* نجعل الـsidebar يأخذ العرض كامل ويظهر أولاً، والمحتوى أسفله */
+      .sidebar {
+        width: 100%;
+        order: 1;
+      }
+      .mainContent {
+        order: 2;
+        width: 100%;
+        padding: 10px;
+      }
+
+      /* تضييق المسافات في الفلاتر */
+      .filters {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .filters label {
+        margin-left: 0;
+      }
+      .filters button {
+        margin-right: 0; 
+        align-self: flex-start;
+      }
+
+      /* بطاقات الإحصائيات */
+      .statsCards {
+        grid-template-columns: 1fr 1fr; /* عمودين على الشاشات الصغيرة إذا توفر عرض كافٍ */
+      }
+
+      /* المخططات */
+      .charts {
+        grid-template-columns: 1fr; /* عمود واحد */
+      }
+      /* الجداول المصغرة */
+      .miniTables {
+        grid-template-columns: 1fr; /* عمود واحد */
+      }
+    }
+    
+  </style>
+</head>
+<body onload="initDashboard()">
+  <!-- الرأس -->
+  <header>
+    <div class="rightArea">
+      <div class="systemName">نظام إدارة الحضور والانصراف</div>
+    </div>
+    <div class="dateTimeContainer">
+      <div id="currentDate"></div>
+      <div class="digitalClock" id="digitalClock"></div>
+      <button onclick="logout()">خروج</button>
+      <select id="langSelector">
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- الحاوية الرئيسية: المحتوى يسار + القائمة يمين -->
+  <div class="container">
+    <!-- المحتوى الرئيسي -->
+    <div class="mainContent">
+      <!-- فلاتر لتحديد الشهر/اليوم المطلوب -->
+      <div class="filters">
+        <label for="monthPicker">اختر الشهر:</label>
+        <input type="month" id="monthPicker" />
+        
+        <label for="dayPicker">اختر يوم محدد:</label>
+        <input type="date" id="dayPicker" />
+        
+        <button onclick="loadDashboardData()">جلب الإحصائيات</button>
+      </div>
+
+      <!-- بطاقات الإحصائيات (كل واحدة بلون مختلف) -->
+      <div class="statsCards">
+        <div class="card">
+          <i class="bi bi-people icon"></i>
+          <h3>إجمالي الموظفين</h3>
+          <div class="value" id="totalEmployees">-</div>
+        </div>
+        <div class="card">
+          <i class="bi bi-diagram-3 icon"></i>
+          <h3>عدد الأقسام</h3>
+          <div class="value" id="totalDepartments">-</div>
+        </div>
+        <div class="card">
+          <i class="bi bi-calendar2-check icon"></i>
+          <h3>عدد العُطل الرسمية</h3>
+          <div class="value" id="totalHolidays">-</div>
+        </div>
+        <div class="card">
+          <i class="bi bi-hourglass-split icon"></i>
+          <h3>طلبات الإجازة بالانتظار</h3>
+          <div class="value" id="pendingLeaves">-</div>
+        </div>
+        <div class="card">
+          <i class="bi bi-stopwatch icon"></i>
+          <h3>عدد الأشخاص المتأخرين</h3>
+          <div class="value" id="totalLate">-</div>
+        </div>
+        <div class="card">
+          <i class="bi bi-person-x-fill icon"></i>
+          <h3>عدد الغائبين</h3>
+          <div class="value" id="totalAbsent">-</div>
+        </div>
+        <div class="card">
+          <i class="bi bi-lightning icon"></i>
+          <h3>عدد مَن قام بأوفر تايم</h3>
+          <div class="value" id="totalOvertime">-</div>
+        </div>
+        <div class="card">
+          <i class="bi bi-card-checklist icon"></i>
+          <h3>إجمالي الإجازات</h3>
+          <div class="value" id="totalLeaves">-</div>
+        </div>
+      </div>
+
+      <!-- المخططات -->
+      <div class="charts">
+        <!-- المخطط الأول: توزيع حالات الحضور (Pie) -->
+        <div class="chartContainer smallPieChart">
+          <h3>توزيع حالات الحضور</h3>
+          <canvas id="attendanceChart"></canvas>
+        </div>
+
+        <!-- المخطط الثاني: إحصائيات الفترة المحددة (Line) -->
+        <div class="chartContainer">
+          <h3>إحصائيات الفترة المحددة</h3>
+          <canvas id="monthlyChart"></canvas>
+        </div>
+
+        <!-- المخطط الثالث: التأخير - الأوفر تايم - الخروج المبكر (Bar) -->
+        <div class="chartContainer">
+          <h3>التأخير - الأوفر تايم - الخروج المبكر</h3>
+          <canvas id="lateOvertimeEarlyChart"></canvas>
+        </div>
+      </div>
+
+      <!-- الجداول المصغرة -->
+      <div class="miniTables">
+        <!-- أحدث 5 عطل رسمية -->
+        <div class="tableCard">
+          <h4>أحدث 5 عطل رسمية</h4>
+          <table>
+            <thead>
+              <tr >
+                <th data-lng="dash_table_name">الاسم</th>
+                <th data-lng="dash_table_start_date">تاريخ البداية</th>
+              </tr>
+            </thead>
+            <tbody id="latestHolidaysBody">
+              <tr><td colspan="3" data-lng="dash_table_loading">جاري التحميل...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- الإجازات بالانتظار -->
+        <div class="tableCard">
+          <h4 data-lng="dash_table_pending_vacations">الإجازات بالانتظار</h4>
+          <table>
+            <thead>
+              <tr>
+                <th data-lng="dash_table_employee"></th>
+                <th data-lng="dash_table_start_date"></th>
+                <th data-lng="dash_table_end_date"></th>
+                <th data-lng="dash_table_leave_type"></th>
+              </tr>
+            </thead>
+            <tbody id="pendingVacationsBody">
+              <tr><td colspan="4" data-lng="dash_table_pending_vacations">جاري التحميل...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- أحدث 5 بصمات دخول -->
+        <div class="tableCard">
+          <h4>أحدث 5 بصمات دخول</h4>
+          <table>
+            <thead>
+              <tr>
+                <th data-lng="dash_table_name"></th>
+                <th data-lng="date"></th>
+                <th data-lng="dash_table_status">الحالة</th>
+              </tr>
+            </thead>
+            <tbody id="latestFingerprintsBody">
+              <tr><td colspan="3" data-lng="dash_table_pending_vacations">جاري التحميل...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- مكان ظهور الأخطاء -->
+      <div class="errorMsg" id="errorMsg"></div>
+    </div>
+
+    <!-- الشريط الجانبي -->
+    <div class="sidebar">
+      <!-- عنصر يدل أننا في هذه الصفحة -->
+      <h2 data-lng="attend_sidebar_title">القائمة</h2>
+      <div class="navItem active" onclick="location.href='dashboard.html'">
+        <i class="bi bi-house-fill"></i>
+        <span data-lng="attend_sidebar_overview">نظرة عامة</span>
+      </div>
+      <div class="navItem" onclick="location.href='employee.html'">
+        <i class="bi bi-people-fill"></i>
+        <span data-lng="attend_sidebar_employees">الموظفين</span>
+      </div>
+      <div class="navItem" onclick="location.href='report.html'">
+        <i class="bi bi-bar-chart-line-fill"></i>
+        <span data-lng="attend_sidebar_report">تقرير الحضور</span>
+      </div>
+      <div class="navItem" onclick="location.href='time-based-leaves.html'">
+        <i class="bi bi-clock-fill"></i>
+        <span data-lng="attend_sidebar_time_leaves">إجازات زمنية</span>
+      </div>
+      <div class="navItem" onclick="location.href='holidays.html'">
+        <i class="bi bi-calendar-event-fill"></i>
+        <span data-lng="attend_sidebar_holidays">العطل الرسمية</span>
+      </div>
+      <div class="navItem" onclick="location.href='leaves.html'">
+        <i class="bi bi-calendar3"></i>
+        <span data-lng="attend_sidebar_leaves">أجازات</span>
+      </div>
+      <div class="navItem" onclick="location.href='attend.html'">
+        <i class="bi bi-journal-check"></i>
+        <span data-lng="attend_sidebar_attend">سجل الحضور</span>
+      </div>
+      <div class="navItem" onclick="location.href='rewards.html'">
+        <i class="bi bi-gift-fill"></i>
+        <span data-lng="attend_sidebar_rewards">مكافآت وعقوبات</span>
+      </div>
+      <div class="navItem" onclick="location.href='devices.html'">
+        <i class="bi bi-device-hdd-fill"></i>
+        <span data-lng="attend_sidebar_devices">الأجهزة</span>
+      </div>
+      <div class="navItem" onclick="location.href='requests.html'">
+        <i class="bi bi-list-check"></i>
+        <span data-lng="attend_sidebar_requests">الأوامر</span>
+      </div>
+      <div class="navItem" onclick="location.href='department.html'">
+        <i class="bi bi-building"></i>
+        <span data-lng="attend_sidebar_departments">الأقسام</span>
+      </div>
+      <div class="navItem" onclick="location.href='leaves-type.html'">
+        <i class="bi bi-gear-fill"></i>
+        <span data-lng="attend_sidebar_settings">الإعدادات</span>
+      </div>
+      <div class="navItem" onclick="location.href='importemployee.html'">
+        <i class="bi bi-person-exclamation"></i>
+        <span data-lng="attend_sidebar_unregistered"></span>
+      </div>
+      <div class="navItem" onclick="location.href='employee-summary-report.html'">
+        <i class="bi bi-people-fill"></i>
+        <span data-lng="employee_summary_report"></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let authToken = null;
+
+    function initDashboard(){
+      authToken = localStorage.getItem('authToken');
+      if(!authToken){
+        window.location.href = 'login.html';
+        return;
+      }
+      // تشغيل الساعة والتاريخ
+      startClock();
+      showCurrentDate();
+
+      // تحميل بيانات أولية عند فتح الصفحة
+      loadDashboardData();
+      // let storedLang = localStorage.getItem(LANG_KEY);
+      let storedLang = localStorage.getItem("lng");
+
+      if (!storedLang) {
+        storedLang = 'en'; // افتراضي إنجليزي
+      }
+      document.getElementById('langSelector').value = storedLang;
+      document.getElementById('langSelector').addEventListener('change', async function () {
+      localStorage.setItem("lng",this.value)
+      setDashboardLanguage(this.value);
+      // applyAttendTranslations(this.value);
+    });
+      
+
+    }
+
+    // جلب البيانات وعرضها
+    function loadDashboardData(){
+      const monthVal = document.getElementById('monthPicker').value; 
+      const dayVal   = document.getElementById('dayPicker').value; 
+
+      let startDate = '';
+      let endDate   = '';
+
+      // تحديد الفترة بناء على اختيار المستخدم
+      if(dayVal) {
+        startDate = dayVal; 
+        endDate   = dayVal; 
+      } else if(monthVal) {
+        const [year, month] = monthVal.split('-');
+        startDate = `${year}-${month}-01`;
+        let lastDay = new Date(year, month, 0).getDate();
+        endDate = `${year}-${month}-${lastDay}`;
+      } else {
+        // إذا لم يحدد شيء، نأخذ الشهر الحالي
+        const now = new Date();
+        const year = now.getFullYear();
+        let m = now.getMonth() + 1;
+        if(m < 10) m = '0' + m;
+        startDate = `${year}-${m}-01`;
+        let lastDay = new Date(year, m, 0).getDate();
+        endDate = `${year}-${m}-${lastDay}`;
+      }
+
+      // استدعاء الدوال
+      loadBasicStats(startDate, endDate);
+      loadAttendanceDistribution(startDate, endDate);
+      loadMonthlyStats(startDate, endDate);
+      loadLateOvertimeEarlyChart(startDate, endDate);
+
+      // جلب بيانات الجداول
+      loadLatestHolidays();
+      loadPendingVacations();
+      loadLatestFingerprints();
+    }
+
+    // عرض التاريخ الحالي في الهيدر
+    function showCurrentDate(){
+      const dateEle = document.getElementById('currentDate');
+      const now = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      dateEle.textContent = now.toLocaleDateString('en-US', options);
+    }
+
+    // ساعة رقمية
+    function startClock(){
+      const clockEle = document.getElementById('digitalClock');
+      function updateClock(){
+        const now = new Date();
+        const hh = String(now.getHours()).padStart(2,'0');
+        const mm = String(now.getMinutes()).padStart(2,'0');
+        const ss = String(now.getSeconds()).padStart(2,'0');
+        clockEle.textContent = `${hh}:${mm}:${ss}`;
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
+    }
+
+    // الإحصائيات الأساسية
+    async function loadBasicStats(startDate, endDate){
+      const errorEle = document.getElementById('errorMsg');
+      errorEle.textContent = '';
+      try {
+        // مثال لجلب إجمالي الموظفين
+        let resp = await fetch(`https://hr.iraqsapp.com/api/employees?limit=1`, {
+          headers: { 'Authorization': 'Bearer '+authToken }
+        });
+        if(!resp.ok) throw new Error('فشل جلب إجمالي الموظفين');
+        let data = await resp.json();
+        document.getElementById('totalEmployees').textContent = data.totalCount || data.data_count || 0;
+
+        // مثال لجلب الأقسام
+        resp = await fetch(`https://hr.iraqsapp.com/api/departments`, {
+          headers: { 'Authorization': 'Bearer '+authToken }
+        });
+        if(!resp.ok) throw new Error('فشل جلب الأقسام');
+        let depts = await resp.json();
+        document.getElementById('totalDepartments').textContent = depts.length || 0;
+
+        // مثال لجلب العطل الرسمية
+        resp = await fetch(`https://hr.iraqsapp.com/api/official-holidays`, {
+          headers: { 'Authorization': 'Bearer '+authToken }
+        });
+        if(!resp.ok) throw new Error('فشل جلب العطل الرسمية');
+        let hols = await resp.json();
+        document.getElementById('totalHolidays').textContent = hols.length || 0;
+
+        // مثال لجلب الإجازات بالانتظار
+        resp = await fetch(`https://hr.iraqsapp.com/api/vacations?status=pending`, {
+          headers: { 'Authorization': 'Bearer '+authToken }
+        });
+        if(!resp.ok) throw new Error('فشل جلب الإجازات بالانتظار');
+        let leavesPending = await resp.json();
+        document.getElementById('pendingLeaves').textContent = leavesPending.length || 0;
+
+        // مثال لجلب الأشخاص المتأخرين
+        resp = await fetch(`https://hr.iraqsapp.com/api/reports/attendance?start_date=${startDate}&end_date=${endDate}&status_code=late`, {
+          headers: { 'Authorization': 'Bearer '+authToken }
+        });
+        if(!resp.ok) throw new Error('فشل جلب المتأخرين');
+        let lateData = await resp.json();
+        document.getElementById('totalLate').textContent = lateData.length || 0;
+
+        // مثال لجلب الغائبين
+        resp = await fetch(`https://hr.iraqsapp.com/api/reports/attendance?start_date=${startDate}&end_date=${endDate}&status_code=absent`, {
+          headers: { 'Authorization': 'Bearer '+authToken }
+        });
+        if(!resp.ok) throw new Error('فشل جلب الغائبين');
+        let absentData = await resp.json();
+        document.getElementById('totalAbsent').textContent = absentData.length || 0;
+
+        // مثال لجلب الأوفر تايم
+        resp = await fetch(`https://hr.iraqsapp.com/api/reports/attendance?start_date=${startDate}&end_date=${endDate}&status_code=overtime`, {
+          headers: { 'Authorization': 'Bearer '+authToken }
+        });
+        if(!resp.ok) throw new Error('فشل جلب الأوفر تايم');
+        let overData = await resp.json();
+        document.getElementById('totalOvertime').textContent = overData.length || 0;
+
+        // مثال لجلب عدد الإجازات خلال الفترة
+        resp = await fetch(`https://hr.iraqsapp.com/api/vacations?start_date=${startDate}&end_date=${endDate}`, {
+          headers: { 'Authorization': 'Bearer '+authToken }
+        });
+        if(!resp.ok) throw new Error('فشل جلب الإجازات');
+        let allLeavesData = await resp.json();
+        document.getElementById('totalLeaves').textContent = allLeavesData.length || 0;
+
+      } catch(err){
+        console.error(err);
+        errorEle.textContent = err.message;
+      }
+    }
+
+    // مخطط توزيع حالات الحضور (Pie)
+    async function loadAttendanceDistribution(startDate, endDate){
+      const errorEle = document.getElementById('errorMsg');
+      errorEle.textContent = '';
+      try {
+        const url = `https://hr.iraqsapp.com/api/reports/attendance?start_date=${startDate}&end_date=${endDate}`;
+        const resp = await fetch(url, {
+          headers: { 'Authorization': 'Bearer '+authToken }
+        });
+        if(!resp.ok) throw new Error('فشل جلب بيانات الحضور للمخطط');
+        const data = await resp.json();
+
+        let presentCount = 0, absentCount = 0,
+            lateCount = 0, earlyCount = 0,
+            overtimeCount = 0, otherCount = 0;
+
+        data.forEach(row => {
+          switch(row.status_code){
+            case 'present':    presentCount++;    break;
+            case 'absent':     absentCount++;     break;
+            case 'late':       lateCount++;       break;
+            case 'early_exit': earlyCount++;      break;
+            case 'overtime':   overtimeCount++;   break;
+            default:           otherCount++;
+          }
+        });
+
+        const ctx = document.getElementById('attendanceChart').getContext('2d');
+        if(window.attendanceChartInstance){
+          window.attendanceChartInstance.destroy();
+        }
+        window.attendanceChartInstance = new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: ['حضور', 'غياب', 'متأخر', 'خروج مبكر', 'أوفر تايم', 'أخرى'],
+            datasets: [{
+              data: [presentCount, absentCount, lateCount, earlyCount, overtimeCount, otherCount],
+              backgroundColor: ['#28a745', '#dc3545', '#ffc107', '#17a2b8', '#6f42c1', '#6c757d']
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: 'bottom'
+              }
+            }
+          }
+        });
+      } catch(err){
+        console.error(err);
+        errorEle.textContent = err.message;
+      }
+    }
+
+    // مخطط إحصائيات الفترة (Line)
+    async function loadMonthlyStats(startDate, endDate){
+      const errorEle = document.getElementById('errorMsg');
+      errorEle.textContent = '';
+      try {
+        const url = `https://hr.iraqsapp.com/api/reports/attendance?start_date=${startDate}&end_date=${endDate}`;
+        const resp = await fetch(url, {
+          headers: { 'Authorization': 'Bearer '+authToken }
+        });
+        if(!resp.ok) throw new Error('فشل جلب بيانات الفترة المحددة');
+        const data = await resp.json();
+
+        // بناء كائن الأيام
+        const startD = new Date(startDate);
+        const endD   = new Date(endDate);
+        let dayStats = {};
+        let loopDate = new Date(startD);
+        while(loopDate <= endD){
+          const dStr = loopDate.toISOString().split('T')[0];
+          dayStats[dStr] = 0;
+          loopDate.setDate(loopDate.getDate() + 1);
+        }
+
+        // (present + late) = حضور (كمثال)
+        data.forEach(row => {
+          if(row.attendance_date){
+            const dStr = row.attendance_date.split('T')[0];
+            if(dayStats.hasOwnProperty(dStr)){
+              if(row.status_code === 'present' || row.status_code === 'late'){
+                dayStats[dStr]++;
+              }
+            }
+          }
+        });
+
+        let labels = [];
+        let values = [];
+        Object.keys(dayStats).sort().forEach(dateKey => {
+          labels.push(dateKey);
+          values.push(dayStats[dateKey]);
+        });
+
+        const ctx = document.getElementById('monthlyChart').getContext('2d');
+        if(window.monthlyChartInstance){
+          window.monthlyChartInstance.destroy();
+        }
+        window.monthlyChartInstance = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'عدد الحضور (حضور + تأخير) لكل يوم',
+              data: values,
+              backgroundColor: 'rgba(0,123,255,0.2)',
+              borderColor: '#007bff',
+              fill: true
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true,
+                stepSize: 1
+              }
+            },
+            plugins: {
+              legend: {
+                display: true
+              }
+            }
+          }
+        });
+      } catch(err){
+        console.error(err);
+        errorEle.textContent = err.message;
+      }
+    }
+
+    // مخطط التأخير - الأوفر تايم - الخروج المبكر (Bar)
+    async function loadLateOvertimeEarlyChart(startDate, endDate){
+      const errorEle = document.getElementById('errorMsg');
+      errorEle.textContent = '';
+      try {
+        const url = `https://hr.iraqsapp.com/api/reports/attendance?start_date=${startDate}&end_date=${endDate}`;
+        const resp = await fetch(url, {
+          headers: { 'Authorization': 'Bearer '+authToken }
+        });
+        if(!resp.ok) throw new Error(getTranslate("failed_to_fetch_third_chart_data"));
+        const data = await resp.json();
+
+        let lateCount=0, overtimeCount=0, earlyExitCount=0;
+
+        data.forEach(row => {
+          switch(row.status_code){
+            case 'late':        lateCount++; break;
+            case 'overtime':    overtimeCount++; break;
+            case 'early_exit':  earlyExitCount++; break;
+            default: break;
+          }
+        });
+
+        const ctx = document.getElementById('lateOvertimeEarlyChart').getContext('2d');
+        if(window.lateOvertimeEarlyChartInstance){
+          window.lateOvertimeEarlyChartInstance.destroy();
+        }
+        window.lateOvertimeEarlyChartInstance = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['متأخر', 'أوفر تايم', 'خروج مبكر'],
+            datasets: [{
+              label: 'العدد',
+              data: [lateCount, overtimeCount, earlyExitCount],
+              backgroundColor: ['#dc3545', '#6f42c1', '#17a2b8']
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true,
+                stepSize: 1
+              }
+            },
+            plugins: {
+              legend: {
+                display: false
+              }
+            }
+          }
+        });
+      } catch(err){
+        console.error(err);
+        errorEle.textContent = err.message;
+      }
+    }
+
+    /****************************************
+     *   الجداول المصغّرة في الأسفل         *
+     ****************************************/
+// أحدث 5 عطل رسمية
+async function loadLatestHolidays() {
+  const tbody = document.getElementById('latestHolidaysBody');
+  tbody.innerHTML = '<tr><td colspan="2">'+ getTranslate("dash_table_loading") +'</td></tr>';
+  try {
+    let resp = await fetch('https://hr.iraqsapp.com/api/official-holidays', {
+      headers: { 'Authorization': 'Bearer ' + authToken }
+    });
+    if (!resp.ok) throw new Error(getTranslate("failed_to_official_holidays"));
+    let data = await resp.json();
+
+    // آخر 5 فقط
+    data = data.slice(-5).reverse();
+    if (data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="2">'+getTranslate("dash_table_no_data") +'</td></tr>';
+      return;
+    }
+    tbody.innerHTML = '';
+
+    // دالة لتنسيق التاريخ
+    const formatDate = (dateString) => {
+      if (!dateString) return '-';
+      const dateObj = new Date(dateString);
+      const day = String(dateObj.getDate()).padStart(2, '0');
+      const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // الأشهر تبدأ من 0
+      const year = dateObj.getFullYear();
+      return `${day}-${month}-${year}`;
+    };
+
+    data.forEach(item => {
+      const tr = document.createElement('tr');
+      const tdName = document.createElement('td');
+      const tdStart = document.createElement('td');
+
+      tdName.textContent = item.description || getTranslate("not_none");
+      tdStart.textContent = formatDate(item.holiday_date);
+
+      tr.appendChild(tdName);
+      tr.appendChild(tdStart);
+      tbody.appendChild(tr);
+    });
+  } catch (err) {
+    console.error(err);
+    tbody.innerHTML = `<tr><td colspan="2">${err.message}</td></tr>`;
+  }
+}
+
+
+
+   // الإجازات بالانتظار
+async function loadPendingVacations(){
+  const tbody = document.getElementById('pendingVacationsBody');
+  tbody.innerHTML = '<tr><td colspan="4">'+getTranslate("dash_table_loading")+'</td></tr>';
+  try {
+    let resp = await fetch('https://hr.iraqsapp.com/api/vacations?status=pending', {
+      headers: { 'Authorization': 'Bearer ' + authToken }
+    });
+    if (!resp.ok) throw new Error(getTranslate("failed_to_bring_pending_leave"));
+    let data = await resp.json();
+
+    if (data.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="4">`+ getTranslate("no_holidays_waiting") +`</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = '';
+    data.forEach(vac => {
+      const tr = document.createElement('tr');
+      const tdEmployee = document.createElement('td');
+      const tdStart = document.createElement('td');
+      const tdEnd = document.createElement('td');
+      const tdType = document.createElement('td');
+
+      // تنسيق التاريخ
+      const formatDate = (dateString) => {
+        const dateObj = new Date(dateString);
+        const day = String(dateObj.getDate()).padStart(2, '0');
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // الأشهر تبدأ من 0
+        const year = dateObj.getFullYear();
+        return `${day}-${month}-${year}`;
+      };
+
+      tdEmployee.textContent = vac.employee_name || getTranslate("not_none");
+      tdType.textContent = vac.reason ||  getTranslate("undefined");
+      tdStart.textContent = formatDate(vac.vacation_start_date);
+      tdEnd.textContent = formatDate(vac.vacation_end_date);
+
+      tr.appendChild(tdEmployee);
+      tr.appendChild(tdStart);
+      tr.appendChild(tdEnd);
+      tr.appendChild(tdType);
+      tbody.appendChild(tr);
+    });
+  } catch (err) {
+    console.error(err);
+    tbody.innerHTML = `<tr><td colspan="4">${err.message}</td></tr>`;
+  }
+}
+
+  function getTranslate(key) {
+    return  dashTranslations[key] || "";
+  }
+
+async function loadLatestFingerprints() {
+  const tbody = document.getElementById('latestFingerprintsBody');
+  const text = getTranslate("dash_table_loading")
+  
+  tbody.innerHTML = '<tr><td colspan="3">'+text+'</td></tr>';
+  try {
+    let resp = await fetch('https://hr.iraqsapp.com/api/fingerprints', {
+      headers: { 'Authorization': 'Bearer ' + authToken }
+    });
+    if (!resp.ok) throw new Error(getTranslate("failed_to_fetch_fingerprint_records"));
+    let data = await resp.json();
+
+    // Check if logs property exists
+    if (!data.logs || !Array.isArray(data.logs)) {
+      throw new Error(getTranslate("invalid_data_received_or_missing_fingerprint_logs"));
+    }
+
+    // Get the latest 5 logs
+    let logs = data.logs.slice(-5).reverse();
+    if (logs.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="3">'+ getTranslate("no_fingerprint_logs_available") +'</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = '';
+    logs.forEach(fp => {
+      const tr = document.createElement('tr');
+      const tdEmployee = document.createElement('td');
+      const tdDate = document.createElement('td');
+      const tdStatus = document.createElement('td');
+
+      tdEmployee.textContent = fp.name || 'Unknown';
+      if (fp.time) {
+        const dateObj = new Date(fp.time);
+        const day = String(dateObj.getDate()).padStart(2, '0');
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const year = dateObj.getFullYear();
+        tdDate.textContent = `${day}-${month}-${year}`; // Date format
+      } else {
+        tdDate.textContent = '-';
+      }
+
+      // Determine text and background color based on the status
+      const statusText = (() => {
+        switch (fp.event) {
+          case 1:
+            tdStatus.style.backgroundColor = 'lightgray'; // Light Gray
+            return 'No Event';
+          case 2:
+            tdStatus.style.backgroundColor = 'lightgreen'; // Light Green
+            return 'Check IN';
+          case 3:
+            tdStatus.style.backgroundColor = 'lightcoral'; // Light Red
+            return 'Check Out';
+          case 4:
+            tdStatus.style.backgroundColor = 'lightblue'; // Light Blue
+            return 'Enter Break';
+          case 5:
+            tdStatus.style.backgroundColor = 'lightgoldenrodyellow'; // Light Orange
+            return 'Exit Break';
+          default:
+            tdStatus.style.backgroundColor = 'white'; // Default White
+            return 'Unknown';
+        }
+      })();
+      tdStatus.textContent = statusText;
+
+      tr.appendChild(tdEmployee);
+      tr.appendChild(tdDate);
+      tr.appendChild(tdStatus);
+      tbody.appendChild(tr);
+    });
+  } catch (err) {
+    console.error(err);
+    tbody.innerHTML = `<tr><td colspan="3">${err.message}</td></tr>`;
+  }
+}
+
+
+    // زر الخروج
+    function logout(){
+      localStorage.removeItem('authToken');
+      window.location.href = 'login.html';
+    }
+  </script>
+
+  <!-- سكربت الترجمة (يقرأ اللغة من Local Storage ويطبّقها) -->
+  <script>
+    // المفتاح نفسه المستخدم في صفحة تسجيل الدخول
+    const LANG_KEY = 'attendance_lang';
+    const DASHBOARD_LANG_PATH = './lang'; // أين تخزن ar_dashboard.json و en_dashboard.json
+    let dashTranslations = {};
+
+    /**
+     * جلب ملف الترجمة (ar_dashboard.json أو en_dashboard.json)
+     */
+    async function loadDashboardLangFile(lang) {
+      try {
+        const response = await fetch(`${DASHBOARD_LANG_PATH}/${lang}_dashboard.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}_dashboard.json`);
+        }
+        dashTranslations = await response.json();
+      } catch (error) {
+        console.error("Dashboard translation file error:", error);
+      }
+    }
+
+    /**
+     * تطبيق الترجمة على عناصر الصفحة
+     */
+    function applyDashboardTranslations(lang) {
+      // ضبط اتجاه الصفحة ولغتها
+      document.documentElement.dir  = (lang === 'ar') ? 'rtl' : 'ltr';
+      document.documentElement.lang = lang;
+
+      document.querySelectorAll('[data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+        if (dashTranslations[key]) {
+          el.textContent = dashTranslations[key];
+        }
+      });
+
+
+      // تغيير <title> مثلاً
+      if (dashTranslations['dash_head_title']) {
+        document.title = dashTranslations['dash_head_title'];
+      }
+
+      // اسم النظام وزر الخروج
+      if (dashTranslations['dash_system_name']) {
+        document.querySelector('.systemName').textContent = dashTranslations['dash_system_name'];
+      }
+      if (dashTranslations['dash_logout']) {
+        document.querySelector('header button').textContent = dashTranslations['dash_logout'];
+      }
+
+      // الفلاتر
+      if (dashTranslations['dash_filter_month']) {
+        document.querySelector('label[for="monthPicker"]').textContent = dashTranslations['dash_filter_month'];
+      }
+      if (dashTranslations['dash_filter_day']) {
+        document.querySelector('label[for="dayPicker"]').textContent = dashTranslations['dash_filter_day'];
+      }
+      if (dashTranslations['dash_filter_button']) {
+        document.querySelector('.filters button').textContent = dashTranslations['dash_filter_button'];
+      }
+
+      // بطاقات الإحصائيات (حسب الترتيب)
+      const statTitles = document.querySelectorAll('.statsCards .card h3');
+      if (statTitles.length === 8) {
+        if (dashTranslations['dash_card_total_employees'])  statTitles[0].textContent = dashTranslations['dash_card_total_employees'];
+        if (dashTranslations['dash_card_total_departments']) statTitles[1].textContent = dashTranslations['dash_card_total_departments'];
+        if (dashTranslations['dash_card_total_holidays'])    statTitles[2].textContent = dashTranslations['dash_card_total_holidays'];
+        if (dashTranslations['dash_card_pending_leaves'])    statTitles[3].textContent = dashTranslations['dash_card_pending_leaves'];
+        if (dashTranslations['dash_card_total_late'])        statTitles[4].textContent = dashTranslations['dash_card_total_late'];
+        if (dashTranslations['dash_card_total_absent'])      statTitles[5].textContent = dashTranslations['dash_card_total_absent'];
+        if (dashTranslations['dash_card_overtime'])          statTitles[6].textContent = dashTranslations['dash_card_overtime'];
+        if (dashTranslations['dash_card_total_leaves'])      statTitles[7].textContent = dashTranslations['dash_card_total_leaves'];
+      }
+
+      // عناوين المخططات (حسب الترتيب)
+      const chartTitles = document.querySelectorAll('.chartContainer h3');
+      if (chartTitles.length === 3) {
+        if (dashTranslations['dash_chart_attendance_distribution']) chartTitles[0].textContent = dashTranslations['dash_chart_attendance_distribution'];
+        if (dashTranslations['dash_chart_period_stats'])            chartTitles[1].textContent = dashTranslations['dash_chart_period_stats'];
+        if (dashTranslations['dash_chart_late_overtime_early'])     chartTitles[2].textContent = dashTranslations['dash_chart_late_overtime_early'];
+      }
+
+      // الجداول المصغّرة
+      const tableHeads = document.querySelectorAll('.tableCard h4');
+      if (tableHeads.length === 3) {
+        if (dashTranslations['dash_table_latest_holidays']) tableHeads[0].textContent = dashTranslations['dash_table_latest_holidays'];
+        if (dashTranslations['dash_table_pending_vacations']) tableHeads[1].textContent = dashTranslations['dash_table_pending_vacations'];
+        if (dashTranslations['dash_table_latest_fingerprints']) tableHeads[2].textContent = dashTranslations['dash_table_latest_fingerprints'];
+      }
+
+      // const trs = document.getElementById('official-holidays');
+      // console.log(trs);
+      
+      // الشريط الجانبي
+      const sidebarTitle = document.querySelector('.sidebar h2');
+      if (dashTranslations['dash_menu_title']) {
+        sidebarTitle.textContent = dashTranslations['dash_menu_title'];
+      }
+
+      const sideItems = document.querySelectorAll('.sidebar .navItem');
+      if (sideItems.length >= 12) {
+        // نظرة عامة
+        if (dashTranslations['dash_menu_overview']) {
+          sideItems[0].innerHTML = `<i class="bi bi-house-fill"></i> ${dashTranslations['dash_menu_overview']}`;
+        }
+        if (dashTranslations['dash_menu_employees']) {
+          sideItems[1].innerHTML = `<i class="bi bi-people-fill"></i> ${dashTranslations['dash_menu_employees']}`;
+        }
+        if (dashTranslations['dash_menu_report']) {
+          sideItems[2].innerHTML = `<i class="bi bi-bar-chart-line-fill"></i> ${dashTranslations['dash_menu_report']}`;
+        }
+        if (dashTranslations['dash_menu_time_based_leaves']) {
+          sideItems[3].innerHTML = `<i class="bi bi-clock-fill"></i> ${dashTranslations['dash_menu_time_based_leaves']}`;
+        }
+        if (dashTranslations['dash_menu_holidays']) {
+          sideItems[4].innerHTML = `<i class="bi bi-calendar-event-fill"></i> ${dashTranslations['dash_menu_holidays']}`;
+        }
+        if (dashTranslations['dash_menu_leaves']) {
+          sideItems[5].innerHTML = `<i class="bi bi-calendar3"></i> ${dashTranslations['dash_menu_leaves']}`;
+        }
+        if (dashTranslations['dash_menu_attend']) {
+          sideItems[6].innerHTML = `<i class="bi bi-journal-check"></i> ${dashTranslations['dash_menu_attend']}`;
+        }
+        if (dashTranslations['dash_menu_rewards']) {
+          sideItems[7].innerHTML = `<i class="bi bi-gift-fill"></i> ${dashTranslations['dash_menu_rewards']}`;
+        }
+        if (dashTranslations['dash_menu_devices']) {
+          sideItems[8].innerHTML = `<i class="bi bi-device-hdd-fill"></i> ${dashTranslations['dash_menu_devices']}`;
+        }
+        if (dashTranslations['dash_menu_requests']) {
+          sideItems[9].innerHTML = `<i class="bi bi-list-check"></i> ${dashTranslations['dash_menu_requests']}`;
+        }
+        if (dashTranslations['dash_menu_departments']) {
+          sideItems[10].innerHTML = `<i class="bi bi-building"></i> ${dashTranslations['dash_menu_departments']}`;
+        }
+        if (dashTranslations['dash_menu_settings']) {
+          sideItems[11].innerHTML = `<i class="bi bi-gear-fill"></i> ${dashTranslations['dash_menu_settings']}`;
+        }
+      }
+    }
+
+    /**
+     * تحديد اللغة وتطبيقها
+     */
+    async function setDashboardLanguage(lang) {
+      await loadDashboardLangFile(lang);
+      applyDashboardTranslations(lang);
+    }
+
+    /**
+     * عند تحميل الصفحة، اجلب اللغة من Local Storage وطبّقها
+     */
+    window.addEventListener('DOMContentLoaded', async () => {
+      let storedLang = localStorage.getItem("lng");
+      if(!storedLang) {
+        storedLang = 'en'; // افتراضيًا إنجليزية
+      }
+      await setDashboardLanguage(storedLang);
+    });
+  </script>
+</body>
+</html>

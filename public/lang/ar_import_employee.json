@@ -1,0 +1,50 @@
+{
+    "Unregistered employees":"الموظفون غير المسجلين",
+    "Logout":"خروج",
+    "Serial":"السيريال",
+    "Job number (enrollid)":"الرقم الوظيفي (enrollid)",
+    "Fingerprint type":"نوع البصمة",
+    "Image":"الصورة",
+    "Device name":"اسم الجهاز",
+    "Time week":"الأسبوع الزمني",
+    "Department":"القسم",
+    "Other data":"بيانات أخرى",
+    "Control":"تحكم",
+
+
+    "attend_sidebar_title": "القائمة",
+    "attend_sidebar_overview": "نظرة عامة",
+    "attend_sidebar_employees": "الموظفين",
+    "attend_sidebar_report": "تقرير الحضور",
+    "attend_sidebar_time_leaves": "إجازات زمنية",
+    "attend_sidebar_holidays": "العطل الرسمية",
+    "attend_sidebar_leaves": "أجازات",
+    "attend_sidebar_attend": "سجل الحضور",
+    "attend_sidebar_rewards": "مكافآت وعقوبات",
+    "attend_sidebar_devices": "الأجهزة",
+    "attend_sidebar_requests": "الأوامر",
+    "attend_sidebar_departments": "الأقسام",
+    "attend_sidebar_settings": "الإعدادات",
+    "attend_sidebar_unregistered": "غير المسجلين",
+    "employee_summary_report": "تقرير ملخص الموظفين",
+
+
+    "Device without name":"جهاز يدون اسم",
+    "The list of unregistered employees has been successfully fetched.":"تم جلب قائمة الموظفين غير المسجلين بنجاح.",
+    "An error occurred: ":"حدث خطأ: ",
+    "Failed to fetch devices":"فشل في جلب قائمة الأجهزة.",
+    "Failed to fetch local employees":"فشل في جلب الموظفين المحليين.",
+    "<Put device token here>":"<ضع هنا توكن الجهاز>",
+    "Failed to fetch device users":"فشل في جلب مستخدمي الجهاز:",
+    "Failed to fetch user information from":"فشل في جلب معلومات المستخدم من",
+    "Not none":"غير معروف", 
+    "Fingerprint":"بصمة إصبع",
+    "Card":"بطاقة",
+    "Face":"بصمة وجه",
+    "Extract employee data":"سحب بيانات الموظف",
+    "Failed to add employee.":"فشل في إضافة الموظف.",
+    "Error while retrieving employee data:":"خطأ أثناء سحب بيانات الموظف: ",
+    "Employee data has been successfully retrieved and added.":"تم سحب بيانات الموظف وإضافته بنجاح"
+
+
+}

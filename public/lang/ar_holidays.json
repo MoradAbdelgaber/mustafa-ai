@@ -1,0 +1,53 @@
+{
+    "holidays_head_title": "نظام إدارة الحضور والانصراف - العطل الرسمية",
+    "holidays_header_title": "نظام إدارة الحضور والانصراف - العطل الرسمية",
+    "holidays_logout": "خروج",
+  
+    "holidays_placeholder_search_desc": "البحث بالوصف",
+    "holidays_filter_date_label": "تاريخ العطلة:",
+    "holidays_filter_desc_label": "الوصف:",
+    "holidays_filter_creation_label": "تاريخ الإضافة:",
+  
+    "holidays_button_add_holiday": "إضافة عطلة رسمية",
+  
+    "holidays_table_header_index": "#",
+    "holidays_table_header_date": "تاريخ العطلة",
+    "holidays_table_header_description": "الوصف",
+    "holidays_table_header_note": "ملاحظات",
+    "holidays_table_header_created": "تاريخ الإضافة",
+    "holidays_table_header_edit": "تحرير",
+    "holidays_table_header_delete": "حذف",
+  
+    "holidays_sidebar_title": "القائمة",
+    "holidays_sidebar_overview": "نظرة عامة",
+    "holidays_sidebar_employees": "الموظفين",
+    "holidays_sidebar_report": "تقرير الحضور",
+    "holidays_sidebar_time_leaves": "إجازات زمنية",
+    "holidays_sidebar_holidays": "العطل الرسمية",
+    "holidays_sidebar_leaves": "أجازات",
+    "holidays_sidebar_attend": "سجل الحضور",
+    "holidays_sidebar_rewards": "مكافآت وعقوبات",
+    "holidays_sidebar_devices": "الأجهزة",
+    "holidays_sidebar_requests": "الأوامر",
+    "holidays_sidebar_departments": "الأقسام",
+    "holidays_sidebar_settings": "الإعدادات",
+    "attend_sidebar_unregistered": "غير المسجلين",
+    "employee_summary_report": "تقرير ملخص الموظفين",
+  
+    "holidays_modal_title_add": "إضافة عطلة رسمية",
+    "holidays_modal_title_edit": "تعديل عطلة رسمية",
+    "holidays_modal_date_label": "تاريخ العطلة:",
+    "holidays_modal_description_label": "الوصف:",
+    "holidays_modal_note_label": "ملاحظات:",
+    "holidays_modal_save_button": "حفظ",
+  
+    "holidays_msg_confirm_delete": "هل أنت متأكد من حذف العطلة؟",
+    "holidays_msg_error_fetch": "فشل جلب العطل الرسمية",
+    "holidays_msg_error_fetch_one": "فشل جلب بيانات العطلة",
+    "holidays_msg_error_add": "فشل إضافة العطلة الرسمية",
+    "holidays_msg_error_edit": "فشل تعديل العطلة الرسمية",
+    "holidays_msg_success_add": "تم إضافة العطلة الرسمية بنجاح.",
+    "holidays_msg_success_edit": "تم تعديل العطلة الرسمية بنجاح.",
+    "holidays_msg_success_delete": "تم حذف العطلة الرسمية بنجاح."
+  }
+  

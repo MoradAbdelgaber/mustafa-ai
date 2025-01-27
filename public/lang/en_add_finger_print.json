@@ -1,0 +1,10 @@
+{
+    "Add attendance fingerprint":"Add attendance fingerprint",
+    "lblTokenInput":"Token (JWT) :",
+    "lblEmployeeSelect":"Select employee",
+    "lblDateInput":"Date",
+    "lblHourInput":"Hour",
+    "lblMinuteInput":"Minute",
+    "lblEventSelect":"Event",
+    "btnAddLog":"Add fingerprint"
+}

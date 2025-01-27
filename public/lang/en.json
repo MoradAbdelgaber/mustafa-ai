@@ -1,0 +1,16 @@
+{
+    "login_title": "Login",
+    "login_username_label": "Username",
+    "login_password_label": "Password",
+    "login_button": "Sign In",
+    "login_error_generic": "Login error",
+    "login_error_invalid_credentials": "Invalid username or password",
+    "login_error_fail": "Login failed",
+  
+    "login_main_heading": "Attendance Management System",
+    "login_main_paragraph": "Welcome to the best system for managing employee attendance. Monitor your system smartly and easily, and get comprehensive reports at any time.",
+  
+    "login_placeholder_username": "mo",
+    "login_placeholder_password": "********"
+  }
+  
