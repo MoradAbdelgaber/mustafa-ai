@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8" />
   <title></title>
   <style>
-    html{ animation: fadeIn .2s ease-in forwards; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-      /* زر اختيار اللغة */
-      #langSelector {
+    html {
+      animation: fadeIn .3s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* زر اختيار اللغة */
+    #langSelector {
       margin: 10px;
       padding: 6px;
       font-size: 0.9rem;
       border-radius: 4px;
       border: 1px solid #ccc;
     }
+
     /* إذا كانت الصفحة lang="ar" => اتجاه RTL وخط تاجوال */
     html[lang="ar"] body {
       font-family: 'Tajawal', sans-serif;
@@ -33,20 +47,27 @@
       background: #f2f2f2;
     }
 
-    .form{
-      >div{display: flex;align-items: center;margin-bottom: 12px;}
+    .form {
+      >div {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+      }
     }
 
-    label, button {
+    label,
+    button {
       display: block;
       margin: 0;
     }
+
     input {
       padding: 5px;
       width: 250px;
     }
   </style>
 </head>
+
 <body onload="initPage()">
 
   <div class="top" style="display: flex;align-items: center;justify-content: space-between;">
@@ -60,16 +81,16 @@
     </select>
 
   </div>
-  
+
   <!-- نموذج الإدخال -->
   <div class="form">
     <div>
       <label data-lng="username"></label>
-      <input type="text" id="username" data-lng-placeholder="username"/>
+      <input type="text" id="username" data-lng-placeholder="username" />
     </div>
     <div>
       <label data-lng="password"></label>
-      <input type="password" id="password" data-lng-placeholder="password"/>
+      <input type="password" id="password" data-lng-placeholder="password" />
     </div>
     <div>
       <label data-lng="from"></label>
@@ -81,14 +102,14 @@
     </div>
     <button data-lng="getData" id="fetchBtn"></button>
   </div>
-  
+
   <div id="result"></div>
-  
+
   <script>
-        /***************************************************
-     * 1) آلية اللغة الموحدة (كما في صفحة اللوجن)
-     ***************************************************/
-     const LANG_PATH = './lang';        // مجلد ملفات JSON
+    /***************************************************
+ * 1) آلية اللغة الموحدة (كما في صفحة اللوجن)
+ ***************************************************/
+    const LANG_PATH = './lang';        // مجلد ملفات JSON
     const LANG_KEY = 'attendance_lang';
     let translations = {};
 
@@ -110,7 +131,7 @@
       document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
 
       document.title = translations.title;
-  
+
 
       // طبيق النصوص على العناصر data-lng="..."
       document.querySelectorAll('[data-lng]').forEach(el => {
@@ -147,7 +168,7 @@
     document.getElementById('langSelector').addEventListener('change', function () {
       setLanguage(this.value);
     });
-    
+
     function initPage() {
       // (أ) إعداد اللغة أولاً
       let storedLang = localStorage.getItem('lng');
@@ -162,7 +183,7 @@
     // نقاط النهاية (EndPoints)
     const apiGetEndpoint = 'http://209.250.237.58:3000/original-fingerprints';
     const apiPostEndpoint = 'https://hr.iraqsapp.com/api/fingerprints';
-    
+
     // التوكن المطلوب للـAPI الثاني
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzhjOTg1MjRhMDJmYTMwNjgyZjRjYjkiLCJ1c2VyTmFtZSI6Im1vIiwiaWF0IjoxNzM3NjczNDc0LCJleHAiOjE3Mzc3MDIyNzR9.QKYdRziTUtKPUBow-saIby6YiAfMD_ym6r_Lo31JZNo'; // ضع التوكن الصحيح هنا
 
@@ -176,7 +197,7 @@
       const startDateValue = document.getElementById('startDate').value;
       const endDateValue = document.getElementById('endDate').value;
       const resultDiv = document.getElementById('result');
-      
+
       // التحقق من وجود تواريخ
       if (!startDateValue || !endDateValue) {
         alert('الرجاء تحديد تاريخ البداية وتاريخ النهاية.');
@@ -186,10 +207,10 @@
       // تحويل التاريخين إلى رقم (تايم ستامب بالميلي ثانية)
       const startTimestamp = new Date(startDateValue).getTime();
       const endTimestamp = new Date(endDateValue).getTime();
-      
+
       // يمكن تعديل limit كما تحب
       const limit = 20;
-      let skip = 0; 
+      let skip = 0;
       let totalFetched = 0;
       let totalSent = 0;
 
@@ -197,7 +218,7 @@
       resultDiv.innerText = '... جاري جلب وإرسال البيانات ...';
 
       try {
-        while(true) {
+        while (true) {
           // بناء الرابط مع إضافة skip و limit في كل مرة
           const url = `${apiGetEndpoint}?company=5f1312ad8a3ede0994f574bc&startDate=${startTimestamp}&endDate=${endTimestamp}&skip=${skip}`;
 
@@ -206,7 +227,7 @@
           if (!response.ok) {
             throw new Error('خطأ في جلب البيانات من السيرفر الأول');
           }
-          
+
           const fingerprints = await response.json();
 
           // إذا كانت المصفوفة فارغة، يعني انتهينا
@@ -222,7 +243,7 @@
           for (const fp of fingerprints) {
             const enrollId = fp.enrollId;
             const time = fp.time; // تاريخ البصمة
-            
+
             // تكوين مفتاح فريد للتحقق من عدم التكرار
             const uniqueKey = enrollId + '_' + time;
             if (sentFingerprints.has(uniqueKey)) {
@@ -230,7 +251,7 @@
               console.log('تخطي بصمة مكررة:', uniqueKey);
               continue;
             }
-            
+
             // بيانات الـBody للـAPI الثاني
             const dataToSend = {
               enrollid: enrollId,
@@ -249,7 +270,7 @@
                 },
                 body: JSON.stringify(dataToSend)
               });
-              
+
               if (postRes.ok) {
                 sentFingerprints.add(uniqueKey);
                 totalSent++;
@@ -275,4 +296,5 @@
     });
   </script>
 </body>
+
 </html>

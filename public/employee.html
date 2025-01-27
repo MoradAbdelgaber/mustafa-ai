@@ -22,8 +22,20 @@
     rel="stylesheet">
 
   <style>
-        html{ animation: fadeIn .2s ease-in forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    html {
+      animation: fadeIn .3s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
     /* إذا كانت الصفحة lang="ar" => اتجاه RTL وخط تاجوال */
     html[lang="ar"] body {
       font-family: 'Tajawal', sans-serif;
@@ -516,14 +528,14 @@
     <!-- عنوان الهيدر ديناميكي: data-lng="headerTitle" -->
     <h1 data-lng="headerTitle"></h1>
     <!-- زر الخروج ديناميكي: data-lng="headerLogout" -->
-     <div>
+    <div>
 
-       <button data-lng="headerLogout" onclick="logout()"></button>
-       <select id="langSelector">
-         <option value="en">English</option>
-         <option value="ar">العربية</option>
-        </select>
-      </div>
+      <button data-lng="headerLogout" onclick="logout()"></button>
+      <select id="langSelector">
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+      </select>
+    </div>
   </header>
 
   <!-- اختيار اللغة (مثل صفحة اللوجن) -->

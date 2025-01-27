@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title data-lng="Unregistered employees"></title>
@@ -8,32 +9,39 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <!-- مكتبة Select2 (اختيارية) -->
-  <link 
-    href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" 
-    rel="stylesheet" />
-  <script 
-    src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
   <!-- أيقونات Bootstrap -->
-  <link 
-    rel="stylesheet" 
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
   <!-- خطوط (Tajawal للعربية، Open Sans للإنجليزية) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link 
-    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap" 
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
     rel="stylesheet">
 
   <style>
-        html{ animation: fadeIn .2s ease-in forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    html {
+      animation: fadeIn .3s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
     /* عند العربية: استخدم Tajawal مع اتجاه RTL */
     html[lang="ar"] body {
       font-family: 'Tajawal', sans-serif;
       direction: rtl;
     }
+
     /* عند الإنجليزية: استخدم Open Sans مع اتجاه LTR */
     html[lang="en"] body {
       font-family: 'Open Sans', sans-serif;
@@ -49,101 +57,114 @@
     }
 
     body {
-      margin: 0; 
-      padding: 0; 
-      background: #f2f2f2; 
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
     }
 
     header {
       background: linear-gradient(45deg, #0062cc, #004085);
       color: #fff;
       padding: 10px 20px;
-      display: flex; 
-      justify-content: space-between; 
+      display: flex;
+      justify-content: space-between;
       align-items: center;
     }
+
     header h1 {
-      margin: 0; 
+      margin: 0;
       font-size: 1.2rem;
     }
+
     header button {
-      background: #dc3545; 
+      background: #dc3545;
       color: #fff;
-      border: none; 
+      border: none;
       padding: 8px 14px;
-      border-radius: 4px; 
+      border-radius: 4px;
       cursor: pointer;
       font-size: 0.9rem;
       transition: background 0.3s;
     }
+
     header button:hover {
       background: #c82333;
     }
 
     .container {
       display: flex;
-      flex-direction: row-reverse; /* لأن اللغة عربية */
+      flex-direction: row-reverse;
+      /* لأن اللغة عربية */
     }
 
     .mainContent {
-      flex: 1; 
+      flex: 1;
       padding: 20px;
     }
 
     .sidebar {
-      width: 240px; 
+      width: 240px;
       background: #fff;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      min-height: 100vh; 
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      min-height: 100vh;
       padding: 20px 10px;
     }
+
     .sidebar h2 {
-      margin-bottom: 15px; 
-      font-size: 1rem; 
-      text-align: center; 
+      margin-bottom: 15px;
+      font-size: 1rem;
+      text-align: center;
       color: #444;
     }
+
     .navItem {
-      padding: 12px 10px; 
-      margin: 6px 0; 
+      padding: 12px 10px;
+      margin: 6px 0;
       border-radius: 4px;
-      cursor: pointer; 
-      color: #333; 
+      cursor: pointer;
+      color: #333;
       font-weight: 500;
       transition: background 0.3s, color 0.3s;
-      display: flex; 
+      display: flex;
       align-items: center;
       gap: 8px;
     }
+
     .navItem i {
-      font-size: 1.1rem; 
-      color: #666; 
+      font-size: 1.1rem;
+      color: #666;
       transition: color 0.3s;
     }
+
     .navItem:hover {
       background: #f0f0f0;
     }
+
     .navItem.active {
-      background: #007bff; 
+      background: #007bff;
       color: #fff;
     }
+
     .navItem.active i {
       color: #fff;
     }
 
-    .errorMsg, .successMsg {
-      margin: 10px 0; 
+    .errorMsg,
+    .successMsg {
+      margin: 10px 0;
       font-size: 0.95rem;
       font-weight: 600;
       padding: 10px;
       border-radius: 4px;
     }
+
     .errorMsg {
       background-color: #f8d7da;
       border: 1px solid #f5c6cb;
       color: #721c24;
       display: none;
     }
+
     .successMsg {
       background-color: #d4edda;
       border: 1px solid #c3e6cb;
@@ -152,36 +173,39 @@
     }
 
     .searchFilters {
-      background: #fff; 
-      padding: 10px; 
+      background: #fff;
+      padding: 10px;
       margin-bottom: 15px;
-      display: flex; 
-      flex-wrap: wrap; 
+      display: flex;
+      flex-wrap: wrap;
       gap: 10px;
-      align-items: center; 
+      align-items: center;
       border-radius: 6px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     table {
-      width: 100%; 
-      border-collapse: collapse; 
+      width: 100%;
+      border-collapse: collapse;
       background: #fff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      border-radius: 6px; 
-      overflow: hidden; 
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      overflow: hidden;
     }
+
     table thead {
-      background: #007bff; 
+      background: #007bff;
       color: #fff;
     }
-    table th, 
+
+    table th,
     table td {
-      border: 1px solid #ddd; 
-      padding: 8px; 
+      border: 1px solid #ddd;
+      padding: 8px;
       text-align: center;
       font-size: 0.9rem;
     }
+
     table tbody tr:hover {
       background: #f9f9f9;
     }
@@ -193,20 +217,24 @@
       margin: 0 6px;
       transition: color 0.3s;
     }
+
     .actionIcon:hover {
       color: #0056b3;
     }
 
     .loadingOverlay {
       position: fixed;
-      top: 0; left: 0;
-      right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
       display: none;
       justify-content: center;
       align-items: center;
       z-index: 99999;
     }
+
     .spinner {
       width: 60px;
       height: 60px;
@@ -215,12 +243,19 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
+
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
   </style>
 </head>
+
 <body onload="initPage()">
   <header>
     <h1 data-lng="Unregistered employees"></h1>
@@ -253,10 +288,10 @@
             <th data-lng="Job number (enrollid)"></th>
             <th data-lng="Fingerprint type"></th>
             <th data-lng="Image"></th>
-            <th data-lng="Device name"></th>     
-            <th data-lng="Time week"></th>  
-            <th data-lng="Department"></th>           
-            <th data-lng="Other data"></th>     
+            <th data-lng="Device name"></th>
+            <th data-lng="Time week"></th>
+            <th data-lng="Department"></th>
+            <th data-lng="Other data"></th>
             <th data-lng="Control"></th>
           </tr>
         </thead>
@@ -334,17 +369,17 @@
       return str.replace(/[^\x00-\x7F]/g, '');
     }
 
-    let authToken        = null;
-    let allLocalEmployees= [];  // قائمة الموظفين من الـ DB
+    let authToken = null;
+    let allLocalEmployees = [];  // قائمة الموظفين من الـ DB
     let unregisteredList = [];  // الموظفون غير المسجلين
-    let devicesList      = [];  // قائمة الأجهزة
+    let devicesList = [];  // قائمة الأجهزة
     const LANG_PATH = "./lang";        // مجلد ملفات JSON
     const LANG_KEY = 'import_employee';
 
 
-    async function initPage(){
+    async function initPage() {
       authToken = localStorage.getItem('authToken');
-      if(!authToken){
+      if (!authToken) {
         window.location.href = 'login.html';
         return;
       }
@@ -370,14 +405,14 @@
         if (!response.ok) {
           throw new Error(`Error loading ${lang}.json`);
         }
-        
+
         translations = await response.json();
       } catch (error) {
         console.error("Error loading translation file:", error);
       }
     }
 
-    async function setLanguage(lang) {      
+    async function setLanguage(lang) {
       await loadLanguageFile(lang);
       localStorage.setItem("lng", lang);
       applyTranslations(lang);
@@ -426,37 +461,37 @@
     }
 
 
-        // تغيير اللغة من الـselect
+    // تغيير اللغة من الـselect
     document.getElementById('langSelector').addEventListener('change', async function () {
       await setLanguage(this.value);
-      localStorage.setItem("lng",this.value)
+      localStorage.setItem("lng", this.value)
     });
 
     // _______________________________________/
     // _______________________________________/
 
 
-    function logout(){
+    function logout() {
       localStorage.removeItem('authToken');
-      window.location.href='login.html';
+      window.location.href = 'login.html';
     }
 
     // إظهار/إخفاء شاشة التحميل
-    function showLoading(){ document.getElementById('loadingOverlay').style.display = 'flex'; }
-    function hideLoading(){ document.getElementById('loadingOverlay').style.display = 'none'; }
+    function showLoading() { document.getElementById('loadingOverlay').style.display = 'flex'; }
+    function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
 
     // عرض رسائل
-    function showError(msg){
+    function showError(msg) {
       document.getElementById('errorMsg').textContent = msg;
       document.getElementById('errorMsg').style.display = 'block';
       document.getElementById('successMsg').style.display = 'none';
     }
-    function showSuccess(msg){
+    function showSuccess(msg) {
       document.getElementById('successMsg').textContent = msg;
       document.getElementById('successMsg').style.display = 'block';
       document.getElementById('errorMsg').style.display = 'none';
     }
-    function clearMessages(){
+    function clearMessages() {
       document.getElementById('errorMsg').style.display = 'none';
       document.getElementById('successMsg').style.display = 'none';
     }
@@ -465,7 +500,7 @@
      * الدالة الرئيسية: تجلب الأجهزة + الموظفين المحليين + موظفي كل جهاز
      * وتعرض غير المسجلين.
      */
-    async function loadUnregisteredEmployees(){
+    async function loadUnregisteredEmployees() {
       clearMessages();
       showLoading();
 
@@ -478,18 +513,18 @@
 
         // 3) جلب الموظفين من كل جهاز
         let allDeviceUsers = [];
-        for(const dev of devicesList){
-          const deviceName = dev.device_name || getTranslate("Device without name"); 
-          const serverIp   = dev.serverip;
-          const serial     = dev.serial;
+        for (const dev of devicesList) {
+          const deviceName = dev.device_name || getTranslate("Device without name");
+          const serverIp = dev.serverip;
+          const serial = dev.serial;
 
           // جلب المستخدمين من هذا الجهاز
           const deviceUsers = await fetchDeviceUsers(serverIp, serial);
-          
+
           // إضافة معلومات الجهاز لكل مستخدم (اختياري)
           deviceUsers.forEach(u => {
             u.device_name = deviceName;
-            u.device_sn   = serial;
+            u.device_sn = serial;
           });
 
           // دمج في مصفوفة واحدة
@@ -506,7 +541,7 @@
         await renderUnregistered(unregisteredList);
 
         showSuccess(getTranslate("The list of unregistered employees has been successfully fetched."));
-      } catch(err){
+      } catch (err) {
         showError(getTranslate("An error occurred: ") + err.message);
       } finally {
         hideLoading();
@@ -514,7 +549,7 @@
     }
 
     // جلب قائمة الأجهزة من السيرفر (مثلاً منفذ 3500)
-    async function fetchDevices(){
+    async function fetchDevices() {
       const safeToken = removeNonASCII(authToken);
       const myHeaders = new Headers();
       myHeaders.append('Authorization', 'Bearer ' + safeToken);
@@ -524,7 +559,7 @@
         headers: myHeaders
       });
 
-      if(!resp.ok){
+      if (!resp.ok) {
         throw new Error(getTranslate("Failed to fetch devices"));
       }
       return await resp.json();
@@ -535,26 +570,26 @@
       const safeToken = removeNonASCII(authToken);
       const myHeaders = new Headers();
       myHeaders.append('Authorization', 'Bearer ' + safeToken);
-    
+
       const resp = await fetch('https://hr.iraqsapp.com/api/employees?page=1&limit=9999', {
         method: 'GET',
         headers: myHeaders
       });
-    
+
       if (!resp.ok) {
         throw new Error(getTranslate("Failed to fetch local employees"));
       }
-    
+
       const responseData = await resp.json();
       // إعادة مصفوفة الموظفين فقط
       return responseData.data;
     }
 
     // جلب موظفي جهاز معيّن باستخدام serverIP + sn
-    async function fetchDeviceUsers(serverIp, serial){
+    async function fetchDeviceUsers(serverIp, serial) {
       // قد يكون المنفذ 4000 مثلاً، عدّلها حسب الحاجة
       // تحتاج توكن خاص بالأجهزة (إن كان مختلفاً)
-      const deviceToken = getTranslate("<Put device token here>"); 
+      const deviceToken = getTranslate("<Put device token here>");
       const safeDeviceToken = removeNonASCII(deviceToken);
 
       const myHeaders = new Headers();
@@ -575,11 +610,11 @@
         body: JSON.stringify(bodyObj)
       });
 
-      if(!resp.ok){
+      if (!resp.ok) {
         throw new Error(`${getTranslate("Failed to fetch device users")} ${serial}`);
       }
       const result = await resp.json();
-      if(!result.data || !result.data.record){
+      if (!result.data || !result.data.record) {
         return [];
       }
       return result.data.record;
@@ -594,7 +629,7 @@
      * - card        => رقم الكارت (إن وجد)
      * - starttime   => يمكن اعتباره joining_date إن وجد
      */
-    async function fetchDynamicUserInfo(sn, enrollid, backupnum){
+    async function fetchDynamicUserInfo(sn, enrollid, backupnum) {
       // ضع التوكن الصحيح إن كنت تستخدم توكنًا مختلفًا
       const devToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.---';
       const safeDevToken = removeNonASCII(devToken);
@@ -608,7 +643,7 @@
         "payload": {
           "password": "aa",
           "cmd": "getuserinfo",
-          "enrollid": Number(enrollid), 
+          "enrollid": Number(enrollid),
           "backupnum": Number(backupnum)
         }
       };
@@ -619,73 +654,73 @@
         body: JSON.stringify(bodyObj)
       });
 
-      if(!resp.ok){
-        throw new Error( getTranslate("Failed to fetch user information from") + ' /api/dynamic.');
+      if (!resp.ok) {
+        throw new Error(getTranslate("Failed to fetch user information from") + ' /api/dynamic.');
       }
 
       const result = await resp.json();
-      if(!result.data) return {};
+      if (!result.data) return {};
 
       // من واقع الاستجابة في الصورة:
       //  "name", "departmant", "weekzone", "backupnum", "record", "card", "starttime"...
       return {
-        userName   : result.data.name         || '',
-        department : result.data.departmant   || '',
-        weekzone    : result.data.zoneid      || '',
-        base64Data : result.data.record       || '',
-        card       : result.data.card         || '',
-        starttime  : result.data.starttime    || ''
+        userName: result.data.name || '',
+        department: result.data.departmant || '',
+        weekzone: result.data.zoneid || '',
+        base64Data: result.data.record || '',
+        card: result.data.card || '',
+        starttime: result.data.starttime || ''
       };
     }
 
     // دالة الرسم الأساسية
-    async function renderUnregistered(list){
+    async function renderUnregistered(list) {
       const tb = document.querySelector('#unregisteredTable tbody');
       tb.innerHTML = '';
 
-      for(let i=0; i<list.length; i++){
+      for (let i = 0; i < list.length; i++) {
         const item = list[i];
 
         // تحديد نوع البصمة
         let backupType = getTranslate("Not none");
-        if(item.backupnum == 0) {
-          backupType = getTranslate("Fingerprint"); 
-        } else if(item.backupnum == 11) {
-          backupType = getTranslate("Card"); 
-        } else if(item.backupnum == 50) {
-          backupType = getTranslate("Face"); 
+        if (item.backupnum == 0) {
+          backupType = getTranslate("Fingerprint");
+        } else if (item.backupnum == 11) {
+          backupType = getTranslate("Card");
+        } else if (item.backupnum == 50) {
+          backupType = getTranslate("Face");
         }
 
         // حقول للعرض في الجدول
         let deviceNameFromApi = '-';
-        let department        = '-';
-        let weekzone           = '-';
-        let faceImgHtml       = '-';
-        let otherDataHtml     = '-';
+        let department = '-';
+        let weekzone = '-';
+        let faceImgHtml = '-';
+        let otherDataHtml = '-';
 
         // نجلب بيانات المستخدم التفصيلية
         try {
           const info = await fetchDynamicUserInfo(item.device_sn, item.enrollid, item.backupnum);
-          
-          deviceNameFromApi = info.userName   || '-';
-          department        = info.department || '-';
-          weekzone           = info.weekzone    || '-';
+
+          deviceNameFromApi = info.userName || '-';
+          department = info.department || '-';
+          weekzone = info.weekzone || '-';
 
           // لو كانت بصمة وجه، نعرض الصورة
-          if(item.backupnum == 50 && info.base64Data){
+          if (item.backupnum == 50 && info.base64Data) {
             faceImgHtml = `
               <img 
                 src="data:image/jpeg;base64,${info.base64Data}" 
                 alt="${getTranslate("Face")}"
                 style="width: 70px; border-radius: 6px;">
             `;
-          } 
+          }
           // لو لم تكن بصمة وجه، نعرض قيمة record في "بيانات أخرى"
-          else if(item.backupnum != 50 && info.base64Data) {
+          else if (item.backupnum != 50 && info.base64Data) {
             otherDataHtml = `<div style="max-width:300px;overflow-wrap:break-word;">${info.base64Data}</div>`;
           }
 
-        } catch(e) {
+        } catch (e) {
           console.warn("fetchDynamicUserInfo error:", e);
         }
 
@@ -712,7 +747,7 @@
     }
 
     // دالة "سحب بيانات الموظف" وإضافته إلى قاعدة البيانات
-    async function pullEmployee(deviceSN, enrollid, backupnum){
+    async function pullEmployee(deviceSN, enrollid, backupnum) {
       clearMessages();
       showLoading();
 
@@ -733,23 +768,23 @@
 
         let fingerprintVal = '';
         let imageVal = '';
-        if(backupnum == 11){
-          fingerprintVal = info.base64Data; 
+        if (backupnum == 11) {
+          fingerprintVal = info.base64Data;
         }
-        if(backupnum == 50){
+        if (backupnum == 50) {
           imageVal = info.base64Data;
         }
 
         const bodyObj = {
-          enroll_id   : Number(enrollid),
-          name        : info.userName || 'NoName',
-          department  : info.department || '',
-          joining_date: info.starttime || '2025-01-01', 
-          leave_date  : null,
-          week_zone   : info.weekzone ? Number(info.weekzone) : 0,
-          card        : info.card || '',
-          fingerprint : fingerprintVal,
-          image       : "data:image/jpg;base64,"+imageVal
+          enroll_id: Number(enrollid),
+          name: info.userName || 'NoName',
+          department: info.department || '',
+          joining_date: info.starttime || '2025-01-01',
+          leave_date: null,
+          week_zone: info.weekzone ? Number(info.weekzone) : 0,
+          card: info.card || '',
+          fingerprint: fingerprintVal,
+          image: "data:image/jpg;base64," + imageVal
         };
 
         // 3) استدعاء API الإدخال في قاعدة البيانات
@@ -763,15 +798,15 @@
           headers: myHeaders,
           body: JSON.stringify(bodyObj)
         });
-        
-        if(!resp.ok){
+
+        if (!resp.ok) {
           const errData = await resp.json();
           throw new Error(errData.message || getTranslate("Failed to add employee."));
         }
 
         // نجاح
         showSuccess(`${getTranslate("")} (EnrollID = ${enrollid}).`);
-      } catch(err){
+      } catch (err) {
         showError(getTranslate("Error while retrieving employee data:") + err.message);
       } finally {
         hideLoading();
@@ -779,4 +814,5 @@
     }
   </script>
 </body>
+
 </html>

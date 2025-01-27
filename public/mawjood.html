@@ -1,28 +1,43 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8" />
   <title data-lng="Fingerprint and employee capture and transfer (with separate token fields)"></title>
   <style>
-        html{ animation: fadeIn .2s ease-in forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    html {
+      animation: fadeIn .3s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
     body {
       /* direction: rtl;  */
       font-family: sans-serif;
       margin: 20px;
     }
+
     /* عند العربية: استخدم Tajawal مع اتجاه RTL */
     html[lang="ar"] body {
       font-family: 'Tajawal', sans-serif;
       direction: rtl;
     }
+
     /* عند الإنجليزية: استخدم Open Sans مع اتجاه LTR */
     html[lang="en"] body {
       font-family: 'Open Sans', sans-serif;
       direction: ltr;
     }
 
-    header{
+    header {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -36,34 +51,41 @@
       border: 1px solid #ccc;
     }
 
-    label, button {
+    label,
+    button {
       display: block;
       margin: 10px 0;
     }
+
     input {
       padding: 5px;
       margin-bottom: 10px;
       width: 250px;
     }
+
     .section {
       border: 1px solid #ccc;
       padding: 15px;
       margin-bottom: 20px;
     }
+
     .loading {
       color: blue;
       font-weight: bold;
     }
+
     .success {
       color: green;
       font-weight: bold;
     }
+
     .error {
       color: red;
       font-weight: bold;
     }
   </style>
 </head>
+
 <body onload="initPage()">
   <header>
     <h1 data-lng="Form for bringing fingerprints and employees and transferring them"></h1>
@@ -77,7 +99,7 @@
   <!-- قسم إدخال التوكنات -->
   <div class="section">
     <h2 data-lng="Token Settings"></h2>
-    <label >
+    <label>
       <span data-lng="Fingerprints Token"></span>
       <input type="text" id="fingerprintsToken" data-lng-placeholder="Enter fingerprints token" />
     </label>
@@ -87,17 +109,17 @@
       <input type="text" id="employeesToken" data-lng-placeholder="Enter employees token" placeholder="" />
     </label>
   </div>
-  
+
   <!-- قسم جلب البصمات -->
   <div class="section">
     <h2 data-lng="Bring fingerprints"></h2>
-    <label >
+    <label>
       <span data-lng="Username"></span>
-      <input type="text" id="username"  data-lng-placeholder="Username placeholder" placeholder="" />
+      <input type="text" id="username" data-lng-placeholder="Username placeholder" placeholder="" />
     </label>
-    <label >
+    <label>
       <span data-lng="Password"></span>
-      <input type="password" id="password"  data-lng-placeholder="Password placeholder" placeholder="" />
+      <input type="password" id="password" data-lng-placeholder="Password placeholder" placeholder="" />
     </label>
     <label>
       <span data-lng="From date"></span>
@@ -122,14 +144,14 @@
       <span data-lng="Branch ID"></span>
       <input type="text" id="branchId" data-lng-placeholder="Branch ID" placeholder="Branch ID" />
     </label>
-    <label >
+    <label>
       <span data-lng="Department ID"></span>
       <input type="text" id="departmentId" data-lng-placeholder="Department ID" placeholder="Department ID" />
     </label>
     <button id="fetchEmployeesBtn" data-lng="Get employees and store them"></button>
     <div id="employeesResult"></div>
   </div>
-  
+
   <script>
     let translations = {}
     const LANG_PATH = "./lang";        // مجلد ملفات JSON
@@ -155,16 +177,16 @@
         if (!response.ok) {
           throw new Error(`Error loading ${lang}.json`);
         }
-        
+
         translations = await response.json();
         console.log(translations);
-        
+
       } catch (error) {
         console.error("Error loading translation file:", error);
       }
     }
 
-    async function setLanguage(lang) {      
+    async function setLanguage(lang) {
       await loadLanguageFile(lang);
       localStorage.setItem("lng", lang);
       applyTranslations(lang);
@@ -207,10 +229,10 @@
     }
 
 
-        // تغيير اللغة من الـselect
+    // تغيير اللغة من الـselect
     document.getElementById('langSelector').addEventListener('change', async function () {
       await setLanguage(this.value);
-      localStorage.setItem("lng",this.value)
+      localStorage.setItem("lng", this.value)
     });
 
     // _______________________________________/
@@ -222,7 +244,7 @@
     //Endpoints الخاصة بالبصمات
     const apiGetEndpoint = 'http://209.250.237.58:3000/original-fingerprints'; // السيرفر الأول (لجلب البصمات)
     const apiPostEndpoint = 'https://hr.iraqsapp.com/api/fingerprints';         // السيرفر الثاني (لحفظ البصمات)
-    
+
     //Endpoints الخاصة بالموظفين
     const apiGetEmployeesEndpoint = 'http://209.250.237.58:3000/users';       // السيرفر الأول (لجلب الموظفين)
     const apiPostEmployeesEndpoint = 'https://hr.iraqsapp.com/api/employees';   // السيرفر الثاني (لحفظ الموظفين)
@@ -252,7 +274,7 @@
       const endTimestamp = new Date(endDateValue).getTime();
 
       const limit = 20;
-      let skip = 0; 
+      let skip = 0;
       let totalFetched = 0;
       let totalSent = 0;
 
@@ -261,13 +283,13 @@
       resultDiv.innerText = getTranslate("...Fingerprint data is being retrieved and sent...");
 
       try {
-        while(true) {
+        while (true) {
           const url = `${apiGetEndpoint}?company=5f1312ad8a3ede0994f574bc&startDate=${startTimestamp}&endDate=${endTimestamp}&skip=${skip}`;
           const response = await fetch(url);
           if (!response.ok) {
             throw new Error(getTranslate("Failed to load data"));
           }
-          
+
           const fingerprints = await response.json();
 
           // إذا كانت المصفوفة فارغة، يعني انتهينا
@@ -292,9 +314,9 @@
             // بيانات الـBody للـAPI الثاني
             const dataToSend = {
               enrollid: enrollId,
-              name: 'mawjoodapp',  
-              time: time,         
-              event: 1            
+              name: 'mawjoodapp',
+              time: time,
+              event: 1
             };
 
             try {
@@ -306,7 +328,7 @@
                 },
                 body: JSON.stringify(dataToSend)
               });
-              
+
               if (postRes.ok) {
                 sentFingerprints.add(uniqueKey);
                 totalSent++;
@@ -337,17 +359,17 @@
     // =============== [ جلب الموظفين من السيرفر الأول وحفظهم في الثاني ] ===============
     document.getElementById('fetchEmployeesBtn').addEventListener('click', async () => {
       const companyId = document.getElementById('companyId').value.trim();
-      const branchId  = document.getElementById('branchId').value.trim();
+      const branchId = document.getElementById('branchId').value.trim();
       const departmentId = document.getElementById('departmentId').value.trim();
       const employeesToken = document.getElementById('employeesToken').value.trim(); // التوكن للموظفين
       const employeesResultDiv = document.getElementById('employeesResult');
 
       if (!employeesToken) {
-        alert(getTranslate( "Please enter an employees token."));
+        alert(getTranslate("Please enter an employees token."));
         return;
       }
       if (!companyId || !branchId) {
-        alert(getTranslate( "Please enter company ID and branch ID."));
+        alert(getTranslate("Please enter company ID and branch ID."));
         return;
       }
 
@@ -422,12 +444,12 @@
                 return;
               }
               const mappedDay = dayNameMap[wd.day] || 'Sun'; // احتياط لو لم يوجد
-              
+
               // تحويل ساعات البداية والنهاية إلى شكل HH:MM:SS
               const startH = wd.startHour.toString().padStart(2, '0');
               const startM = wd.startMinutes.toString().padStart(2, '0');
-              const endH   = wd.endHour.toString().padStart(2, '0');
-              const endM   = wd.endMinutes.toString().padStart(2, '0');
+              const endH = wd.endHour.toString().padStart(2, '0');
+              const endM = wd.endMinutes.toString().padStart(2, '0');
 
               weekSchedules.push({
                 day: mappedDay,
@@ -462,7 +484,7 @@
             enroll_id: emp.biometricId || null,
             name: emp.displayName || '',
             department: 'موجود',       // ثابت مثال
-            department_id: departmentId, 
+            department_id: departmentId,
             joining_date: emp.createdAt ? emp.createdAt.split('T')[0] : null, // أخذ التاريخ بدون الوقت
             leave_date: null,
             works_past_midnight: false,
@@ -493,7 +515,7 @@
           }
 
           // تحديث شاشة التحميل بالعدد
-          employeesResultDiv.innerText = `جارٍ معالجة الموظفين (${i+1}/${employees.length})...`;
+          employeesResultDiv.innerText = `جارٍ معالجة الموظفين (${i + 1}/${employees.length})...`;
         }
 
         // بعد الانتهاء
@@ -508,4 +530,5 @@
     });
   </script>
 </body>
+
 </html>

@@ -1,44 +1,61 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8" />
   <title>تقرير الحضور المتكامل</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
 
   <style>
-        html{ animation: fadeIn .2s ease-in forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    html {
+      animation: fadeIn .3s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
     body {
       font-family: "Segoe UI", Tahoma, sans-serif;
       margin: 1rem;
       background-color: #f7f7f7;
     }
+
     h1 {
       margin-bottom: 1rem;
     }
-    .filters, .field-toggles {
+
+    .filters,
+    .field-toggles {
       display: flex;
       flex-wrap: wrap;
       gap: 1rem;
       margin-bottom: 1rem;
     }
+
     .table-container {
       background-color: #fff;
       padding: 1rem;
       border-radius: 5px;
       overflow-x: auto;
     }
+
     .table thead {
       background-color: #e0e0e0;
     }
+
     .d-none {
       display: none !important;
     }
-
-
-
   </style>
 </head>
+
 <body dir="rtl">
   <h1>تقرير الحضور المتكامل</h1>
 
@@ -182,12 +199,12 @@
             ...(token ? { "Authorization": token } : {})
           }
         });
-        if(!response.ok){
+        if (!response.ok) {
           throw new Error("HTTP Error: " + response.status);
         }
         const data = await response.json();
         populateTable(data);
-      } catch(err){
+      } catch (err) {
         console.error(err);
         alert("حدث خطأ: " + err.message);
       }
@@ -203,7 +220,7 @@
 
         // 1) العمود التسلسلي
         let tdIdx = document.createElement("td");
-        tdIdx.textContent = (index+1);
+        tdIdx.textContent = (index + 1);
         row.appendChild(tdIdx);
 
         // 2) الموظف
@@ -245,8 +262,8 @@
         // a) الاستراحات
         let tdRest = document.createElement("td");
         tdRest.classList.add("colRestBreaks");
-        if(item.rest_breaks && item.rest_breaks.length>0){
-          let arr = item.rest_breaks.map((b,i)=> `استراحة ${i+1}: [${b.rest_in} - ${b.rest_out}] (${b.duration}س)`);
+        if (item.rest_breaks && item.rest_breaks.length > 0) {
+          let arr = item.rest_breaks.map((b, i) => `استراحة ${i + 1}: [${b.rest_in} - ${b.rest_out}] (${b.duration}س)`);
           tdRest.textContent = arr.join("\n");
         } else {
           tdRest.textContent = "";
@@ -299,28 +316,28 @@
 
       // حسب حالة checkbox
       document.getElementById("toggleRestBreaks").checked
-        ? restCols.forEach(c=> c.classList.remove("d-none"))
-        : restCols.forEach(c=> c.classList.add("d-none"));
+        ? restCols.forEach(c => c.classList.remove("d-none"))
+        : restCols.forEach(c => c.classList.add("d-none"));
 
       document.getElementById("toggleDelay").checked
-        ? delayCols.forEach(c=> c.classList.remove("d-none"))
-        : delayCols.forEach(c=> c.classList.add("d-none"));
+        ? delayCols.forEach(c => c.classList.remove("d-none"))
+        : delayCols.forEach(c => c.classList.add("d-none"));
 
       document.getElementById("toggleEarlyExit").checked
-        ? earlyCols.forEach(c=> c.classList.remove("d-none"))
-        : earlyCols.forEach(c=> c.classList.add("d-none"));
+        ? earlyCols.forEach(c => c.classList.remove("d-none"))
+        : earlyCols.forEach(c => c.classList.add("d-none"));
 
       document.getElementById("toggleOvertime").checked
-        ? overCols.forEach(c=> c.classList.remove("d-none"))
-        : overCols.forEach(c=> c.classList.add("d-none"));
+        ? overCols.forEach(c => c.classList.remove("d-none"))
+        : overCols.forEach(c => c.classList.add("d-none"));
 
       document.getElementById("toggleDailySalary").checked
-        ? dailyCols.forEach(c=> c.classList.remove("d-none"))
-        : dailyCols.forEach(c=> c.classList.add("d-none"));
+        ? dailyCols.forEach(c => c.classList.remove("d-none"))
+        : dailyCols.forEach(c => c.classList.add("d-none"));
 
       document.getElementById("toggleNetSalaryBefore").checked
-        ? netBeforeCols.forEach(c=> c.classList.remove("d-none"))
-        : netBeforeCols.forEach(c=> c.classList.add("d-none"));
+        ? netBeforeCols.forEach(c => c.classList.remove("d-none"))
+        : netBeforeCols.forEach(c => c.classList.add("d-none"));
     }
 
     function printPage() {
@@ -343,4 +360,5 @@
     window.addEventListener("load", toggleFields);
   </script>
 </body>
+
 </html>

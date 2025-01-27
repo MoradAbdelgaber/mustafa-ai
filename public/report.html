@@ -16,13 +16,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    html{ animation: fadeIn .2s ease-in forwards; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    html {
+      animation: fadeIn .3s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
     /* عند العربية: الخط Tajawal + RTL */
     html[lang="ar"] body {
       font-family: 'Tajawal', sans-serif;
       direction: rtl;
     }
+
     /* عند الإنجليزية: الخط Open Sans + LTR */
     html[lang="en"] body {
       font-family: 'Open Sans', sans-serif;
@@ -32,29 +45,47 @@
     /* قلب ترتيب العنصرين (sidebar, mainContent) */
     html[lang="ar"] .container {
       display: flex;
-      flex-direction: row-reverse; /* Sidebar على اليمين */
+      flex-direction: row-reverse;
+      /* Sidebar على اليمين */
     }
+
     html[lang="en"] .container {
       display: flex;
-      flex-direction: row; /* Sidebar على اليسار */
+      flex-direction: row;
+      /* Sidebar على اليسار */
     }
-    html[lang="ar"] .sidebar  { order: 1; }
-html[lang="ar"] .mainContent { order: 0; }
-html[lang="en"] .sidebar  { order: 0; }
-html[lang="en"] .mainContent { order: 1; }
-*{
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-.lang-select {
-    margin-left: 10px;
-    padding: 5px;
-    border: none;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    cursor: pointer;
-}
+
+    html[lang="ar"] .sidebar {
+      order: 1;
+    }
+
+    html[lang="ar"] .mainContent {
+      order: 0;
+    }
+
+    html[lang="en"] .sidebar {
+      order: 0;
+    }
+
+    html[lang="en"] .mainContent {
+      order: 1;
+    }
+
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+    }
+
+    .lang-select {
+      margin-left: 10px;
+      padding: 5px;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
     /* رأس الصفحة */
     header {
       background: linear-gradient(45deg, #0062cc, #004085);
@@ -290,14 +321,16 @@ html[lang="en"] .mainContent { order: 1; }
       overflow: auto;
       background-color: rgba(0, 0, 0, 0.5);
     }
-   /* زر اختيار اللغة */
-   #langSelector {
+
+    /* زر اختيار اللغة */
+    #langSelector {
       margin: 10px;
       padding: 6px;
       font-size: 0.9rem;
       border-radius: 4px;
       border: 1px solid #ccc;
     }
+
     .modal-content {
       background-color: #fff;
       margin: 50px auto;
@@ -404,7 +437,7 @@ html[lang="en"] .mainContent { order: 1; }
       border-radius: 6px;
       padding: 15px;
       margin-bottom: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     .apiSummaryHeader {
@@ -429,7 +462,7 @@ html[lang="en"] .mainContent { order: 1; }
       border: 1px solid #eee;
       border-radius: 6px;
       padding: 10px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -469,15 +502,15 @@ html[lang="en"] .mainContent { order: 1; }
 <body onload="initPage()">
   <header>
     <h1>لوحة التحكم - تقرير الحضور</h1>
-   <div>
-    <button onclick="logout()">خروج</button>
-    <!-- اختيار اللغة (مثل صفحة اللوجن) -->
-    <select id="langSelector" id="langSelector">
-      <option value="en">English</option>
-      <option value="ar">العربية</option>
-    </select>
-   </div>
-    
+    <div>
+      <button onclick="logout()">خروج</button>
+      <!-- اختيار اللغة (مثل صفحة اللوجن) -->
+      <select id="langSelector" id="langSelector">
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+      </select>
+    </div>
+
   </header>
   <div class="container">
     <!-- المحتوى الرئيسي -->
@@ -509,7 +542,7 @@ html[lang="en"] .mainContent { order: 1; }
         <label for="monthSelect" data-lng="month:">الشهر:</label>
         <input type="month" id="monthSelect" onchange="onMonthChange()" />
 
-        <label for="startDate"  data-lng="start_date:">من تاريخ:</label>
+        <label for="startDate" data-lng="start_date:">من تاريخ:</label>
         <input type="date" id="startDate" value="2024-12-01" />
 
         <label for="endDate" data-lng="end_date:">إلى تاريخ:</label>
@@ -538,19 +571,18 @@ html[lang="en"] .mainContent { order: 1; }
         </select>
 
         <label>
-          <input type="checkbox" id="groupByDeptCheckbox" onchange="renderReport()"
-                 data-lng="group_by_dept">
+          <input type="checkbox" id="groupByDeptCheckbox" onchange="renderReport()" data-lng="group_by_dept">
           <span>تجميع حسب القسم</span>
         </label>
         <label>
           <input type="checkbox" id="groupByEmpCheckbox" data-lng="group_by_emp" onchange="renderReport()">
           <span>تجميع حسب الموظف</span>
         </label>
-        
+
         <!-- Checkbox إظهار الملخص الإضافي -->
         <label>
-          <input type="checkbox" id="showApiSummaryCheckbox" 
-                 data-lng="show_api_summary" onchange="toggleApiSummaryVisibility()">
+          <input type="checkbox" id="showApiSummaryCheckbox" data-lng="show_api_summary"
+            onchange="toggleApiSummaryVisibility()">
           <span>إظهار ملخص الـ API الإضافي</span>
         </label>
         <button onclick="loadReport()">جلب التقرير</button>
@@ -675,7 +707,7 @@ html[lang="en"] .mainContent { order: 1; }
     let authToken = null;         // سيُؤخذ من localStorage
     let originalReportData = [];  // بيانات الجدول
     let summaryRowData = null;    // صف الملخص (تأتي بياناته كنص في employee_name)
-    
+
     // مصفوفة تصف جميع الأعمدة الممكنة في التقرير
     let allColumns = [];
     function initPage() {
@@ -687,18 +719,18 @@ html[lang="en"] .mainContent { order: 1; }
           window.location.href = 'login.html';
           return;
         }
-      setTodayAsDefaultDate();
-      loadEmployees();
-      loadDepartments();
+        setTodayAsDefaultDate();
+        loadEmployees();
+        loadDepartments();
 
-      // تفعيل البحث في الـselect
-      $(document).ready(function () {
-        // $('#employeeSelect').select2({ width: '150px', placeholder: 'اختر موظفًا' });
-        // $('#departmentSelect').select2({ width: '150px', placeholder: 'اختر قسمًا' });
-        // $('#statusSelect').select2({ width: '130px', placeholder: 'كل الحالات' });
+        // تفعيل البحث في الـselect
+        $(document).ready(function () {
+          // $('#employeeSelect').select2({ width: '150px', placeholder: 'اختر موظفًا' });
+          // $('#departmentSelect').select2({ width: '150px', placeholder: 'اختر قسمًا' });
+          // $('#statusSelect').select2({ width: '130px', placeholder: 'كل الحالات' });
+        });
       });
-      });
-     
+
     }
     // هنا لو لديك تسميات بالعربية لبعض الحقول.
     const knownLabels = {
@@ -775,81 +807,81 @@ html[lang="en"] .mainContent { order: 1; }
       return result;
     }
 
-  // Function to set the language (load files and apply translations)
-async function setLanguage(lang) {
-    await loadLanguageFile(lang);
-    await loadReportLangFile(lang);
-    localStorage.setItem(LANG_KEY, lang);
-    applyTranslations(lang);
-    applyReportTranslations(lang);
-}
-// Function to apply general translations
-function applyTranslations(lang) {
-    document.documentElement.lang = lang;
-    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+    // Function to set the language (load files and apply translations)
+    async function setLanguage(lang) {
+      await loadLanguageFile(lang);
+      await loadReportLangFile(lang);
+      localStorage.setItem(LANG_KEY, lang);
+      applyTranslations(lang);
+      applyReportTranslations(lang);
+    }
+    // Function to apply general translations
+    function applyTranslations(lang) {
+      document.documentElement.lang = lang;
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
 
-    // Apply translations to elements with data-lng attribute (general translations)
-    document.querySelectorAll('[data-lng]').forEach(el => {
+      // Apply translations to elements with data-lng attribute (general translations)
+      document.querySelectorAll('[data-lng]').forEach(el => {
         const key = el.getAttribute('data-lng');
         if (translations[key]) {
-            if (el.tagName === 'OPTION') {
-                el.textContent = translations[key]; // Apply translation to <option> text
-            } else {
-                el.textContent = translations[key]; // Apply translation to other elements
-            }
+          if (el.tagName === 'OPTION') {
+            el.textContent = translations[key]; // Apply translation to <option> text
+          } else {
+            el.textContent = translations[key]; // Apply translation to other elements
+          }
         }
-    });
-// Language selection event listener
-document.getElementById('langSelector').addEventListener('change', (event) => {
-    const selectedLang = event.target.value;
-    setLanguage(selectedLang);
-});
-    // Apply translations to placeholders
-    document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+      });
+      // Language selection event listener
+      document.getElementById('langSelector').addEventListener('change', (event) => {
+        const selectedLang = event.target.value;
+        setLanguage(selectedLang);
+      });
+      // Apply translations to placeholders
+      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
         const key = el.getAttribute('data-lng-placeholder');
         if (translations[key]) {
-            el.placeholder = translations[key];
+          el.placeholder = translations[key];
         }
-    });
+      });
 
-    // Apply translations to options
-    document.querySelectorAll('[data-lng-option]').forEach(el => {
+      // Apply translations to options
+      document.querySelectorAll('[data-lng-option]').forEach(el => {
         const key = el.getAttribute('data-lng-option');
         if (translations[key]) {
-            el.textContent = translations[key];
+          el.textContent = translations[key];
         }
-    });
-}
-// Function to load the general language file
-async function loadLanguageFile(lang) {
-    try {
+      });
+    }
+    // Function to load the general language file
+    async function loadLanguageFile(lang) {
+      try {
         const response = await fetch(`${LEAVES_LANG_PATH}/${lang}_report.json`); // General lang file (e.g., en.json or ar.json)
         if (!response.ok) {
-            throw new Error(`Error loading ${lang}.json`);
+          throw new Error(`Error loading ${lang}.json`);
         }
         translations = await response.json();
-    } catch (error) {
+      } catch (error) {
         console.error("Error loading translation file:", error);
+      }
     }
-}
 
-// Function to load the leaves language file
-async function loadLeavesLangFile(lang) {
-    try {
+    // Function to load the leaves language file
+    async function loadLeavesLangFile(lang) {
+      try {
         const response = await fetch(`${LEAVES_LANG_PATH}/${lang}_leaves.json`); // Specific leaves lang file (e.g., en_leaves.json or ar_leaves.json)
         if (!response.ok) {
-            throw new Error(`Error loading ${lang}_leaves.json`);
+          throw new Error(`Error loading ${lang}_leaves.json`);
         }
         leavesTranslations = await response.json();
-    } catch (error) {
+      } catch (error) {
         console.error("Leaves translation file error:", error);
+      }
     }
-}
 
     function setTodayAsDefaultDate() {
       const todayStr = new Date().toISOString().split('T')[0];
       document.getElementById('startDate').value = todayStr;
-      document.getElementById('endDate').value   = todayStr;
+      document.getElementById('endDate').value = todayStr;
     }
 
     function onMonthChange() {
@@ -858,7 +890,7 @@ async function loadLeavesLangFile(lang) {
       const [year, month] = monthVal.split('-');
       const lastDayDate = new Date(year, parseInt(month), 0).getDate();
       document.getElementById('startDate').value = `${year}-${month}-01`;
-      document.getElementById('endDate').value   = `${year}-${month}-${lastDayDate}`;
+      document.getElementById('endDate').value = `${year}-${month}-${lastDayDate}`;
     }
 
     function onWeekChange() {
@@ -874,10 +906,10 @@ async function loadLeavesLangFile(lang) {
       sunday.setDate(sunday.getDate() + 6);
 
       const startStr = monday.toISOString().split('T')[0];
-      const endStr   = sunday.toISOString().split('T')[0];
+      const endStr = sunday.toISOString().split('T')[0];
 
       document.getElementById('startDate').value = startStr;
-      document.getElementById('endDate').value   = endStr;
+      document.getElementById('endDate').value = endStr;
     }
 
     function getDateOfISOWeek(week, year) {
@@ -933,12 +965,12 @@ async function loadLeavesLangFile(lang) {
       errorMsg.textContent = '';
 
       // إعادة ضبط الملخص وإخفائه
-      summaryRowData = null; 
+      summaryRowData = null;
       document.getElementById('apiSummaryContainer').style.display = 'none';
 
       const startD = document.getElementById('startDate').value || '2024-12-01';
-      const endD   = document.getElementById('endDate').value   || '2024-12-31';
-      const empId  = document.getElementById('employeeSelect').value || '0';
+      const endD = document.getElementById('endDate').value || '2024-12-31';
+      const empId = document.getElementById('employeeSelect').value || '0';
       const deptId = document.getElementById('departmentSelect').value || '0';
 
       let url = 'https://hr.iraqsapp.com/api/reports/attendance';
@@ -1141,152 +1173,152 @@ async function loadLeavesLangFile(lang) {
     }
 
     function renderReport() {
-    try {
-    // Check if required data is available
-    if (!window.allColumns || !window.originalReportData) {
-      console.error('Missing necessary data: allColumns or originalReportData is undefined.');
-      return;
-    }
+      try {
+        // Check if required data is available
+        if (!window.allColumns || !window.originalReportData) {
+          console.error('Missing necessary data: allColumns or originalReportData is undefined.');
+          return;
+        }
 
-    const statusVal = document.getElementById('statusSelect').value;
-    const tableHead = document.querySelector('#reportTable thead');
-    const tableBody = document.querySelector('#reportTable tbody');
-    
-    // Clear existing table data
-    tableHead.innerHTML = '';
-    tableBody.innerHTML = '';
+        const statusVal = document.getElementById('statusSelect').value;
+        const tableHead = document.querySelector('#reportTable thead');
+        const tableBody = document.querySelector('#reportTable tbody');
 
-    const displayedColumns = allColumns.filter(c => c.checked);
+        // Clear existing table data
+        tableHead.innerHTML = '';
+        tableBody.innerHTML = '';
 
-    // Ensure displayedColumns has valid columns
-    if (displayedColumns.length === 0) {
-      console.error('No columns are selected for display.');
-      return;
-    }
+        const displayedColumns = allColumns.filter(c => c.checked);
 
-    // Build table header
-    let theadHtml = '<tr>';
-    displayedColumns.forEach(col => {
-      theadHtml += `<th style="width:${col.width};">${col.label}</th>`;
-    });
-    theadHtml += '</tr>';
-    tableHead.innerHTML = theadHtml;
+        // Ensure displayedColumns has valid columns
+        if (displayedColumns.length === 0) {
+          console.error('No columns are selected for display.');
+          return;
+        }
 
-    // Filter data based on selected status
-    let filteredData = originalReportData.filter(row => {
-      if (!statusVal) return true;
-      return row.status_code === statusVal;
-    });
+        // Build table header
+        let theadHtml = '<tr>';
+        displayedColumns.forEach(col => {
+          theadHtml += `<th style="width:${col.width};">${col.label}</th>`;
+        });
+        theadHtml += '</tr>';
+        tableHead.innerHTML = theadHtml;
 
-    // Ensure filteredData is not empty
-    if (filteredData.length === 0) {
-      console.warn('No data matches the selected status.');
-    }
+        // Filter data based on selected status
+        let filteredData = originalReportData.filter(row => {
+          if (!statusVal) return true;
+          return row.status_code === statusVal;
+        });
 
-    // Get grouping options
-    const groupByDept = document.getElementById('groupByDeptCheckbox').checked;
-    const groupByEmp = document.getElementById('groupByEmpCheckbox').checked;
+        // Ensure filteredData is not empty
+        if (filteredData.length === 0) {
+          console.warn('No data matches the selected status.');
+        }
 
-    // Group data
-    const groupedData = groupRows(filteredData, groupByDept, groupByEmp);
+        // Get grouping options
+        const groupByDept = document.getElementById('groupByDeptCheckbox').checked;
+        const groupByEmp = document.getElementById('groupByEmpCheckbox').checked;
 
-    // Ensure groupRows returns a valid object
-    if (!groupedData || typeof groupedData !== 'object') {
-      console.error('groupRows() did not return valid data.');
-      return;
-    }
+        // Group data
+        const groupedData = groupRows(filteredData, groupByDept, groupByEmp);
 
-    let count = 0;
-    let sumDelay = 0;
-    let sumEarly = 0;
-    let sumNet = 0;
-    let rowsHtml = '';
+        // Ensure groupRows returns a valid object
+        if (!groupedData || typeof groupedData !== 'object') {
+          console.error('groupRows() did not return valid data.');
+          return;
+        }
 
-    // Generate table rows
-    Object.keys(groupedData).forEach(deptKey => {
-      if (groupByDept && deptKey !== 'All Departments') {
-        rowsHtml += `
+        let count = 0;
+        let sumDelay = 0;
+        let sumEarly = 0;
+        let sumNet = 0;
+        let rowsHtml = '';
+
+        // Generate table rows
+        Object.keys(groupedData).forEach(deptKey => {
+          if (groupByDept && deptKey !== 'All Departments') {
+            rowsHtml += `
           <tr class="deptHeaderRow">
             <td colspan="${displayedColumns.length}" style="text-align:right; font-weight:bold;">
               قسم: ${deptKey}
             </td>
           </tr>
         `;
-      }
+          }
 
-      Object.keys(groupedData[deptKey]).forEach(empKey => {
-        if (groupByEmp && empKey !== 'All Employees') {
-          rowsHtml += `
+          Object.keys(groupedData[deptKey]).forEach(empKey => {
+            if (groupByEmp && empKey !== 'All Employees') {
+              rowsHtml += `
             <tr class="empHeaderRow">
               <td colspan="${displayedColumns.length}" style="text-align:right; font-weight:bold;">
                 الموظف: ${empKey}
               </td>
             </tr>
           `;
-        }
-
-        groupedData[deptKey][empKey].forEach(row => {
-          count++;
-          sumDelay += (row.delay_minutes || 0);
-          sumEarly += (row.early_exit_minutes || 0);
-          sumNet += (row.net_salary || 0);
-
-          let trHtml = '<tr>';
-          displayedColumns.forEach(col => {
-            let cellVal = row[col.field] || '';
-
-            // Format check_in/check_out times if needed
-            if ((col.field === 'check_in' || col.field === 'check_out') && cellVal.includes(' ')) {
-              cellVal = cellVal.split(' ')[1];
             }
 
-            // Additional formatting for work_hours and net_salary
-            if (col.field === 'work_hours' && cellVal) {
-              cellVal = formatWorkHours(cellVal);
-            }
-            if (col.field === 'net_salary' && cellVal) {
-              cellVal = formatNetSalary(cellVal);
-            }
+            groupedData[deptKey][empKey].forEach(row => {
+              count++;
+              sumDelay += (row.delay_minutes || 0);
+              sumEarly += (row.early_exit_minutes || 0);
+              sumNet += (row.net_salary || 0);
 
-            let cellStyle = `width:${col.width};`;
-            if (col.field === 'attendance_status') {
-              switch (row.status_code) {
-                case 'absent': cellStyle += 'background-color:#ffd4d4;'; break;
-                case 'late': cellStyle += 'background-color:#fff5d4;'; break;
-                case 'early_exit': cellStyle += 'background-color:#ffe9d4;'; break;
-                case 'present': cellStyle += 'background-color:#d4ffd4;'; break;
-                case 'semi_present': cellStyle += 'background-color:#d4ffff;'; break;
-                case 'late_and_early_exit': cellStyle += 'background-color:#ffe6ff;'; break;
-                case 'overtime': cellStyle += 'background-color:#e6ffe6;'; break;
-              }
-            }
-            trHtml += `<td style="${cellStyle}">${cellVal}</td>`;
+              let trHtml = '<tr>';
+              displayedColumns.forEach(col => {
+                let cellVal = row[col.field] || '';
+
+                // Format check_in/check_out times if needed
+                if ((col.field === 'check_in' || col.field === 'check_out') && cellVal.includes(' ')) {
+                  cellVal = cellVal.split(' ')[1];
+                }
+
+                // Additional formatting for work_hours and net_salary
+                if (col.field === 'work_hours' && cellVal) {
+                  cellVal = formatWorkHours(cellVal);
+                }
+                if (col.field === 'net_salary' && cellVal) {
+                  cellVal = formatNetSalary(cellVal);
+                }
+
+                let cellStyle = `width:${col.width};`;
+                if (col.field === 'attendance_status') {
+                  switch (row.status_code) {
+                    case 'absent': cellStyle += 'background-color:#ffd4d4;'; break;
+                    case 'late': cellStyle += 'background-color:#fff5d4;'; break;
+                    case 'early_exit': cellStyle += 'background-color:#ffe9d4;'; break;
+                    case 'present': cellStyle += 'background-color:#d4ffd4;'; break;
+                    case 'semi_present': cellStyle += 'background-color:#d4ffff;'; break;
+                    case 'late_and_early_exit': cellStyle += 'background-color:#ffe6ff;'; break;
+                    case 'overtime': cellStyle += 'background-color:#e6ffe6;'; break;
+                  }
+                }
+                trHtml += `<td style="${cellStyle}">${cellVal}</td>`;
+              });
+              trHtml += '</tr>';
+              rowsHtml += trHtml;
+            });
           });
-          trHtml += '</tr>';
-          rowsHtml += trHtml;
         });
-      });
-    });
 
-    // Append rows to the table body
-    tableBody.innerHTML = rowsHtml;
+        // Append rows to the table body
+        tableBody.innerHTML = rowsHtml;
 
-    // Update summary information
-    document.getElementById('recordsCount').textContent = count;
-    document.getElementById('delaySum').textContent = sumDelay;
-    document.getElementById('earlySum').textContent = sumEarly;
-    const sumNetFormatted = formatNetSalary(sumNet);
-    document.getElementById('netSum').textContent = sumNetFormatted;
+        // Update summary information
+        document.getElementById('recordsCount').textContent = count;
+        document.getElementById('delaySum').textContent = sumDelay;
+        document.getElementById('earlySum').textContent = sumEarly;
+        const sumNetFormatted = formatNetSalary(sumNet);
+        document.getElementById('netSum').textContent = sumNetFormatted;
 
-    // Add summary row if data exists
-    if (count > 0) {
-      const summaryRowHtml = getSummaryRowHtml(count, sumDelay, sumEarly, sumNetFormatted, displayedColumns.length);
-      tableBody.innerHTML += summaryRowHtml;
+        // Add summary row if data exists
+        if (count > 0) {
+          const summaryRowHtml = getSummaryRowHtml(count, sumDelay, sumEarly, sumNetFormatted, displayedColumns.length);
+          tableBody.innerHTML += summaryRowHtml;
+        }
+      } catch (error) {
+        console.error('Error in renderReport():', error);
+      }
     }
-  } catch (error) {
-    console.error('Error in renderReport():', error);
-  }
-}
 
     function buildApiSummarySection(parsedSummary) {
       const gridContainer = document.getElementById('apiSummaryGrid');
@@ -1311,7 +1343,7 @@ async function loadLeavesLangFile(lang) {
 
     function toggleApiSummaryVisibility() {
       const container = document.getElementById('apiSummaryContainer');
-      const checkbox  = document.getElementById('showApiSummaryCheckbox');
+      const checkbox = document.getElementById('showApiSummaryCheckbox');
       if (!summaryRowData) {
         container.style.display = 'none';
         return;
@@ -1342,21 +1374,21 @@ async function loadLeavesLangFile(lang) {
 
     function printCustomReport() {
       const startDate = document.getElementById('startDate').value || '';
-      const endDate   = document.getElementById('endDate').value   || '';
+      const endDate = document.getElementById('endDate').value || '';
       const statusVal = document.getElementById('statusSelect').value;
-      
+
       let filteredData = [...originalReportData];
       if (statusVal) {
         filteredData = filteredData.filter(row => row.status_code === statusVal);
       }
-    
+
       const groupByDept = document.getElementById('groupByDeptCheckbox').checked;
-      const groupByEmp  = document.getElementById('groupByEmpCheckbox').checked;
+      const groupByEmp = document.getElementById('groupByEmpCheckbox').checked;
       const groupedData = groupRows(filteredData, groupByDept, groupByEmp);
-    
-      const chunkSize = 32; 
+
+      const chunkSize = 32;
       const pagesData = [];
-    
+
       Object.keys(groupedData).forEach(deptKey => {
         Object.keys(groupedData[deptKey]).forEach(empKey => {
           const rows = groupedData[deptKey][empKey];
@@ -1364,17 +1396,17 @@ async function loadLeavesLangFile(lang) {
           chunked.forEach(chunk => {
             pagesData.push({
               deptName: (groupByDept && deptKey !== 'All Departments') ? deptKey : null,
-              empName:  (groupByEmp && empKey !== 'All Employees') ? empKey : null,
+              empName: (groupByEmp && empKey !== 'All Employees') ? empKey : null,
               rows: chunk
             });
           });
         });
       });
-    
+
       const displayedColumns = allColumns.filter(c => c.checked);
-    
+
       const printWindow = window.open('', '', 'width=1200,height=700');
-    
+
       printWindow.document.write(`
         <!DOCTYPE html>
         <html lang="ar" dir="rtl">
@@ -1459,27 +1491,27 @@ async function loadLeavesLangFile(lang) {
         </head>
         <body>
       `);
-    
+
       pagesData.forEach((pageObj, pageIndex) => {
         const isLastPage = (pageIndex === pagesData.length - 1);
         const { deptName, empName, rows } = pageObj;
-        
-        let pageNetTotal      = 0;
-        let pageWorkHoursSum  = 0;
-        let pageDelaySum      = 0;
-        let pageDelayCount    = 0;
-        let pageEarlyCount    = 0;
-        let pageAbsentDays    = 0;
+
+        let pageNetTotal = 0;
+        let pageWorkHoursSum = 0;
+        let pageDelaySum = 0;
+        let pageDelayCount = 0;
+        let pageEarlyCount = 0;
+        let pageAbsentDays = 0;
         let pageRewardsPunish = 0;
-        let pageLeavesCount   = 0;
-        let pageTimeBased     = 0;
-        let pageBreaks        = 0;
-    
+        let pageLeavesCount = 0;
+        let pageTimeBased = 0;
+        let pageBreaks = 0;
+
         rows.forEach(r => {
           pageNetTotal += (r.net_salary || 0);
           let wh = parseFloat(r.work_hours || '0');
           if (!isNaN(wh)) pageWorkHoursSum += wh;
-    
+
           if (r.delay_minutes && r.delay_minutes > 0) {
             pageDelaySum += r.delay_minutes;
             pageDelayCount++;
@@ -1491,23 +1523,22 @@ async function loadLeavesLangFile(lang) {
             pageAbsentDays++;
           }
         });
-    
+
         printWindow.document.write(`
           <div class="page ${isLastPage ? 'last-page' : ''}">
             <div class="header">
               <div class="report-title">تقرير الحضور للفترة من ${startDate} إلى ${endDate}</div>
-              ${
-                (deptName || empName)
-                ? `<div class="sub-header">
+              ${(deptName || empName)
+            ? `<div class="sub-header">
                      ${deptName ? (`<strong>القسم:</strong> ${deptName}`) : ''}
                      ${deptName && empName ? ' | ' : ''}
-                     ${empName  ? (`<strong>الموظف:</strong> ${empName}`) : ''}
+                     ${empName ? (`<strong>الموظف:</strong> ${empName}`) : ''}
                    </div>`
-                : ''
-              }
+            : ''
+          }
             </div>
         `);
-    
+
         if (deptName) {
           printWindow.document.write(`
             <table>
@@ -1519,7 +1550,7 @@ async function loadLeavesLangFile(lang) {
             </table>
           `);
         }
-    
+
         if (empName) {
           printWindow.document.write(`
             <table>
@@ -1531,7 +1562,7 @@ async function loadLeavesLangFile(lang) {
             </table>
           `);
         }
-    
+
         printWindow.document.write(`
           <table>
             <thead>
@@ -1545,7 +1576,7 @@ async function loadLeavesLangFile(lang) {
             </thead>
             <tbody>
         `);
-    
+
         rows.forEach(row => {
           printWindow.document.write(`<tr>`);
           displayedColumns.forEach(col => {
@@ -1575,22 +1606,22 @@ async function loadLeavesLangFile(lang) {
           });
           printWindow.document.write(`</tr>`);
         });
-    
+
         printWindow.document.write(`
             </tbody>
           </table>
         `);
-    
-        const recordCount  = rows.length;
+
+        const recordCount = rows.length;
         const netSalaryStr = formatNetSalary(pageNetTotal);
-        
+
         function convertHoursToStr(hh) {
-          const whole  = Math.floor(hh);
-          const mins   = Math.round((hh - whole) * 60);
+          const whole = Math.floor(hh);
+          const mins = Math.round((hh - whole) * 60);
           return `${whole}س و ${mins}د`;
         }
         const totalWorkHoursStr = convertHoursToStr(pageWorkHoursSum);
-    
+
         printWindow.document.write(`
           <table class="page-summary-table">
             <thead>
@@ -1625,21 +1656,21 @@ async function loadLeavesLangFile(lang) {
             </tbody>
           </table>
         `);
-    
+
         printWindow.document.write(`</div>`);
       });
-    
+
       printWindow.document.write(`
         <div style="text-align:center; margin:15px 0;" class="no-print">
           <button onclick="window.print()">طباعة</button>
         </div>
       `);
-    
+
       printWindow.document.write(`
         
         </html>
       `);
-    
+
       printWindow.document.close();
       printWindow.focus();
     }
@@ -1664,18 +1695,18 @@ async function loadLeavesLangFile(lang) {
       <div class="modal-body" style="display:block;">
         <!-- عرض الفترة -->
         <p id="logsDateRange" style="font-weight: bold; margin-bottom: 15px;"></p>
-        
+
         <!-- فلاتر بسيطة داخل المودال للبحث -->
         <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:15px;">
           <label for="logsFromDate">من تاريخ:</label>
           <input type="date" id="logsFromDate" />
-          
+
           <label for="logsToDate">إلى تاريخ:</label>
           <input type="date" id="logsToDate" />
-          
+
           <label for="logsEnrollId">EnrolID:</label>
           <input type="number" id="logsEnrollId" style="width:80px" />
-          
+
           <button onclick="fetchAttendanceLogs()">بحث</button>
         </div>
 
@@ -1693,14 +1724,14 @@ async function loadLeavesLangFile(lang) {
             <tbody></tbody>
           </table>
         </div>
-        
+
       </div>
       <div class="modal-footer">
         <button onclick="closeAttendanceLogsModal()">إغلاق</button>
       </div>
     </div>
   </div>
-  
+
   <script>
     // دوال للمودال وسحب البيانات
 
@@ -1735,11 +1766,11 @@ async function loadLeavesLangFile(lang) {
 
       // صيغة العرض والفلترة
       const startDateFormatted = formatDateYMD(baseDate);
-      const endDateFormatted   = formatDateYMD(endDateObj);
+      const endDateFormatted = formatDateYMD(endDateObj);
 
       // تعبئة حقول التاريخ في المودال (date inputs)
       document.getElementById('logsFromDate').value = startDateFormatted;
-      document.getElementById('logsToDate').value   = endDateFormatted;
+      document.getElementById('logsToDate').value = endDateFormatted;
       // تعبئة EnrollID (إن وجد)
       document.getElementById('logsEnrollId').value = enrollId || '';
 
@@ -1760,8 +1791,8 @@ async function loadLeavesLangFile(lang) {
 
     async function fetchAttendanceLogs() {
       const fromDate = document.getElementById('logsFromDate').value; // yyyy-mm-dd
-      const toDate   = document.getElementById('logsToDate').value;   // yyyy-mm-dd
-      const eid      = document.getElementById('logsEnrollId').value.trim();
+      const toDate = document.getElementById('logsToDate').value;   // yyyy-mm-dd
+      const eid = document.getElementById('logsEnrollId').value.trim();
 
       if (!fromDate || !toDate) {
         alert('الرجاء اختيار تاريخ البداية والنهاية');
@@ -1770,7 +1801,7 @@ async function loadLeavesLangFile(lang) {
 
       // نضمّن التوقيت في الاستعلام: 00:00:00 و 23:59:59
       const fromStr = fromDate + 'T00:00:00';
-      const toStr   = toDate   + 'T23:59:59';
+      const toStr = toDate + 'T23:59:59';
 
       let url = `https://hr.iraqsapp.com/api/fingerprints?from=${fromStr}&to=${toStr}`;
       if (eid) {
@@ -1787,7 +1818,7 @@ async function loadLeavesLangFile(lang) {
         }
         const data = await resp.json();
         const logs = data.logs || [];
-        
+
         // عرض النتائج في الجدول
         const tbody = document.querySelector('#logsTable tbody');
         tbody.innerHTML = '';
@@ -1796,7 +1827,7 @@ async function loadLeavesLangFile(lang) {
           tr.innerHTML = `
             <td style="border:1px solid #ddd; padding:6px;">${log.enrollid || ''}</td>
             <td style="border:1px solid #ddd; padding:6px;">${log.name || ''}</td>
-            <td style="border:1px solid #ddd; padding:6px;">${(log.time || '').replace('T',' ').split('.')[0]}</td>
+            <td style="border:1px solid #ddd; padding:6px;">${(log.time || '').replace('T', ' ').split('.')[0]}</td>
             <td style="border:1px solid #ddd; padding:6px;">${log.event || ''}</td>
           `;
           tbody.appendChild(tr);
@@ -1828,7 +1859,7 @@ async function loadLeavesLangFile(lang) {
         if (!row.dataset.clickBound) {
           row.dataset.clickBound = 'true';
 
-          const dateCell   = row.cells[0];
+          const dateCell = row.cells[0];
           const offsetCell = row.cells[1];
 
           if (!dateCell) return;
@@ -1880,7 +1911,7 @@ async function loadLeavesLangFile(lang) {
     // تطبيق الترجمة على عناصر الصفحة
     function applyReportTranslations(lang) {
       // ضبط اتجاه الصفحة
-      document.documentElement.dir  = (lang === 'ar') ? 'rtl' : 'ltr';
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
       document.documentElement.lang = lang;
       document.querySelectorAll('[data-lng]').forEach(el => {
         const key = el.getAttribute('data-lng');
@@ -1903,21 +1934,21 @@ async function loadLeavesLangFile(lang) {
         logoutBtn.textContent = reportTranslations['report_logout'];
       }
       document.querySelectorAll('option[data-lng]').forEach(option => {
-      const key = option.getAttribute('data-lng');
-      if (reportTranslations[key]) {
-        option.textContent = reportTranslations[key];
-      }
-      // Translate the checkbox labels if they have data-lng
-  document.querySelectorAll('label').forEach(label => {
-    const input = label.querySelector('input');
-    if (input && input.getAttribute('data-lng')) {
-      const key = input.getAttribute('data-lng');
-      if (reportTranslations[key]) {
-        label.querySelector('span') ? label.querySelector('span').textContent = reportTranslations[key] : label.textContent = reportTranslations[key];
-      }
-    }
-  });
-    });
+        const key = option.getAttribute('data-lng');
+        if (reportTranslations[key]) {
+          option.textContent = reportTranslations[key];
+        }
+        // Translate the checkbox labels if they have data-lng
+        document.querySelectorAll('label').forEach(label => {
+          const input = label.querySelector('input');
+          if (input && input.getAttribute('data-lng')) {
+            const key = input.getAttribute('data-lng');
+            if (reportTranslations[key]) {
+              label.querySelector('span') ? label.querySelector('span').textContent = reportTranslations[key] : label.textContent = reportTranslations[key];
+            }
+          }
+        });
+      });
       // الفلاتر
       const labelWeek = document.querySelector('label[for="weekSelect"]');
       if (labelWeek && reportTranslations['report_filter_week']) {
@@ -2141,4 +2172,5 @@ async function loadLeavesLangFile(lang) {
   <!-- ================================================================================================== -->
 
 </body>
+
 </html>

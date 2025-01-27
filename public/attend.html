@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title data-lng="attend_head_title"></title>
@@ -8,48 +9,57 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <!-- مكتبة Select2 (اختياري) -->
-  <link 
-    href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" 
-    rel="stylesheet" />
-  <script 
-    src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
   <!-- أيقونات Bootstrap (لأيقونات التحرير والحذف) -->
-  <link 
-    rel="stylesheet" 
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
   <!-- خط Tajawal وOpen Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link 
-    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
     rel="stylesheet">
 
   <style>
-        html{ animation: fadeIn .2s ease-in forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    html {
+      animation: fadeIn .3s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
     /* عند العربية: Tajawal + RTL */
     html[lang="ar"] body {
       font-family: 'Tajawal', sans-serif;
       direction: rtl;
     }
+
     /* عند الإنجليزية: Open Sans + LTR */
     html[lang="en"] body {
       font-family: 'Open Sans', sans-serif;
       direction: ltr;
     }
-   /* زر اختيار اللغة */
-   #langSelector {
+
+    /* زر اختيار اللغة */
+    #langSelector {
       margin: 10px;
       padding: 6px;
       font-size: 0.9rem;
       border-radius: 4px;
       border: 1px solid #ccc;
     }
+
     body {
-      margin: 0; 
-      padding: 0; 
-      background: #f2f2f2; 
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
     }
 
     /* رأس الصفحة */
@@ -57,24 +67,27 @@
       background: linear-gradient(45deg, #0062cc, #004085);
       color: #fff;
       padding: 10px 20px;
-      display: flex; 
-      justify-content: space-between; 
+      display: flex;
+      justify-content: space-between;
       align-items: center;
     }
+
     header h1 {
-      margin: 0; 
+      margin: 0;
       font-size: 1.2rem;
     }
+
     header button {
-      background: #dc3545; 
+      background: #dc3545;
       color: #fff;
-      border: none; 
+      border: none;
       padding: 8px 14px;
-      border-radius: 4px; 
+      border-radius: 4px;
       cursor: pointer;
       font-size: 0.9rem;
       transition: background 0.3s;
     }
+
     header button:hover {
       background: #c82333;
     }
@@ -85,67 +98,76 @@
     }
 
     .mainContent {
-      flex: 1; 
+      flex: 1;
       padding: 20px;
     }
 
     .sidebar {
-      width: 240px; 
+      width: 240px;
       background: #fff;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      min-height: 100vh; 
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      min-height: 100vh;
       padding: 20px 10px;
     }
+
     .sidebar h2 {
-      margin-bottom: 15px; 
-      font-size: 1rem; 
-      text-align: center; 
+      margin-bottom: 15px;
+      font-size: 1rem;
+      text-align: center;
       color: #444;
     }
+
     .navItem {
-      padding: 12px 10px; 
-      margin: 6px 0; 
+      padding: 12px 10px;
+      margin: 6px 0;
       border-radius: 4px;
-      cursor: pointer; 
-      color: #333; 
+      cursor: pointer;
+      color: #333;
       font-weight: 500;
       transition: background 0.3s, color 0.3s;
-      display: flex; 
+      display: flex;
       align-items: center;
       gap: 8px;
     }
+
     .navItem i {
-      font-size: 1.1rem; 
-      color: #666; 
+      font-size: 1.1rem;
+      color: #666;
       transition: color 0.3s;
     }
+
     .navItem:hover {
       background: #f0f0f0;
     }
+
     .navItem.active {
-      background: #007bff; 
+      background: #007bff;
       color: #fff;
     }
+
     .navItem.active i {
       color: #fff;
     }
 
-    .errorMsg, .successMsg {
-      margin: 10px 0; 
+    .errorMsg,
+    .successMsg {
+      margin: 10px 0;
       font-size: 0.95rem;
       font-weight: 600;
     }
+
     .errorMsg {
-      color: red; 
+      color: red;
     }
+
     .successMsg {
-      color: green; 
+      color: green;
     }
 
     .addFingerprintBtn {
-      background: #28a745; 
+      background: #28a745;
       color: #fff;
-      padding: 8px 14px; 
+      padding: 8px 14px;
       border-radius: 4px;
       margin-bottom: 15px;
       transition: background 0.3s;
@@ -153,31 +175,34 @@
       border: none;
       cursor: pointer;
     }
+
     .addFingerprintBtn:hover {
       background: #218838;
     }
 
     .searchFilters {
-      background: #fff; 
-      padding: 10px; 
+      background: #fff;
+      padding: 10px;
       margin-bottom: 15px;
-      display: flex; 
-      flex-wrap: wrap; 
+      display: flex;
+      flex-wrap: wrap;
       gap: 10px;
-      align-items: center; 
+      align-items: center;
       border-radius: 6px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+
     .searchFilters label {
-      margin-right: 4px; 
+      margin-right: 4px;
       font-weight: 500;
     }
-    .searchFilters select, 
-    .searchFilters input[type="date"], 
+
+    .searchFilters select,
+    .searchFilters input[type="date"],
     .searchFilters input[type="text"],
     .searchFilters input[type="datetime-local"] {
-      padding: 6px; 
-      border: 1px solid #ccc; 
+      padding: 6px;
+      border: 1px solid #ccc;
       border-radius: 4px;
       font-size: 0.9rem;
       font-family: inherit;
@@ -189,6 +214,7 @@
       gap: 10px;
       margin-bottom: 15px;
     }
+
     .pagination button {
       background: #007bff;
       color: #fff;
@@ -199,89 +225,109 @@
       font-size: 0.8rem;
       transition: background 0.3s;
     }
+
     .pagination button:hover {
       background: #0056b3;
     }
+
     .pagination span {
       font-size: 0.9rem;
       font-weight: 600;
     }
+
     .pagination button:disabled {
       opacity: 0.6;
       cursor: not-allowed;
     }
 
     table {
-      width: 100%; 
-      border-collapse: collapse; 
+      width: 100%;
+      border-collapse: collapse;
       background: #fff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      border-radius: 6px; 
-      overflow: hidden; 
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      overflow: hidden;
     }
+
     table thead {
-      background: #007bff; 
+      background: #007bff;
       color: #fff;
     }
-    table th, 
+
+    table th,
     table td {
-      border: 1px solid #ddd; 
-      padding: 8px; 
+      border: 1px solid #ddd;
+      padding: 8px;
       text-align: center;
       font-size: 0.9rem;
       vertical-align: middle;
     }
+
     table tbody tr:hover {
       background: #f9f9f9;
     }
+
     .modifiedRow {
-      background-color: #fff7e6; 
+      background-color: #fff7e6;
     }
 
     .actionIcon {
-      cursor: pointer; 
-      font-size: 1rem; 
+      cursor: pointer;
+      font-size: 1rem;
       margin: 0 5px;
       transition: color 0.3s;
     }
+
     .actionIcon:hover {
       opacity: 0.8;
     }
+
     .iconEdit {
       color: #007bff;
     }
+
     .iconDelete {
       color: #dc3545;
     }
 
     .modalOverlay {
-      display: none; 
-      position: fixed; 
-      top: 0; 
-      left: 0; 
-      right: 0; 
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
       bottom: 0;
-      background: rgba(0,0,0,0.5);
-      justify-content: center; 
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
       align-items: center;
       z-index: 9999;
     }
+
     .modalContent {
-      width: 400px; 
+      width: 400px;
       max-width: 90%;
       border-radius: 8px;
-      background: #fff; 
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      animation: fadeInModal 0.3s ease; 
+      animation: fadeInModal 0.3s ease;
       position: relative;
     }
+
     @keyframes fadeInModal {
-      from { transform: scale(0.9); opacity: 0; }
-      to   { transform: scale(1);   opacity: 1; }
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
+
     .modalHeader {
       background: #007bff;
       color: #fff;
@@ -290,10 +336,12 @@
       justify-content: space-between;
       align-items: center;
     }
+
     .modalHeader h2 {
-      margin: 0; 
+      margin: 0;
       font-size: 1rem;
     }
+
     .modalCloseBtn {
       background: none;
       border: none;
@@ -302,38 +350,44 @@
       cursor: pointer;
       transition: color 0.3s;
     }
+
     .modalCloseBtn:hover {
       color: #ffdddd;
     }
+
     .modalBody {
       padding: 20px;
     }
+
     .modalBody label {
-      display: block; 
-      margin: 8px 0 4px; 
+      display: block;
+      margin: 8px 0 4px;
       font-weight: 500;
     }
-    .modalBody input, 
+
+    .modalBody input,
     .modalBody select {
-      width: 100%; 
-      padding: 8px; 
-      border: 1px solid #ccc; 
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
       border-radius: 4px;
       margin-bottom: 10px;
       font-size: 0.9rem;
       font-family: inherit;
     }
+
     .modalSaveBtn {
-      background: #28a745; 
-      color: #fff; 
-      border: none; 
+      background: #28a745;
+      color: #fff;
+      border: none;
       border-radius: 4px;
-      padding: 10px 14px; 
-      cursor: pointer; 
+      padding: 10px 14px;
+      cursor: pointer;
       margin-top: 10px;
       font-size: 0.9rem;
       transition: background 0.3s;
     }
+
     .modalSaveBtn:hover {
       background: #218838;
     }
@@ -341,8 +395,11 @@
     #loaderOverlay {
       display: none;
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
       z-index: 99999;
       justify-content: center;
       align-items: center;
@@ -353,26 +410,27 @@
     }
 
     .tableRecordImage {
-      width: 50px; 
-      height: 50px; 
-      object-fit: cover; 
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
       border-radius: 4px;
     }
   </style>
 </head>
+
 <body onload="initPage()">
 
   <!-- شريط الهيدر -->
   <header>
     <h1 data-lng="attend_head_title"></h1>
     <div>
-    <button onclick="logout()" data-lng="attend_logout"></button>
+      <button onclick="logout()" data-lng="attend_logout"></button>
 
-    <select id="langSelector" class="lang-select">
-      <option value="en">English</option>
-      <option value="ar">العربية</option>
-    </select>
-  </div>
+      <select id="langSelector" class="lang-select">
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+      </select>
+    </div>
   </header>
 
   <!-- شاشة تحميل (لودينغ) -->
@@ -400,15 +458,13 @@
         <select id="searchEvent">
           <option value="" data-lng-option="attend_filter_event_label_all"></option>
           <option value="1" data-lng-option="attend_filter_event_label_attendance"></option>
-          <option value="2" data-lng-option="attend_filter_event_label_enter" ></option>
+          <option value="2" data-lng-option="attend_filter_event_label_enter"></option>
           <option value="3" data-lng-option="attend_filter_event_label_exit"></option>
           <option value="4" data-lng-option="attend_filter_event_label_vacation_enter"></option>
           <option value="5" data-lng-option="attend_filter_event_label_vacation_exit"></option>
         </select>
 
-        <button
-          data-lng="attend_filter_button_search"
-          onclick="startSearch()" 
+        <button data-lng="attend_filter_button_search" onclick="startSearch()"
           style="background: #17a2b8; color: #fff; border:none; padding: 8px 14px; border-radius:4px; cursor:pointer;">
         </button>
       </div>
@@ -418,12 +474,13 @@
         <button id="prevPageBtn" onclick="prevPage()" data-lng="attend_pagination_prev"></button>
         <span id="pageInfo" data-lng="attend_pagination_info"></span>
         <button id="nextPageBtn" onclick="nextPage()" data-lng="attend_pagination_next"></button>
-        <button onclick="showAllFingerprints()" style="background:#6c757d;" data-lng="attend_filter_button_showall"></button>
+        <button onclick="showAllFingerprints()" style="background:#6c757d;"
+          data-lng="attend_filter_button_showall"></button>
       </div>
 
       <!-- زر إضافة سجل بصمة -->
       <button class="addFingerprintBtn" onclick="openModalForAdd()" data-lng="attend_button_add_fingerprint">
-        
+
       </button>
 
       <!-- جدول السجلات -->
@@ -520,29 +577,33 @@
         <input type="hidden" id="fingerprintId" />
 
         <label for="employeeSelect" data-lng="attend_modal_label_employee"></label>
-        <select id="employeeSelect" style="width:100%;" ></select>
+        <select id="employeeSelect" style="width:100%;"></select>
 
         <label for="enrollIdInput" data-lng="attend_modal_label_enroll"></label>
-        <input type="text" id="enrollIdInput" readonly data-lng-placeholder="it_will_be_filled_automatically" placeholder="" />
+        <input type="text" id="enrollIdInput" readonly data-lng-placeholder="it_will_be_filled_automatically"
+          placeholder="" />
 
         <label for="nameInput" data-lng="attend_modal_label_name"></label>
-        <input type="text" id="nameInput" readonly data-lng-placeholder="it_will_be_filled_automatically" placeholder="" />
+        <input type="text" id="nameInput" readonly data-lng-placeholder="it_will_be_filled_automatically"
+          placeholder="" />
 
         <label for="eventSelect" data-lng="attend_filter_event_label"></label>
         <select id="eventSelect">
           <option value="1" data-lng-option="not_none"></option>
-          <option value="2"  data-lng-option="attend_filter_event_label_enter"></option>
-          <option value="3"  data-lng-option="attend_filter_event_label_exit"></option>
-          <option value="4"  data-lng-option="attend_filter_event_label_vacation_enter"></option>
-          <option value="5"  data-lng-option="attend_filter_event_label_vacation_exit"></option>
+          <option value="2" data-lng-option="attend_filter_event_label_enter"></option>
+          <option value="3" data-lng-option="attend_filter_event_label_exit"></option>
+          <option value="4" data-lng-option="attend_filter_event_label_vacation_enter"></option>
+          <option value="5" data-lng-option="attend_filter_event_label_vacation_exit"></option>
         </select>
 
         <label for="timeInput" data-lng="attend_modal_label_time"></label>
         <input type="datetime-local" id="timeInput" />
 
         <!-- حقل سبب التعديل (يظهر فقط في وضع التعديل) -->
-        <label for="modificationReasonInput" id="modReasonLabel" style="display:none;" data-lng="attend_modal_label_modreason"></label>
-        <input type="text" id="modificationReasonInput" style="display:none;" data-lng-placeholder="enter_attend_modal_label_modreason" placeholder="" />
+        <label for="modificationReasonInput" id="modReasonLabel" style="display:none;"
+          data-lng="attend_modal_label_modreason"></label>
+        <input type="text" id="modificationReasonInput" style="display:none;"
+          data-lng-placeholder="enter_attend_modal_label_modreason" placeholder="" />
 
         <button class="modalSaveBtn" onclick="saveFingerprint()" data-lng="attend_modal_button_save"></button>
       </div>
@@ -554,12 +615,12 @@
     let authToken = null;
 
     // متغيرات التصفح
-    let currentPage = 1;      
-    let totalPages = 1;       
-    let pageSize = 10;        
+    let currentPage = 1;
+    let totalPages = 1;
+    let pageSize = 10;
 
-    let employees = []; 
-    
+    let employees = [];
+
     const LANG_PATH = './lang';        // مجلد ملفات JSON
     const LANG_KEY = 'attend';
     let translations = {};
@@ -574,7 +635,7 @@
         if (!response.ok) {
           throw new Error(`Error loading ${lang}.json`);
         }
-        
+
         translations = await response.json();
       } catch (error) {
         console.error("Error loading translation file:", error);
@@ -619,7 +680,7 @@
     }
 
 
-    async function setLanguage(lang) {      
+    async function setLanguage(lang) {
       await loadLanguageFile(lang);
       localStorage.setItem("lng", lang);
       applyTranslations(lang);
@@ -627,15 +688,15 @@
 
 
 
-    function initPage(){
+    function initPage() {
       authToken = localStorage.getItem('authToken');
-      if(!authToken){
+      if (!authToken) {
         window.location.href = 'login.html';
         return;
       }
 
-      loadEmployees(); 
-      setupSelect2(); 
+      loadEmployees();
+      setupSelect2();
 
       loadFingerprints(1);
 
@@ -647,7 +708,7 @@
       loadLanguageFile(storedLang);
       document.getElementById('langSelector').value = storedLang;
       setLanguage(storedLang);
-      
+
 
 
     }
@@ -655,20 +716,20 @@
     // تغيير اللغة من الـselect
     document.getElementById('langSelector').addEventListener('change', async function () {
       await setLanguage(this.value);
-      localStorage.setItem("lng",this.value)
+      localStorage.setItem("lng", this.value)
       setupSelect2();
       // applyAttendTranslations(this.value);
     });
 
-    
-    function setupSelect2(){
+
+    function setupSelect2() {
       const text = getStringByKey("select_employee");
       console.log(text);
-      
-      $(document).ready(function(){
-          
+
+      $(document).ready(function () {
+
         $('#employeeSelect').select2({
-          width: '100%', 
+          width: '100%',
           placeholder: text,
           dropdownParent: $('#fingerprintModal .modalBody')
         });
@@ -676,40 +737,40 @@
       });
     }
 
-    function showLoader(show){
+    function showLoader(show) {
       document.getElementById('loaderOverlay').style.display = show ? 'flex' : 'none';
     }
 
-    function logout(){
+    function logout() {
       localStorage.removeItem('authToken');
       window.location.href = 'login.html';
     }
 
-    function startSearch(){
+    function startSearch() {
       loadFingerprints(1);
     }
-    function showAllFingerprints(){
+    function showAllFingerprints() {
       loadFingerprints(0);
     }
 
-    async function loadFingerprints(pageNumber){
+    async function loadFingerprints(pageNumber) {
       const errorMsg = document.getElementById('errorMsg');
       const successMsg = document.getElementById('successMsg');
-      errorMsg.textContent = ''; 
+      errorMsg.textContent = '';
       successMsg.textContent = '';
 
-      const fromVal = document.getElementById('searchFrom').value; 
-      const toVal   = document.getElementById('searchTo').value;    
+      const fromVal = document.getElementById('searchFrom').value;
+      const toVal = document.getElementById('searchTo').value;
       const enrollVal = document.getElementById('searchEnrollId').value.trim();
-      const eventVal  = document.getElementById('searchEvent').value;
+      const eventVal = document.getElementById('searchEvent').value;
 
       let queryParams = [];
-      if(fromVal)   queryParams.push(`from=${fromVal}`);
-      if(toVal)     queryParams.push(`to=${toVal}`);
-      if(enrollVal) queryParams.push(`enrollid=${enrollVal}`);
-      if(eventVal)  queryParams.push(`event=${eventVal}`);
+      if (fromVal) queryParams.push(`from=${fromVal}`);
+      if (toVal) queryParams.push(`to=${toVal}`);
+      if (enrollVal) queryParams.push(`enrollid=${enrollVal}`);
+      if (eventVal) queryParams.push(`event=${eventVal}`);
 
-      if(pageNumber !== 0){
+      if (pageNumber !== 0) {
         queryParams.push(`page=${pageNumber}`);
         queryParams.push(`limit=${pageSize}`);
       } else {
@@ -717,30 +778,30 @@
       }
 
       const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
-      
+
       showLoader(true);
       try {
         const resp = await fetch('https://hr.iraqsapp.com/api/fingerprints' + queryString, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if(!resp.ok) {
+        if (!resp.ok) {
           const text = getStringByKey("attend_msg_error_fetch");
           throw new Error(text);
         }
         const data = await resp.json();
 
-        let fingerprints = data.logs || data.data || [];  
+        let fingerprints = data.logs || data.data || [];
         currentPage = data.page || 1;
-        totalPages  = data.totalPages || 1;
+        totalPages = data.totalPages || 1;
 
-        if(data.page === 0){
+        if (data.page === 0) {
           currentPage = 0;
-          totalPages  = 1;
+          totalPages = 1;
         }
 
         renderFingerprints(fingerprints);
         updatePaginationUI();
-      } catch(err){
+      } catch (err) {
         errorMsg.textContent = err.message;
         console.error(err);
       } finally {
@@ -748,12 +809,12 @@
       }
     }
 
-    function updatePaginationUI(){
+    function updatePaginationUI() {
       const pageInfo = document.getElementById('pageInfo');
-      const prevBtn  = document.getElementById('prevPageBtn');
-      const nextBtn  = document.getElementById('nextPageBtn');
+      const prevBtn = document.getElementById('prevPageBtn');
+      const nextBtn = document.getElementById('nextPageBtn');
 
-      if(currentPage === 0){
+      if (currentPage === 0) {
         const text = getStringByKey("view_all_records");
         pageInfo.textContent = text;
         prevBtn.disabled = true;
@@ -765,18 +826,18 @@
         nextBtn.disabled = (currentPage >= totalPages);
       }
     }
-    function prevPage(){
-      if(currentPage > 1){
+    function prevPage() {
+      if (currentPage > 1) {
         loadFingerprints(currentPage - 1);
       }
     }
-    function nextPage(){
-      if(currentPage < totalPages){
+    function nextPage() {
+      if (currentPage < totalPages) {
         loadFingerprints(currentPage + 1);
       }
     }
 
-    function renderFingerprints(arr){
+    function renderFingerprints(arr) {
       const tb = document.querySelector('#fingerprintsTable tbody');
       tb.innerHTML = '';
 
@@ -786,26 +847,26 @@
           : '';
 
         let eventText = '';
-        switch(item.event){
-          case 1: eventText=getStringByKey("attend_filter_event_label_attendance"); break;
-          case 2: eventText=getStringByKey("attend_filter_event_label_enter"); break;
-          case 3: eventText=getStringByKey("attend_filter_event_label_exit"); break;
-          case 4: eventText=getStringByKey("attend_filter_event_label_vacation_enter"); break;
-          case 5: eventText=getStringByKey("attend_filter_event_label_vacation_exit"); break;
-          default: eventText=getStringByKey("not_none");
+        switch (item.event) {
+          case 1: eventText = getStringByKey("attend_filter_event_label_attendance"); break;
+          case 2: eventText = getStringByKey("attend_filter_event_label_enter"); break;
+          case 3: eventText = getStringByKey("attend_filter_event_label_exit"); break;
+          case 4: eventText = getStringByKey("attend_filter_event_label_vacation_enter"); break;
+          case 5: eventText = getStringByKey("attend_filter_event_label_vacation_exit"); break;
+          default: eventText = getStringByKey("not_none");
         }
 
-        let timeVal = item.time 
+        let timeVal = item.time
           ? new Date(item.time).toLocaleString('ar')
           : '';
 
-        let imageSrc = item.image 
+        let imageSrc = item.image
           ? item.image
-          : 'no_image.png'; 
+          : 'no_image.png';
 
         const tr = document.createElement('tr');
 
-        if(item.modified_time){
+        if (item.modified_time) {
           tr.classList.add('modifiedRow');
         }
 
@@ -835,16 +896,16 @@
       });
     }
 
-    async function loadEmployees(){
+    async function loadEmployees() {
       showLoader(true);
       try {
         const resp = await fetch('https://hr.iraqsapp.com/api/employees?page=1&limit=9999', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if(!resp.ok) throw new Error(getStringByKey("attend_msg_error_fetch_employees"));
+        if (!resp.ok) throw new Error(getStringByKey("attend_msg_error_fetch_employees"));
 
         const data = await resp.json();
-        employees = data.data || []; 
+        employees = data.data || [];
 
         const sel = document.getElementById('employeeSelect');
         sel.innerHTML = '';
@@ -852,8 +913,8 @@
         const defaultOpt = document.createElement('option');
         defaultOpt.value = '';
         defaultOpt.textContent = getStringByKey("select_employee"),
-        
-        sel.appendChild(defaultOpt);
+
+          sel.appendChild(defaultOpt);
 
         employees.forEach(e => {
           const opt = document.createElement('option');
@@ -861,18 +922,18 @@
           opt.textContent = e.name || (`${getStringByKey("employee")} ` + e.enroll_id);
           sel.appendChild(opt);
         });
-      } catch(err){
+      } catch (err) {
         console.error(err);
       } finally {
         showLoader(false);
       }
     }
 
-    function onEmployeeSelectChange(){
+    function onEmployeeSelectChange() {
       const sel = document.getElementById('employeeSelect');
       const selectedVal = sel.value;
       const emp = employees.find(e => e._id == selectedVal);
-      if(emp){
+      if (emp) {
         document.getElementById('enrollIdInput').value = emp.enroll_id || '';
         document.getElementById('nameInput').value = emp.name || '';
       } else {
@@ -881,7 +942,7 @@
       }
     }
 
-    function openModalForAdd(){
+    function openModalForAdd() {
       // document.getElementById('modalTitle').textContent = 'إضافة سجل بصمة';
       document.getElementById('fingerprintId').value = '';
 
@@ -899,21 +960,21 @@
       showFingerprintModal(true);
     }
 
-    async function openModalForEdit(id){
+    async function openModalForEdit(id) {
       const errorMsg = document.getElementById('errorMsg');
-      const successMsg= document.getElementById('successMsg');
-      errorMsg.textContent=''; 
-      successMsg.textContent='';
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
 
       showLoader(true);
       try {
         const resp = await fetch(`https://hr.iraqsapp.com/api/fingerprints/${id}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if(!resp.ok) throw new Error(getStringByKey("attend_msg_error_fetch_one"));
+        if (!resp.ok) throw new Error(getStringByKey("attend_msg_error_fetch_one"));
         const item = await resp.json();
 
-        if(item.modified_time){
+        if (item.modified_time) {
           showLoader(false);
           alert(getStringByKey("attend_msg_already_modified"));
           return;
@@ -923,19 +984,19 @@
         document.getElementById('fingerprintId').value = item._id || '';
 
         let emp = employees.find(e => e.enroll_id == item.enrollid);
-        if(emp){
+        if (emp) {
           document.getElementById('employeeSelect').value = emp._id || '';
         } else {
           document.getElementById('employeeSelect').value = '';
         }
         $('#employeeSelect').trigger('change.select2');
-        onEmployeeSelectChange(); 
+        onEmployeeSelectChange();
 
         document.getElementById('eventSelect').value = item.event || '1';
 
-        if(item.time){
+        if (item.time) {
           let dt = new Date(item.time);
-          let localVal = dt.toISOString().slice(0,16);
+          let localVal = dt.toISOString().slice(0, 16);
           document.getElementById('timeInput').value = localVal;
         } else {
           document.getElementById('timeInput').value = '';
@@ -946,7 +1007,7 @@
         document.getElementById('modificationReasonInput').value = '';
 
         showFingerprintModal(true);
-      } catch(err){
+      } catch (err) {
         errorMsg.textContent = err.message;
         console.error(err);
       } finally {
@@ -954,30 +1015,30 @@
       }
     }
 
-    async function saveFingerprint(){
+    async function saveFingerprint() {
       const errorMsg = document.getElementById('errorMsg');
-      const successMsg= document.getElementById('successMsg');
-      errorMsg.textContent=''; 
-      successMsg.textContent='';
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
 
       const fingerprintId = document.getElementById('fingerprintId').value;
 
       const enrollIdVal = document.getElementById('enrollIdInput').value.trim();
-      const nameVal     = document.getElementById('nameInput').value.trim();
-      const eventVal    = parseInt(document.getElementById('eventSelect').value, 10);
-      const timeVal     = document.getElementById('timeInput').value;
-      const reasonVal   = document.getElementById('modificationReasonInput').value.trim();
+      const nameVal = document.getElementById('nameInput').value.trim();
+      const eventVal = parseInt(document.getElementById('eventSelect').value, 10);
+      const timeVal = document.getElementById('timeInput').value;
+      const reasonVal = document.getElementById('modificationReasonInput').value.trim();
 
       let isoTime = timeVal ? new Date(timeVal).toISOString() : '';
 
       const bodyObj = {
         enrollid: enrollIdVal ? +enrollIdVal : null,
-        name:     nameVal,
-        event:    eventVal,
-        time:     isoTime
+        name: nameVal,
+        event: eventVal,
+        time: isoTime
       };
 
-      if(fingerprintId){
+      if (fingerprintId) {
         bodyObj.modification_reason = reasonVal || '';
       }
 
@@ -985,7 +1046,7 @@
       try {
         let url = 'https://hr.iraqsapp.com/api/fingerprints';
         let method = 'POST';
-        if(fingerprintId){
+        if (fingerprintId) {
           url = `https://hr.iraqsapp.com/api/fingerprints/${fingerprintId}`;
           method = 'PUT';
         }
@@ -998,19 +1059,19 @@
           },
           body: JSON.stringify(bodyObj)
         });
-        if(!resp.ok){
-          const errorData = await resp.json().catch(()=>({message:'حدث خطأ'}));
+        if (!resp.ok) {
+          const errorData = await resp.json().catch(() => ({ message: 'حدث خطأ' }));
           const text = getStringByKey('operation_failed');
           throw new Error(errorData.message || text);
         }
 
-        successMsg.textContent = fingerprintId 
-          ? getStringByKey("attend_msg_success_edit") 
+        successMsg.textContent = fingerprintId
+          ? getStringByKey("attend_msg_success_edit")
           : getStringByKey("attend_msg_success_add");
 
         showFingerprintModal(false);
         loadFingerprints(currentPage);
-      } catch(err){
+      } catch (err) {
         errorMsg.textContent = err.message;
         console.error(err);
       } finally {
@@ -1018,13 +1079,13 @@
       }
     }
 
-    async function deleteFingerprint(id){
+    async function deleteFingerprint(id) {
       const errorMsg = document.getElementById('errorMsg');
-      const successMsg= document.getElementById('successMsg');
-      errorMsg.textContent=''; 
-      successMsg.textContent='';
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
 
-      if(!confirm(getStringByKey("attend_msg_confirm_delete"))) return;
+      if (!confirm(getStringByKey("attend_msg_confirm_delete"))) return;
 
       showLoader(true);
       try {
@@ -1032,11 +1093,11 @@
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if(!resp.ok) throw new Error(getStringByKey("record_deletion_failed"));
+        if (!resp.ok) throw new Error(getStringByKey("record_deletion_failed"));
 
-        successMsg.textContent =getStringByKey("attend_msg_success_delete");
+        successMsg.textContent = getStringByKey("attend_msg_success_delete");
         loadFingerprints(currentPage);
-      } catch(err){
+      } catch (err) {
         errorMsg.textContent = err.message;
         console.error(err);
       } finally {
@@ -1044,11 +1105,11 @@
       }
     }
 
-    function showFingerprintModal(show){
+    function showFingerprintModal(show) {
       const modal = document.getElementById('fingerprintModal');
       modal.style.display = show ? 'flex' : 'none';
 
-      if(!show){
+      if (!show) {
         document.getElementById('fingerprintId').value = '';
         // document.getElementById('modalTitle').textContent = 'إضافة سجل بصمة';
         document.getElementById('employeeSelect').value = '';
@@ -1062,7 +1123,7 @@
         document.getElementById('modificationReasonInput').style.display = 'none';
       }
     }
-    function closeModal(){
+    function closeModal() {
       showFingerprintModal(false);
     }
   </script>
@@ -1078,11 +1139,11 @@
     async function loadAttendLangFile(lang) {
       try {
         const response = await fetch(`${ATTEND_LANG_PATH}/${lang}_attend.json`);
-        if(!response.ok) {
+        if (!response.ok) {
           throw new Error(`Error loading ${lang}_attend.json`);
         }
         attendTranslations = await response.json();
-      } catch(error) {
+      } catch (error) {
         console.error("Attendance translation file error:", error);
       }
     }
@@ -1090,14 +1151,15 @@
 
     window.addEventListener('DOMContentLoaded', async () => {
       let storedLang = localStorage.getItem(ATTEND_LANG_KEY);
-      
-      if(!storedLang) {
+
+      if (!storedLang) {
         // لو أردت الإنجليزية افتراضية، استبدل بـ 'en'
-        storedLang = 'ar'; 
+        storedLang = 'ar';
       }
       await loadAttendLangFile(storedLang);
       // applyAttendTranslations(storedLang);
     });
   </script>
 </body>
+
 </html>
