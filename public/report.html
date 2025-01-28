@@ -1175,10 +1175,10 @@
     function renderReport() {
       try {
         // Check if required data is available
-        if (!window.allColumns || !window.originalReportData) {
-          console.error('Missing necessary data: allColumns or originalReportData is undefined.');
-          return;
-        }
+        // if (!window.allColumns || !window.originalReportData) {
+        //   console.error('Missing necessary data: allColumns or originalReportData is undefined.');
+        //   return;
+        // }
 
         const statusVal = document.getElementById('statusSelect').value;
         const tableHead = document.querySelector('#reportTable thead');
