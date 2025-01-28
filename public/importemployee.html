@@ -554,7 +554,7 @@
       const myHeaders = new Headers();
       myHeaders.append('Authorization', 'Bearer ' + safeToken);
 
-      const resp = await fetch('https://hr.iraqsapp.com/api/devices', {
+      const resp = await fetch('https://timeattendhr.com/api/devices', {
         method: 'GET',
         headers: myHeaders
       });
@@ -571,7 +571,7 @@
       const myHeaders = new Headers();
       myHeaders.append('Authorization', 'Bearer ' + safeToken);
 
-      const resp = await fetch('https://hr.iraqsapp.com/api/employees?page=1&limit=9999', {
+      const resp = await fetch('https://timeattendhr.com/api/employees?page=1&limit=9999', {
         method: 'GET',
         headers: myHeaders
       });
@@ -648,7 +648,7 @@
         }
       };
 
-      const resp = await fetch('https://hr-socket.iraqsapp.com/api/dynamic', {
+      const resp = await fetch('https://hr-socket.timeattendhr.com/api/dynamic', {
         method: 'POST',
         headers: myHeaders,
         body: JSON.stringify(bodyObj)
@@ -793,7 +793,7 @@
         myHeaders.append('Authorization', 'Bearer ' + safeToken);
         myHeaders.append('Content-Type', 'application/json');
 
-        const resp = await fetch('https://hr.iraqsapp.com/api/employees', {
+        const resp = await fetch('https://timeattendhr.com/api/employees', {
           method: 'POST',
           headers: myHeaders,
           body: JSON.stringify(bodyObj)

@@ -593,7 +593,7 @@
       clearMessages();
       showLoading();
       try {
-        const resp = await fetch('https://hr.iraqsapp.com/api/departments', {
+        const resp = await fetch('https://timeattendhr.com/api/departments', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) {
@@ -679,7 +679,7 @@
       editModeDeptId = id;
       showLoading();
       try {
-        const resp = await fetch(`https://hr.iraqsapp.com/api/departments/${id}`, {
+        const resp = await fetch(`https://timeattendhr.com/api/departments/${id}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('فشل جلب بيانات القسم');
@@ -715,10 +715,10 @@
       };
 
       try {
-        let url = 'https://hr.iraqsapp.com/api/departments';
+        let url = 'https://timeattendhr.com/api/departments';
         let method = 'POST';
         if (deptId) {
-          url = `https://hr.iraqsapp.com/api/departments/${deptId}`;
+          url = `https://timeattendhr.com/api/departments/${deptId}`;
           method = 'PUT';
         }
 
@@ -748,7 +748,7 @@
       if (!confirm('هل أنت متأكد من حذف هذا القسم؟')) return;
       showLoading();
       try {
-        const resp = await fetch(`https://hr.iraqsapp.com/api/departments/${id}`, {
+        const resp = await fetch(`https://timeattendhr.com/api/departments/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });

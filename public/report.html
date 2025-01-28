@@ -926,7 +926,7 @@
     async function loadEmployees() {
       const sel = document.getElementById('employeeSelect');
       try {
-        const url = 'https://hr.iraqsapp.com/api/employees?page=1&limit=9999';
+        const url = 'https://timeattendhr.com/api/employees?page=1&limit=9999';
         const resp = await fetch(url, { headers: { 'Authorization': 'Bearer ' + authToken } });
         if (!resp.ok) throw new Error('فشل جلب قائمة الموظفين');
         const data = await resp.json();
@@ -945,7 +945,7 @@
     async function loadDepartments() {
       const sel = document.getElementById('departmentSelect');
       try {
-        const url = 'https://hr.iraqsapp.com/api/departments';
+        const url = 'https://timeattendhr.com/api/departments';
         const resp = await fetch(url, { headers: { 'Authorization': 'Bearer ' + authToken } });
         if (!resp.ok) throw new Error('فشل جلب قائمة الأقسام');
         const data = await resp.json();
@@ -973,7 +973,7 @@
       const empId = document.getElementById('employeeSelect').value || '0';
       const deptId = document.getElementById('departmentSelect').value || '0';
 
-      let url = 'https://hr.iraqsapp.com/api/reports/attendance';
+      let url = 'https://timeattendhr.com/api/reports/attendance';
       url += `?start_date=${startD}&end_date=${endD}`;
       url += `&employee_id=${empId}`;
       url += `&department_id=${deptId}`;
@@ -1803,7 +1803,7 @@
       const fromStr = fromDate + 'T00:00:00';
       const toStr = toDate + 'T23:59:59';
 
-      let url = `https://hr.iraqsapp.com/api/fingerprints?from=${fromStr}&to=${toStr}`;
+      let url = `https://timeattendhr.com/api/fingerprints?from=${fromStr}&to=${toStr}`;
       if (eid) {
         url += `&enrollid=${eid}`;
       }

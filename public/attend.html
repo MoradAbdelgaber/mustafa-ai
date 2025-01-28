@@ -781,7 +781,7 @@
 
       showLoader(true);
       try {
-        const resp = await fetch('https://hr.iraqsapp.com/api/fingerprints' + queryString, {
+        const resp = await fetch('https://timeattendhr.com/api/fingerprints' + queryString, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) {
@@ -899,7 +899,7 @@
     async function loadEmployees() {
       showLoader(true);
       try {
-        const resp = await fetch('https://hr.iraqsapp.com/api/employees?page=1&limit=9999', {
+        const resp = await fetch('https://timeattendhr.com/api/employees?page=1&limit=9999', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(getStringByKey("attend_msg_error_fetch_employees"));
@@ -968,7 +968,7 @@
 
       showLoader(true);
       try {
-        const resp = await fetch(`https://hr.iraqsapp.com/api/fingerprints/${id}`, {
+        const resp = await fetch(`https://timeattendhr.com/api/fingerprints/${id}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(getStringByKey("attend_msg_error_fetch_one"));
@@ -1044,10 +1044,10 @@
 
       showLoader(true);
       try {
-        let url = 'https://hr.iraqsapp.com/api/fingerprints';
+        let url = 'https://timeattendhr.com/api/fingerprints';
         let method = 'POST';
         if (fingerprintId) {
-          url = `https://hr.iraqsapp.com/api/fingerprints/${fingerprintId}`;
+          url = `https://timeattendhr.com/api/fingerprints/${fingerprintId}`;
           method = 'PUT';
         }
 
@@ -1089,7 +1089,7 @@
 
       showLoader(true);
       try {
-        const resp = await fetch(`https://hr.iraqsapp.com/api/fingerprints/${id}`, {
+        const resp = await fetch(`https://timeattendhr.com/api/fingerprints/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });

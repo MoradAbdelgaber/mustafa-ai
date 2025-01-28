@@ -1007,7 +1007,7 @@
       successMsg.textContent = '';
 
       try {
-        const resp = await fetch('https://hr.iraqsapp.com/api/employees?page=1&limit=9999999', {
+        const resp = await fetch('https://timeattendhr.com/api/employees?page=1&limit=9999999', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('Failed to fetch employees');
@@ -1025,7 +1025,7 @@
     // جلب الأقسام
     async function loadDepartments() {
       try {
-        const resp = await fetch('https://hr.iraqsapp.com/api/departments', {
+        const resp = await fetch('https://timeattendhr.com/api/departments', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('Failed to fetch departments');
@@ -1065,7 +1065,7 @@
     // جلب الأجهزة
     async function loadAllDevices() {
       try {
-        const resp = await fetch('https://hr.iraqsapp.com/api/devices', {
+        const resp = await fetch('https://timeattendhr.com/api/devices', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('Failed to fetch devices');
@@ -1325,10 +1325,10 @@
       }
 
       try {
-        let url = 'https://hr.iraqsapp.com/api/employees';
+        let url = 'https://timeattendhr.com/api/employees';
         let method = 'POST';
         if (dbId) {
-          url = `https://hr.iraqsapp.com/api/employees/${dbId}`;
+          url = `https://timeattendhr.com/api/employees/${dbId}`;
           method = 'PUT';
         }
         const resp = await fetch(url, {
@@ -1374,7 +1374,7 @@
       successMsg.textContent = '';
       if (!confirm('Are you sure to delete this employee?')) return;
       try {
-        const resp = await fetch(`https://hr.iraqsapp.com/api/employees/${dbId}`, {
+        const resp = await fetch(`https://timeattendhr.com/api/employees/${dbId}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
@@ -1561,7 +1561,7 @@
       const emp = allEmployees[currentEmployeeIndex];
       emp.weekSchedules = currentSchedules;
       try {
-        const resp = await fetch(`https://hr.iraqsapp.com/api/employees/${emp._id}`, {
+        const resp = await fetch(`https://timeattendhr.com/api/employees/${emp._id}`, {
           method: 'PUT',
           headers: {
             'Authorization': 'Bearer ' + authToken,
@@ -1596,7 +1596,7 @@
       const selectedDevices = $('#devicesSelect').val() || [];
       emp.devices = selectedDevices;
       try {
-        const resp = await fetch(`https://hr.iraqsapp.com/api/employees/${emp._id}`, {
+        const resp = await fetch(`https://timeattendhr.com/api/employees/${emp._id}`, {
           method: 'PUT',
           headers: {
             'Authorization': 'Bearer ' + authToken,
@@ -1718,7 +1718,7 @@
           }
         };
         // نفترض هنا أن الخدمة موجودة على 4000
-        const resp = await fetch('https://hr-socket.iraqsapp.com/api/adduserinfo', {
+        const resp = await fetch('https://hr-socket.timeattendhr.com/api/adduserinfo', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(bodyObj)
@@ -1737,7 +1737,7 @@
         }
         const newImage = 'data:image/jpeg;base64,' + recordBase64;
         const updateBody = { image: newImage };
-        const updateResp = await fetch(`https://hr.iraqsapp.com/api/employees/${emp._id}`, {
+        const updateResp = await fetch(`https://timeattendhr.com/api/employees/${emp._id}`, {
           method: 'PUT',
           headers: {
             'Authorization': 'Bearer ' + authToken,
@@ -1800,7 +1800,7 @@
             backupnum: 11
           }
         };
-        const resp = await fetch('https://hr-socket.iraqsapp.com/api/adduserinfo', {
+        const resp = await fetch('https://hr-socket.timeattendhr.com/api/adduserinfo', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(bodyObj)
@@ -1818,7 +1818,7 @@
           throw new Error('No card number received from device');
         }
         const updateBody = { card: cardNum };
-        const updateResp = await fetch(`https://hr.iraqsapp.com/api/employees/${emp._id}`, {
+        const updateResp = await fetch(`https://timeattendhr.com/api/employees/${emp._id}`, {
           method: 'PUT',
           headers: {
             'Authorization': 'Bearer ' + authToken,

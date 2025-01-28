@@ -688,7 +688,7 @@
       successMsg.textContent = '';
 
       try {
-        const resp = await fetch('https://hr.iraqsapp.com/api/time-based-leaves', {
+        const resp = await fetch('https://timeattendhr.com/api/time-based-leaves', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('فشل جلب الإجازات الزمنية');
@@ -759,7 +759,7 @@
     // جلب قائمة الموظفين
     async function loadEmployees() {
       try {
-        const resp = await fetch('https://hr.iraqsapp.com/api/employees?page=1&limit=9999', {
+        const resp = await fetch('https://timeattendhr.com/api/employees?page=1&limit=9999', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('فشل جلب الموظفين');
@@ -828,7 +828,7 @@
       successMsg.textContent = '';
 
       try {
-        const resp = await fetch(`https://hr.iraqsapp.com/api/time-based-leaves/${id}`, {
+        const resp = await fetch(`https://timeattendhr.com/api/time-based-leaves/${id}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('فشل جلب بيانات الإجازة الزمنية');
@@ -918,10 +918,10 @@
       };
 
       try {
-        let url = 'https://hr.iraqsapp.com/api/time-based-leaves';
+        let url = 'https://timeattendhr.com/api/time-based-leaves';
         let method = 'POST';
         if (leaveId) {
-          url = `https://hr.iraqsapp.com/api/time-based-leaves/${leaveId}`;
+          url = `https://timeattendhr.com/api/time-based-leaves/${leaveId}`;
           method = 'PUT';
         }
 
@@ -956,7 +956,7 @@
       if (!confirm('هل أنت متأكد من حذف الإجازة الزمنية؟')) return;
 
       try {
-        const resp = await fetch(`https://hr.iraqsapp.com/api/time-based-leaves/${id}`, {
+        const resp = await fetch(`https://timeattendhr.com/api/time-based-leaves/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
