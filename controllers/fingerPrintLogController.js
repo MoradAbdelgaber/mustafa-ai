@@ -58,7 +58,7 @@ exports.createLogFromSocket = async (req, res) => {
     const existingLog = await FingerPrintLog.findOne({
       time: req.body.time,
       device_sn: req.body.device_sn,
-      owner: req.userId,
+      owner: device.owner,
     });
 
     if (existingLog) {
