@@ -41,7 +41,7 @@ app.use("/api/users", userRoutes);
 app.use(express.static("public"));
 app.use("/api/departments", authMiddleware, departmentRoutes);
 app.use("/api/employees", authMiddleware, employeeRoutes);
-app.use("/api/fingerprints", authMiddleware, fingerPrintLogRoutes);
+app.use("/api/fingerprints", fingerPrintLogRoutes);
 app.use("/api/rewards-penalties", authMiddleware, rewardsAndPenaltiesRoutes);
 app.use("/api/time-based-leaves", authMiddleware, timeBasedLeaveRoutes);
 app.use("/api/requests", authMiddleware, apiRequestRoutes);
