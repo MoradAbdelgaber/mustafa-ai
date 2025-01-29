@@ -2099,7 +2099,7 @@
 
     async function fetchLogsChunk(serial, from, to, stn) {
       const bodyObj = { sn: serial, from, to, stn };
-      const resp = await fetch('https://hr-socket.iraqsapp.com/api/getalllog', {
+      const resp = await fetch('https://hr-socket.timeattendhr.com/api/getalllog', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bodyObj)
@@ -2175,7 +2175,7 @@
       currentDeviceSN = serial;
       showLoading();
       try {
-        const resp = await fetch('https://hr-socket.iraqsapp.com/api/getdevinfo', {
+        const resp = await fetch('https://hr-socket.timeattendhr.com/api/getdevinfo', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ sn: serial })
@@ -2512,7 +2512,7 @@
       showLoading();
       try {
         const bodyObj = collectSettingsForm();
-        const resp = await fetch('https://hr-socket.iraqsapp.com/api/setdevinfo', {
+        const resp = await fetch('https://hr-socket.timeattendhr.com/api/setdevinfo', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(bodyObj)
@@ -2547,7 +2547,7 @@
       currentLockSN = serial;
       showLoading();
       try {
-        const resp = await fetch('https://hr-socket.iraqsapp.com/api/getdevlock', {
+        const resp = await fetch('https://hr-socket.timeattendhr.com/api/getdevlock', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ sn: serial }),
@@ -2684,7 +2684,7 @@
           sn: currentLockSN,
           devLockInfo: lockObj
         };
-        const resp = await fetch('https://hr-socket.iraqsapp.com/api/setdevlock', {
+        const resp = await fetch('https://hr-socket.timeattendhr.com/api/setdevlock', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(bodyObj)
@@ -2766,7 +2766,7 @@
           payload
         };
 
-        const resp = await fetch('https://hr-socket.iraqsapp.com/api/dynamic', {
+        const resp = await fetch('https://hr-socket.timeattendhr.com/api/dynamic', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -2794,8 +2794,8 @@
     function openDeviceInfo(serverip, serial) {
       clearMessages();
       showLoading();
-      // نأتي بمعلومات الجهاز من السيرفر الوسيط (مثال: https://hr-socket.iraqsapp.com/api/getdeviceinfo)
-      fetch('https://hr-socket.iraqsapp.com/api/getdeviceinfo', {
+      // نأتي بمعلومات الجهاز من السيرفر الوسيط (مثال: https://hr-socket.timeattendhr.com/api/getdeviceinfo)
+      fetch('https://hr-socket.timeattendhr.com/api/getdeviceinfo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sn: serial })
