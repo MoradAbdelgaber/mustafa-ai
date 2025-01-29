@@ -1199,22 +1199,22 @@
             switch (fp.event) {
               case 1:
                 tdStatus.style.backgroundColor = 'lightgray'; // Light Gray
-                return 'No Event';
+                return dashTranslations['No Event'];
               case 2:
                 tdStatus.style.backgroundColor = 'lightgreen'; // Light Green
-                return 'Check IN';
+                return dashTranslations['Check IN'];
               case 3:
                 tdStatus.style.backgroundColor = 'lightcoral'; // Light Red
-                return 'Check Out';
+                return dashTranslations['Check Out'];
               case 4:
                 tdStatus.style.backgroundColor = 'lightblue'; // Light Blue
-                return 'Enter Break';
+                return dashTranslations['Enter Break'];
               case 5:
                 tdStatus.style.backgroundColor = 'lightgoldenrodyellow'; // Light Orange
-                return 'Exit Break';
+                return dashTranslations['Exit Break'];
               default:
                 tdStatus.style.backgroundColor = 'white'; // Default White
-                return 'Unknown';
+                return dashTranslations['Unknown'];
             }
           })();
           tdStatus.textContent = statusText;

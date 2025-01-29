@@ -49,6 +49,14 @@
   
     "dash_table_latest_fingerprints": "Latest 5 Fingerprint Logs",
     "dash_table_status": "Status",
+
+    "No Event": "No Event",
+    "Check IN": "Check IN",
+    "Check Out": "Check Out",
+    "Enter Break": "Enter Break",
+    "Exit Break": "Exit Break",
+    "Unknown": "Unknown",
+
   
     "attend_sidebar_title": "Menu",
     "attend_sidebar_overview": "Overview",

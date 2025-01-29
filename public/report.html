@@ -339,7 +339,7 @@
       width: 80%;
       max-width: 1000px;
       position: relative;
-      direction: rtl;
+      /* direction: rtl; */
     }
 
     .modal-header,
@@ -361,7 +361,6 @@
     .closeBtn {
       position: absolute;
       top: 15px;
-      left: 15px;
       background: #dc3545;
       color: #fff;
       border: none;
@@ -597,19 +596,19 @@
       <!-- بطاقات الملخص الإحصائي -->
       <div class="cards">
         <div class="card">
-          <h3>عدد السجلات</h3>
+          <h3 data-lng="records_number">عدد السجلات</h3>
           <div class="value" id="recordsCount">-</div>
         </div>
         <div class="card">
-          <h3>مجموع التأخير (دقيقة)</h3>
+          <h3 data-lng="total_late">مجموع التأخير (دقيقة)</h3>
           <div class="value" id="delaySum">-</div>
         </div>
         <div class="card">
-          <h3>مجموع الخروج المبكر (دقيقة)</h3>
+          <h3 data-lng="total_early">مجموع الخروج المبكر (دقيقة)</h3>
           <div class="value" id="earlySum">-</div>
         </div>
         <div class="card">
-          <h3>صافي الراتب الكلي</h3>
+          <h3 data-lng="total_salary">صافي الراتب الكلي</h3>
           <div class="value" id="netSum">-</div>
         </div>
       </div>
@@ -732,22 +731,7 @@
       });
 
     }
-    // هنا لو لديك تسميات بالعربية لبعض الحقول.
-    const knownLabels = {
-      attendance_date: 'التاريخ',
-      check_in: 'وقت الدخول',
-      check_out: 'وقت الخروج',
-      attendance_status: 'حالة الحضور',
-      work_hours: 'ساعات العمل',
-      net_salary: 'الراتب المالي',
-      delay_minutes: 'تأخير (دقائق)',
-      early_exit_minutes: 'خروج مبكر (دقائق)',
-      status_code: 'رمز الحالة',
-      employee_name: 'اسم الموظف',
-      department_name: 'اسم القسم',
-      // إن لديك حقل endDayOffset ضمن البيانات، تستطيع تسميته هنا:
-      endDayOffset: 'عدد أيام +'
-    };
+
 
     // الحقول التي نريد إظهارها بشكل افتراضي في الجدول
     const defaultVisibleFields = new Set([
@@ -772,7 +756,7 @@
       }
       const wholeHours = Math.floor(hoursDecimal);
       const minutes = Math.round((hoursDecimal - wholeHours) * 60);
-      return `${wholeHours}س و ${minutes}د`;
+      return `${wholeHours}${reportTranslations['س']} ${reportTranslations['و']} ${minutes}${reportTranslations['د']}`;
     }
 
     // تنسيق رقم كراتب مثلاً (اضافة فواصل آلاف)
@@ -814,6 +798,7 @@
       localStorage.setItem(LANG_KEY, lang);
       applyTranslations(lang);
       applyReportTranslations(lang);
+      if (isTableLoaded) loadReport()
     }
     // Function to apply general translations
     function applyTranslations(lang) {
@@ -960,7 +945,11 @@
       }
     }
 
+    isTableLoaded = false
+
     async function loadReport() {
+      isTableLoaded = true
+
       const errorMsg = document.getElementById('errorMsg');
       errorMsg.textContent = '';
 
@@ -1010,7 +999,61 @@
       }
     }
 
+
     function buildAllColumnsFromData() {
+
+
+      // هنا لو لديك تسميات بالعربية لبعض الحقول.
+      const knownLabels = {
+        attendance_date: reportTranslations['attendance_date'],
+        check_in: reportTranslations['check_in'],
+        check_out: reportTranslations['check_out'],
+        attendance_status: reportTranslations['attendance_status'],
+        work_hours: reportTranslations['work_hours'],
+        net_salary: reportTranslations['net_salary'],
+        delay_minutes: reportTranslations['delay_minutes'],
+        early_exit_minutes: reportTranslations['early_exit_minutes'],
+        status_code: reportTranslations['status_code'],
+        employee_name: reportTranslations['employee_name'],
+        department_name: reportTranslations['department_name'],
+        // إن لديك حقل endDayOffset ضمن البيانات، تستطيع تسميته هنا:
+        endDayOffset: reportTranslations['endDayOffset'],
+
+        enroll_id: reportTranslations['enroll_id'],
+        department_id: reportTranslations['department_id'],
+        rest_breaks: reportTranslations['rest_breaks'],
+        total_rest_duration: reportTranslations['total_rest_duration'],
+        overtime_minutes: reportTranslations['overtime_minutes'],
+
+        daily_salary: reportTranslations['daily_salary'],
+        hour_price: reportTranslations['hour_price'],
+        overtime_price: reportTranslations['overtime_price'],
+        works_for_daily_wage: reportTranslations['works_for_daily_wage'],
+        official_working_hours: reportTranslations['official_working_hours'],
+        minimum_working_hours_overtime: reportTranslations['minimum_working_hours_overtime'],
+        salary_earned_for_work: reportTranslations['salary_earned_for_work'],
+        overtime_entitlement: reportTranslations['overtime_entitlement'],
+
+        late_cutting_by_count: reportTranslations['late_cutting_by_count'],
+        early_cutting_by_count: reportTranslations['early_cutting_by_count'],
+        absent_cutting: reportTranslations['absent_cutting'],
+        late_arrival_deduction: reportTranslations['late_arrival_deduction'],
+        early_exit_deduction: reportTranslations['early_exit_deduction'],
+
+        rewards_penalties_amount: reportTranslations['rewards_penalties_amount'],
+        net_salary_before_rounding: reportTranslations['net_salary_before_rounding'],
+        base_work_hours: reportTranslations['base_work_hours'],
+        is_vacation_day: reportTranslations['is_vacation_day'],
+        is_paid_vacation: reportTranslations['is_paid_vacation'],
+
+        vacation_status: reportTranslations['vacation_status'],
+        leave_duration_for_entry: reportTranslations['leave_duration_for_entry'],
+        leave_duration_for_exit: reportTranslations['leave_duration_for_exit'],
+        total_rest_minutes: reportTranslations['total_rest_minutes'],
+        rest_cutting: reportTranslations['rest_cutting'],
+
+      };
+
       const fields = new Set();
       originalReportData.forEach(row => {
         Object.keys(row).forEach(f => fields.add(f));
@@ -1093,6 +1136,15 @@
       buildColumnToggles();
       const modal = document.getElementById('columnModal');
       modal.style.display = 'block';
+      const dir = localStorage.getItem(LANG_KEY) == 'ar' ? 'rtl' : 'ltr'
+      modal.style.direction = dir;
+      if (dir == 'ltr') {
+        document.getElementsByClassName('closeBtn')[0].style.right = '15px'
+        document.getElementsByClassName('closeBtn')[0].style.left = 'initial'
+      } else {
+        document.getElementsByClassName('closeBtn')[0].style.left = '15px'
+        document.getElementsByClassName('closeBtn')[0].style.right = 'initial'
+      }
     }
 
     function closeColumnModal() {
@@ -1154,16 +1206,16 @@
           <td colspan="${colSpan}">
             <table style="width:100%; border-collapse:collapse;">
               <tr>
-                <td style="background-color:#d1ecf1; text-align:center; font-weight:bold;">عدد السجلات</td>
+                <td style="background-color:#d1ecf1; text-align:center; font-weight:bold;">${reportTranslations['records_number']}</td>
                 <td style="background-color:#d1ecf1; text-align:center;">${count}</td>
                 
-                <td style="background-color:#d4edda; text-align:center; font-weight:bold;">مجموع التأخير (دقيقة)</td>
+                <td style="background-color:#d4edda; text-align:center; font-weight:bold;">${reportTranslations['total_late']}</td>
                 <td style="background-color:#d4edda; text-align:center;">${sumDelay}</td>
                 
-                <td style="background-color:#fff3cd; text-align:center; font-weight:bold;">مجموع الخروج المبكر (دقيقة)</td>
+                <td style="background-color:#fff3cd; text-align:center; font-weight:bold;">${reportTranslations['total_early']}</td>
                 <td style="background-color:#fff3cd; text-align:center;">${sumEarly}</td>
                 
-                <td style="background-color:#f8d7da; text-align:center; font-weight:bold;">صافي الراتب الكلي</td>
+                <td style="background-color:#f8d7da; text-align:center; font-weight:bold;">${reportTranslations['total_salary']}</td>
                 <td style="background-color:#f8d7da; text-align:center;">${sumNet}</td>
               </tr>
             </table>
@@ -1240,7 +1292,7 @@
             rowsHtml += `
           <tr class="deptHeaderRow">
             <td colspan="${displayedColumns.length}" style="text-align:right; font-weight:bold;">
-              قسم: ${deptKey}
+              ${reportTranslations['department']}: ${deptKey}
             </td>
           </tr>
         `;
@@ -1251,7 +1303,7 @@
               rowsHtml += `
             <tr class="empHeaderRow">
               <td colspan="${displayedColumns.length}" style="text-align:right; font-weight:bold;">
-                الموظف: ${empKey}
+              ${reportTranslations['employee']}: ${empKey}
               </td>
             </tr>
           `;
@@ -1334,7 +1386,7 @@
         const divField = document.createElement('div');
         divField.className = 'apiSummaryField';
         divField.innerHTML = `
-          <div class="apiSummaryLabel">${key}</div>
+          <div class="apiSummaryLabel">${reportTranslations[key]}</div>
           <div class="apiSummaryValue">${val}</div>
         `;
         gridContainer.appendChild(divField);
@@ -1407,12 +1459,14 @@
 
       const printWindow = window.open('', '', 'width=1200,height=700');
 
+      const dir = localStorage.getItem(LANG_KEY) == 'ar' ? 'rtl' : 'ltr'
+
       printWindow.document.write(`
         <!DOCTYPE html>
-        <html lang="ar" dir="rtl">
+        <html dir=${dir}>
         <head>
           <meta charset="UTF-8">
-          <title>تقرير الحضور</title>
+          <title>${reportTranslations['report_sidebar_report']}</title>
           <style>
             @page {
               size: A4 portrait;
@@ -1527,12 +1581,12 @@
         printWindow.document.write(`
           <div class="page ${isLastPage ? 'last-page' : ''}">
             <div class="header">
-              <div class="report-title">تقرير الحضور للفترة من ${startDate} إلى ${endDate}</div>
+              <div class="report-title">${reportTranslations['attend_report']} ${startDate} ${reportTranslations['to']} ${endDate}</div>
               ${(deptName || empName)
             ? `<div class="sub-header">
-                     ${deptName ? (`<strong>القسم:</strong> ${deptName}`) : ''}
+                     ${deptName ? (`<strong>${reportTranslations['department']}:</strong> ${deptName}`) : ''}
                      ${deptName && empName ? ' | ' : ''}
-                     ${empName ? (`<strong>الموظف:</strong> ${empName}`) : ''}
+                     ${empName ? (`<strong>${reportTranslations['employee']}:</strong> ${empName}`) : ''}
                    </div>`
             : ''
           }
@@ -1544,7 +1598,7 @@
             <table>
               <tr>
                 <td class="dept-header-cell" style="text-align:right;" colspan="${displayedColumns.length}">
-                  قسم: ${deptName}
+                  ${reportTranslations['department']}: ${deptName}
                 </td>
               </tr>
             </table>
@@ -1556,7 +1610,7 @@
             <table>
               <tr>
                 <td class="emp-header-cell" style="text-align:right;" colspan="${displayedColumns.length}">
-                  الموظف: ${empName}
+                  ${reportTranslations['employee']}: ${empName}
                 </td>
               </tr>
             </table>
@@ -1618,7 +1672,7 @@
         function convertHoursToStr(hh) {
           const whole = Math.floor(hh);
           const mins = Math.round((hh - whole) * 60);
-          return `${whole}س و ${mins}د`;
+          return `${whole}${reportTranslations['س']} ${reportTranslations['و']} ${mins}${reportTranslations['د']}`;
         }
         const totalWorkHoursStr = convertHoursToStr(pageWorkHoursSum);
 
@@ -1626,17 +1680,17 @@
           <table class="page-summary-table">
             <thead>
               <tr>
-                <th>عدد السجلات</th>
-                <th>إجمالي الراتب</th>
-                <th>إجمالي الساعات</th>
-                <th>إجمالي التأخير (دقيقة)</th>
-                <th>عدد مرات التأخير</th>
-                <th>عدد مرات الخروج المبكر</th>
-                <th>مكافآت وعقوبات</th>
-                <th>إجمالي الإجازات</th>
-                <th>عدد أيام الغياب</th>
-                <th>إجمالي الزمنيات</th>
-                <th>إجمالي الاستراحة</th>
+                <th>${reportTranslations['records_number']}</th>
+                <th>${reportTranslations['report_cards_net_sum']}</th>
+                <th>${reportTranslations['total_hours']}</th>
+                <th>${reportTranslations['report_cards_net_sum']}</th>
+                <th>${reportTranslations['number_of_lates']}</th>
+                <th>${reportTranslations['number_of_earlies']}</th>
+                <th>${reportTranslations['report_sidebar_rewards']}</th>
+                <th>${reportTranslations['total_holidays']}</th>
+                <th>${reportTranslations['total_absent']}</th>
+                <th>${reportTranslations['total_times']}</th>
+                <th>${reportTranslations['total_rests']}</th>
               </tr>
             </thead>
             <tbody>
@@ -1686,7 +1740,7 @@
     دون تعديل أكواد الدوال الأصلية، إنما أضفنا فقط ما يلزم للمودال والارتباط بالنقر.
   -->
   <!-- مودال لعرض سجلات الحضور (fingerprints logs) -->
-  <div id="attendanceLogsModal" class="modal">
+  <div id="attendanceLogsModal" class="modal" dir="">
     <div class="modal-content">
       <button class="closeBtn" onclick="closeAttendanceLogsModal()">&times; إغلاق</button>
       <div class="modal-header">
@@ -1759,6 +1813,7 @@
     // فتح المودال مع حساب الفترة من attendance_date + "T00:00:00"
     // ولغاية attendance_date + endDayOffset + "T23:59:59"
     function openAttendanceLogsModal(attDateStr, endDayOffset, enrollId) {
+
       // parse attDateStr إلى Date
       const baseDate = parseDateString(attDateStr);
       // تاريخ النهاية
@@ -1776,11 +1831,20 @@
 
       // كتابة العنوان في أعلى المودال
       document.getElementById('logsDateRange').textContent =
-        `سجلات من ${startDateFormatted} 00:00 إلى ${endDateFormatted} 23:59`;
+        `${reportTranslations['records_from']} ${startDateFormatted} 00:00 ${reportTranslations['to']} ${endDateFormatted} 23:59`;
 
       // إظهار المودال
-      document.getElementById('attendanceLogsModal').style.display = 'block';
-
+      const modal = document.getElementById('attendanceLogsModal')
+      modal.style.display = 'block';
+      const dir = localStorage.getItem(LANG_KEY) == 'ar' ? 'rtl' : 'ltr'
+      modal.style.direction = dir;
+      if (dir == 'ltr') {
+        document.getElementsByClassName('closeBtn')[1].style.right = '15px'
+        document.getElementsByClassName('closeBtn')[1].style.left = 'initial'
+      } else {
+        document.getElementsByClassName('closeBtn')[1].style.left = '15px'
+        document.getElementsByClassName('closeBtn')[1].style.right = 'initial'
+      }
       // جلب البيانات مباشرة
       fetchAttendanceLogs();
     }
@@ -1795,7 +1859,7 @@
       const eid = document.getElementById('logsEnrollId').value.trim();
 
       if (!fromDate || !toDate) {
-        alert('الرجاء اختيار تاريخ البداية والنهاية');
+        alert(reportTranslations['err_1']);
         return;
       }
 

@@ -29,6 +29,7 @@
     }
 
     @keyframes fadeIn {
+
       from {
         opacity: 0;
       }
@@ -691,7 +692,7 @@
         const resp = await fetch('https://timeattendhr.com/api/time-based-leaves', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error('فشل جلب الإجازات الزمنية');
+        if (!resp.ok) throw new Error(translations['err1']);
         const data = await resp.json();
         allLeaves = data;
         renderTimeBasedLeaves(data);
@@ -719,15 +720,15 @@
           <td>${leave.to_time || ''}</td>
           <td>${leave.leave_duration_for_entry || 0}</td>
           <td>${leave.leave_duration_for_exit || 0}</td>
-          <td>${leave.paid_or_unpaid === 'Paid' ? 'نعم' : 'لا'}</td>
+          <td>${leave.paid_or_unpaid === 'Paid' ? translations['yes'] : translations['no']}</td>
           <td>${leave.status || ''}</td>
           <td>${leave.leave_reason || ''}</td>
           <td>${addedDate}</td>
           <td>
-            <button class="btnEdit" onclick="openModalForEdit('${leave._id}')">تعديل</button>
+            <button class="btnEdit" onclick="openModalForEdit('${leave._id}')">${translations['edit']}</button>
           </td>
           <td>
-            <button class="btnDanger" onclick="deleteTimeBasedLeave('${leave._id}')">حذف</button>
+            <button class="btnDanger" onclick="deleteTimeBasedLeave('${leave._id}')">${translations['delete']}</button>
           </td>
         `;
         tb.appendChild(tr);
@@ -762,7 +763,7 @@
         const resp = await fetch('https://timeattendhr.com/api/employees?page=1&limit=9999', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error('فشل جلب الموظفين');
+        if (!resp.ok) throw new Error(translations['err2']);
         const data = await resp.json();
         employees = data.data || [];
 
@@ -771,7 +772,7 @@
         employees.forEach(e => {
           const opt = document.createElement('option');
           opt.value = e.enroll_id;
-          opt.textContent = e.name || ('موظف ' + e.enroll_id);
+          opt.textContent = e.name || (translations['employee'] + ' ' + e.enroll_id);
           sel.appendChild(opt);
         });
         // إعادة تهيئة select2 بعد التحديث
@@ -831,7 +832,7 @@
         const resp = await fetch(`https://timeattendhr.com/api/time-based-leaves/${id}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error('فشل جلب بيانات الإجازة الزمنية');
+        if (!resp.ok) throw new Error(translations['err3']);
         const leave = await resp.json();
 
         document.getElementById('modalTitle').textContent = penaltiesTranslations['penalties_modal_title_edit']
@@ -853,7 +854,7 @@
         document.getElementById('durationExit').value = leave.leave_duration_for_exit || 0;
 
         // مدفوعة أم لا
-        document.getElementById('paidOrUnpaid').value = (leave.paid_or_unpaid === 'Paid') ? 'Paid' : 'Unpaid';
+        document.getElementById('paidOrUnpaid').value = (leave.paid_or_unpaid === 'Paid') ? translations['paid'] : translations['un_paid'];
 
         // الحالة
         document.getElementById('id_Pending').textContent = penaltiesTranslations['pending']
@@ -935,10 +936,10 @@
         });
 
         if (!resp.ok) {
-          throw new Error(`فشل ${leaveId ? 'تعديل' : 'إضافة'} الإجازة الزمنية`);
+          throw new Error(translations['err']);
         }
 
-        successMsg.textContent = `تم ${leaveId ? 'تعديل' : 'إضافة'} الإجازة الزمنية بنجاح.`;
+        successMsg.textContent = translations['success'];
         closeModal();
         loadTimeBasedLeaves();
       } catch (err) {
@@ -953,15 +954,15 @@
       errorMsg.textContent = '';
       successMsg.textContent = '';
 
-      if (!confirm('هل أنت متأكد من حذف الإجازة الزمنية؟')) return;
+      if (!confirm(translations['sure_delete_holiday'])) return;
 
       try {
         const resp = await fetch(`https://timeattendhr.com/api/time-based-leaves/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error('فشل حذف الإجازة الزمنية');
-        successMsg.textContent = 'تم حذف الإجازة الزمنية بنجاح.';
+        if (!resp.ok) throw new Error(translations['err_delete_holliday']);
+        successMsg.textContent = translations['done_delete_holliday'];
         loadTimeBasedLeaves();
       } catch (err) {
         errorMsg.textContent = err.message;
@@ -974,7 +975,7 @@
     function closeModal() {
       document.getElementById('timeBasedLeaveModal').style.display = 'none';
       document.getElementById('leaveId').value = '';
-      document.getElementById('modalTitle').textContent = 'إضافة إجازة زمنية';
+      document.getElementById('modalTitle').textContent = translations['add_holliday'];
     }
   </script>
 

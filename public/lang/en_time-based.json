@@ -1,4 +1,26 @@
 {
-    "searchName": "search by name",
-    "allStates": "all states"
+    "searchName": "Search by Name",
+    "allStates": "All States",
+  
+    "yes": "Yes",
+    "no": "No",
+  
+    "edit": "Edit",
+    "delete": "Delete",
+  
+    "paid": "Paid",
+    "un_paid": "Unpaid",
+  
+    "employee": "Employee",
+    "add_holliday": "Add Timed Leave",
+    "sure_delete_holiday": "Are you sure you want to delete the timed leave?",
+    "done_delete_holliday": "Timed leave deleted successfully.",
+    "err_delete_holliday": "Failed to delete timed leave.",
+  
+    "err1": "Failed to fetch timed leaves",
+    "err2": "Failed to fetch employees",
+    "err3": "Failed to fetch timed leave data",
+    "err": "Operation error",
+  
+    "success": "Operation completed successfully"
 }
