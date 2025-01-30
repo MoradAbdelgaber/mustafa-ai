@@ -716,6 +716,8 @@
 
     }
 
+    function getTranslate(key) { return dashTranslations[key] || "" }
+
     // جلب البيانات وعرضها
     function loadDashboardData() {
       const monthVal = document.getElementById('monthPicker').value;
@@ -787,7 +789,7 @@
         let resp = await fetch(`https://timeattendhr.com/api/employees?limit=1`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error('فشل جلب إجمالي الموظفين');
+        if (!resp.ok) throw new Error(getTranslate("err_1"));
         let data = await resp.json();
         document.getElementById('totalEmployees').textContent = data.totalCount || data.data_count || 0;
 
@@ -795,7 +797,7 @@
         resp = await fetch(`https://timeattendhr.com/api/departments`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error('فشل جلب الأقسام');
+        if (!resp.ok) throw new Error(getTranslate("err_2"));
         let depts = await resp.json();
         document.getElementById('totalDepartments').textContent = depts.length || 0;
 
@@ -803,7 +805,7 @@
         resp = await fetch(`https://timeattendhr.com/api/official-holidays`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error('فشل جلب العطل الرسمية');
+        if (!resp.ok) throw new Error(getTranslate("err_3"));
         let hols = await resp.json();
         document.getElementById('totalHolidays').textContent = hols.length || 0;
 
@@ -811,7 +813,7 @@
         resp = await fetch(`https://timeattendhr.com/api/vacations?status=Pending`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error('فشل جلب الإجازات بالانتظار');
+        if (!resp.ok) throw new Error(getTranslate("err_4"));
         let leavesPending = await resp.json();
         document.getElementById('pendingLeaves').textContent = leavesPending.length || 0;
 
@@ -819,7 +821,7 @@
         resp = await fetch(`https://timeattendhr.com/api/reports/attendance?start_date=${startDate}&end_date=${endDate}&status_code=late`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error('فشل جلب المتأخرين');
+        if (!resp.ok) throw new Error(getTranslate("err_5"));
         let lateData = await resp.json();
         document.getElementById('totalLate').textContent = lateData.length || 0;
 
@@ -827,7 +829,7 @@
         resp = await fetch(`https://timeattendhr.com/api/reports/attendance?start_date=${startDate}&end_date=${endDate}&status_code=absent`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error('فشل جلب الغائبين');
+        if (!resp.ok) throw new Error(getTranslate("err_6"));
         let absentData = await resp.json();
         document.getElementById('totalAbsent').textContent = absentData.length || 0;
 
@@ -835,7 +837,7 @@
         resp = await fetch(`https://timeattendhr.com/api/reports/attendance?start_date=${startDate}&end_date=${endDate}&status_code=overtime`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error('فشل جلب الأوفر تايم');
+        if (!resp.ok) throw new Error(getTranslate("err_7"));
         let overData = await resp.json();
         document.getElementById('totalOvertime').textContent = overData.length || 0;
 
@@ -843,7 +845,7 @@
         resp = await fetch(`https://timeattendhr.com/api/vacations?start_date=${startDate}&end_date=${endDate}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error('فشل جلب الإجازات');
+        if (!resp.ok) throw new Error(getTranslate("err_8"));
         let allLeavesData = await resp.json();
         document.getElementById('totalLeaves').textContent = allLeavesData.length || 0;
 
@@ -862,7 +864,7 @@
         const resp = await fetch(url, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error('فشل جلب بيانات الحضور للمخطط');
+        if (!resp.ok) throw new Error(getTranslate("err_9"));
         const data = await resp.json();
 
         let presentCount = 0, absentCount = 0,
@@ -884,7 +886,7 @@
         if (window.attendanceChartInstance) {
           window.attendanceChartInstance.destroy();
         }
-        const labels = ["attendence_chart", "absence_chart", "late_chart", "early_chatr", "ocer_chart", "other_chat"].map(str => dashTranslations[str])
+        const labels = ["attendence_chart", "absence_chart", "late_chart","early_chatr","ocer_chart","other_chat"].map(str => dashTranslations[str])
         window.attendanceChartInstance = new Chart(ctx, {
           type: 'pie',
           data: {
@@ -918,7 +920,7 @@
         const resp = await fetch(url, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error('فشل جلب بيانات الفترة المحددة');
+        if (!resp.ok) throw new Error(getTranslate("err_10"));
         const data = await resp.json();
 
         // بناء كائن الأيام
@@ -1148,9 +1150,6 @@
       }
     }
 
-    function getTranslate(key) {
-      return dashTranslations[key] || "";
-    }
 
     async function loadLatestFingerprints() {
       const tbody = document.getElementById('latestFingerprintsBody');

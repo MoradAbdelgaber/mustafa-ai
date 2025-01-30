@@ -675,25 +675,22 @@
       <div class="modalBody">
         <input type="hidden" id="deviceId" />
 
-        <label id="devices_modal_name_label" data-lng="devices_modal_name_label" for="deviceName">Device Name:</label>
+        <label id="devices_modal_name_label" data-lng="devices_modal_label_name" for="deviceName">Device Name:</label>
         <input type="text" id="deviceName" placeholder="" />
 
-        <label id="devices_modal_serial_label" data-lng="devices_modal_serial_label" for="deviceSerial">Device
-          Serial:</label>
+        <label id="devices_modal_serial_label" data-lng="deviceSerial" for="deviceSerial">Device Serial:</label>
         <input type="text" id="deviceSerial" placeholder="12345-ABCDE" />
 
-        <label id="devices_modal_serverip_label" data-lng="devices_modal_serverip_label" for="serverIp">Server
-          IP:</label>
+        <label id="devices_modal_serverip_label" data-lng="devices_modal_label_serverip" for="serverIp">ServerIP:</label>
         <input type="text" id="serverIp" placeholder="192.168.1.50" />
 
-        <label id="devices_modal_status_label" data-lng="devices_modal_status_label" for="deviceStatus">Status:</label>
+        <label id="devices_modal_status_label" data-lng="devices_modal_label_status" for="deviceStatus">Status:</label>
         <select id="deviceStatus">
           <option value="true" data-lng-option="devices_modal_status_option_true">Enabled</option>
           <option value="false" data-lng-option="devices_modal_status_option_false">Disabled</option>
         </select>
 
-        <button class="modalSaveBtn" id="devices_modal_save_button" data-lng="devices_modal_save_button"
-          onclick="saveDevice()">Save</button>
+        <button class="modalSaveBtn" id="devices_modal_save_button" data-lng="devices_modal_button_save" onclick="saveDevice()">Save</button>
       </div>
     </div>
   </div>
@@ -735,15 +732,15 @@
           </div>
           <div class="fieldGroup">
             <div class="fieldItem">
-              <label for="reg_card_1" data-lng="reg_card_1">إضافة بطاقة1</label>
+              <label for="reg_card_1" data-lng="add_card_1">إضافة بطاقة1</label>
               <input type="number" id="reg_card_1" />
             </div>
             <div class="fieldItem">
-              <label for="reg_card_2" data-lng="reg_card_2">إضافة بطاقة2</label>
+              <label for="reg_card_2" data-lng="add_card_2">إضافة بطاقة2</label>
               <input type="number" id="reg_card_2" />
             </div>
             <div class="fieldItem">
-              <label for="reg_card_3" data-lng="reg_card_3">إضافة بطاقة3</label>
+              <label for="reg_card_3" data-lng="add_card_3">إضافة بطاقة3</label>
               <input type="number" id="reg_card_3" />
             </div>
           </div>
@@ -869,11 +866,11 @@
           <h3 data-lng="section_4_title">إعدادات الصوت والعرض</h3>
           <div class="fieldGroup">
             <div class="fieldItem">
-              <label for="volume" data-lng=""="volume">مستوى الصوت</label>
+              <label for="volume" data-lng="volume">مستوى الصوت</label>
               <input type="number" id="volume" />
             </div>
             <div class="fieldItem">
-              <label for="tts_voice">TTS Voice</label>
+              <label for="tts_voice" data-lng="tts_voice">TTS Voice</label>
               <select id="tts_voice" data-lng="tts_voice">
                 <option value="1" data-lng-option="enable">مفعل</option>
                 <option value="0" data-lng-option="disable">معطل</option>
@@ -1533,6 +1530,7 @@
     const LANG_KEY = 'lng';
 
     let translations = {};
+    function getTranslate(key) { return translations[key] || '' }
 
     // تحميل ملف الترجمة
     async function loadLanguageFile(lang) {
@@ -1642,6 +1640,9 @@
     // عند تغيير الـ select
     document.getElementById('langSelector').addEventListener('change', async function () {
       await setLanguage(this.value);
+      loadDevices()
+      const successMsg = document.getElementById('successMsg').textContent = '';
+      const errorMsg = document.getElementById('errorMsg').textContent = '';
     });
 
     // عند تحميل الصفحة
@@ -1722,7 +1723,7 @@
         allDevices = data;
         renderDevices(data);
       } catch (err) {
-        showError(err.message);
+        showError(getTranslate('devices_msg_error_fetch'));
       } finally {
         hideLoading();
       }
@@ -1744,42 +1745,42 @@
             <td>${d.name || ''}</td>
             <td>${d.serial || ''}</td>
             <td>${d.serverip || ''}</td>
-            <td>${d.status ? 'Enabled' : 'Disabled'}</td>
+            <td>${getTranslate(d.status ? 'devices_modal_status_option_true' : 'devices_modal_status_option_false')}</td>
             <td>${creationDate}</td>
             <td>
               <i class="bi bi-pencil-fill actionIcon" 
-                 title="Edit"
+                 title=${getTranslate('devices_table_control_titles_edit')}
                  onclick="openModalForEdit('${d._id}')"></i>
               <i class="bi bi-trash-fill actionIcon"
-                 title="Delete"
+                 title=${getTranslate('devices_table_control_titles_delete')}
                  onclick="deleteDevice('${d._id}')"></i>
               <i class="bi bi-gear-fill actionIcon"
-                 title="Settings"
+                 title=${getTranslate('devices_table_control_titles_settings')}
                  onclick="openDeviceSettings('${d.serverip}', '${d.serial}')"></i>
               <i class="bi bi-cloud-download actionIcon"
-                 title="Pull Logs"
+                 title=${getTranslate('devices_table_control_titles_pulllog')}
                  onclick="pullLogsFromDevice('${d.serverip}', '${d.serial}')"></i>
               <i class="bi bi-clock-fill actionIcon"
-                 title="Lock Times"
+                 title=${getTranslate('devices_table_control_titles_lock')}
                  onclick="openDevLockModal('${d.serverip}', '${d.serial}')"></i>
               <i class="bi bi-question-circle-fill actionIcon"
-                 title="Questionnaire"
+                 title=${getTranslate('devices_table_control_titles_questionnaire')}
                  onclick="openQuestionnaireModal('${d.serverip}', '${d.serial}')"></i>
   
               <i class="bi bi-info-circle-fill actionIcon"
-                 title="Device Info"
+                 title=${getTranslate('devices_table_control_titles_info')}
                  onclick="openDeviceInfo('${d.serverip}', '${d.serial}')"></i>
             </td>
             <td>
               <select class="actionSelect" onchange="handleDeviceAction('${d.serverip}', '${d.serial}', this.value)">
                 <option value="">---</option>
-                <option value="settime">Set Time</option>
-                <option value="reboot">Reboot</option>
-                <option value="cleanuser">Clean Users</option>
-                <option value="cleanlog">Clean Logs</option>
-                <option value="initsys">Init System</option>
-                <option value="cleanadmin">Clean Admin</option>
-                <option value="opendoor">Open Door</option>
+                <option value="settime">${getTranslate('setTime')}</option>
+                <option value="reboot">${getTranslate('Reboot')}</option>
+                <option value="cleanuser">${getTranslate('Clean_Users')}</option>
+                <option value="cleanlog">${getTranslate('Clean_Logs')}</option>
+                <option value="initsys">${getTranslate('Init_System')}</option>
+                <option value="cleanadmin">${getTranslate('Clean_Admin')}</option>
+                <option value="opendoor">${getTranslate('Open_Door')}</option>
               </select>
             </td>
             <td class="connStatusCell">Checking...</td>
@@ -1823,7 +1824,7 @@
     // فتح المودال للإضافة
     function openModalForAdd() {
       editModeDeviceId = null;
-      document.getElementById('devices_modal_title').textContent = 'Add Device';
+      document.getElementById('devices_modal_title').textContent = getTranslate('devices_modal_add_title');
       document.getElementById('deviceId').value = '';
 
       document.getElementById('deviceName').value = '';
@@ -1846,7 +1847,7 @@
         if (!resp.ok) throw new Error('Failed to get device data');
         const d = await resp.json();
 
-        document.getElementById('devices_modal_title').textContent = 'Edit Device';
+        document.getElementById('devices_modal_title').textContent = getTranslate('devices_modal_edit_title');
         document.getElementById('deviceId').value = d._id || '';
         document.getElementById('deviceName').value = d.name || '';
         document.getElementById('deviceSerial').value = d.serial || '';
@@ -1901,7 +1902,7 @@
         closeModal();
         loadDevices();
       } catch (err) {
-        showError(err.message);
+        showError(getTranslate(deviceId? 'devices_msg_error_edit':'devices_msg_error_add'));
       } finally {
         hideLoading();
       }
@@ -1910,7 +1911,7 @@
     // حذف
     async function deleteDevice(id) {
       clearMessages();
-      if (!confirm('Are you sure?')) return;
+      if (!confirm(getTranslate('confirm'))) return;
 
       showLoading();
       try {
@@ -1922,7 +1923,7 @@
         showSuccess('Device deleted successfully.');
         loadDevices();
       } catch (err) {
-        showError(err.message);
+        showError(getTranslate('devices_msg_error_delete'));
       } finally {
         hideLoading();
       }
@@ -2029,12 +2030,12 @@
     function setConnectedCell(cell) {
       cell.classList.remove('disconnectedCell');
       cell.classList.add('connectedCell');
-      cell.textContent = 'Online';
+      cell.textContent = getTranslate('online');
     }
     function setDisconnectedCell(cell) {
       cell.classList.remove('connectedCell');
       cell.classList.add('disconnectedCell');
-      cell.textContent = 'Offline';
+      cell.textContent = getTranslate('offline');
     }
 
     // إظهار/إخفاء مودال الجهاز
@@ -2505,7 +2506,7 @@
 
     async function saveDevSettings() {
       if (!currentDeviceSN) {
-        showError("لا يوجد جهاز محدد!");
+        showError();
         return;
       }
       clearMessages();
@@ -2673,7 +2674,7 @@
 
     async function saveDevLock() {
       if (!currentLockSN) {
-        showError("لا يوجد جهاز محدد!");
+        showError(getTranslate('noDevice'));
         return;
       }
       clearMessages();
@@ -2721,7 +2722,7 @@
     async function sendQuestionnaire() {
       clearMessages();
       if (!currentQuestionnaireSN) {
-        showError("لا يوجد جهاز محدد لإرسال الاستبيان إليه!");
+        showError(getTranslate('no_current_device'));
         return;
       }
       showLoading();

@@ -166,6 +166,11 @@
   "و":"and",
   "د":"m",
 
+  "print": "print",
+
+  "no_department": "No department",
+  "no_name": "No name",
+
   "records_from": "Records from",
 
   "err_1": "Please select a start and end date"

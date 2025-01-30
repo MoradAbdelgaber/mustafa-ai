@@ -624,6 +624,7 @@
     const LANG_PATH = './lang';        // مجلد ملفات JSON
     const LANG_KEY = 'attend';
     let translations = {};
+    function getTranslate(key) { return translations[key] || '' }
 
     async function loadLanguageFile(lang) {
       try {
@@ -718,6 +719,7 @@
       await setLanguage(this.value);
       localStorage.setItem("lng", this.value)
       setupSelect2();
+      loadFingerprints(currentPage)
       // applyAttendTranslations(this.value);
     });
 
@@ -879,16 +881,16 @@
           <td>${createdAt}</td>
           <td>
             <img src="${imageSrc}" 
-                alt="صورة" 
+                alt=${getTranslate('image')}
                 class="tableRecordImage"
                 onerror="this.onerror=null;this.src='no_image.png';" />
           </td>
           <td>
             <i class="bi bi-pencil-square actionIcon iconEdit" 
-                title="تعديل"
+                title=${getTranslate('edit')}
                 onclick="openModalForEdit('${item._id}')"></i>
             <i class="bi bi-trash actionIcon iconDelete" 
-                title="حذف"
+                title=${getTranslate('delete')}
                 onclick="deleteFingerprint('${item._id}')"></i>
           </td>
         `;
@@ -1134,7 +1136,6 @@
     const ATTEND_LANG_KEY = 'lng'; // نفس المفتاح المستخدم في بقية الصفحات
 
     const ATTEND_LANG_PATH = './lang';         // ضع فيه ar_attend.json و en_attend.json
-    let attendTranslations = {};
 
     async function loadAttendLangFile(lang) {
       try {

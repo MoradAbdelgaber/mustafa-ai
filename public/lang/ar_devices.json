@@ -3,6 +3,7 @@
   "devices_header_title": "نظام إدارة الحضور والانصراف - الأجهزة",
   "devices_btn_logout": "خروج",
 
+
   "devices_sidebar_menu_title": "القائمة",
   "devices_sidebar_overview": "نظرة عامة",
   "devices_sidebar_employees": "الموظفون",
@@ -19,16 +20,17 @@
   "attend_sidebar_unregistered": "غير المسجلين",
   "employee_summary_report": "تقرير ملخص الموظفين",
 
-  "devices_search_name_label": "اسم الجهاز:",
-  "devices_search_name_placeholder": "بحث بالاسم",
-  "devices_search_serial_label": "الرقم التسلسلي:",
-  "devices_search_serial_placeholder": "بحث بالرقم التسلسلي",
-  "devices_search_serverip_label": "IP السيرفر:",
-  "devices_search_serverip_placeholder": "بحث بـ IP السيرفر",
-  "devices_search_status_label": "الحالة:",
-  "devices_search_creation_label": "تاريخ الإضافة:",
 
-  "devices_add_button": "إضافة جهاز",
+  "devices_modal_add_title": "إضافة جهاز",
+  "devices_modal_edit_title": "تعديل جهاز",
+  "devices_modal_label_name": "اسم الجهاز:",
+  "devices_modal_label_serial": "الرقم التسلسلي:",
+  "devices_modal_label_serverip": "IP السيرفر:",
+  "devices_modal_label_status": "الحالة:",
+  "devices_modal_status_option_true": "مفعل",
+  "devices_modal_status_option_false": "معطل",
+  "devices_modal_button_save": "حفظ", 
+
 
   "devices_table_th_no": "#",
   "devices_table_th_name": "اسم الجهاز",
@@ -40,16 +42,112 @@
   "devices_table_th_actions": "الإجراءات",
   "devices_table_th_connection": "حالة الاتصال",
 
+  "offline": "غير متصل",
+  "online": "متصل",
+  "setTime": "ضبط الوقت",
+  "Reboot": "إعادة تشغيل",
+  "Clean_Users": "مسح المستخدمين",
+  "Clean_Logs": "مسح السجلات",
+  "Init_System": "تهيئة النظام",
+  "Clean_Admin": "مسح المسؤولين",
+  "Open_Door": "فتح الباب",
+  "confirm": "هل انت متأكد؟",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  "devices_modal_settings_title": "إعدادات الجهاز",
+  "devices_modal_settings_button_save": "حفظ الإعدادات",
+  "devices_modal_lock_title": "ضبط المناطق الزمنية",
+  "devices_modal_lock_button_save": "حفظ",
+  "devices_modal_questionnaire_title": "الاستبيان",
+  "devices_modal_questionnaire_button_send": "إرسال",
+  "devices_modal_info_title": "معلومات الجهاز",
+
+  "devices_msg_confirm_delete": "هل أنت متأكد أنك تريد حذف هذا الجهاز؟",
+  "devices_msg_error_fetch": "فشل في جلب الأجهزة",
+  "devices_msg_error_fetch_one": "فشل في جلب معلومات الجهاز",
+  "devices_msg_error_add": "فشل في إضافة الجهاز",
+  "devices_msg_error_edit": "فشل في تعديل الجهاز",
+  "devices_msg_error_delete": "فشل في حذف الجهاز",
+  "devices_msg_error_action": "حدث خطأ أثناء تنفيذ العملية",
+  "devices_msg_success_add": "تمت إضافة الجهاز بنجاح.",
+  "devices_msg_success_edit": "تم تعديل الجهاز بنجاح.",
+  "devices_msg_success_delete": "تم حذف الجهاز بنجاح.",
+  "devices_msg_success_action": "تم تنفيذ العملية بنجاح.",
+
+  "devices_table_control_titles_edit": "تعديل",
+  "devices_table_control_titles_delete": "حذف",
+  "devices_table_control_titles_settings": "الإعدادات",
+  "devices_table_control_titles_pulllog": "سحب السجلات",
+  "devices_table_control_titles_lock": "ضبط المناطق الزمنية",
+  "devices_table_control_titles_questionnaire": "الاستبيان",
+  "devices_table_control_titles_info": "معلومات الجهاز",
+
+  "devices_action_select_placeholder": "اختر العملية",
+  "devices_action_settime": "ضبط وقت الجهاز",
+  "devices_action_reboot": "إعادة تشغيل",
+  "devices_action_cleanuser": "مسح المستخدمين",
+  "devices_action_cleanlog": "مسح السجلات",
+  "devices_action_initsys": "تهيئة النظام",
+  "devices_action_cleanadmin": "مسح المسؤولين",
+  "devices_action_opendoor": "فتح الباب",
+
+  "devices_connection_checking": "جاري الفحص...",
+  "devices_connection_connected": "متصل",
+  "devices_connection_disconnected": "غير متصل",
+
+  "devices_modal_placeholders_deviceName": "مثال: جهاز بصمة 1",
+  "devices_modal_placeholders_deviceSerial": "مثال: 12345-ABCDE",
+  "devices_modal_placeholders_serverIp": "مثال: 192.168.1.50",
+
+  "devices_msg_loading": "جاري التحميل...",
+  "devices_msg_pull_logs": "جاري سحب السجلات من الجهاز...",
+  "devices_msg_pull_logs_done": "تم الانتهاء من سحب السجلات.",
+  "devices_msg_pull_logs_stored": "عدد السجلات المخزنة حتى الآن:",
+  "devices_msg_connected_fill": "تم جلب إعدادات الجهاز بنجاح.",
+  "devices_msg_connected_lock": "تم جلب بيانات القفل بنجاح.",
+  "devices_msg_save_lock": "تم حفظ بيانات القفل بنجاح.",
+  "devices_msg_save_settings": "تم حفظ الإعدادات بنجاح.",
+  "noDevice": "لا يوجد جهاز محدد!",
+  "no_current_device": "لا يوجد جهاز محدد لإرسال الاستبيان إليه!",
+
+
+
+  "devices_search_name_label": "اسم الجهاز:",
+  "deviceSerial": "الرقم التسلسلي للجهاز:",
+  "devices_search_name_placeholder": "بحث بالاسم",
+  "devices_search_serial_label": "الرقم التسلسلي:",
+  "devices_search_serial_placeholder": "بحث بالرقم التسلسلي",
+  "devices_search_serverip_label": "IP السيرفر:",
+  "devices_search_serverip_placeholder": "بحث بـ IP السيرفر",
+  "devices_search_status_label": "الحالة:",
+  "devices_search_creation_label": "تاريخ الإضافة:",
+
+  "devices_add_button": "إضافة جهاز",
+
+
   
-    "devices_modal_add_title": "إضافة جهاز",
-    "devices_modal_edit_title": "تعديل جهاز",
-    "devices_modal_label_name": "اسم الجهاز:",
-    "devices_modal_label_serial": "الرقم التسلسلي:",
-    "devices_modal_label_serverip": "IP السيرفر:",
-    "devices_modal_label_status": "الحالة:",
-    "devices_modal_status_option_true": "مفعل",
-    "devices_modal_status_option_false": "معطل",
-    "devices_modal_button_save": "حفظ", 
 
   "devices_settings_title": "إعدادات الجهاز",
   "devices_settings_save_button": "حفظ الإعدادات",
@@ -62,6 +160,27 @@
   "devices_questionnaire_send_button": "إرسال",
 
   "devices_info_title": "معلومات الجهاز",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   "settings" :"============= settings first 3 ==========",
@@ -97,7 +216,7 @@
 
   "section_4_title": "إعدادات الصوت والعرض",
   "volume":"مستوى الصوت",
-  "tts_voice":"TTS Voice",
+  "tts_voice":"الصوت النصي (تحويل النص إلى كلام)",
   "multifaces":"Multi-Faces",
   "showresulttime":"مدة عرض النتيجة",
   "screensavertime":"وقت الشاشة التوقف",

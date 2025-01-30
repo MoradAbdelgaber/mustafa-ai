@@ -624,15 +624,15 @@
           <td>${v.employee_name || ''}</td>
           <td>${v.vacation_start_date || ''}</td>
           <td>${v.vacation_end_date || ''}</td>
-          <td>${v.is_paid ? 'نعم' : 'لا'}</td>
+          <td>${v.is_paid ? getLeavesTranslate('yes') : getLeavesTranslate('no')}</td>
           <td>${v.status || ''}</td>
           <td>${v.reason || ''}</td>
           <td>${creationDate}</td>
           <td>
-            <button class="btnEdit" onclick="openModalForEdit('${v._id}')">تعديل</button>
+            <button class="btnEdit" onclick="openModalForEdit('${v._id}')">${getLeavesTranslate('edit')}</button>
           </td>
           <td>
-            <button class="btnDanger" onclick="deleteVacation('${v._id}')">حذف</button>
+            <button class="btnDanger" onclick="deleteVacation('${v._id}')">${getLeavesTranslate('delete')}</button>
           </td>
         `;
         tb.appendChild(tr);
@@ -681,7 +681,7 @@
           employees.forEach(e => {
             const opt = document.createElement('option');
             opt.value = e.enroll_id;
-            opt.textContent = e.name || ('موظف ' + e.enroll_id);
+            opt.textContent = e.name || (getLeavesTranslate('employee') + ' ' + e.enroll_id);
             sel.appendChild(opt);
           });
           // تفعيل Select2
@@ -716,12 +716,12 @@
           vacationTypes.forEach(t => {
             const opt = document.createElement('option');
             opt.value = t._id;
-            opt.textContent = t.vacation_name || ('نوع ' + t._id);
+            opt.textContent = t.vacation_name || (getLeavesTranslate('type') + '' + t._id);
             vacSel.appendChild(opt);
 
             const sopt = document.createElement('option');
             sopt.value = t._id;
-            sopt.textContent = t.vacation_name || ('نوع ' + t._id);
+            sopt.textContent = t.vacation_name || (getLeavesTranslate('type') + '' + t._id);
             searchTypeSel.appendChild(sopt);
           });
 
@@ -775,7 +775,7 @@
           return resp.json();
         })
         .then(v => {
-          document.getElementById('modalTitle').textContent = 'تعديل إجازة';
+          document.getElementById('modalTitle').textContent = getLeavesTranslate('leaves_modal_title_edit');
           document.getElementById('vacationId').value = v._id || '';
 
           if (v.enroll_id) {
@@ -851,12 +851,12 @@
           if (!resp.ok) {
             throw new Error(`فشل ${vacationId ? 'تعديل' : 'إضافة'} الإجازة`);
           }
-          successMsg.textContent = `تم ${vacationId ? 'تعديل' : 'إضافة'} الإجازة بنجاح.`;
+          successMsg.textContent = getLeavesTranslate(vacationId? 'leaves_msg_success_edit' : 'leaves_msg_success_add');
           closeModal();
           loadVacations();
         })
         .catch(err => {
-          errorMsg.textContent = err.message;
+          errorMsg.textContent = getLeavesTranslate("leaves_msg_error_add");
         });
     }
 
@@ -866,7 +866,7 @@
       errorMsg.textContent = '';
       successMsg.textContent = '';
 
-      if (!confirm('هل أنت متأكد من حذف الإجازة؟')) return;
+      if (!confirm(getLeavesTranslate('leaves_msg_confirm_delete'))) return;
 
       fetch(`https://timeattendhr.com/api/vacations/${id}`, {
         method: 'DELETE',
@@ -874,7 +874,7 @@
       })
         .then(resp => {
           if (!resp.ok) throw new Error('فشل حذف الإجازة');
-          successMsg.textContent = 'تم حذف الإجازة بنجاح.';
+          successMsg.textContent = getLeavesTranslate('leaves_msg_success_delete');
           loadVacations();
         })
         .catch(err => {
@@ -888,7 +888,7 @@
     function closeModal() {
       document.getElementById('vacationModal').style.display = 'none';
       document.getElementById('vacationId').value = '';
-      document.getElementById('modalTitle').textContent = 'إضافة إجازة';
+      document.getElementById('modalTitle').textContent = getLeavesTranslate('leaves_modal_title_add');
 
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('vacStart').value = today;
@@ -903,7 +903,9 @@
     const LEAVES_LANG_KEY = 'language'; // Make sure the key is consistent across pages
     const LEAVES_LANG_PATH = './lang'; // Path to ar_leaves.json and en_leaves.json
     let translations = {}; // General translations
+    function getTranslate(key) { return translations[key] || "" }
     let leavesTranslations = {}; // Leaves-specific translations
+    function getLeavesTranslate(key) { return leavesTranslations[key] || "" }
 
     // Function to load the general language file
     async function loadLanguageFile(lang) {
@@ -935,7 +937,7 @@
     async function setLanguage(lang) {
       await loadLanguageFile(lang);
       await loadLeavesLangFile(lang);
-      localStorage.setItem(LEAVES_LANG_KEY, lang);
+      localStorage.setItem(LANG_KEY, lang);
       applyTranslations(lang);
       applyLeavesTranslations(lang);
     }
@@ -1038,6 +1040,10 @@
     document.getElementById('langSelector').addEventListener('change', (event) => {
       const selectedLang = event.target.value;
       setLanguage(selectedLang);
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
     });
 
     // Initialize language settings on page load

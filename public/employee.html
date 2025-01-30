@@ -899,6 +899,7 @@
     const LANG_PATH = './lang';        // مجلد ملفات JSON
     const LANG_KEY = 'lng';
     let translations = {};
+    function getTranslate(key) { return translations[key] || "" }
 
     async function loadLanguageFile(lang) {
       try {
@@ -1340,7 +1341,7 @@
           body: JSON.stringify(bodyObj)
         });
         if (!resp.ok) throw new Error(`Fail to ${dbId ? 'edit' : 'add'} employee`);
-        successMsg.textContent = `Employee ${dbId ? 'updated' : 'added'} successfully.`;
+        successMsg.textContent = getTranslate('success_msg');
         closeEmployeeModal();
         loadEmployees();
       } catch (err) {
@@ -1372,14 +1373,14 @@
       const successMsg = document.getElementById('successMsg');
       errorMsg.textContent = '';
       successMsg.textContent = '';
-      if (!confirm('Are you sure to delete this employee?')) return;
+      if (!confirm(getTranslate("confirm_delete_employee"))) return;
       try {
         const resp = await fetch(`https://timeattendhr.com/api/employees/${dbId}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('Fail to delete employee');
-        successMsg.textContent = 'Employee deleted successfully.';
+        successMsg.textContent = getTranslate('success_msg')
         loadEmployees();
       } catch (err) {
         errorMsg.textContent = err.message;
@@ -1455,7 +1456,7 @@
           return;
         }
         if (dayOrderIndex === 6) {
-          alert('Saturday is the last day, no day after it');
+          alert(getTranslate("last_day"));
           return;
         }
         let newDayObj = { ...lastDayObj };
@@ -1465,7 +1466,7 @@
       renderSchedule(currentSchedules);
     }
     function deleteDay(i) {
-      if (!confirm('Delete this day?')) return;
+      if (!confirm(getTranslate("delete_day"))) return;
       currentSchedules.splice(i, 1);
       renderSchedule(currentSchedules);
     }
@@ -1537,11 +1538,11 @@
       let currentDayObj = currentSchedules[i];
       let currentDayIndex = dayOrder.indexOf(currentDayObj.day);
       if (currentDayIndex < 0) {
-        alert('Cannot copy unknown day!');
+        alert(getTranslate(can_not_copy));
         return;
       }
       if (currentDayIndex === 6) {
-        alert('Cannot copy from Sat');
+        alert(getTranslate('can_not_copy_sat'));
         return;
       }
       let newDayObj = { ...currentSchedules[i] };
@@ -1570,7 +1571,7 @@
           body: JSON.stringify(emp)
         });
         if (!resp.ok) throw new Error('Failed to save schedule');
-        successMsg.textContent = 'Schedule saved.';
+        successMsg.textContent = getTranslate("success_msg");
         loadEmployees();
       } catch (err) {
         errorMsg.textContent = err.message;
@@ -1605,7 +1606,7 @@
           body: JSON.stringify(emp)
         });
         if (!resp.ok) throw new Error('Failed to save devices');
-        successMsg.textContent = 'Devices saved.';
+        successMsg.textContent = getTranslate("success_msg");
         closeDevicesModal();
         loadEmployees();
       } catch (err) {
@@ -1663,7 +1664,7 @@
             throw new Error(`Fail to send data to device: ${dev.name || dev._id} | ${errText}`);
           }
         }
-        successMsg.textContent = 'Employee data sent to devices.';
+        successMsg.textContent = getTranslate("success_msg");;
       } catch (err) {
         errorMsg.textContent = err.message;
       } finally {
@@ -1747,7 +1748,7 @@
         });
         if (!updateResp.ok) throw new Error('DB update fail');
 
-        successMsg.textContent = 'Face captured and saved.';
+        successMsg.textContent = getTranslate("success_msg");;
         closeFaceModal();
         loadEmployees();
       } catch (err) {
@@ -1828,7 +1829,7 @@
         });
         if (!updateResp.ok) throw new Error('Fail to save card in DB');
 
-        successMsg.textContent = 'Card number captured and saved.';
+        successMsg.textContent = getTranslate("success_msg");;
         closeCardModal();
         loadEmployees();
       } catch (err) {

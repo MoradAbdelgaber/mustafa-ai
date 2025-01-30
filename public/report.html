@@ -798,7 +798,7 @@
       localStorage.setItem(LANG_KEY, lang);
       applyTranslations(lang);
       applyReportTranslations(lang);
-      if (isTableLoaded) loadReport()
+      if(isTableLoaded) loadReport()
     }
     // Function to apply general translations
     function applyTranslations(lang) {
@@ -999,7 +999,7 @@
       }
     }
 
-
+    
     function buildAllColumnsFromData() {
 
 
@@ -1136,12 +1136,12 @@
       buildColumnToggles();
       const modal = document.getElementById('columnModal');
       modal.style.display = 'block';
-      const dir = localStorage.getItem(LANG_KEY) == 'ar' ? 'rtl' : 'ltr'
+      const dir = localStorage.getItem(LANG_KEY) == 'ar'? 'rtl' : 'ltr'
       modal.style.direction = dir;
-      if (dir == 'ltr') {
+      if(dir=='ltr'){
         document.getElementsByClassName('closeBtn')[0].style.right = '15px'
         document.getElementsByClassName('closeBtn')[0].style.left = 'initial'
-      } else {
+      } else{
         document.getElementsByClassName('closeBtn')[0].style.left = '15px'
         document.getElementsByClassName('closeBtn')[0].style.right = 'initial'
       }
@@ -1181,12 +1181,12 @@
       data.forEach(row => {
         let deptKey = "All Departments";
         if (groupByDept) {
-          deptKey = row.department_name || "بدون قسم";
+          deptKey = row.department_name || getTranslate("no_department");
         }
 
         let empKey = "All Employees";
         if (groupByEmp) {
-          empKey = row.employee_name || "بدون اسم";
+          empKey = row.employee_name || getTranslate("no_name");
         }
 
         if (!groupedData[deptKey]) {
@@ -1459,7 +1459,7 @@
 
       const printWindow = window.open('', '', 'width=1200,height=700');
 
-      const dir = localStorage.getItem(LANG_KEY) == 'ar' ? 'rtl' : 'ltr'
+      const dir = localStorage.getItem(LANG_KEY) == 'ar'? 'rtl' : 'ltr'
 
       printWindow.document.write(`
         <!DOCTYPE html>
@@ -1716,7 +1716,7 @@
 
       printWindow.document.write(`
         <div style="text-align:center; margin:15px 0;" class="no-print">
-          <button onclick="window.print()">طباعة</button>
+          <button onclick="window.print()">${getTranslate("print")}</button>
         </div>
       `);
 
@@ -1836,12 +1836,12 @@
       // إظهار المودال
       const modal = document.getElementById('attendanceLogsModal')
       modal.style.display = 'block';
-      const dir = localStorage.getItem(LANG_KEY) == 'ar' ? 'rtl' : 'ltr'
+      const dir = localStorage.getItem(LANG_KEY) == 'ar'? 'rtl' : 'ltr'
       modal.style.direction = dir;
-      if (dir == 'ltr') {
+      if(dir=='ltr'){
         document.getElementsByClassName('closeBtn')[1].style.right = '15px'
         document.getElementsByClassName('closeBtn')[1].style.left = 'initial'
-      } else {
+      } else{
         document.getElementsByClassName('closeBtn')[1].style.left = '15px'
         document.getElementsByClassName('closeBtn')[1].style.right = 'initial'
       }
@@ -1959,6 +1959,8 @@
     // كائن سيحمل نصوص الترجمة بعد تحميلها
     let reportTranslations = {};
     let translations = {};
+    function getTranslate(key) { return translations[key] || "" }
+
     // تحميل ملف الترجمة
     async function loadReportLangFile(lang) {
       try {

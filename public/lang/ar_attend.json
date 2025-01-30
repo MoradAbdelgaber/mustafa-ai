@@ -81,7 +81,11 @@
     "view_all_records":"عرض جميع السجلات",
     "operation_failed":"فشل العملية",
     "record_deletion_failed":"فشل حذف السجل",
-    "employee":"موظف"
+    "employee":"موظف",
+    "image": "صورة",
+
+    "edit": "تعديل",
+    "delete": "حذف"
 
   }
   

@@ -589,6 +589,7 @@
     const LANG_PATH = './lang';        // مجلد ملفات JSON
     const LANG_KEY = 'time-based';
     let translations = {};
+    function getTranslate(key) { return translations[key] || "" }
 
     async function loadLanguageFile(lang) {
       try {

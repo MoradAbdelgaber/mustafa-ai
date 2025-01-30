@@ -1,33 +1,9 @@
 {
-    "devices_head_title": "Attendance System - Devices",
-    "devices_header_title": "Attendance System - Devices",
-    "devices_logout": "Logout",
-  
-    "devices_filter_name_label": "Device Name:",
-    "devices_filter_serial_label": "Serial Number:",
-    "devices_filter_serverip_label": "Server IP:",
-    "devices_filter_status_label": "Status:",
-    "devices_filter_creation_label": "Created At:",
-    "devices_filter_placeholder_name": "Search by name",
-    "devices_filter_placeholder_serial": "Search by serial",
-    "devices_filter_placeholder_ip": "Search by IP",
-    "devices_filter_option_status_all": "All",
-    "devices_filter_option_status_true": "Enabled",
-    "devices_filter_option_status_false": "Disabled",
-  
-    "devices_button_add_device": "Add Device",
-    "devices_add_button": "Add Device",
+    "devices_page_title": "Attendance System - Devices",
+    "devices_header_title": "Attendance and Departure Management System - Devices",
+    "devices_btn_logout": "Logout",
+    
 
-    "devices_table_th_no": "#",
-    "devices_table_th_name": "Device Name",
-    "devices_table_th_serial": "Serial",
-    "devices_table_th_serverip": "Server IP",
-    "devices_table_th_status": "Status",
-    "devices_table_th_creation": "Created At",
-    "devices_table_th_control": "Control",
-    "devices_table_th_actions": "Actions",
-    "devices_table_th_connection": "Connection",
-  
     "devices_sidebar_menu_title": "Menu",
     "devices_sidebar_overview": "Overview",
     "devices_sidebar_employees": "Employees",
@@ -43,7 +19,8 @@
     "devices_sidebar_settings": "Settings",
     "attend_sidebar_unregistered": "Unregistered employees",
     "employee_summary_report": "Employee  Summary Report",
-  
+
+
     "devices_modal_add_title": "Add Device",
     "devices_modal_edit_title": "Edit Device",
     "devices_modal_label_name": "Device Name:",
@@ -53,6 +30,88 @@
     "devices_modal_status_option_true": "Enabled",
     "devices_modal_status_option_false": "Disabled",
     "devices_modal_button_save": "Save",
+
+
+    "devices_table_th_no": "#",
+    "devices_table_th_name": "Device Name",
+    "devices_table_th_serial": "Serial",
+    "devices_table_th_serverip": "Server IP",
+    "devices_table_th_status": "Status",
+    "devices_table_th_creation": "Created At",
+    "devices_table_th_control": "Control",
+    "devices_table_th_actions": "Actions",
+    "devices_table_th_connection": "Connection",
+
+    "offline": "Offline",
+    "online": "Online",
+    "setTime": "Set Time",
+    "Reboot": "Reboot",
+    "Clean_Users": "Clean Users",
+    "Clean_Logs": "Clean Logs",
+    "Init_System": "Init System",
+    "Clean_Admin": "Clean Admin",
+    "Open_Door": "Open Door",
+    "confirm": "Are you sure?",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  "devices_search_name_label": "Device Name:",
+  "devices_search_name_placeholder": "Search by name",
+  "devices_search_serial_label": "Serial Number:",
+  "deviceSerial": "Device Serial:",
+  "devices_search_serial_placeholder": "Search by serial number",
+  "devices_search_serverip_label": "Server IP:",
+  "devices_search_serverip_placeholder": "Search by server IP",
+  "devices_search_status_label": "Status:",
+  "devices_search_creation_label": "Added Date:",
+  "devices_settings_save_button": "Save Settings",
+  "devices_lockmodal_title": "Set Permission Times",
+  "devices_lockmodal_day_zone": "Time Zone Day",
+  "devices_lockmodal_save_button": "Save",
+  "devices_questionnaire_title": "Questionnaire",
+  "devices_questionnaire_send_button": "Send",
+  "devices_info_title": "Device Information",
+
+
+
+
+
+
+
+
+
+    "devices_filter_name_label": "Device Name:",
+    "devices_filter_serial_label": "Serial Number:",
+    "devices_filter_serverip_label": "Server IP:",
+    "devices_filter_status_label": "Status:",
+    "devices_filter_creation_label": "Created At:",
+    "devices_filter_placeholder_name": "Search by name",
+    "devices_filter_placeholder_serial": "Search by serial",
+    "devices_filter_placeholder_ip": "Search by IP",
+    "devices_filter_option_status_all": "All",
+    "devices_filter_option_status_true": "Enabled",
+    "devices_filter_option_status_false": "Disabled",
+  
+    "devices_button_add_device": "Add Device",
+    "devices_add_button": "Add Device",
+
+  
+  
   
     "devices_modal_settings_title": "Device Settings",
     "devices_modal_settings_button_save": "Save Settings",
@@ -107,7 +166,22 @@
     "devices_msg_connected_lock": "Lock data fetched successfully.",
     "devices_msg_save_lock": "Lock data saved successfully.",
     "devices_msg_save_settings": "Settings saved successfully.",
+    "noDevice": "No devices sellected!",
+    "no_current_device": "No device selected to send the questionnaire to!",
   
+
+
+
+
+
+
+
+
+
+    
+
+
+
     "settings" :"============= settings first 3 ==========",
 
     "devices_settings_title": "Device Settings",

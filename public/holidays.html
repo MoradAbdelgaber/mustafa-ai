@@ -526,6 +526,7 @@
     // تغيير اللغة من الـselect
     document.getElementById('langSelector').addEventListener('change', function () {
       setLanguage(this.value);
+      loadHolidays()
     });
 
     function logout() {
@@ -568,10 +569,10 @@
           <td>${h.note || ''}</td>
           <td>${creationDate}</td>
           <td>
-            <button class="btnEdit" onclick="openModalForEdit('${h._id}')">تعديل</button>
+            <button class="btnEdit" onclick="openModalForEdit('${h._id}')">${getTranslate("holidays_table_header_edit")}</button>
           </td>
           <td>
-            <button class="btnDanger" onclick="deleteHoliday('${h._id}')">حذف</button>
+            <button class="btnDanger" onclick="deleteHoliday('${h._id}')">${getTranslate("holidays_table_header_delete")}</button>
           </td>
         `;
         tb.appendChild(tr);
@@ -603,7 +604,7 @@
     // إضافة
     function openModalForAdd() {
       editModeHolidayId = null;
-      document.getElementById('modalTitle').textContent = 'إضافة عطلة رسمية';
+      document.getElementById('modalTitle').textContent = getTranslate("holidays_modal_title_add");
       document.getElementById('holidayId').value = '';
 
       const today = new Date().toISOString().split('T')[0];
@@ -630,7 +631,7 @@
         if (!resp.ok) throw new Error('فشل جلب بيانات العطلة');
 
         const h = await resp.json();
-        document.getElementById('modalTitle').textContent = 'تعديل عطلة رسمية';
+        document.getElementById('modalTitle').textContent = getTranslate('holidays_modal_title_edit');
         document.getElementById('holidayId').value = h._id || '';
 
         if (h.holiday_date) {
@@ -680,7 +681,7 @@
         });
         if (!resp.ok) throw new Error(`فشل ${holidayId ? 'تعديل' : 'إضافة'} العطلة الرسمية`);
 
-        successMsg.textContent = `تم ${holidayId ? 'تعديل' : 'إضافة'} العطلة الرسمية بنجاح.`;
+        successMsg.textContent = getTranslate(holidayId? 'holidays_msg_success_edit' : 'holidays_msg_success_add');
         closeModal();
         loadHolidays();
       } catch (err) {
@@ -695,7 +696,7 @@
       errorMsg.textContent = '';
       successMsg.textContent = '';
 
-      if (!confirm('هل أنت متأكد من حذف العطلة؟')) return;
+      if (!confirm(getTranslate('holidays_msg_confirm_delete'))) return;
 
       try {
         const resp = await fetch(`https://timeattendhr.com/api/official-holidays/${id}`, {
@@ -703,7 +704,7 @@
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('فشل حذف العطلة الرسمية');
-        successMsg.textContent = 'تم حذف العطلة الرسمية بنجاح.';
+        successMsg.textContent = getTranslate('holidays_msg_success_delete');
         loadHolidays();
       } catch (err) {
         errorMsg.textContent = err.message;
@@ -716,7 +717,7 @@
     function closeModal() {
       document.getElementById('holidayModal').style.display = 'none';
       document.getElementById('holidayId').value = '';
-      document.getElementById('modalTitle').textContent = 'إضافة عطلة رسمية';
+      document.getElementById('modalTitle').textContent = getTranslate('holidays_modal_title_add');
 
       const today = new Date().toISOString().split('T')[0];
       document.getElementById('holidayDate').value = today;
@@ -730,6 +731,7 @@
     const LANG_KEY = 'lng';  // نفس المفتاح المستخدم في بقية الصفحات
     const HOLIDAYS_LANG_PATH = './lang';          // حيث يوجد ar_holidays.json و en_holidays.json
     let translations = {};
+    function getTranslate(key) { return translations[key] || "" }
 
     /**
      * تحميل ملف الترجمة

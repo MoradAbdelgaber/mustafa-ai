@@ -113,6 +113,18 @@
   
     "lblCardModalTitle": "سحب رقم البطاقة",
     "lblCardDeviceSelect": "اختر الجهاز:",
-    "btnCaptureCard": "سحب الكارت"
+    "btnCaptureCard": "سحب الكارت",
+
+    "last_day": "يوم السبت هو اليوم الأخير، لا يوجد يوم بعده",
+    "delete_day": "هل انت متاكد من حذف هذا اليوم؟",
+    "can_not_copy": "لا يمكن نسخ يوم غير معروف!",
+    "can_not_copy_sat": "لا يمكن النسخ من يوم السبت",
+
+    "confirm_delete_employee": "هل انت متاكد من حذف هذا الموظف؟",
+
+
+
+    "success_msg": "تمت العملية بنجاح"
+
   }
   

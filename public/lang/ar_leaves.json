@@ -80,6 +80,11 @@
     "leaves_msg_error_edit": "فشل تعديل الإجازة",
     "leaves_msg_success_add": "تم إضافة الإجازة بنجاح.",
     "leaves_msg_success_edit": "تم تعديل الإجازة بنجاح.",
-    "leaves_msg_success_delete": "تم حذف الإجازة بنجاح."
+    "leaves_msg_success_delete": "تم حذف الإجازة بنجاح.",
+
+    "edit": "تعديل",
+    "delete": "حذف",
+    "employee": "موظف",
+    "type": "نوع"
   }
   

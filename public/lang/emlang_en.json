@@ -111,6 +111,19 @@
   
     "lblCardModalTitle": "Capture Card",
     "lblCardDeviceSelect": "Choose Device:",
-    "btnCaptureCard": "Capture Card"
+    "btnCaptureCard": "Capture Card",
+
+
+
+    "last_day": "Saturday is the last day, no day after it",
+    "delete_day": "Are you sure to delete this day?",
+    "can_not_copy": "Cannot copy unknown day!",
+    "can_not_copy_sat": "Cannot copy from Sat",
+
+    "confirm_delete_employee": "Are you sure to delete this employee?",
+
+
+    "success_msg": "Process done successfully"
+
   }
   

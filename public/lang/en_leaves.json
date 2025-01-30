@@ -93,6 +93,11 @@
     "leaves_msg_error_edit": "Failed to edit leave",
     "leaves_msg_success_add": "Leave added successfully.",
     "leaves_msg_success_edit": "Leave edited successfully.",
-    "leaves_msg_success_delete": "Leave deleted successfully."
+    "leaves_msg_success_delete": "Leave deleted successfully.",
+
+    "edit": "Edit",
+    "delete": "Delete",
+    "employee": "Employee",
+    "type": "type"
   }
   

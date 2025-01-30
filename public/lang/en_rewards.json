@@ -48,8 +48,10 @@
     "reason_placeholder": "for Reward/Penalty",
     "rewards_modal_added_date": "Added Date:",
     "rewards_modal_button_save": "Save",
+    "employee": "employee",
   
     "rewards_msg_confirm_delete": "Are you sure you want to delete this record?",
+    "rewards_msg_error_delete": "Failed to delete record",
     "rewards_msg_error_fetch": "Failed to fetch rewards/penalties",
     "rewards_msg_error_fetch_one": "Failed to fetch record data",
     "rewards_msg_error_fetch_employees": "Failed to fetch employees",

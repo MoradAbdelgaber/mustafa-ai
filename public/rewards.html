@@ -553,6 +553,7 @@
   <script>
     const REWARDS_LANG_PATH = './lang';  // مسار ملفات ar_rewards.json , en_rewards.json
     let rewardsTranslations = {};
+    function getTranslate(key) { return rewardsTranslations[key] || '' }
 
     async function loadRewardsLangFile(lang) {
       try {
@@ -685,6 +686,11 @@
     // تغيير اللغة من الـselect
     document.getElementById('langSelector').addEventListener('change', function () {
       setLanguage(this.value);
+      loadRewards()
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
     });
 
     async function setLanguage(lang) {
@@ -772,8 +778,8 @@
           <td>${r.amount || ''}</td>
           <td>${r.reason || ''}</td>
           <td>${addedDt}</td>
-          <td><button class="btnEdit" onclick="openModalForEdit('${r._id}')">تعديل</button></td>
-          <td><button class="btnDanger" onclick="deleteReward('${r._id}')">حذف</button></td>
+          <td><button class="btnEdit" onclick="openModalForEdit('${r._id}')">${getTranslate('rewards_table_header_edit')}</button></td>
+          <td><button class="btnDanger" onclick="deleteReward('${r._id}')">${getTranslate('rewards_table_header_delete')}</button></td>
         `;
         tb.appendChild(tr);
       });
@@ -825,7 +831,7 @@
         employees.forEach(e => {
           const opt = document.createElement('option');
           opt.value = e.enroll_id;
-          opt.textContent = e.name || ('موظف ' + e.enroll_id);
+          opt.textContent = e.name || (getTranslate('employee') + ' ' + e.enroll_id);
           sel.appendChild(opt);
         });
 
@@ -953,11 +959,11 @@
         });
         if (!resp.ok) throw new Error(`فشل ${recordId ? 'تعديل' : 'إضافة'} السجل`);
 
-        successMsg.textContent = `تم ${recordId ? 'تعديل' : 'إضافة'} السجل بنجاح.`;
+        successMsg.textContent = getTranslate(recordId? 'rewards_msg_success_edit' : 'rewards_msg_success_add')
         closeModal();
         loadRewards();
       } catch (err) {
-        errorMsg.textContent = err.message;
+        errorMsg.textContent = getTranslate(recordId? 'rewards_msg_error_edit' : 'rewards_msg_error_add')
       }
     }
 
@@ -967,17 +973,17 @@
       errorMsg.textContent = '';
       successMsg.textContent = '';
 
-      if (!confirm('هل أنت متأكد من الحذف؟')) return;
+      if (!confirm(getTranslate('rewards_msg_confirm_delete'))) return;
       try {
         const resp = await fetch(`https://timeattendhr.com/api/rewards-penalties/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('فشل حذف السجل');
-        successMsg.textContent = 'تم حذف السجل بنجاح.';
+        successMsg.textContent = getTranslate('rewards_msg_success_delete');
         loadRewards();
       } catch (err) {
-        errorMsg.textContent = err.message;
+        errorMsg.textContent = getTranslate('rewards_msg_error_delete');
       }
     }
 

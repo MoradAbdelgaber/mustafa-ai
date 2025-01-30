@@ -18,7 +18,7 @@
     "rewards_table_header_amount": "المبلغ",
     "rewards_table_header_reason": "السبب",
     "rewards_table_header_added": "تاريخ الإضافة",
-    "rewards_table_header_edit": "تحرير",
+    "rewards_table_header_edit": "تعديل",
     "rewards_table_header_delete": "حذف",
   
     "rewards_sidebar_title": "القائمة",
@@ -48,8 +48,10 @@
     "reason_placeholder": "بسبب مكافأة/عقوبة",
     "rewards_modal_added_date": "تاريخ الإضافة:",
     "rewards_modal_button_save": "حفظ",
+    "employee": "موظف",
   
     "rewards_msg_confirm_delete": "هل أنت متأكد من الحذف؟",
+    "rewards_msg_error_delete": "فشل حذف السجل",
     "rewards_msg_error_fetch": "فشل جلب المكافآت/العقوبات",
     "rewards_msg_error_fetch_one": "فشل جلب بيانات السجل",
     "rewards_msg_error_fetch_employees": "فشل جلب الموظفين",
