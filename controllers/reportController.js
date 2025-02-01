@@ -257,7 +257,6 @@ function calculateAttendanceMetrics({
 /** التقرير */
 exports.getFullAttendanceReport = async (req, res) => {
   try {
-    console.log(req.user);
     const {
       start_date = "2025-02-01",
       end_date = "2025-02-05",

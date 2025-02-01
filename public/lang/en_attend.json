@@ -2,39 +2,34 @@
   "attend_head_title": "Attendance Management System - Attendance",
   "attend_header_title": "Attendance Management System - Attendance",
   "attend_logout": "Logout",
-  "loading":"Loading...",
-  "placeholder-ex":"Example: 4433",
+  "loading": "Loading...",
+  "placeholder-ex": "Example: 4433",
   "attend_filter_from_label": "From:",
   "attend_filter_to_label": "To:",
   "attend_filter_enroll_label": "Employee EnrollID:",
   "attend_filter_event_label": "Event:",
-  "attend_filter_event_label_all":"All Events",
-  "attend_filter_event_label_attendance":"Attendance",
-  "attend_filter_event_label_enter":"Enter",
-  "attend_filter_event_label_exit":"Exit",
-  "attend_filter_event_label_vacation_enter":"Vacation Enter",
-  "attend_filter_event_label_vacation_exit":"Vacation Exit",
-  "not_none":"Not None",
-
-
+  "attend_filter_event_label_all": "All Events",
+  "attend_filter_event_label_attendance": "Attendance",
+  "attend_filter_event_label_enter": "Enter",
+  "attend_filter_event_label_exit": "Exit",
+  "attend_filter_event_label_vacation_enter": "Vacation Enter",
+  "attend_filter_event_label_vacation_exit": "Vacation Exit",
+  "not_none": "Not None",
   "attend_filter_button_search": "Search",
   "attend_filter_button_showall": "Show All",
-
   "attend_pagination_prev": "Prev",
   "attend_pagination_next": "Next",
   "attend_pagination_info": "Page {current} of {total}",
-
   "attend_button_add_fingerprint": "Add Fingerprint Record",
-
   "attend_table_header_index": "#",
   "attend_table_header_enroll": "Enroll ID",
   "attend_table_header_name": "Employee Name",
   "attend_table_header_event": "Event",
   "attend_table_header_time": "Time",
   "attend_table_header_created": "Created At",
+  "attend_table_header_device": "Device",
   "attend_table_header_image": "Image",
   "attend_table_header_actions": "Actions",
-
   "attend_sidebar_title": "Menu",
   "attend_sidebar_overview": "Overview",
   "attend_sidebar_employees": "Employees",
@@ -50,7 +45,6 @@
   "attend_sidebar_settings": "Settings",
   "attend_sidebar_unregistered": "Unregistered employees",
   "employee_summary_report": "Employee  Summary Report",
-
   "attend_modal_add_title": "Add Fingerprint Record",
   "attend_modal_edit_title": "Edit Fingerprint Record",
   "attend_modal_label_employee": "Employee:",
@@ -59,13 +53,10 @@
   "attend_modal_label_event": "Event:",
   "attend_modal_label_time": "Date/Time:",
   "attend_modal_label_modreason": "Modification Reason:",
-  "enter_attend_modal_label_modreason":"Enter Modification Reason",
+  "enter_attend_modal_label_modreason": "Enter Modification Reason",
   "attend_modal_button_save": "Save",
-  
-  "select_employee":"Select Employee",
-  "it_will_be_filled_automatically":"It will be filled automatically.",
-
-
+  "select_employee": "Select Employee",
+  "it_will_be_filled_automatically": "It will be filled automatically.",
   "attend_msg_confirm_delete": "Are you sure you want to delete this record?",
   "attend_msg_error_fetch": "Failed to fetch fingerprint logs",
   "attend_msg_error_fetch_one": "Failed to fetch fingerprint data",
@@ -77,15 +68,11 @@
   "attend_msg_success_delete": "Record deleted successfully.",
   "attend_msg_already_modified": "Cannot edit this record; it has already been modified once.",
   "attend_msg_no_image": "no_image.png",
-  "view_all_records":"View all records",
-  "operation_failed":"Operation failed",
-  "record_deletion_failed":"Record deletion failed",
-  "employee":"employee",
-
-
+  "view_all_records": "View all records",
+  "operation_failed": "Operation failed",
+  "record_deletion_failed": "Record deletion failed",
+  "employee": "employee",
   "image": "image",
-
   "edit": "edit",
   "delete": "delete"
 }
-  

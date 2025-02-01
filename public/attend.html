@@ -493,6 +493,7 @@
             <th data-lng="attend_table_header_event"></th>
             <th data-lng="attend_table_header_time"></th>
             <th data-lng="attend_table_header_created"></th>
+            <th data-lng="attend_table_header_device"></th>
             <th data-lng="attend_table_header_image"></th>
             <th data-lng="attend_table_header_actions"></th>
           </tr>
@@ -863,7 +864,7 @@
           : '';
 
         let imageSrc = item.image
-          ? item.image
+          ? 'data:image/png;base64,' + item.image
           : 'no_image.png';
 
         const tr = document.createElement('tr');
@@ -879,6 +880,7 @@
           <td>${eventText}</td>
           <td>${timeVal}</td>
           <td>${createdAt}</td>
+          <td>${item.device_sn || ''}</td>
           <td>
             <img src="${imageSrc}" 
                 alt=${getTranslate('image')}
