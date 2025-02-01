@@ -17,6 +17,7 @@
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "moment-timezone": "^0.5.46",
-    "mongoose": "^5.9.13"
+    "mongoose": "^5.9.13",
+    "morgan": "^1.10.0"
   }
 }

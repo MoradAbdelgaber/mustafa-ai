@@ -2,6 +2,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const morgan = require("morgan");
 require("dotenv").config();
 const connectDB = require("./config/db");
 const { authMiddleware } = require("./auth");
@@ -31,6 +32,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 connectDB();
 
+app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 
