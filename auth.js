@@ -17,7 +17,7 @@ exports.authMiddleware = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     // نفترض أن الـ userId مخزن في التوكن
     req.userId = decoded.userId;
-    req.user = await User.findById(req.userId);
+    req.user = await User.findById(req.userId).select("-pass");
     next();
   } catch (err) {
     return res.status(403).json({ error: "Invalid token" });

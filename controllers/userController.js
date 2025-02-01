@@ -57,3 +57,23 @@ exports.loginUser = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+exports.getProfile = async (req, res) => {
+  try {
+    res.status(200).json(req.user);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+exports.updateProfile = async (req, res) => {
+  try {
+    delete req.body.pass;
+    const saved = await User.findByIdAndUpdate(req.user._id, req.body, {
+      new: true,
+    });
+    res.status(200).json(saved);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
+};

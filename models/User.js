@@ -1,5 +1,6 @@
 // models/User.js
 const mongoose = require("mongoose");
+const dayScheduleSchema = require("./dayScheduleSchema");
 
 const userSchema = new mongoose.Schema(
   {
@@ -16,7 +17,13 @@ const userSchema = new mongoose.Schema(
     show_holidays: { type: Boolean, default: true },
     show_settings: { type: Boolean, default: true },
     show_access: { type: Boolean, default: true },
+    //default time zone
     timeZone: { type: String, default: "Asia/Dubai" },
+    //default week schedule
+    weekSchedules: {
+      type: [dayScheduleSchema],
+      default: [],
+    },
   },
   {
     timestamps: true,
