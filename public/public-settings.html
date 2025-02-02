@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>الاعدادات العامة</title>
+
+  <!-- مكتبة jQuery (إن احتجتها) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- مكتبة Select2 (اختياري) -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <!-- أيقونات Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- خط Tajawal من Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    html { animation: fadeIn .3s ease-in forwards; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    /* عند العربية: Tajawal + RTL */
+    html[lang="ar"] body {
+      font-family: 'Tajawal', sans-serif;
+      direction: rtl;
+    }
+    /* عند الإنجليزية: Open Sans + LTR */
+    html[lang="en"] body {
+      font-family: 'Open Sans', sans-serif;
+      direction: ltr;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Tajawal', sans-serif;
+      background: #f2f2f2;
+      direction: rtl;
+    }
+    /* رأس الصفحة */
+    header {
+      background: linear-gradient(45deg, #0062cc, #004085);
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+    .lang-select {
+      margin-left: 10px;
+      padding: 5px;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    header button {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+    header button:hover {
+      background: #c82333;
+    }
+    /* زر اختيار اللغة */
+    #langSelector {
+      margin: 10px;
+      padding: 6px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+
+    /* شاشة التحميل (Overlay) */
+    .loadingOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+    }
+
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+
+    /* الرسائل */
+    .errorMsg,
+    .successMsg {
+      margin: 10px 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 10px;
+      border-radius: 4px;
+    }
+    .errorMsg {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+    }
+    .successMsg {
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+    }
+
+    /* الحاوية العامة بعكس الاتجاه لعرض الـSidebar يمينًا */
+    .container {
+      display: flex;
+      flex-direction: row-reverse;
+    }
+    /* المحتوى الرئيسي */
+    .mainContent {
+      flex: 1;
+      padding: 20px;
+    }
+    /* الشريط الجانبي (Sidebar) */
+    .sidebar {
+      width: 240px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      min-height: 100vh;
+      padding: 20px 10px;
+    }
+    .sidebar h2 {
+      margin-bottom: 15px;
+      font-size: 1rem;
+      text-align: center;
+      color: #444;
+    }
+    .navItem {
+      padding: 12px 10px;
+      margin: 6px 0;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #333;
+      font-weight: 500;
+      transition: background 0.3s, color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .navItem i {
+      font-size: 1.1rem;
+      color: #666;
+      transition: color 0.3s;
+    }
+    .navItem:hover {
+      background: #f0f0f0;
+    }
+    .navItem.active {
+      background: #007bff;
+      color: #fff;
+    }
+    .navItem.active i {
+      color: #fff;
+    }
+
+    /* start from here the content *//* start from here the content */
+    /* start from here the content *//* start from here the content */
+    /* start from here the content *//* start from here the content */
+
+    /* حاوية البحث (Filters) */
+    .timezoneField {
+      background: #fff;padding: 10px;margin-bottom: 15px;
+      display: flex;flex-wrap: wrap;gap: 10px;align-items: center;
+      border-radius: 6px;box-shadow: 0 2px 5px #0000001a;
+    }
+    .timezoneField label { margin-right: 4px;font-weight: 500; }
+    .timezoneField input{
+      padding: 6px;font-size: 0.9rem;
+      border: 1px solid #ccc;border-radius: 4px;
+    }
+
+
+
+  </style>
+</head>
+
+<body onload="initPage()">
+  <!-- هيدر -->
+  <header>
+    <h1 data-lng="header_title">الاعدادات العامة</h1>
+    <div>
+      <button data-lng="logout" onclick="logout()">خروج</button>
+      <!-- اختيار اللغة (مثل صفحة اللوجن) -->
+      <select id="langSelector" id="langSelector">
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+      </select>
+    </div>
+  </header>
+
+
+  <!-- حاوية التحميل -->
+  <div class="loadingOverlay" id="loadingOverlay">
+    <div class="spinner"></div>
+  </div>
+
+
+  <!-- الحاوية العامة -->
+  <div class="container">
+    <!-- المحتوى الرئيسي -->
+    <div class="mainContent">
+      <div class="errorMsg" id="errorMsg" style="display:none;"></div>
+      <div class="successMsg" id="successMsg" style="display:none;"></div>
+
+      <div class="timezoneField">
+        <label for="timeZone" data-lng="time_zone">Time Zone: </label>
+        <input id="timeZone" data-lng-placeholder="time_zone_place" placeholder="enter time zone" />
+      </div>
+
+      
+
+    </div>  
+
+
+
+    <!-- الشريط الجانبي -->
+    <div class="sidebar">
+      <h2 data-lng="sidebar_title">القائمة</h2>
+      <div class="navItem" onclick="location.href='dashboard.html'">
+        <i class="bi bi-house-fill"></i>
+        <span data-lng="sidebar_overview">نظرة عامة</span>
+      </div>
+      <div class="navItem" onclick="location.href='employee.html'">
+        <i class="bi bi-people-fill"></i>
+        <span data-lng="sidebar_employees">الموظفين</span>
+      </div>
+      <div class="navItem" onclick="location.href='report.html'">
+        <i class="bi bi-bar-chart-line-fill"></i>
+        <span data-lng="sidebar_report">تقرير الحضور</span>
+      </div>
+      <div class="navItem" onclick="location.href='time-based-leaves.html'">
+        <i class="bi bi-clock-fill"></i>
+        <span data-lng="sidebar_time_leaves">إجازات زمنية</span>
+      </div>
+      <div class="navItem" onclick="location.href='holidays.html'">
+        <i class="bi bi-calendar-event-fill"></i>
+        <span data-lng="sidebar_holidays">العطل الرسمية</span>
+      </div>
+      <div class="navItem" onclick="location.href='leaves.html'">
+        <i class="bi bi-calendar3"></i>
+        <span data-lng="sidebar_leaves">أجازات</span>
+      </div>
+      <div class="navItem" onclick="location.href='attend.html'">
+        <i class="bi bi-journal-check"></i>
+        <span data-lng="sidebar_attend">سجل الحضور</span>
+      </div>
+      <div class="navItem" onclick="location.href='rewards.html'">
+        <i class="bi bi-gift-fill"></i>
+        <span data-lng="sidebar_rewards">مكافآت وعقوبات</span>
+      </div>
+      <div class="navItem" onclick="location.href='devices.html'">
+        <i class="bi bi-device-hdd-fill"></i>
+        <span data-lng="sidebar_devices">الأجهزة</span>
+      </div>
+      <div class="navItem" onclick="location.href='requests.html'">
+        <i class="bi bi-list-check"></i>
+        <span data-lng="sidebar_requests">الأوامر</span>
+      </div>
+      <div class="navItem" onclick="location.href='department.html'">
+        <i class="bi bi-building"></i>
+        <span data-lng="sidebar_departments">الأقسام</span>
+      </div>
+      <div class="navItem" onclick="location.href='settings.html'">
+        <i class="bi bi-gear-fill"></i>
+        <span data-lng="sidebar_settings">الإعدادات</span>
+      </div>
+      <div class="navItem" onclick="location.href='importemployee.html'">
+        <i class="bi bi-person-exclamation"></i>
+        <span data-lng="attend_sidebar_unregistered"></span>
+      </div>
+      <div class="navItem" onclick="location.href='employee-summary-report.html'">
+        <i class="bi bi-people-fill"></i>
+        <span data-lng="employee_summary_report"></span>
+      </div>
+      <div class="navItem active" onclick="location.href='public-settings.html'">
+        <i class="bi bi-gear"></i>
+        <span data-lng="public_settings"></span>
+      </div>
+    </div>
+
+  </div>
+  </div>
+  <script>
+    /////////////////////////////////////////////////
+    /////////////////// language and auth /////////////
+    /////////////////////////////////////////////////
+    let authToken = null;
+    let translations = {}; // General translations
+
+    const LANG_PATH = './lang';        // Folder for JSON language files
+    const LNG_KEY = 'lng';
+
+    function initPage() {
+      let storedLang = localStorage.getItem(LNG_KEY);
+      // If no language is stored, set default to 'en'
+      if (!storedLang) {
+        storedLang = 'en';
+        localStorage.setItem(LNG_KEY, storedLang); // Store default language
+      }
+      document.getElementById('langSelector').value = storedLang;
+      if (storedLang === 'ar') {
+        document.documentElement.dir = 'rtl';
+      } else {
+        document.documentElement.dir = 'ltr';
+      }
+      // Set the language
+      setLanguage(storedLang).then(() => {
+        // Check if the user is authenticated
+        authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+          window.location.href = 'login.html';
+          return;
+        }
+      });
+    }
+
+    // Initialize language settings on page load
+    window.addEventListener('DOMContentLoaded', async () => {
+      let storedLang = localStorage.getItem(LNG_KEY) || 'en';
+      await loadLanguageFile(storedLang);
+      applyTranslations(storedLang);
+      applyRequestsTranslations(storedLang);
+    });
+
+    async function setLanguage(lang) {
+      await loadLanguageFile(lang); // Load the general language file
+      localStorage.setItem(LNG_KEY, lang); // Store the selected language
+      // Apply translations to the page content
+      applyTranslations(lang);
+      applyRequestsTranslations(lang);
+
+      // Set the language (lang) and text direction (dir)
+      document.documentElement.lang = lang;
+      console.log(lang);
+      if (lang === 'ar') {
+        document.documentElement.dir = 'rtl';
+      }
+      else {
+        document.documentElement.dir = 'ltr';
+      }
+    }
+
+    function applyTranslations(lang) {
+
+      document.documentElement.lang = lang;
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+      // Apply translations to elements with data-lng attribute
+      document.querySelectorAll('[data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+        if (translations[key]) {
+          if (el.tagName === 'OPTION') {
+            el.textContent = translations[key]; // Apply translation to <option> text
+          } else {
+            el.textContent = translations[key]; // Apply translation to other elements
+          }
+        }
+      });
+
+      // Apply translations to placeholders
+      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-lng-placeholder');
+        if (translations[key]) {
+          el.placeholder = translations[key];
+        }
+      });
+
+      // Apply translations to options
+      document.querySelectorAll('[data-lng-option]').forEach(el => {
+        const key = el.getAttribute('data-lng-option');
+        if (translations[key]) {
+          el.textContent = translations[key];
+        }
+      });
+    }
+
+    function applyRequestsTranslations(lang) {
+      console.log(`Loading leaves translations for ${lang} from ${LANG_PATH}/${lang}_requests.json`);
+
+      // Apply leaves-specific translations to elements with data-lng attribute
+      document.querySelectorAll('[data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+        if (translations[key]) {
+          // For elements like <H2>, <DIV>, <SPAN>, set textContent
+          if (el.tagName === 'H2' || el.tagName === 'DIV' || el.tagName === 'SPAN') {
+            el.textContent = translations[key];
+          } else {
+            // For other elements, set innerHTML
+            el.innerHTML = translations[key];
+          }
+        }
+      });
+
+      // Apply translations to placeholders (using data-lng-placeholder attribute)
+      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-lng-placeholder');
+        if (translations[key]) {
+          el.placeholder = translations[key]; // Set translated placeholder
+        }
+      });
+
+      // Apply translations to options (for <select> dropdowns)
+      document.querySelectorAll('option[data-lng]').forEach(option => {
+        const key = option.getAttribute('data-lng');
+        if (translations[key]) {
+          option.textContent = translations[key]; // Set translated option text
+        }
+      });
+
+      // Update the <title> with leaves-specific title
+      document.title = translations['head_title'];
+
+    }
+
+    // Function to load the leaves language file
+    async function loadLanguageFile(lang) {
+      try {
+        const response = await fetch(`${LANG_PATH}/${lang}_public_settings.json`); // Specific leaves lang file (e.g., en_leaves.json or ar_leaves.json)
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}_public_settings.json`);
+        }
+        translations = await response.json();
+      } catch (error) {
+        console.error("Leaves translation file error:", error);
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('authToken');
+      window.location.href = 'login.html';
+    }
+
+    // Language selection event listener
+    document.getElementById('langSelector').addEventListener('change', (event) => {
+      const selectedLang = event.target.value;
+      setLanguage(selectedLang); // Set the new language and apply changes
+      clearMessages()
+    });
+    //////////////////////////////////////////////////////
+    /////////////////////// api functions ////////////////
+    //////////////////////////////////////////////////////
+
+
+
+
+
+    
+    function showLoading() { document.getElementById('loadingOverlay').style.display = 'flex'; }
+    function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
+
+    function showError(msg) {
+      const errorMsg = document.getElementById('errorMsg');
+      errorMsg.textContent = msg;
+      errorMsg.style.display = 'block';
+      document.getElementById('successMsg').style.display = 'none';
+    }
+
+    function showSuccess(msg) {
+      const successMsg = document.getElementById('successMsg');
+      successMsg.textContent = msg;
+      successMsg.style.display = 'block';
+      document.getElementById('errorMsg').style.display = 'none';
+    }
+
+    function clearMessages() {
+      document.getElementById('errorMsg').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'none';
+    }
+
+  </script>
+
+</body>
+
+</html>

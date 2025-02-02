@@ -503,6 +503,10 @@
         <i class="bi bi-people-fill"></i>
         <span data-lng="employee_summary_report"></span>
       </div>
+      <div class="navItem" onclick="location.href='public-settings.html'">
+        <i class="bi bi-gear"></i>
+        <span data-lng="public_settings"></span>
+      </div>
     </div>
   </div>
 
@@ -525,7 +529,7 @@
         </select>
 
         <label for="mawjoodId">Mawjood ID:</label>
-        <input type="text" id="mawjoodId" placeholder="مثال: 6294d76f..." />
+        <input type="text" id="mawjoodId" placeholder="ex: 6294d76f..." />
 
         <button class="modalSaveBtn" onclick="saveDepartment()" data-lng="dep_modal_save_button">حفظ</button>
       </div>
@@ -597,7 +601,7 @@
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) {
-          throw new Error('فشل جلب الأقسام');
+          throw new Error(getTranslate('dep_msg_error_fetch'));
         }
         const data = await resp.json();
         allDepartments = data;
@@ -614,23 +618,21 @@
       tb.innerHTML = '';
 
       deptArray.forEach((d, i) => {
-        const creationDate = d.createdAt
-          ? new Date(d.createdAt).toISOString().split('T')[0]
-          : '';
+        const creationDate = d.createdAt ? new Date(d.createdAt).toISOString().split('T')[0] : '';
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${i + 1}</td>
           <td>${d.department_name || ''}</td>
-          <td>${d.department_status === "1" ? 'مفعل' : 'غير مفعل'}</td>
+          <td>${getTranslate(d.department_status === "1" ? 'dep_active_status' : 'dep_inactive_status')}</td>
           <td>${d.mawjood_id || ''}</td>
           <td>${creationDate}</td>
           <td>
             <i class="bi bi-pencil-fill actionIcon" 
-               title="تعديل"
+               title="${getTranslate('edit')}"
                onclick="openModalForEdit('${d._id}')"></i>
             <i class="bi bi-trash-fill actionIcon"
-               title="حذف"
+               title="${getTranslate('delete')}"
                onclick="deleteDepartment('${d._id}')"></i>
           </td>
         `;
@@ -733,7 +735,7 @@
         if (!resp.ok) {
           throw new Error(`فشل ${deptId ? 'تعديل' : 'إضافة'} القسم`);
         }
-        showSuccess(`تم ${deptId ? 'تعديل' : 'إضافة'} القسم بنجاح.`);
+        showSuccess(getTranslate(deptId ? 'dep_msg_success_edit' : 'dep_msg_success_add'));
         closeModal();
         loadDepartments();
       } catch (err) {
@@ -745,7 +747,7 @@
 
     async function deleteDepartment(id) {
       clearMessages();
-      if (!confirm('هل أنت متأكد من حذف هذا القسم؟')) return;
+      if (!confirm(getTranslate('dep_msg_confirm_delete'))) return;
       showLoading();
       try {
         const resp = await fetch(`https://timeattendhr.com/api/departments/${id}`, {
@@ -753,7 +755,7 @@
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('فشل حذف القسم');
-        showSuccess('تم حذف القسم بنجاح.');
+        showSuccess(getTranslate('dep_msg_success_delete'));
         loadDepartments();
       } catch (err) {
         showError(err.message);
@@ -780,6 +782,8 @@
     const LANG_KEY = 'lng';  // المفتاح نفسه المستخدم في مشروعك
     const DEPART_LANG_PATH = './lang';   // مسار ملفات ar_departments.json و en_departments.json
     let depTranslations = {};
+
+    function getTranslate(key) { return depTranslations[key] || '' }
 
     /**
      * تحميل ملف الترجمة
@@ -940,6 +944,7 @@
     // عند تغيير الـ select
     document.getElementById('langSelector').addEventListener('change', async function () {
       await setLanguage(this.value);
+      clearMessages()
     });
 
   </script>

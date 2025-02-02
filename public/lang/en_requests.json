@@ -57,6 +57,7 @@
     "leaves_table_header_delete": "Delete",
     "searchNamePlaceholder": "Search by Name",
     "leaves_filter_type_all": "All Types",
+    
     "leaves_sidebar_title": "Menu",
     "leaves_sidebar_overview": "Overview",
     "leaves_sidebar_employees": "Employees",
@@ -72,6 +73,7 @@
     "leaves_sidebar_settings": "Settings",
     "attend_sidebar_unregistered": "Unregistered employees",
     "employee_summary_report": "Employee  Summary Report",
+    "public_settings": "Public Settings",
   
     "leaves_modal_title_add": "Add Leave",
     "leaves_modal_title_edit": "Edit Leave",
@@ -103,6 +105,11 @@
     "last_execution_date": "Last Execution Date",
     "execution_count": "Execution Count",
     "result": "Result",
-    "phSearchDevice": "Search by Device Name"
+    "phSearchDevice": "Search by Device Name",
+
+    "wait": "Waiting",
+    "finished": "Completed",
+    "canceled": "Rejected"
+
   }
   

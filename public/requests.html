@@ -407,6 +407,10 @@
         <i class="bi bi-people-fill"></i>
         <span data-lng="employee_summary_report"></span>
       </div>
+      <div class="navItem" onclick="location.href='public-settings.html'">
+        <i class="bi bi-gear"></i>
+        <span data-lng="public_settings"></span>
+      </div>
     </div>
 
   </div>
@@ -591,6 +595,7 @@
     document.getElementById('langSelector').addEventListener('change', (event) => {
       const selectedLang = event.target.value;
       setLanguage(selectedLang); // Set the new language and apply changes
+      clearMessages()
     });
     document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
       const key = el.getAttribute('data-lng-placeholder');
@@ -641,7 +646,7 @@
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) {
-          throw new Error('فشل جلب الأوامر');
+          throw new Error(translations['leaves_msg_error_fetch_vacation']);
         }
         const data = await resp.json();
         allRequests = data;
@@ -670,13 +675,13 @@
 
         if (r.status === 'pending') {
           rowClass = 'statusPending';
-          statusText = 'انتظار';
+          statusText = translations['wait'];
         } else if (r.status === 'done') {
           rowClass = 'statusDone';
-          statusText = 'منجزة';
+          statusText = translations['finished'];
         } else if (r.status === 'rejected') {
           rowClass = 'statusRejected';
-          statusText = 'مرفوضة';
+          statusText = translations['canceled'];
         } else {
           statusText = r.status || '';
         }

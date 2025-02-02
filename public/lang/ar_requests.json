@@ -59,6 +59,7 @@
     "leaves_sidebar_settings": "الإعدادات",
     "attend_sidebar_unregistered": "غير المسجلين",
     "employee_summary_report": "تقرير ملخص الموظفين",
+    "public_settings": "الاعدادات العامة",
   
     "leaves_modal_title_add": "إضافة إجازة",
     "leaves_modal_title_edit": "تعديل إجازة",
@@ -90,6 +91,11 @@
     "last_execution_date": "تاريخ اخر تنفيذ",
     "execution_count": "عدد التنفيذات",
     "result": "نتيجة",
-    "phSearchDevice": "بحث باسم الجهاز"
+    "phSearchDevice": "بحث باسم الجهاز",
+
+    "wait": "انتظار",
+    "finished": "منجزة",
+    "canceled": "مرفوضة"
+    
   }
   

@@ -1,5 +1,7 @@
 {
 
+    "page_title": "Dashboard - Employee Summary Report",
+
     "Unregistere_employees":"Employee  Summary Report",
     "Logout":"Logout",
 
@@ -59,5 +61,55 @@
     "attend_sidebar_departments": "Departments",
     "attend_sidebar_settings": "Settings",
     "attend_sidebar_unregistered": "Unregistered employees",
-    "employee_summary_report": "Employee  Summary Report"
+    "employee_summary_report": "Employee  Summary Report",
+    "public_settings": "Public Settings",
+
+    "إجازات انتظار": "Waiting Leaves",
+    "إجازات زمنية": "Timed Leaves",
+    "إجازات غير مدفوعة": "Unpaid Leaves",
+    "إجازات مدفوعة": "Paid Leaves",
+    "اجمالي ايام العطل": "Total Vacation Days",
+    "الغياب": "Absence",
+    "المجموع الكلي للمكافآت وعقوبات": "Total Rewards and Penalties",
+    "المكافآ": "Rewards",
+    "ايام الاستراحة": "Rest Days",
+    "ايام العمل الرسمية": "Official Working Days",
+    "ايام عطل اسبوعية": "Weekly Holidays",
+    "دقائق اجازات زمنية للخروج": "Timed Leave Minutes (Exit)",
+    "دقائق اجازات زمنية للدخول": "Timed Leave Minutes (Entry)",
+    "دقائق الأوفر تايم": "Overtime Minutes",
+    "دقائق التأخير": "Delay Minutes",
+    "دقائق الخروج المبكر": "Early Exit Minutes",
+    "ساعات العمل الأساسية": "Basic Working Hours",
+    "ساعات العمل المطلوبة": "Required Working Hours",
+    "صافي": "Net",
+    "عقوبات": "Penalties",
+    "مجموع الاستراحة(ساعة)": "Total Break Time (Hours)",
+    "مرات التاخير": "Delay Occurrences",
+    "مرات الخروج المبكر": "Early Exit Occurrences",
+
+    "get_report_err": "Failed to retrieve report: ",
+    "س":"h",
+    "و":"and",
+    "د":"m",
+
+    "print": "print",
+    "period_from": "Period From",
+    "to": "To",
+
+    "employee": "Employee",
+    "records_num": "Number of Records",
+    "absent_num": "Number of Absences",
+    "late_minutes": "Total Late Minutes (m)",
+    "early_minutes": "Total Early Exit Minutes (m)",
+    "total_money": "Total Salary",
+    "work_hours": "Total Work Hours",
+    "lateence_num": "Number of Late Entries",
+    "early_exit_num": "Number of Early Exits",
+    "attend_num": "Number of Partial Attendances",
+    "late_adn_early_num": "Number of (Late + Early)",
+    "overtime_num": "Number of Overtime Hours"
+
+
+
 }

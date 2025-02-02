@@ -35,6 +35,7 @@
     "dep_sidebar_settings": "الإعدادات",
     "attend_sidebar_unregistered": "غير المسجلين",
     "employee_summary_report": "تقرير ملخص الموظفين",
+    "public_settings": "الاعدادات العامة",
   
     "dep_modal_title_add": "إضافة قسم",
     "dep_modal_title_edit": "تعديل قسم",
@@ -50,6 +51,8 @@
     "dep_msg_error_edit": "فشل تعديل القسم",
     "dep_msg_success_add": "تم إضافة القسم بنجاح.",
     "dep_msg_success_edit": "تم تعديل القسم بنجاح.",
-    "dep_msg_success_delete": "تم حذف القسم بنجاح."
+    "dep_msg_success_delete": "تم حذف القسم بنجاح.",
+    "edit": "تعديل",
+    "delete": "حذف"
   }
   

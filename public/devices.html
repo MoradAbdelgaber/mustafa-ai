@@ -662,6 +662,10 @@
         <i class="bi bi-people-fill"></i>
         <span data-lng="employee_summary_report"></span>
       </div>
+      <div class="navItem" onclick="location.href='public-settings.html'">
+        <i class="bi bi-gear"></i>
+        <span data-lng="public_settings"></span>
+      </div>
     </div>
   </div>
 
@@ -681,7 +685,8 @@
         <label id="devices_modal_serial_label" data-lng="deviceSerial" for="deviceSerial">Device Serial:</label>
         <input type="text" id="deviceSerial" placeholder="12345-ABCDE" />
 
-        <label id="devices_modal_serverip_label" data-lng="devices_modal_label_serverip" for="serverIp">ServerIP:</label>
+        <label id="devices_modal_serverip_label" data-lng="devices_modal_label_serverip"
+          for="serverIp">ServerIP:</label>
         <input type="text" id="serverIp" placeholder="192.168.1.50" />
 
         <label id="devices_modal_status_label" data-lng="devices_modal_label_status" for="deviceStatus">Status:</label>
@@ -690,7 +695,8 @@
           <option value="false" data-lng-option="devices_modal_status_option_false">Disabled</option>
         </select>
 
-        <button class="modalSaveBtn" id="devices_modal_save_button" data-lng="devices_modal_button_save" onclick="saveDevice()">Save</button>
+        <button class="modalSaveBtn" id="devices_modal_save_button" data-lng="devices_modal_button_save"
+          onclick="saveDevice()">Save</button>
       </div>
     </div>
   </div>
@@ -1286,17 +1292,17 @@
       </div>
       <div class="modalBody timeZoneSection">
         <!-- الجداول نفسها -->
-        <h3 id="devices_lockmodal_day_zone">Day TimeZone</h3>
+        <h3 data-lng="time_zone" id="devices_lockmodal_day_zone">Day TimeZone</h3>
 
         <table class="timeZoneTable">
           <thead>
             <tr>
-              <th>NO.</th>
-              <th>منطقة زمنية1</th>
-              <th>منطقة زمنية2</th>
-              <th>منطقة زمنية3</th>
-              <th>منطقة زمنية4</th>
-              <th>منطقة زمنية5</th>
+              <th data-lng="zone_no">NO.</th>
+              <th data-lng="zone_1">منطقة زمنية1</th>
+              <th data-lng="zone_2">منطقة زمنية2</th>
+              <th data-lng="zone_3">منطقة زمنية3</th>
+              <th data-lng="zone_4">منطقة زمنية4</th>
+              <th data-lng="zone_5">منطقة زمنية5</th>
             </tr>
           </thead>
           <tbody>
@@ -1312,18 +1318,18 @@
           </tbody>
         </table>
 
-        <h3>أسبوع المنطقة الزمنية</h3>
+        <h3 data-lng="week_zone">أسبوع المنطقة الزمنية</h3>
         <table class="timeZoneTable">
           <thead>
             <tr>
-              <th>NO.</th>
-              <th>الأحد</th>
-              <th>الإثنين</th>
-              <th>الثلاثاء</th>
-              <th>الأربعاء</th>
-              <th>الخميس</th>
-              <th>الجمعة</th>
-              <th>السبت</th>
+              <th data-lng="week_zone_no">NO.</th>
+              <th data-lng="day_1">الأحد</th>
+              <th data-lng="day_2">الإثنين</th>
+              <th data-lng="day_3">الثلاثاء</th>
+              <th data-lng="day_4">الأربعاء</th>
+              <th data-lng="day_5">الخميس</th>
+              <th data-lng="day_6">الجمعة</th>
+              <th data-lng="day_7">السبت</th>
             </tr>
           </thead>
           <tbody>
@@ -1339,17 +1345,17 @@
           </tbody>
         </table>
 
-        <h3>الوقت الاعتباري للفتح</h3>
+        <h3 data-lng="open_time">الوقت الاعتباري للفتح</h3>
         <table class="timeZoneTable">
           <thead>
             <tr>
-              <th>الأحد</th>
-              <th>الإثنين</th>
-              <th>الثلاثاء</th>
-              <th>الأربعاء</th>
-              <th>الخميس</th>
-              <th>الجمعة</th>
-              <th>السبت</th>
+              <th data-lng="day_1">الأحد</th>
+              <th data-lng="day_2">الإثنين</th>
+              <th data-lng="day_3">الثلاثاء</th>
+              <th data-lng="day_4">الأربعاء</th>
+              <th data-lng="day_5">الخميس</th>
+              <th data-lng="day_6">الجمعة</th>
+              <th data-lng="day_7">السبت</th>
             </tr>
           </thead>
           <tbody>
@@ -1363,17 +1369,17 @@
           </tbody>
         </table>
 
-        <h3>وقت الزائر</h3>
+        <h3 data-lng="visitor_time">وقت الزائر</h3>
         <table class="timeZoneTable">
           <thead>
             <tr>
-              <th>الأحد</th>
-              <th>الإثنين</th>
-              <th>الثلاثاء</th>
-              <th>الأربعاء</th>
-              <th>الخميس</th>
-              <th>الجمعة</th>
-              <th>السبت</th>
+              <th data-lng="day_1">الأحد</th>
+              <th data-lng="day_2">الإثنين</th>
+              <th data-lng="day_3">الثلاثاء</th>
+              <th data-lng="day_4">الأربعاء</th>
+              <th data-lng="day_5">الخميس</th>
+              <th data-lng="day_6">الجمعة</th>
+              <th data-lng="day_7">السبت</th>
             </tr>
           </thead>
           <tbody>
@@ -1387,7 +1393,8 @@
           </tbody>
         </table>
 
-        <button class="modalSaveBtn" id="devices_lockmodal_save_button" onclick="saveDevLock()">Save</button>
+        <button class="modalSaveBtn" id="devices_lockmodal_save_button" data-lng="save"
+          onclick="saveDevLock()">Save</button>
       </div>
     </div>
   </div>
@@ -1396,46 +1403,46 @@
   <div class="modalOverlay" id="questionnaireModal">
     <div class="modalContent">
       <div class="modalHeader">
-        <h2 id="devices_questionnaire_title">Questionnaire</h2>
+        <h2 id="devices_questionnaire_title" data-lng="Questionnaire">Questionnaire</h2>
         <button class="modalCloseBtn" onclick="closeQuestionnaireModal()">×</button>
       </div>
-      <div class="modalBody" style="direction: rtl;">
+      <div class="modalBody">
         <div style="border:1px solid #ccc; padding:10px; border-radius:6px;">
           <div style="display:flex; gap:10px; margin-bottom:10px;">
             <div style="flex:1;">
-              <label>تمكين الاستبيان</label>
+              <label data-lng="enabel_quest">تمكين الاستبيان</label>
               <select id="qn_usequestion">
-                <option value="true">نعم</option>
-                <option value="false">لا</option>
+                <option value="true" data-lng="option_yes">نعم</option>
+                <option value="false" data-lng="option_no">لا</option>
               </select>
             </div>
             <div style="flex:1;">
-              <label>استخدام الجدول التلقائي</label>
+              <label data-lng="use_table">استخدام الجدول التلقائي</label>
               <select id="qn_useschedule">
-                <option value="true">نعم</option>
-                <option value="false">لا</option>
+                <option value="true" data-lng="option_yes">نعم</option>
+                <option value="false" data-lng="option_no">لا</option>
               </select>
             </div>
           </div>
 
           <div style="display:flex; gap:10px; margin-bottom:10px;">
             <div style="flex:1;">
-              <label>اختيار واحد</label>
+              <label data-lng="one_sllection">اختيار واحد</label>
               <select id="qn_radio">
-                <option value="yes">yes</option>
-                <option value="no">no</option>
+                <option value="yes" data-lng="option_yes">yes</option>
+                <option value="no" data-lng="option_no">no</option>
               </select>
             </div>
             <div style="flex:1;">
-              <label>العنوان</label>
+              <label data-lng="address">العنوان</label>
               <input type="text" id="qn_title" />
             </div>
             <div style="flex:1;">
-              <label>الصوت</label>
+              <label data-lng="voice">الصوت</label>
               <input type="text" id="qn_voice" />
             </div>
             <div style="flex:1;">
-              <label>رسالة الخطأ</label>
+              <label data-lng="error_msg">رسالة الخطأ</label>
               <input type="text" id="qn_errmsg" />
             </div>
           </div>
@@ -1443,9 +1450,9 @@
           <table style="width:100%; border-collapse: collapse;">
             <thead>
               <tr style="background:#007bff; color:#fff;">
-                <th style="border:1px solid #ddd;">حدث</th>
-                <th style="border:1px solid #ddd;">معلومات الحدث</th>
-                <th style="border:1px solid #ddd;">مطلوب</th>
+                <th style="border:1px solid #ddd;" data-lng="event">حدث</th>
+                <th style="border:1px solid #ddd;" data-lng="event_info">معلومات الحدث</th>
+                <th style="border:1px solid #ddd;" data-lng="required">مطلوب</th>
               </tr>
             </thead>
             <tbody>
@@ -1455,7 +1462,7 @@
                     <tr>
                       <td style="border:1px solid #ddd; padding:6px;">${i}</td>
                       <td style="border:1px solid #ddd; padding:6px;">
-                        <input style="width:98%;" type="text" id="qn_item_${i}" placeholder="مثال: وصف الحدث ${i}" />
+                        <input style="width:98%;" type="text" id="qn_item_${i}" data-lng-placeholder='place_holder_${i}'/>
                       </td>
                       <td style="border:1px solid #ddd; padding:6px;"></td>
                     </tr>
@@ -1465,19 +1472,19 @@
             </tbody>
           </table>
 
-          <div style="margin-top:10px; font-size:0.9rem; color:#666;">
+          <div data-lng="hint" style="margin-top:10px; font-size:0.9rem; color:#666;">
             عندما يقوم جميع الأشخاص بتسجيل الدخول أثناء فترة التخطيط للحدث، سيتم تحديد الحدث الدليل افتراضياً...
           </div>
 
           <!-- جدول الأحداث -->
-          <h3 style="margin-top:20px; font-size:1rem; color:#333;">جدول الأحداث</h3>
+          <h3 data-lng="event_tables" style="margin-top:20px; font-size:1rem; color:#333;">جدول الأحداث</h3>
           <table style="width:100%; border-collapse:collapse;">
             <thead>
               <tr style="background:#007bff; color:#fff;">
                 <th style="border:1px solid #ddd;">#</th>
-                <th style="border:1px solid #ddd;">start</th>
-                <th style="border:1px solid #ddd;">end</th>
-                <th style="border:1px solid #ddd;">event</th>
+                <th data-lng="start" style="border:1px solid #ddd;">start</th>
+                <th data-lng="end" style="border:1px solid #ddd;">end</th>
+                <th data-lng="event" style="border:1px solid #ddd;">event</th>
               </tr>
             </thead>
             <tbody>
@@ -1902,7 +1909,7 @@
         closeModal();
         loadDevices();
       } catch (err) {
-        showError(getTranslate(deviceId? 'devices_msg_error_edit':'devices_msg_error_add'));
+        showError(getTranslate(deviceId ? 'devices_msg_error_edit' : 'devices_msg_error_add'));
       } finally {
         hideLoading();
       }
@@ -2711,7 +2718,10 @@
     function openQuestionnaireModal(serverip, serial) {
       clearMessages();
       currentQuestionnaireSN = serial;
-      document.getElementById('questionnaireModal').style.display = 'flex';
+      const modal = document.getElementById('questionnaireModal')
+      modal.style.display = 'flex';
+      const dir = document.getElementById('langSelector').value == 'ar' ? 'rtl' : 'ltr'
+      modal.style.direction = dir
     }
 
     function closeQuestionnaireModal() {
@@ -2804,7 +2814,7 @@
         .then(async (resp) => {
           if (!resp.ok) {
             const txt = await resp.text();
-            throw new Error("فشل جلب معلومات الجهاز: " + txt);
+            throw new Error(getTranslate('get_device_info_error') + txt);
           }
           const data = await resp.json();
           fillDeviceInfoModal(data);

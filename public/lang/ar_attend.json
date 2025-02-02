@@ -30,6 +30,7 @@
   "attend_table_header_device": "الجهاز",
   "attend_table_header_image": "الصورة",
   "attend_table_header_actions": "العمليات",
+
   "attend_sidebar_title": "القائمة",
   "attend_sidebar_overview": "نظرة عامة",
   "attend_sidebar_employees": "الموظفين",
@@ -45,6 +46,8 @@
   "attend_sidebar_settings": "الإعدادات",
   "attend_sidebar_unregistered": "غير المسجلين",
   "employee_summary_report": "تقرير ملخص الموظفين",
+  "public_settings": "الاعدادات العامة",
+
   "attend_modal_add_title": "إضافة سجل بصمة",
   "attend_modal_edit_title": "تعديل سجل بصمة",
   "attend_modal_label_employee": "اسم الموظف:",

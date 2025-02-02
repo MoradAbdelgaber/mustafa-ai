@@ -564,6 +564,10 @@
         <i class="bi bi-people-fill"></i>
         <span data-lng="employee_summary_report"></span>
       </div>
+      <div class="navItem" onclick="location.href='public-settings.html'">
+        <i class="bi bi-gear"></i>
+        <span data-lng="public_settings"></span>
+      </div>
     </div>
   </div>
 
@@ -865,7 +869,7 @@
 
         let imageSrc = item.image
           ? 'data:image/png;base64,' + item.image
-          : 'no_image.png';
+          : './images/no_image.png';
 
         const tr = document.createElement('tr');
 
@@ -885,7 +889,7 @@
             <img src="${imageSrc}" 
                 alt="${getTranslate('image')}"
                 class="tableRecordImage"
-                onerror="this.onerror=null;this.src='no_image.png';" />
+                onerror="this.onerror=null;this.src='./images/no_image.png';" />
           </td>
           <td>
             <i class="bi bi-pencil-square actionIcon iconEdit" 

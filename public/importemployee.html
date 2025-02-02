@@ -360,6 +360,10 @@
         <i class="bi bi-people-fill"></i>
         <span data-lng="employee_summary_report"></span>
       </div>
+      <div class="navItem" onclick="location.href='public-settings.html'">
+        <i class="bi bi-gear"></i>
+        <span data-lng="public_settings"></span>
+      </div>
     </div>
   </div>
 
@@ -465,6 +469,7 @@
     document.getElementById('langSelector').addEventListener('change', async function () {
       await setLanguage(this.value);
       localStorage.setItem("lng", this.value)
+      clearMessages()
     });
 
     // _______________________________________/
@@ -738,7 +743,7 @@
           <td>
             <i class="bi bi-arrow-down-circle-fill actionIcon"
               data-lng-title="Extract employee data"
-               title="سحب بيانات الموظف"
+               title=${getTranslate('Extract employee data')}
                onclick="pullEmployee('${item.device_sn}', '${item.enrollid}', '${item.backupnum}')"></i>
           </td>
         `;

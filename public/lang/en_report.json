@@ -57,7 +57,8 @@
   "report_sidebar_settings": "Settings",
   "attend_sidebar_unregistered": "Unregistered employees",
   "employee_summary_report": "Employee  Summary Report",
-
+  "public_settings": "Public Settings",
+  
   "report_modal_column_title": "Customize Columns",
   "report_modal_close_btn": "Close",
   "report_modal_save_close_btn": "Save & Close",

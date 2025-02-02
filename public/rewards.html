@@ -513,6 +513,10 @@
         <i class="bi bi-people-fill"></i>
         <span></span>
       </div>
+      <div class="navItem" onclick="location.href='public-settings.html'">
+        <i class="bi bi-gear"></i>
+        <span data-lng="public_settings"></span>
+      </div>
     </div>
   </div>
 
@@ -640,6 +644,7 @@
         if (rewardsTranslations['rewards_sidebar_settings']) sideItems[11].innerHTML = `<i class="bi bi-gear-fill"></i> ${rewardsTranslations['rewards_sidebar_settings']}`;
         if (rewardsTranslations['attend_sidebar_unregistered']) sideItems[12].innerHTML = `<i class="bi bi-person-exclamation"></i> ${rewardsTranslations['attend_sidebar_unregistered']}`;
         if (rewardsTranslations['employee_summary_report']) sideItems[13].innerHTML = `<i class="bi bi-people-fill"></i> ${rewardsTranslations['employee_summary_report']}`;
+        if (rewardsTranslations['public_settings']) sideItems[14].innerHTML = `<i class="bi bi-gear"></i> ${rewardsTranslations['public_settings']}`;
       }
 
       // المودال
@@ -959,11 +964,11 @@
         });
         if (!resp.ok) throw new Error(`فشل ${recordId ? 'تعديل' : 'إضافة'} السجل`);
 
-        successMsg.textContent = getTranslate(recordId? 'rewards_msg_success_edit' : 'rewards_msg_success_add')
+        successMsg.textContent = getTranslate(recordId ? 'rewards_msg_success_edit' : 'rewards_msg_success_add')
         closeModal();
         loadRewards();
       } catch (err) {
-        errorMsg.textContent = getTranslate(recordId? 'rewards_msg_error_edit' : 'rewards_msg_error_add')
+        errorMsg.textContent = getTranslate(recordId ? 'rewards_msg_error_edit' : 'rewards_msg_error_add')
       }
     }
 

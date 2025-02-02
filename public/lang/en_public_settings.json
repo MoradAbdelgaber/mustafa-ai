@@ -1,0 +1,29 @@
+{
+
+  "head_title": "Public Settings",
+  "header_title": "Public Settings",
+  "logout": "Logout",
+
+  "time_zone": "TimeZone :",
+  "time_zone_place": "enter timezone",
+
+  "sidebar_title": "Menu",
+  "sidebar_overview": "Overview",
+  "sidebar_employees": "Employees",
+  "sidebar_report": "Attendance Report",
+  "sidebar_time_leaves": "Time-based Leaves",
+  "sidebar_holidays": "Official Holidays",
+  "sidebar_leaves": "Leaves",
+  "sidebar_attend": "Attendance Log",
+  "sidebar_rewards": "Rewards & Sanctions",
+  "sidebar_devices": "Devices",
+  "sidebar_requests": "Requests",
+  "sidebar_departments": "Departments",
+  "sidebar_settings": "Settings",
+  "attend_sidebar_unregistered": "Unregistered employees",
+  "employee_summary_report": "Employee  Summary Report",
+  "public_settings": "Public Settings",
+
+  "": ""
+  
+}

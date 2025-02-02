@@ -473,6 +473,10 @@
         <i class="bi bi-people-fill"></i>
         <span data-lng="employee_summary_report"></span>
       </div>
+      <div class="navItem" onclick="location.href='public-settings.html'">
+        <i class="bi bi-gear"></i>
+        <span data-lng="public_settings"></span>
+      </div>
     </div>
   </div>
 
@@ -681,7 +685,7 @@
         });
         if (!resp.ok) throw new Error(`فشل ${holidayId ? 'تعديل' : 'إضافة'} العطلة الرسمية`);
 
-        successMsg.textContent = getTranslate(holidayId? 'holidays_msg_success_edit' : 'holidays_msg_success_add');
+        successMsg.textContent = getTranslate(holidayId ? 'holidays_msg_success_edit' : 'holidays_msg_success_add');
         closeModal();
         loadHolidays();
       } catch (err) {

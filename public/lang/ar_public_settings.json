@@ -1,0 +1,33 @@
+{
+  
+  "head_title": "الاعدادات العامة",
+  "header_title": "الاعدادات العامة",
+  "logout": "خروج",
+
+
+  "time_zone": " المنطقة الزمنية :",
+  "time_zone_place": "أدخل المنطقة الزمنية",
+
+
+
+
+  "sidebar_title": "القائمة",
+  "sidebar_overview": "نظرة عامة",
+  "sidebar_employees": "الموظفين",
+  "sidebar_report": "تقرير الحضور",
+  "sidebar_time_leaves": "إجازات زمنية",
+  "sidebar_holidays": "العطل الرسمية",
+  "sidebar_leaves": "أجازات",
+  "sidebar_attend": "سجل الحضور",
+  "sidebar_rewards": "مكافآت وعقوبات",
+  "sidebar_devices": "الأجهزة",
+  "sidebar_requests": "الأوامر",
+  "sidebar_departments": "الأقسام",
+  "sidebar_settings": "الإعدادات",
+  "attend_sidebar_unregistered": "غير المسجلين",
+  "employee_summary_report": "تقرير ملخص الموظفين",
+  "public_settings": "الاعدادات العامة",
+
+  "": ""
+
+}

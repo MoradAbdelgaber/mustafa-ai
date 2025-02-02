@@ -681,6 +681,10 @@
         <i class="bi bi-people-fill"></i>
         <span data-lng="employee_summary_report"></span>
       </div>
+      <div class="navItem" onclick="location.href='public-settings.html'">
+        <i class="bi bi-gear"></i>
+        <span data-lng="public_settings"></span>
+      </div>
     </div>
   </div>
 
@@ -886,7 +890,7 @@
         if (window.attendanceChartInstance) {
           window.attendanceChartInstance.destroy();
         }
-        const labels = ["attendence_chart", "absence_chart", "late_chart","early_chatr","ocer_chart","other_chat"].map(str => dashTranslations[str])
+        const labels = ["attendence_chart", "absence_chart", "late_chart", "early_chatr", "ocer_chart", "other_chat"].map(str => dashTranslations[str])
         window.attendanceChartInstance = new Chart(ctx, {
           type: 'pie',
           data: {

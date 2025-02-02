@@ -35,6 +35,7 @@
     "dep_sidebar_settings": "Settings",
     "attend_sidebar_unregistered": "Unregistered employees",
     "employee_summary_report": "Employee  Summary Report",
+    "public_settings": "Public Settings",
   
     "dep_modal_title_add": "Add Department",
     "dep_modal_title_edit": "Edit Department",
@@ -50,6 +51,8 @@
     "dep_msg_error_edit": "Failed to edit department",
     "dep_msg_success_add": "Department added successfully.",
     "dep_msg_success_edit": "Department edited successfully.",
-    "dep_msg_success_delete": "Department deleted successfully."
+    "dep_msg_success_delete": "Department deleted successfully.",
+    "edit": "edit",
+    "delete": "delete"
   }
   

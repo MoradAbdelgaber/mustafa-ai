@@ -9,6 +9,9 @@
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <!-- xlsx -->
+  <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
 
   <!-- خط Tajawal من Google Fonts (مثال) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -681,6 +684,10 @@
         <i class="bi bi-people-fill"></i>
         <span></span>
       </div>
+      <div class="navItem" onclick="location.href='public-settings.html'">
+        <i class="bi bi-gear"></i>
+        <span data-lng="public_settings"></span>
+      </div>
     </div>
   </div>
   <!-- /container -->
@@ -798,7 +805,7 @@
       localStorage.setItem(LANG_KEY, lang);
       applyTranslations(lang);
       applyReportTranslations(lang);
-      if(isTableLoaded) loadReport()
+      if (isTableLoaded) loadReport()
     }
     // Function to apply general translations
     function applyTranslations(lang) {
@@ -999,7 +1006,7 @@
       }
     }
 
-    
+
     function buildAllColumnsFromData() {
 
 
@@ -1086,6 +1093,8 @@
         const bv = b.checked ? 0 : 1;
         return av - bv;
       });
+
+
     }
 
     function loadColumnConfigFromLocalStorage() {
@@ -1136,12 +1145,12 @@
       buildColumnToggles();
       const modal = document.getElementById('columnModal');
       modal.style.display = 'block';
-      const dir = localStorage.getItem(LANG_KEY) == 'ar'? 'rtl' : 'ltr'
+      const dir = localStorage.getItem(LANG_KEY) == 'ar' ? 'rtl' : 'ltr'
       modal.style.direction = dir;
-      if(dir=='ltr'){
+      if (dir == 'ltr') {
         document.getElementsByClassName('closeBtn')[0].style.right = '15px'
         document.getElementsByClassName('closeBtn')[0].style.left = 'initial'
-      } else{
+      } else {
         document.getElementsByClassName('closeBtn')[0].style.left = '15px'
         document.getElementsByClassName('closeBtn')[0].style.right = 'initial'
       }
@@ -1227,10 +1236,10 @@
     function renderReport() {
       try {
         // Check if required data is available
-        // if (!window.allColumns || !window.originalReportData) {
-        //   console.error('Missing necessary data: allColumns or originalReportData is undefined.');
-        //   return;
-        // }
+        if (!allColumns || !originalReportData) {
+          console.error('Missing necessary data: allColumns or originalReportData is undefined.');
+          return;
+        }
 
         const statusVal = document.getElementById('statusSelect').value;
         const tableHead = document.querySelector('#reportTable thead');
@@ -1355,6 +1364,8 @@
         // Append rows to the table body
         tableBody.innerHTML = rowsHtml;
 
+
+
         // Update summary information
         document.getElementById('recordsCount').textContent = count;
         document.getElementById('delaySum').textContent = sumDelay;
@@ -1367,6 +1378,7 @@
           const summaryRowHtml = getSummaryRowHtml(count, sumDelay, sumEarly, sumNetFormatted, displayedColumns.length);
           tableBody.innerHTML += summaryRowHtml;
         }
+
       } catch (error) {
         console.error('Error in renderReport():', error);
       }
@@ -1406,15 +1418,17 @@
     function exportTableToExcel(tableID, filename = '') {
       let table = document.getElementById(tableID);
       if (!table) return;
-      let tableHTML = table.outerHTML.replace(/ /g, '%20');
-      filename = filename ? (filename + '.xls') : 'excel_data.xls';
-      let downloadLink = document.createElement("a");
-      document.body.appendChild(downloadLink);
-      downloadLink.href = 'data:application/vnd.ms-excel;charset=utf-8,' + tableHTML;
-      downloadLink.download = filename;
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
+
+      let wb = XLSX.utils.book_new(); // Create a new workbook
+      let ws = XLSX.utils.table_to_sheet(table); // Convert table to sheet
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet1"); // Append sheet to workbook
+
+      // Save the file
+      filename = filename || 'excel_data';
+      XLSX.writeFile(wb, filename + ".xlsx");
+
     }
+
 
     function chunkArray(array, chunkSize) {
       const results = [];
@@ -1459,7 +1473,7 @@
 
       const printWindow = window.open('', '', 'width=1200,height=700');
 
-      const dir = localStorage.getItem(LANG_KEY) == 'ar'? 'rtl' : 'ltr'
+      const dir = localStorage.getItem(LANG_KEY) == 'ar' ? 'rtl' : 'ltr'
 
       printWindow.document.write(`
         <!DOCTYPE html>
@@ -1836,12 +1850,12 @@
       // إظهار المودال
       const modal = document.getElementById('attendanceLogsModal')
       modal.style.display = 'block';
-      const dir = localStorage.getItem(LANG_KEY) == 'ar'? 'rtl' : 'ltr'
+      const dir = localStorage.getItem(LANG_KEY) == 'ar' ? 'rtl' : 'ltr'
       modal.style.direction = dir;
-      if(dir=='ltr'){
+      if (dir == 'ltr') {
         document.getElementsByClassName('closeBtn')[1].style.right = '15px'
         document.getElementsByClassName('closeBtn')[1].style.left = 'initial'
-      } else{
+      } else {
         document.getElementsByClassName('closeBtn')[1].style.left = '15px'
         document.getElementsByClassName('closeBtn')[1].style.right = 'initial'
       }

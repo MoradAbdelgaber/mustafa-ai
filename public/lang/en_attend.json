@@ -30,6 +30,7 @@
   "attend_table_header_device": "Device",
   "attend_table_header_image": "Image",
   "attend_table_header_actions": "Actions",
+  
   "attend_sidebar_title": "Menu",
   "attend_sidebar_overview": "Overview",
   "attend_sidebar_employees": "Employees",
@@ -45,6 +46,9 @@
   "attend_sidebar_settings": "Settings",
   "attend_sidebar_unregistered": "Unregistered employees",
   "employee_summary_report": "Employee  Summary Report",
+  "public_settings": "Public Settings",
+
+
   "attend_modal_add_title": "Add Fingerprint Record",
   "attend_modal_edit_title": "Edit Fingerprint Record",
   "attend_modal_label_employee": "Employee:",

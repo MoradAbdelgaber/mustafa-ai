@@ -167,6 +167,7 @@
     // تغيير اللغة من الـselect
     document.getElementById('langSelector').addEventListener('change', function () {
       setLanguage(this.value);
+      document.getElementById('result').innerText = ''
     });
 
     function initPage() {
@@ -200,7 +201,7 @@
 
       // التحقق من وجود تواريخ
       if (!startDateValue || !endDateValue) {
-        alert('الرجاء تحديد تاريخ البداية وتاريخ النهاية.');
+        alert(translations['define_date']);
         return;
       }
 
@@ -215,7 +216,7 @@
       let totalSent = 0;
 
       // مسح محتوى النتيجة
-      resultDiv.innerText = '... جاري جلب وإرسال البيانات ...';
+      resultDiv.innerText = translations['getting_data'];
 
       try {
         while (true) {
@@ -288,10 +289,13 @@
         }
 
         // انتهت عملية التصفح (Pagination)
-        resultDiv.innerText = `انتهى الجلب والإرسال. تم جلب ${totalFetched} بصمة وإرسال ${totalSent} بنجاح.`;
+        const msg = document.getElementById('langSelector').value == 'ar' ?
+          `انتهى الجلب والإرسال. تم جلب ${totalFetched} بصمة وإرسال ${totalSent} بنجاح.` :
+          `get ${totalFetched} and sent ${totalSent} fingerprint successfully`;
+        resultDiv.innerText = msg
       } catch (error) {
         console.error(error);
-        resultDiv.innerText = 'حدث خطأ أثناء العملية. تفقد وحدة التحكم (Console) لمزيد من التفاصيل.';
+        resultDiv.innerText = translations['error_happened'];
       }
     });
   </script>
