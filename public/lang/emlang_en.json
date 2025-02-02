@@ -36,6 +36,19 @@
     "tableHead7": "Leave Date",
     "tableHead8": "Main Salary",
     "tableHead9": "Actions",
+    "tableHead10": "Select",
+
+
+    "edit": "Edit",
+    "delete": "Delete",
+    "schedule": "Schedule",
+    "allSchedule": "All Schedule",
+    "sellectedSchedule": "Selected Schedule",
+    "devices": "Devices",
+    "send_to_devices": "Send To Devices",
+    "face": "Face",
+    "card_number": "Card Number",
+
   
     "employeeModalTitleAdd": "Add Employee",
     "employeeModalTitleEdit": "Edit Employee",

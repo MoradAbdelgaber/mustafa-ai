@@ -685,8 +685,7 @@
         <label id="devices_modal_serial_label" data-lng="deviceSerial" for="deviceSerial">Device Serial:</label>
         <input type="text" id="deviceSerial" placeholder="12345-ABCDE" />
 
-        <label id="devices_modal_serverip_label" data-lng="devices_modal_label_serverip"
-          for="serverIp">ServerIP:</label>
+        <label id="devices_modal_serverip_label" data-lng="devices_modal_label_serverip" for="serverIp">ServerIP:</label>
         <input type="text" id="serverIp" placeholder="192.168.1.50" />
 
         <label id="devices_modal_status_label" data-lng="devices_modal_label_status" for="deviceStatus">Status:</label>
@@ -695,8 +694,7 @@
           <option value="false" data-lng-option="devices_modal_status_option_false">Disabled</option>
         </select>
 
-        <button class="modalSaveBtn" id="devices_modal_save_button" data-lng="devices_modal_button_save"
-          onclick="saveDevice()">Save</button>
+        <button class="modalSaveBtn" id="devices_modal_save_button" data-lng="devices_modal_button_save" onclick="saveDevice()">Save</button>
       </div>
     </div>
   </div>
@@ -1393,8 +1391,7 @@
           </tbody>
         </table>
 
-        <button class="modalSaveBtn" id="devices_lockmodal_save_button" data-lng="save"
-          onclick="saveDevLock()">Save</button>
+        <button class="modalSaveBtn" id="devices_lockmodal_save_button" data-lng="save" onclick="saveDevLock()">Save</button>
       </div>
     </div>
   </div>
@@ -1909,7 +1906,7 @@
         closeModal();
         loadDevices();
       } catch (err) {
-        showError(getTranslate(deviceId ? 'devices_msg_error_edit' : 'devices_msg_error_add'));
+        showError(getTranslate(deviceId? 'devices_msg_error_edit':'devices_msg_error_add'));
       } finally {
         hideLoading();
       }
@@ -2720,7 +2717,7 @@
       currentQuestionnaireSN = serial;
       const modal = document.getElementById('questionnaireModal')
       modal.style.display = 'flex';
-      const dir = document.getElementById('langSelector').value == 'ar' ? 'rtl' : 'ltr'
+      const dir = document.getElementById('langSelector').value == 'ar'? 'rtl':'ltr'
       modal.style.direction = dir
     }
 

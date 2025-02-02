@@ -414,6 +414,7 @@
       height: 50px;
       object-fit: cover;
       border-radius: 4px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -614,6 +615,22 @@
       </div>
     </div>
   </div>
+
+
+
+  <!-- preview image -->
+  <div class="modalOverlay" id="imagePreview">
+    <div class="modalContent" style="width: 500px;height: 500px;">
+
+      <div class="img" style="width: 100%;height: 100%;">
+        <img src="./images/no_image.png" style="width: 100%;height: 100%;">
+      </div>
+
+    </div>
+  </div>
+
+
+
 
   <!-- كل الأكواد الأصلية للجافاسكربت (لا حذف) -->
   <script>
@@ -844,6 +861,20 @@
       }
     }
 
+    document.getElementById('imagePreview').addEventListener('click', (event) => {
+      if(event.target.matches('img')) return
+      const modal = document.getElementById('imagePreview')
+      modal.style.display = 'none'
+    })
+
+    function previewImage(src) {
+      if(!src) return
+      const modal = document.getElementById('imagePreview')
+      const img = modal.querySelector('img')
+      modal.style.display = 'flex'
+      img.src = src
+    }
+
     function renderFingerprints(arr) {
       const tb = document.querySelector('#fingerprintsTable tbody');
       tb.innerHTML = '';
@@ -884,9 +915,10 @@
           <td>${eventText}</td>
           <td>${timeVal}</td>
           <td>${createdAt}</td>
-          <td>${item.device_sn || ''}</td>
+          <td>${item.device_name || ''}</td>
           <td>
-            <img src="${imageSrc}" 
+            <img 
+                src="${imageSrc}" onclick='previewImage("${imageSrc}")'
                 alt="${getTranslate('image')}"
                 class="tableRecordImage"
                 onerror="this.onerror=null;this.src='./images/no_image.png';" />

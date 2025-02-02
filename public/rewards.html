@@ -964,11 +964,11 @@
         });
         if (!resp.ok) throw new Error(`فشل ${recordId ? 'تعديل' : 'إضافة'} السجل`);
 
-        successMsg.textContent = getTranslate(recordId ? 'rewards_msg_success_edit' : 'rewards_msg_success_add')
+        successMsg.textContent = getTranslate(recordId? 'rewards_msg_success_edit' : 'rewards_msg_success_add')
         closeModal();
         loadRewards();
       } catch (err) {
-        errorMsg.textContent = getTranslate(recordId ? 'rewards_msg_error_edit' : 'rewards_msg_error_add')
+        errorMsg.textContent = getTranslate(recordId? 'rewards_msg_error_edit' : 'rewards_msg_error_add')
       }
     }
 

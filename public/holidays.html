@@ -685,7 +685,7 @@
         });
         if (!resp.ok) throw new Error(`فشل ${holidayId ? 'تعديل' : 'إضافة'} العطلة الرسمية`);
 
-        successMsg.textContent = getTranslate(holidayId ? 'holidays_msg_success_edit' : 'holidays_msg_success_add');
+        successMsg.textContent = getTranslate(holidayId? 'holidays_msg_success_edit' : 'holidays_msg_success_add');
         closeModal();
         loadHolidays();
       } catch (err) {

@@ -218,7 +218,9 @@
       background: #f9f9f9;
     }
 
-    .addEmployeeBtn {
+    .btns{ display: flex;align-items: center;justify-content: space-between; }
+
+    .addEmployeeBtn,.selectedBtn,.allSelectedBtn {
       background: #28a745;
       color: #fff;
       padding: 8px 14px;
@@ -230,9 +232,13 @@
       cursor: pointer;
     }
 
-    .addEmployeeBtn:hover {
-      background: #218838;
-    }
+    .addEmployeeBtn:hover { background: #218838; }
+    .selectedBtn{ background: #17a2b8;display: none; } 
+    .selectedBtn:hover{ background: #167c8b; }
+    .allSelectedBtn{ background: #007bff; } 
+    .allSelectedBtn:hover{ background: #0851a0; }
+
+    input[type="checkbox"] { margin: 0;width: 18px;height: 18px;cursor: pointer; }
 
     img.employeeImage {
       width: 50px;
@@ -377,7 +383,7 @@
       font-size: 0.9rem;
     }
 
-    .modalSaveBtn {
+    .modalSaveBtn,.saveScheduleBtn {
       background: #28a745;
       color: #fff;
       border: none;
@@ -392,6 +398,9 @@
     .modalSaveBtn:hover {
       background: #218838;
     }
+
+    .saveScheduleBtn{ background: #007bff; }
+    .saveScheduleBtn:hover{ background: #0756aa; }
 
     .modalContent.scheduleWidth {
       width: 600px;
@@ -562,7 +571,13 @@
       </div>
 
       <!-- زر إضافة موظف -->
-      <button class="addEmployeeBtn" data-lng="addEmployeeBtn" onclick="openModalForAdd()"></button>
+       <div class="btns">
+         <button class="addEmployeeBtn" data-lng="addEmployeeBtn" onclick="openModalForAdd()"></button>
+         <div style="display: flex;gap: 8px;">
+           <button class="selectedBtn" id="selectedBtn" data-lng="sellectedSchedule"></button>
+           <button class="allSelectedBtn" id="allSelectedBtn" data-lng="allSchedule"></button>
+         </div>
+       </div>
 
       <!-- جدول الموظفين -->
       <table id="employeeTable">
@@ -577,6 +592,7 @@
             <th data-lng="tableHead7"></th>
             <th data-lng="tableHead8"></th>
             <th data-lng="tableHead9"></th>
+            <th data-lng="tableHead10"></th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -729,7 +745,10 @@
           </thead>
           <tbody></tbody>
         </table>
-        <button class="modalSaveBtn" style="margin-top:10px;" data-lng="btnAddDay" onclick="addScheduleDay()"></button>
+        <div style="display: flex;justify-content: space-between;align-items: center;">
+          <button class="modalSaveBtn" style="margin-top:10px;" data-lng="btnAddDay" onclick="addScheduleDay()"></button>
+          <button class="saveScheduleBtn" id="saveScheduleBtn" data-lng="btnSaveEmployee" onclick="saveScheduleToEmployee()"></button>
+        </div>
       </div>
     </div>
   </div>
@@ -997,6 +1016,7 @@
     // تغيير اللغة من الـselect
     document.getElementById('langSelector').addEventListener('change', function () {
       setLanguage(this.value);
+      loadEmployees()
     });
 
     function logout() {
@@ -1022,6 +1042,7 @@
         currentPage = 1;
         renderEmployees(filteredEmployees);
         renderPaginationControls();
+        console.log('ssss')
       } catch (err) {
         errorMsg.textContent = err.message;
       }
@@ -1101,8 +1122,22 @@
       });
     }
 
+    let sellectedEmployees = []
+    let openModalFromSellection = false
+    let openModalFromAllSellection = false
+    const selectedBtn = document.getElementById('selectedBtn')
+    selectedBtn.addEventListener('click', _=> {
+      openModalFromSellection = true
+      openScheduleModal(-1)
+    })
+    document.getElementById('allSelectedBtn').addEventListener('click', _=> {
+      openModalFromSellection = true
+      openModalFromAllSellection = true
+      openScheduleModal(-1)
+    })
     // عرض الموظفين
     function renderEmployees(empArr) {
+      selectedBtn.style.display = 'none'
       const tb = document.getElementById('employeeTable').querySelector('tbody');
       tb.innerHTML = '';
       const startIndex = (currentPage - 1) * pageSize;
@@ -1115,8 +1150,8 @@
         const dateLeave = emp.leave_date ? emp.leave_date.split('T')[0] : '';
         const departmentName = emp.department || '';
 
-        let imgTag = `<img src="${emp.image || './images/no_image.png'}" alt="" class="employeeImage" />`
-
+        let imgTag = `<img src="${emp.image||'./images/no_image.png'}" alt="" class="employeeImage" />`
+        
         const devicesCount = Array.isArray(emp.devices) ? emp.devices.length : 0;
 
         const tr = document.createElement('tr');
@@ -1130,31 +1165,43 @@
           <td>${dateLeave}</td>
           <td>${emp.main_salary || 0}</td>
           <td>
-            <button class="iconBtn edit" onclick="openModalForEdit(${globalIndex})" title="Edit">
+            <button class="iconBtn edit" onclick="openModalForEdit(${globalIndex})" title="${getTranslate('edit')}">
               <i class="bi bi-pencil-square"></i>
             </button>
-            <button class="iconBtn delete" onclick="deleteEmployee('${emp._id}')" title="Delete">
+            <button class="iconBtn delete" onclick="deleteEmployee('${emp._id}')" title="${getTranslate('delete')}"">
               <i class="bi bi-trash-fill"></i>
             </button>
-            <button class="iconBtn schedule" onclick="openScheduleModal(${globalIndex})" title="Schedule">
+            <button class="iconBtn schedule" onclick="openScheduleModal(${globalIndex})" title="${getTranslate('schedule')}"">
               <i class="bi bi-calendar3"></i>
             </button>
-            <button class="iconBtn devices" onclick="openDevicesModal(${globalIndex})" title="Devices (${devicesCount})">
+            <button class="iconBtn devices" onclick="openDevicesModal(${globalIndex})" title="${getTranslate('devices')}" (${devicesCount})">
               <i class="bi bi-hdd-network"></i>
             </button>
-            <button class="iconBtn send" onclick="sendUserToDevices(${globalIndex})" title="Send to Devices">
+            <button class="iconBtn send" onclick="sendUserToDevices(${globalIndex})" title="${getTranslate('send_to_devices')}"">
               <i class="bi bi-send"></i>
             </button>
-            <button class="iconBtn face" onclick="openFaceModal(${globalIndex})" title="Face">
+            <button class="iconBtn face" onclick="openFaceModal(${globalIndex})" title="${getTranslate('face')}"">
               <i class="bi bi-person-bounding-box"></i>
             </button>
-            <button class="iconBtn card" onclick="openCardModal(${globalIndex})" title="Card Number">
+            <button class="iconBtn card" onclick="openCardModal(${globalIndex})" title="${getTranslate('card_number')}"">
               <i class="bi bi-credit-card-2-front"></i>
             </button>
+          </td>
+          <td>
+            <input type="checkbox" class="em_checkbox" value='${emp._id}'>
           </td>
         `;
         tb.appendChild(tr);
       });
+      
+      const checkboxes = Array.from(document.querySelectorAll('.em_checkbox'))
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', _=> {
+          sellectedEmployees = checkboxes.filter(item => item.checked).map(item => item.value)
+          selectedBtn.style.display = sellectedEmployees.length? 'block' : 'none'
+        })
+      })
+
     }
 
     function renderPaginationControls() {
@@ -1390,11 +1437,17 @@
     }
 
     function openScheduleModal(indexInFiltered) {
-      const emp = filteredEmployees[indexInFiltered];
-      currentEmployeeIndex = findEmployeeIndexInAll(emp._id);
-      currentSchedules = emp.weekSchedules || [];
-      document.getElementById('scheduleModalTitle').setAttribute('data-lng', 'lblScheduleTitle');
-      renderSchedule(currentSchedules);
+      if(indexInFiltered != -1) {
+        const emp = filteredEmployees[indexInFiltered];
+        currentEmployeeIndex = findEmployeeIndexInAll(emp._id);
+        console.log(emp.weekSchedules)
+        currentSchedules = emp.weekSchedules || [];
+        renderSchedule(currentSchedules);
+        return showScheduleModal();
+      }
+      // for sellection
+      currentSchedules = []
+      renderSchedule([]);
       showScheduleModal();
     }
     function findEmployeeIndexInAll(id) {
@@ -1554,31 +1607,73 @@
     }
     function closeScheduleModal() {
       document.getElementById('scheduleModal').style.display = 'none';
-      saveScheduleToEmployee();
+      openModalFromSellection = false
+      openModalFromAllSellection = false
+      loadEmployees()
     }
+
+
+
+
+
     async function saveScheduleToEmployee() {
       const errorMsg = document.getElementById('errorMsg');
       const successMsg = document.getElementById('successMsg');
       errorMsg.textContent = '';
       successMsg.textContent = '';
-      const emp = allEmployees[currentEmployeeIndex];
-      emp.weekSchedules = currentSchedules;
+      if(openModalFromSellection) {
+        await saveScheduleToMultiEmployee(errorMsg, successMsg)
+      } else {
+        const emp = allEmployees[currentEmployeeIndex];
+        emp.weekSchedules = currentSchedules;
+        try {
+          const resp = await fetch(`https://timeattendhr.com/api/employees/${emp._id}`, {
+            method: 'PUT',
+            headers: {
+              'Authorization': 'Bearer ' + authToken,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(emp)
+          });
+          if (!resp.ok) throw new Error('Failed to save schedule');
+          successMsg.textContent = getTranslate("success_msg");
+        } catch (err) {
+          errorMsg.textContent = err.message;
+        }
+      }
+      closeScheduleModal()
+    }
+
+
+    async function saveScheduleToMultiEmployee(errMsgEl, successMsgEl) {
+
+      const body = {
+        update: {
+          weekSchedules: currentSchedules
+        }
+      }
+
+      openModalFromAllSellection? body.all = true : body.ids = sellectedEmployees
+
       try {
-        const resp = await fetch(`https://timeattendhr.com/api/employees/${emp._id}`, {
+        const resp = await fetch(`https://timeattendhr.com/api/employees/multi-update`, {
           method: 'PUT',
           headers: {
             'Authorization': 'Bearer ' + authToken,
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(emp)
+          body: JSON.stringify(body)
         });
         if (!resp.ok) throw new Error('Failed to save schedule');
-        successMsg.textContent = getTranslate("success_msg");
-        loadEmployees();
+        successMsgEl.textContent = getTranslate("success_msg");
       } catch (err) {
-        errorMsg.textContent = err.message;
+        errMsgEl.textContent = err.message;
       }
+
     }
+
+
+
 
     function openDevicesModal(indexInFiltered) {
       const emp = filteredEmployees[indexInFiltered];
@@ -1858,7 +1953,10 @@
       document.getElementById('empImage').value = '';
       document.getElementById('empCard').value = '';
     }
-    function showScheduleModal() { document.getElementById('scheduleModal').style.display = 'flex'; }
+ 
+    function showScheduleModal() {
+      document.getElementById('scheduleModal').style.display = 'flex';
+    }
     function showDayModal() { document.getElementById('dayModal').style.display = 'flex'; }
     function closeDayModal() {
       document.getElementById('dayModal').style.display = 'none';

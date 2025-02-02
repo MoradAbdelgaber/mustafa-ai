@@ -855,7 +855,7 @@
           if (!resp.ok) {
             throw new Error(`فشل ${vacationId ? 'تعديل' : 'إضافة'} الإجازة`);
           }
-          successMsg.textContent = getLeavesTranslate(vacationId ? 'leaves_msg_success_edit' : 'leaves_msg_success_add');
+          successMsg.textContent = getLeavesTranslate(vacationId? 'leaves_msg_success_edit' : 'leaves_msg_success_add');
           closeModal();
           loadVacations();
         })

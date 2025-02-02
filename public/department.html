@@ -618,13 +618,13 @@
       tb.innerHTML = '';
 
       deptArray.forEach((d, i) => {
-        const creationDate = d.createdAt ? new Date(d.createdAt).toISOString().split('T')[0] : '';
+        const creationDate = d.createdAt? new Date(d.createdAt).toISOString().split('T')[0] : '';
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${i + 1}</td>
           <td>${d.department_name || ''}</td>
-          <td>${getTranslate(d.department_status === "1" ? 'dep_active_status' : 'dep_inactive_status')}</td>
+          <td>${getTranslate(d.department_status === "1"? 'dep_active_status':'dep_inactive_status') }</td>
           <td>${d.mawjood_id || ''}</td>
           <td>${creationDate}</td>
           <td>
@@ -735,7 +735,7 @@
         if (!resp.ok) {
           throw new Error(`فشل ${deptId ? 'تعديل' : 'إضافة'} القسم`);
         }
-        showSuccess(getTranslate(deptId ? 'dep_msg_success_edit' : 'dep_msg_success_add'));
+        showSuccess(getTranslate(deptId? 'dep_msg_success_edit' : 'dep_msg_success_add'));
         closeModal();
         loadDepartments();
       } catch (err) {

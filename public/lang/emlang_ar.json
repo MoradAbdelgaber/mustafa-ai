@@ -38,6 +38,19 @@
     "tableHead7": "تاريخ المغادرة",
     "tableHead8": "الراتب الأساسي",
     "tableHead9": "الإجراءات",
+    "tableHead10": "اختار",
+
+
+    "edit": "تعديل",
+    "delete": "حذف",
+    "schedule": "الجدول",
+    "sellectedSchedule": "جدول المحدد",
+    "allSchedule": "جدول الكل",
+    "devices": "الأجهزة",
+    "send_to_devices": "إرسال إلى الأجهزة",
+    "face": "الوجه",
+    "card_number": "رقم البطاقة",
+
   
     "employeeModalTitleAdd": "إضافة موظف",
     "employeeModalTitleEdit": "تعديل موظف",

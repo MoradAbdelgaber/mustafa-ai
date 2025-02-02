@@ -289,9 +289,9 @@
         }
 
         // انتهت عملية التصفح (Pagination)
-        const msg = document.getElementById('langSelector').value == 'ar' ?
-          `انتهى الجلب والإرسال. تم جلب ${totalFetched} بصمة وإرسال ${totalSent} بنجاح.` :
-          `get ${totalFetched} and sent ${totalSent} fingerprint successfully`;
+        const msg = document.getElementById('langSelector').value == 'ar'?
+        `انتهى الجلب والإرسال. تم جلب ${totalFetched} بصمة وإرسال ${totalSent} بنجاح.`:
+        `get ${totalFetched} and sent ${totalSent} fingerprint successfully`;
         resultDiv.innerText = msg
       } catch (error) {
         console.error(error);
