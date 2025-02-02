@@ -37,5 +37,5 @@ const fingerPrintLogSchema = new Schema(
     timestamps: true,
   }
 );
-
+fingerPrintLogSchema.index({ time: -1 });
 module.exports = mongoose.model("FingerPrintLog", fingerPrintLogSchema);

@@ -138,7 +138,10 @@ exports.getLogs = async (req, res) => {
 
     const skip = (page - 1) * limit;
     const totalCount = await FingerPrintLog.countDocuments(filter);
-    const logs = await FingerPrintLog.find(filter).skip(skip).limit(limit);
+    const logs = await FingerPrintLog.find(filter)
+      .skip(skip)
+      .limit(limit)
+      .sort({ time: -1 });
 
     return res.json({
       logs,
