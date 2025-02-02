@@ -38,15 +38,11 @@ exports.updateEmployee = async (req, res) => {
 // تعديل متعدد
 exports.multiUpdateEmployees = async (req, res) => {
   try {
-    const { ids, update } = req.body;
-    const updated = await Employee.updateMany(
-      {
-        _id: {
-          $in: ids,
-        },
-      },
-      update
-    );
+    let { ids, update, all } = req.body;
+
+    const query = all ? { owner: req.userId } : { _id: { $in: ids } };
+
+    const updated = await Employee.updateMany(query, update);
 
     res.json(updated);
   } catch (error) {
