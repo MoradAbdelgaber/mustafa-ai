@@ -35,6 +35,25 @@ exports.updateEmployee = async (req, res) => {
   }
 };
 
+// تعديل متعدد
+exports.multiUpdateEmployees = async (req, res) => {
+  try {
+    const { ids, update } = req.body;
+    const updated = await Employee.updateMany(
+      {
+        _id: {
+          $in: ids,
+        },
+      },
+      update
+    );
+
+    res.json(updated);
+  } catch (error) {
+    res.status(400).json({ error: "Error updating employee" });
+  }
+};
+
 exports.getEmployeeById = async (req, res) => {
   try {
     const { id } = req.params;
