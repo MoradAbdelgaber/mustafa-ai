@@ -51,6 +51,7 @@ exports.createLogFromSocket = async (req, res) => {
     // جهّز بيانات السجل الجديدة
     const logData = {
       ...req.body,
+      device_name: device.name,
       owner: device.owner,
     };
 
@@ -58,7 +59,6 @@ exports.createLogFromSocket = async (req, res) => {
     const existingLog = await FingerPrintLog.findOne({
       time: req.body.time,
       device_sn: req.body.device_sn,
-      device_name: device.name,
       owner: device.owner,
     });
 
