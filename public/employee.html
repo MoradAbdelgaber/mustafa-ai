@@ -586,6 +586,7 @@
             <th data-lng="tableHead1"></th>
             <th data-lng="tableHead2"></th>
             <th data-lng="tableHead3"></th>
+            <th data-lng="tableHead11"></th>
             <th data-lng="tableHead4"></th>
             <th data-lng="tableHead5"></th>
             <th data-lng="tableHead6"></th>
@@ -668,6 +669,26 @@
     </div>
   </div>
 
+    <!-- مودال تغيير كلمة المرور -->
+    <div class="modalOverlay" id="resetModal">
+      <div class="modalContent reset">
+
+        <div class="modalHeader">
+          <h2 data-lng="reset"></h2>
+          <button class="modalCloseBtn" onclick="closeResetModal()">×</button>
+        </div>
+
+        <div class="modalBody">
+
+          <label data-lng="newPassword" for="resetInput"></label>
+          <input type="text" id="resetInput" data-lng-placeholder="newPasswordPlac" />
+
+          <button class="modalSaveBtn" style="margin-top:10px;" data-lng="btnSaveEmployee" onclick="resetPassword()"></button>
+
+        </div>
+      </div>
+    </div>
+
   <!-- مودال إضافة/تعديل الموظف -->
   <div class="modalOverlay" id="employeeModal">
     <div class="modalContent">
@@ -679,10 +700,19 @@
         <input type="hidden" id="employeeDbId" />
 
         <label data-lng="lblEnrollId" for="enrollId"></label>
-        <input type="text" id="enrollId" data-lng-placeholder="phEnrollId" />
+        <input id="enrollId" data-lng-placeholder="phEnrollId" />
 
         <label data-lng="lblEmpName" for="empName"></label>
-        <input type="text" id="empName" data-lng-placeholder="phEmpName" />
+        <input id="empName" data-lng-placeholder="phEmpName" />
+
+        <div id="passUsernameContainer" style="position: relative;">
+          <label data-lng="username" for="username"></label>
+          <input id="username" data-lng-placeholder="username_plac" oninput="checkUsername()"/>
+          <p id="err_msg" style="font-size: 13px;color: red;position: absolute;top: 43px; display: none;" data-lng="username_used"></p>
+
+          <label data-lng="password" for="password"></label>
+          <input id="password" data-lng-placeholder="password_plac" />
+        </div>
 
         <label data-lng="lblEmpDept" for="empDepartment"></label>
         <select id="empDepartment"></select>
@@ -715,7 +745,7 @@
         <label data-lng="lblEmpCard" for="empCard"></label>
         <input type="text" id="empCard" data-lng-placeholder="phEmpCard" />
 
-        <button class="modalSaveBtn" data-lng="btnSaveEmployee" onclick="saveEmployee()"></button>
+        <button class="modalSaveBtn" id="saveEmployeeBtn" data-lng="btnSaveEmployee" onclick="saveEmployee()"></button>
       </div>
     </div>
   </div>
@@ -1042,7 +1072,6 @@
         currentPage = 1;
         renderEmployees(filteredEmployees);
         renderPaginationControls();
-        console.log('ssss')
       } catch (err) {
         errorMsg.textContent = err.message;
       }
@@ -1159,12 +1188,16 @@
           <td>${globalIndex + 1}</td>
           <td>${imgTag}</td>
           <td>${emp.enroll_id || ''}</td>
+          <td>${emp.username || ''}</td>
           <td>${emp.name || ''}</td>
           <td>${departmentName}</td>
           <td>${dateJoin}</td>
           <td>${dateLeave}</td>
           <td>${emp.main_salary || 0}</td>
           <td>
+            <button  class="iconBtn" onclick="openModalForReset(${globalIndex})" title="${getTranslate('reset')}">
+              <i style='color: #6f42c1;' class="bi bi-lock"></i>
+            </button>
             <button class="iconBtn edit" onclick="openModalForEdit(${globalIndex})" title="${getTranslate('edit')}">
               <i class="bi bi-pencil-square"></i>
             </button>
@@ -1284,12 +1317,69 @@
       renderPaginationControls();
     }
 
+    ////////////// reset password ///////////
+    ////////////// reset password ///////////
+    let currentEmployeeForReset = {}
+
+    function openModalForReset(index) {
+      const emp = filteredEmployees[index];
+      currentEmployeeForReset = emp;
+      document.getElementById('resetModal').style.display = 'flex';
+    }
+
+    async function resetPassword(params) {
+
+      const input = document.getElementById('resetInput')
+
+      const newPass = input.value
+      if(!newPass?.trim()) return input.value = ''
+
+      const body = {
+        employee: currentEmployeeForReset._id,
+        password: newPass
+      }
+
+      try {
+        let url = 'https://timeattendhr.com/api/employees/reset-password';
+        let method = 'PUT';
+        const resp = await fetch(url, {
+          method,
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+        if (!resp.ok) throw new Error(getTranslate('reset_err'))
+        successMsg.textContent = getTranslate('success_msg');
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      }
+      
+      input.value = ''
+      closeResetModal()
+      
+    }
+
+    function closeResetModal() { document.getElementById('resetModal').style.display = 'none'; }
+    ////////////// reset password ///////////
+    ////////////// reset password ///////////
+
+    ///////////// edit add employee /////////
+    ///////////// edit add employee /////////
     function openModalForAdd() {
+      document.getElementById('err_msg').style.display = 'none'
+      const saveBtn = document.getElementById('saveEmployeeBtn')
+      saveBtn.style.pointerEvents = 'auto'
+      saveBtn.style.opacity = 1
       // بدلنا data-lng عنوان المودال كي يقرأ "Add Employee" من ملف الترجمة
-      document.getElementById('employeeModalTitle').setAttribute('data-lng', 'employeeModalTitleAdd');
+      document.getElementById('employeeModalTitle').innerText = getTranslate('employeeModalTitleAdd')
       document.getElementById('employeeDbId').value = '';
       document.getElementById('enrollId').value = '';
       document.getElementById('empName').value = '';
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+      document.getElementById('passUsernameContainer').style.display = 'block';
       $('#empDepartment').val('').trigger('change');
 
       const today = new Date().toISOString().split('T')[0];
@@ -1305,11 +1395,17 @@
     }
 
     function openModalForEdit(indexInFiltered) {
-      document.getElementById('employeeModalTitle').setAttribute('data-lng', 'employeeModalTitleEdit');
+
+      const saveBtn = document.getElementById('saveEmployeeBtn')
+      saveBtn.style.pointerEvents = 'auto'
+      saveBtn.style.opacity = 1
+
+      document.getElementById('employeeModalTitle').innerText = getTranslate("employeeModalTitleEdit")
       const emp = filteredEmployees[indexInFiltered];
       document.getElementById('employeeDbId').value = emp._id || '';
       document.getElementById('enrollId').value = emp.enroll_id || '';
       document.getElementById('empName').value = emp.name || '';
+      document.getElementById('passUsernameContainer').style.display = 'none';
       if (emp.department_id) {
         $('#empDepartment').val(emp.department_id).trigger('change');
       } else {
@@ -1370,6 +1466,14 @@
         week_zone: weekZoneNum,
         card: empCard
       };
+
+      if(!dbId) {
+        const password = document.getElementById('password').value.trim();
+        const username = document.getElementById('username').value.trim();
+        bodyObj.password = password
+        bodyObj.username = username
+      }
+
       if (imageBase64) {
         bodyObj.image = imageBase64;
       }
@@ -1389,7 +1493,7 @@
           },
           body: JSON.stringify(bodyObj)
         });
-        if (!resp.ok) throw new Error(`Fail to ${dbId ? 'edit' : 'add'} employee`);
+        if (!resp.ok) throw new Error(getTranslate(dbId? "edit_emp_err" : "add_emp_err"));
         successMsg.textContent = getTranslate('success_msg');
         closeEmployeeModal();
         loadEmployees();
@@ -1397,6 +1501,47 @@
         errorMsg.textContent = err.message;
       }
     }
+
+    async function checkUsername() {
+
+      const errMsg = document.getElementById('err_msg')
+      const saveBtn = document.getElementById('saveEmployeeBtn')
+
+      const input = document.getElementById('username')
+      input.value = input.value.trim()
+      const inputValue = input.value
+
+      if(!inputValue) {
+        errMsg.style.display = 'none'
+        saveBtn.style.pointerEvents = 'auto'
+        return saveBtn.style.opacity = 1
+      }
+
+      try {
+
+        const resp = await fetch(`https://timeattendhr.com/api/employees/check-username?username=${inputValue}`, {
+          method: 'GET',
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+
+        const respons = await resp.json()
+        if(respons.exists) {
+          errMsg.style.display = 'block'
+          saveBtn.style.pointerEvents = 'none'
+          return saveBtn.style.opacity = .5
+        } else {
+          errMsg.style.display = 'none'
+          saveBtn.style.pointerEvents = 'auto'
+          return saveBtn.style.opacity = 1
+        }
+
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      }
+
+    } 
+    ///////////// edit add employee /////////
+    ///////////// edit add employee /////////
 
     function fileToBase64(file) {
       return new Promise((resolve, reject) => {
@@ -1428,7 +1573,7 @@
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error('Fail to delete employee');
+        if (!resp.ok) throw new Error(getTranslate('delete_emp_err'));
         successMsg.textContent = getTranslate('success_msg')
         loadEmployees();
       } catch (err) {

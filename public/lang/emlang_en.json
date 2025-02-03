@@ -22,6 +22,11 @@
   
     "searchNameLabel": "Employee Name:",
     "searchNamePlaceholder": "Search by Name",
+    "username": "Username:",
+    "username_plac": "Enter username",
+    "username_used": "username used before",
+    "password": "Password:",
+    "password_plac": "Enter password",
     "searchDeptLabel": "Department:",
     "searchDeptAllOption": "All Departments",
   
@@ -30,6 +35,7 @@
     "tableHead1": "#",
     "tableHead2": "Photo",
     "tableHead3": "ENROLL ID",
+    "tableHead11": "username",
     "tableHead4": "Employee Name",
     "tableHead5": "Department",
     "tableHead6": "Join Date",
@@ -39,6 +45,10 @@
     "tableHead10": "Select",
 
 
+    "reset": "Reset Password",
+    "newPassword": "New Password",
+    "newPasswordPlac": "enter new password",
+    "reset_err": "error in reseting password",
     "edit": "Edit",
     "delete": "Delete",
     "schedule": "Schedule",
@@ -136,6 +146,10 @@
 
     "confirm_delete_employee": "Are you sure to delete this employee?",
 
+
+    "add_emp_err": "Error in adding employee",
+    "edit_emp_err": "Error in editing employee",
+    "delete_emp_err": "Error in deleting employee",
 
     "success_msg": "Process done successfully"
 

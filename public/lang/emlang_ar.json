@@ -24,6 +24,11 @@
   
     "searchNameLabel": "اسم الموظف:",
     "searchNamePlaceholder": "بحث بالاسم",
+    "username": "اسم المستخدم:",
+    "username_plac": "أدخل اسم المستخدم",
+    "username_used": "اسم المستخدم موجود بالفعل",
+    "password": "كلمة المرور:",
+    "password_plac": "أدخل كلمة المرور",
     "searchDeptLabel": "القسم:",
     "searchDeptAllOption": "جميع الأقسام",
   
@@ -32,6 +37,7 @@
     "tableHead1": "#",
     "tableHead2": "الصورة",
     "tableHead3": "ENROLL ID",
+    "tableHead11": "اسم المستخدم",
     "tableHead4": "اسم الموظف",
     "tableHead5": "القسم",
     "tableHead6": "تاريخ الالتحاق",
@@ -41,6 +47,10 @@
     "tableHead10": "اختار",
 
 
+    "reset": "تغيير كلمة المرور",
+    "newPassword": "كلمة المرور الجديدة",
+    "newPasswordPlac": "ادخل كلمة المرور الجديدة",
+    "reset_err": "خطأ في تغيير كلمة المرور",
     "edit": "تعديل",
     "delete": "حذف",
     "schedule": "الجدول",
@@ -137,6 +147,9 @@
     "confirm_delete_employee": "هل انت متاكد من حذف هذا الموظف؟",
 
 
+    "add_emp_err": "خطأ في اضافة الموظف",
+    "edit_emp_err": "خطأ في تعديل الموظف",
+    "delete_emp_err": "خطأ في حذف الموظف",
 
     "success_msg": "تمت العملية بنجاح"
 
