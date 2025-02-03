@@ -1,5 +1,6 @@
 const FingerPrintLog = require("../models/FingerPrintLog");
 const Device = require("../models/Device");
+const Employee = require("../models/Employee");
 
 /**
  * إنشاء سجل جديد مع شرط عدم الإضافة في حال وجود سجل مسبق بنفس الوقت والسيريال نمبر
@@ -80,6 +81,38 @@ exports.createLogFromSocket = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(400).json({ error });
+  }
+};
+
+exports.createLogFromApp = async (req, res, next) => {
+  try {
+    const { event } = req.body;
+    if (!event) throw new Error("event not found");
+
+    const employee = req.employee;
+    if (!employee) throw new Error("employee not found");
+
+    const logData = {
+      enrollid: employee.enroll_id,
+      name: employee.name,
+      time: new Date().toISOString(),
+      fetch_date: new Date().toISOString(),
+      image: "",
+      device_sn: "App",
+      device_name: "App",
+      event: event,
+      owner: employee.owner,
+    };
+
+    //save log
+    const log = await FingerPrintLog.create(logData);
+    return res.status(201).json({
+      success: true,
+      message: "تم إنشاء السجل بنجاح",
+      data: log,
+    });
+  } catch (error) {
+    next(error);
   }
 };
 
