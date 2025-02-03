@@ -135,7 +135,11 @@ exports.getLogs = async (req, res) => {
     const filter = {};
 
     // حدّد المالك (المستخدم) في الفلتر
-    filter.owner = req.userId;
+    if (req.userId) filter.owner = req.userId;
+
+    if (req.employee) {
+      filter.enrollid = req.employee.enroll_id;
+    }
 
     // فلترة بالتاريخ على حقل time
     if (from && to) {
