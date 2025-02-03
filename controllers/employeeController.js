@@ -1,37 +1,51 @@
 // controllers/employeeController.js
 
 const Employee = require("../models/Employee");
+const bcrypt = require("bcryptjs");
+const createHttpError = require("http-errors");
+const createError = require("http-errors");
+const jwt = require("jsonwebtoken");
 
-exports.createEmployee = async (req, res) => {
+exports.createEmployee = async (req, res, next) => {
   try {
-    // اضفنا owner: req.userId لضمان ربط الموظف بصاحب الحساب
+    //check username
+    if (req.body.username) {
+      const count = await Employee.countDocuments({
+        username: req.body.username,
+      });
+      if (count)
+        throw createError.BadRequest(
+          "Employee with this username already exists"
+        );
+    } else {
+      //auto generate one
+      const count = await Employee.countDocuments({
+        owner: req.userId,
+        enroll_id: req.body.enroll_id,
+      });
+
+      if (count)
+        throw createError.BadRequest(
+          `Employee with this enroll_id ${req.body.enroll_id} already exists`
+        );
+
+      req.body.username = `emp-${req.body.enroll_id}.${req.user.user_name}`;
+      req.body.password = process.env.defaultEmployeePassword;
+    }
+
+    //create employee
     const employeeData = {
       ...req.body,
-      owner: req.userId, // يجب أن يكون لديك مصادقة تعبئ req.userId
+      password: await bcrypt.hash(req.body.password, 10),
+      owner: req.userId, //owner Id
       weekSchedules: req.user.weekSchedules, //default owner weekSchedules
     };
 
     const newEmp = await Employee.create(employeeData);
-    res.status(201).json(newEmp);
+    const { password, ...result } = newEmp._doc;
+    res.status(201).json(result);
   } catch (error) {
-    console.error(error);
-    res.status(400).json({ error: "Error creating employee" });
-  }
-};
-// تعديل موظف
-exports.updateEmployee = async (req, res) => {
-  try {
-    const { id } = req.params; // أو _id أو enroll_id
-    const updated = await Employee.findByIdAndUpdate(id, req.body, {
-      new: true,
-    });
-    if (!updated) {
-      return res.status(404).json({ message: "Employee not found" });
-    }
-    res.json(updated);
-  } catch (error) {
-    console.error(error);
-    res.status(400).json({ error: "Error updating employee" });
+    next(error);
   }
 };
 
@@ -55,7 +69,10 @@ exports.getEmployeeById = async (req, res) => {
     const { id } = req.params;
 
     // ابحث بشرط المالك
-    const emp = await Employee.findOne({ _id: id, owner: req.userId });
+    const emp = await Employee.findOne({ _id: id, owner: req.userId }).select(
+      "-password"
+    );
+
     if (!emp) {
       return res
         .status(404)
@@ -81,7 +98,8 @@ exports.getEmployees = async (req, res) => {
 
     const employees = await Employee.find(filter)
       .skip((pageNum - 1) * limitNum)
-      .limit(limitNum);
+      .limit(limitNum)
+      .select("-password");
 
     const totalCount = await Employee.countDocuments(filter);
 
@@ -97,9 +115,25 @@ exports.getEmployees = async (req, res) => {
   }
 };
 
-exports.updateEmployee = async (req, res) => {
+exports.updateEmployee = async (req, res, next) => {
   try {
     const { id } = req.params;
+
+    const employee = await Employee.findOne({ _id: id, owner: req.userId });
+    if (!employee) throw createHttpError.NotFound("Employee not found");
+
+    //check username & password
+    if (!employee.password && !employee.username) {
+      req.body.username = `emp-${employee.enroll_id}.${req.user.user_name}`;
+      req.body.password = await bcrypt.hash(
+        process.env.defaultEmployeePassword,
+        10
+      );
+    } else {
+      delete req.body.username;
+      delete req.body.password;
+    }
+
     // ابحث عن الموظف بشرط المالك
     const updatedEmp = await Employee.findOneAndUpdate(
       { _id: id, owner: req.userId }, // الشرط
@@ -113,10 +147,10 @@ exports.updateEmployee = async (req, res) => {
         .json({ message: "Employee not found or not owned by you." });
     }
 
-    res.json(updatedEmp);
+    const { password, ...result } = updatedEmp._doc;
+    res.json(result);
   } catch (error) {
-    console.error(error);
-    res.status(400).json({ error: "Error updating employee" });
+    next(error);
   }
 };
 
@@ -139,5 +173,72 @@ exports.deleteEmployee = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(400).json({ error: "Error deleting employee" });
+  }
+};
+
+exports.checkUsername = async (req, res) => {
+  try {
+    const { username } = req.query;
+    const count = await Employee.countDocuments({ username });
+    res.json({ exists: count > 0 });
+  } catch (error) {
+    res.status(400).json({ error: "Error checking username" });
+  }
+};
+
+exports.login = async (req, res, next) => {
+  try {
+    const user = await Employee.findOne({ username: req.body.username });
+    if (!user) {
+      throw createError.Unauthorized("Invalid Credentials");
+    }
+
+    // تحقق من كلمة المرور
+    const passwordMatch = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    if (!passwordMatch) {
+      throw createError.Unauthorized("Invalid Credentials");
+    }
+
+    const token = jwt.sign({ employeeId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "30days",
+    });
+
+    const { password, ...result } = user._doc;
+    res.json({ message: "Login successful", token, result });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.resetPassword = async (req, res) => {
+  try {
+    const { employee, password } = req.body;
+
+    const emp = await Employee.findOne({ _id: employee, owner: req.userId });
+
+    if (!emp) {
+      return res
+        .status(404)
+        .json({ message: "Employee not found or not owned by you." });
+    }
+
+    emp.password = await bcrypt.hash(password, 10);
+    await emp.save();
+
+    res.json(emp);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: "Error fetching employee" });
+  }
+};
+
+exports.getProfile = async (req, res) => {
+  try {
+    res.status(200).json(req.employee);
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
   }
 };

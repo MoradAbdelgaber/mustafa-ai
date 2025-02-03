@@ -42,7 +42,7 @@ app.use("/api/users", userRoutes);
 // بقية المسارات
 app.use(express.static("public"));
 app.use("/api/departments", authMiddleware, departmentRoutes);
-app.use("/api/employees", authMiddleware, employeeRoutes);
+app.use("/api/employees", employeeRoutes);
 app.use("/api/fingerprints", fingerPrintLogRoutes);
 app.use("/api/rewards-penalties", authMiddleware, rewardsAndPenaltiesRoutes);
 app.use("/api/time-based-leaves", authMiddleware, timeBasedLeaveRoutes);
@@ -62,6 +62,14 @@ app.get("/", (req, res) => {
   res.redirect("/login.html");
 });
 
+// error handler
+app.use(function (err, req, res, next) {
+  // render the error page
+  res.status(err.status || 500);
+  res.json({ message: err.message, stack: err.stack });
+});
+
+//start server
 const PORT = process.env.PORT || 3500;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
