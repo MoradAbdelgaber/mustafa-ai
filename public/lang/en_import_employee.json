@@ -10,6 +10,10 @@
     "Department":"Department",
     "Other data":"Other data",
     "Control":"Control",
+    "select": "Select",
+
+    "extract_selected": "Extract selected",
+    "extract_all_selected": "Extract All",
 
 
     "attend_sidebar_title": "Menu",
@@ -45,7 +49,12 @@
     "Extract employee data":"Extract employee data",
     "Failed to add employee.":"Failed to add employee.",
     "Error while retrieving employee data:":"Error while retrieving employee data: ",
-    "Employee data has been successfully retrieved and added.":"Employee data has been successfully retrieved and added. "
+    "Employee data has been successfully retrieved and added.":"Employee data has been successfully retrieved and added. ",
+
+    "success_msg": "Process done successfully",
+    "done_extracted": "Extracted",
+    "from": "from",
+    "no_items": "No Items"
 
 
 }

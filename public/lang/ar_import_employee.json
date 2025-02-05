@@ -10,6 +10,10 @@
     "Department":"القسم",
     "Other data":"بيانات أخرى",
     "Control":"تحكم",
+    "select": "اختار",
+
+    "extract_selected": "سحب المحدد",
+    "extract_all_selected": "سحب الكل",
 
 
     "attend_sidebar_title": "القائمة",
@@ -45,7 +49,11 @@
     "Extract employee data":"سحب بيانات الموظف",
     "Failed to add employee.":"فشل في إضافة الموظف.",
     "Error while retrieving employee data:":"خطأ أثناء سحب بيانات الموظف: ",
-    "Employee data has been successfully retrieved and added.":"تم سحب بيانات الموظف وإضافته بنجاح"
+    "Employee data has been successfully retrieved and added.":"تم سحب بيانات الموظف وإضافته بنجاح",
 
+    "success_msg": "تمت العملية بنجاح",
+    "done_extracted": "تم سحب",
+    "from": "من",
+    "no_items": "لا يوجد عناصر"
 
 }

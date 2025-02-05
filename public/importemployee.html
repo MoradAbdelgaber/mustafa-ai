@@ -222,6 +222,32 @@
       color: #0056b3;
     }
 
+    .btns{
+      display: flex;margin-block: 12px 8px;
+    }
+
+    .btns div{
+      margin-inline-start: auto;
+      display: flex;gap: 6px;
+    }
+
+    .selectedBtn,.selectedAllBtn {
+      background: #17a2b8;display: none;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      transition: background 0.3s;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+    }
+    .selectedBtn:hover{ background: #167c8b; }
+
+    .selectedAllBtn{ background: #007bff;display: block; }
+    .selectedAllBtn:hover{ background: #0851a0; }
+
+    input[type="checkbox"] { margin: 0;width: 18px;height: 18px;cursor: pointer; }
+
     .loadingOverlay {
       position: fixed;
       top: 0;
@@ -280,6 +306,12 @@
       <div class="successMsg" id="successMsg"></div>
 
       <!-- الجدول: الموظفون غير المسجلين -->
+       <div class="btns">
+        <div>
+          <button class="selectedBtn" id="selectedBtn" data-lng="extract_selected" onclick="pullMany()"></button>
+          <button class="selectedAllBtn" id="selectedAllBtn" data-lng="extract_all_selected" onclick="pullMany(unregisteredList.length)"></button>
+        </div>
+       </div>
       <table id="unregisteredTable">
         <thead>
           <tr>
@@ -293,6 +325,7 @@
             <th data-lng="Department"></th>
             <th data-lng="Other data"></th>
             <th data-lng="Control"></th>
+            <th data-lng="select"></th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -462,6 +495,14 @@
           el.textContent = translations[key];
         }
       });
+
+      document.querySelectorAll('[data-lng-hover-title]').forEach(el => {
+        const key = el.getAttribute('data-lng-hover-title');
+        if (translations[key]) {
+          el.setAttribute('title',translations[key])
+        }
+      });
+
     }
 
 
@@ -678,6 +719,10 @@
       };
     }
 
+
+
+
+    
     // دالة الرسم الأساسية
     async function renderUnregistered(list) {
       const tb = document.querySelector('#unregisteredTable tbody');
@@ -706,6 +751,7 @@
         // نجلب بيانات المستخدم التفصيلية
         try {
           const info = await fetchDynamicUserInfo(item.device_sn, item.enrollid, item.backupnum);
+          console.log(info)
 
           deviceNameFromApi = info.userName || '-';
           department = info.department || '-';
@@ -730,6 +776,7 @@
         }
 
         const tr = document.createElement('tr');
+        tr.id = item.enrollid 
         tr.innerHTML = `
           <td>${i + 1}</td>
           <td>${item.device_sn || ''}</td>
@@ -741,20 +788,62 @@
           <td>${department}</td>
           <td>${otherDataHtml}</td>
           <td>
-            <i class="bi bi-arrow-down-circle-fill actionIcon"
-              data-lng-title="Extract employee data"
-               title=${getTranslate('Extract employee data')}
-               onclick="pullEmployee('${item.device_sn}', '${item.enrollid}', '${item.backupnum}')"></i>
+            <i class="bi bi-arrow-down-circle-fill actionIcon" data-lng-hover-title='Extract employee data' title=${getTranslate('Extract employee data')} onclick="pullEmployee('${item.device_sn}', '${item.enrollid}', '${item.backupnum}')"></i>
+          </td>
+          <td>
+            <input type="checkbox" class="em_checkbox" value='${[item.device_sn,, item.enrollid,, item.backupnum]}'>
           </td>
         `;
         tb.appendChild(tr);
       }
+
+      const checkboxes = Array.from(document.querySelectorAll('.em_checkbox'))
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', _=> {
+          sellectedEmployees = checkboxes.filter(item => item.checked).map(item => item.value)
+          selectedBtn.style.display = sellectedEmployees.length? 'block' : 'none'
+        })
+      })
+
     }
 
-    // دالة "سحب بيانات الموظف" وإضافته إلى قاعدة البيانات
-    async function pullEmployee(deviceSN, enrollid, backupnum) {
+    let sellectedEmployees = []
+    const selectedBtn = document.getElementById('selectedBtn')
+    const selectedAllBtn = document.getElementById('selectedAllBtn')
+
+    async function pullMany(allLength = 0) {
+
+      if(!unregisteredList.length) return alert(getTranslate('no_items'))
+
+      const checkboxes = Array.from(document.querySelectorAll('.em_checkbox'))
+
       clearMessages();
       showLoading();
+
+      const selectedData = allLength? unregisteredList.map(item => [item.device_sn, item.enrollid, item.backupnum]) : sellectedEmployees.map(item => item.split(',,')) 
+      for (let i = 0; i < selectedData.length; i++) {
+  
+        await pullEmployee(...selectedData[i], i+1, allLength)
+  
+        if(i == selectedData.length-1) {
+          hideLoading();
+          selectedBtn.style.display ='none'
+          checkboxes.forEach(checkbox => checkbox.checked = false )
+        }
+  
+      }
+
+    }
+
+
+
+    // دالة "سحب بيانات الموظف" وإضافته إلى قاعدة البيانات
+    async function pullEmployee(deviceSN, enrollid, backupnum, index= null, allLength=0) {
+
+      if(!index) {
+        clearMessages();
+        showLoading();
+      }
 
       try {
         // 1) نجلب المعلومات التفصيلية من الـAPI الديناميكي
@@ -810,11 +899,16 @@
         }
 
         // نجاح
-        showSuccess(`${getTranslate("")} (EnrollID = ${enrollid}).`);
+        const msg = index? `${getTranslate('done_extracted')} ${index} ${getTranslate('from')} ${allLength || sellectedEmployees.length}` : `${getTranslate("success_msg")} (EnrollID = ${enrollid}).`
+        showSuccess(msg);
+
+        document.getElementById(enrollid).remove()
+        unregisteredList = unregisteredList.filter(item => item.enrollid != enrollid)
+
       } catch (err) {
         showError(getTranslate("Error while retrieving employee data:") + err.message);
       } finally {
-        hideLoading();
+        if(!index) hideLoading();
       }
     }
   </script>

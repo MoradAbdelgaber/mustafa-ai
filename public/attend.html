@@ -830,7 +830,7 @@
         console.error(err);
       } finally {
         showLoader(false);
-      }
+      } 
     }
 
     function updatePaginationUI() {
@@ -844,7 +844,7 @@
         prevBtn.disabled = true;
         nextBtn.disabled = true;
       } else {
-        const text = getStringByKey("attend_pagination_info");
+        const text = `${getStringByKey("page")} ${currentPage} ${getStringByKey('from')} ${totalPages}`;
         pageInfo.textContent = text;
         prevBtn.disabled = (currentPage <= 1);
         nextBtn.disabled = (currentPage >= totalPages);
