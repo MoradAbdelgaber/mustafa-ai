@@ -994,6 +994,14 @@
           el.textContent = translations[key];
         }
       });
+
+      document.querySelectorAll('[data-lng-hover-title]').forEach(el => {
+        const key = el.getAttribute('data-lng-hover-title');
+        if (translations[key]) {
+          el.setAttribute('title',translations[key])
+        }
+      });
+
     }
 
     async function setLanguage(lang) {
@@ -1046,7 +1054,6 @@
     // تغيير اللغة من الـselect
     document.getElementById('langSelector').addEventListener('change', function () {
       setLanguage(this.value);
-      loadEmployees()
     });
 
     function logout() {
@@ -1195,28 +1202,28 @@
           <td>${dateLeave}</td>
           <td>${emp.main_salary || 0}</td>
           <td>
-            <button  class="iconBtn" onclick="openModalForReset(${globalIndex})" title="${getTranslate('reset')}">
+            <button  class="iconBtn" onclick="openModalForReset(${globalIndex})" data-lng-hover-title='reset' title="${getTranslate('reset')}">
               <i style='color: #6f42c1;' class="bi bi-lock"></i>
             </button>
-            <button class="iconBtn edit" onclick="openModalForEdit(${globalIndex})" title="${getTranslate('edit')}">
+            <button class="iconBtn edit" onclick="openModalForEdit(${globalIndex})" data-lng-hover-title='edit' title="${getTranslate('edit')}">
               <i class="bi bi-pencil-square"></i>
             </button>
-            <button class="iconBtn delete" onclick="deleteEmployee('${emp._id}')" title="${getTranslate('delete')}"">
+            <button class="iconBtn delete" onclick="deleteEmployee('${emp._id}')" data-lng-hover-title='delete' title="${getTranslate('delete')}">
               <i class="bi bi-trash-fill"></i>
             </button>
-            <button class="iconBtn schedule" onclick="openScheduleModal(${globalIndex})" title="${getTranslate('schedule')}"">
+            <button class="iconBtn schedule" onclick="openScheduleModal(${globalIndex})" data-lng-hover-title='schedule' title="${getTranslate('schedule')}">
               <i class="bi bi-calendar3"></i>
             </button>
-            <button class="iconBtn devices" onclick="openDevicesModal(${globalIndex})" title="${getTranslate('devices')}" (${devicesCount})">
+            <button class="iconBtn devices" onclick="openDevicesModal(${globalIndex})" data-lng-hover-title='devices' title="${getTranslate('devices')}" (${devicesCount})">
               <i class="bi bi-hdd-network"></i>
             </button>
-            <button class="iconBtn send" onclick="sendUserToDevices(${globalIndex})" title="${getTranslate('send_to_devices')}"">
+            <button class="iconBtn send" onclick="sendUserToDevices(${globalIndex})" data-lng-hover-title='send_to_devices' title="${getTranslate('send_to_devices')}">
               <i class="bi bi-send"></i>
             </button>
-            <button class="iconBtn face" onclick="openFaceModal(${globalIndex})" title="${getTranslate('face')}"">
+            <button class="iconBtn face" onclick="openFaceModal(${globalIndex})" data-lng-hover-title='face' title="${getTranslate('face')}">
               <i class="bi bi-person-bounding-box"></i>
             </button>
-            <button class="iconBtn card" onclick="openCardModal(${globalIndex})" title="${getTranslate('card_number')}"">
+            <button class="iconBtn card" onclick="openCardModal(${globalIndex})" data-lng-hover-title='card_number' title="${getTranslate('card_number')}">
               <i class="bi bi-credit-card-2-front"></i>
             </button>
           </td>
@@ -1244,7 +1251,8 @@
       if (totalPages <= 0) return;
 
       const prevBtn = document.createElement('button');
-      prevBtn.textContent = 'Prev';
+      prevBtn.textContent = getTranslate('prev');
+      prevBtn.setAttribute('data-lng', 'prev')
       prevBtn.className = 'pageBtn';
       prevBtn.disabled = (currentPage === 1);
       prevBtn.onclick = () => goToPrevPage();
@@ -1266,7 +1274,8 @@
       }
 
       const nextBtn = document.createElement('button');
-      nextBtn.textContent = 'Next';
+      nextBtn.textContent = getTranslate('next');
+      nextBtn.setAttribute('data-lng', 'next')
       nextBtn.className = 'pageBtn';
       nextBtn.disabled = (currentPage === totalPages);
       nextBtn.onclick = () => goToNextPage();

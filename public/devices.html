@@ -1592,6 +1592,13 @@
           el.textContent = translations[key];
         }
       });
+
+      document.querySelectorAll('[data-lng-hover-title]').forEach(el => {
+        const key = el.getAttribute('data-lng-hover-title');
+        if (translations[key]) {
+          el.setAttribute('title',translations[key])
+        }
+      });
       // // تغيير عنوان الصفحة
       // if (translations['devices_page_title']) {
       //   document.getElementById('devices_page_title').textContent = translations['devices_page_title'];
@@ -1658,7 +1665,6 @@
     // عند تغيير الـ select
     document.getElementById('langSelector').addEventListener('change', async function () {
       await setLanguage(this.value);
-      loadDevices()
       const successMsg = document.getElementById('successMsg').textContent = '';
       const errorMsg = document.getElementById('errorMsg').textContent = '';
     });
@@ -1766,26 +1772,26 @@
             <td>${getTranslate(d.status ? 'devices_modal_status_option_true' : 'devices_modal_status_option_false')}</td>
             <td>${creationDate}</td>
             <td>
-              <i class="bi bi-pencil-fill actionIcon" 
+              <i class="bi bi-pencil-fill actionIcon" data-lng-hover-title='devices_table_control_titles_edit'
                  title=${getTranslate('devices_table_control_titles_edit')}
                  onclick="openModalForEdit('${d._id}')"></i>
-              <i class="bi bi-trash-fill actionIcon"
+              <i class="bi bi-trash-fill actionIcon" data-lng-hover-title='devices_table_control_titles_delete'
                  title=${getTranslate('devices_table_control_titles_delete')}
                  onclick="deleteDevice('${d._id}')"></i>
-              <i class="bi bi-gear-fill actionIcon"
+              <i class="bi bi-gear-fill actionIcon" data-lng-hover-title='devices_table_control_titles_settings'
                  title=${getTranslate('devices_table_control_titles_settings')}
                  onclick="openDeviceSettings('${d.serverip}', '${d.serial}')"></i>
-              <i class="bi bi-cloud-download actionIcon"
+              <i class="bi bi-cloud-download actionIcon" data-lng-hover-title='devices_table_control_titles_pulllog'
                  title=${getTranslate('devices_table_control_titles_pulllog')}
                  onclick="pullLogsFromDevice('${d.serverip}', '${d.serial}')"></i>
-              <i class="bi bi-clock-fill actionIcon"
+              <i class="bi bi-clock-fill actionIcon" data-lng-hover-title='devices_table_control_titles_lock'
                  title=${getTranslate('devices_table_control_titles_lock')}
                  onclick="openDevLockModal('${d.serverip}', '${d.serial}')"></i>
-              <i class="bi bi-question-circle-fill actionIcon"
+              <i class="bi bi-question-circle-fill actionIcon" data-lng-hover-title='devices_table_control_titles_questionnaire'
                  title=${getTranslate('devices_table_control_titles_questionnaire')}
                  onclick="openQuestionnaireModal('${d.serverip}', '${d.serial}')"></i>
   
-              <i class="bi bi-info-circle-fill actionIcon"
+              <i class="bi bi-info-circle-fill actionIcon" data-lng-hover-title='devices_table_control_titles_info'
                  title=${getTranslate('devices_table_control_titles_info')}
                  onclick="openDeviceInfo('${d.serverip}', '${d.serial}')"></i>
             </td>

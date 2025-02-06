@@ -151,7 +151,10 @@
     "edit_emp_err": "Error in editing employee",
     "delete_emp_err": "Error in deleting employee",
 
-    "success_msg": "Process done successfully"
+    "success_msg": "Process done successfully",
+
+    "next": "Next",
+    "prev": "Prev"
 
   }
   

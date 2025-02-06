@@ -309,7 +309,7 @@
        <div class="btns">
         <div>
           <button class="selectedBtn" id="selectedBtn" data-lng="extract_selected" onclick="pullMany()"></button>
-          <button class="selectedAllBtn" id="selectedAllBtn" data-lng="extract_all_selected" onclick="pullMany(unregisteredList.length)"></button>
+          <button class="selectedAllBtn" id="selectedAllBtn" data-lng="extract_all_selected" onclick="pullMany(true)"></button>
         </div>
        </div>
       <table id="unregisteredTable">
@@ -434,8 +434,6 @@
     // _______________________________________/
     async function loadLanguageFile(lang) {
       try {
-
-        console.log(`${LANG_PATH}/${lang}_${LANG_KEY}.json`);
 
 
         const response = await fetch(`${LANG_PATH}/${lang}_${LANG_KEY}.json`);
@@ -720,6 +718,24 @@
     }
 
 
+    async function fetchDynamicUserInfofromTwoItems(sn, enrollid, backupnum) {
+
+      const backupnums = backupnum.split(',,')
+
+      let info1 = await fetchDynamicUserInfo(sn, enrollid, backupnums[0])
+      let info2 = await fetchDynamicUserInfo(sn, enrollid, backupnums[1])
+
+      if(info1.card) {
+        info1.fingerprintVal = info1.base64Data
+        info1.base64Data = info2.base64Data
+      } else {
+        info1.card = info2.card
+        info1.fingerprintVal = info2.record
+      }
+
+      return info1
+
+    }
 
 
     
@@ -751,7 +767,6 @@
         // نجلب بيانات المستخدم التفصيلية
         try {
           const info = await fetchDynamicUserInfo(item.device_sn, item.enrollid, item.backupnum);
-          console.log(info)
 
           deviceNameFromApi = info.userName || '-';
           department = info.department || '-';
@@ -811,7 +826,7 @@
     const selectedBtn = document.getElementById('selectedBtn')
     const selectedAllBtn = document.getElementById('selectedAllBtn')
 
-    async function pullMany(allLength = 0) {
+    async function pullMany(all = false) {
 
       if(!unregisteredList.length) return alert(getTranslate('no_items'))
 
@@ -820,10 +835,12 @@
       clearMessages();
       showLoading();
 
-      const selectedData = allLength? unregisteredList.map(item => [item.device_sn, item.enrollid, item.backupnum]) : sellectedEmployees.map(item => item.split(',,')) 
+      let selectedData = all? unregisteredList.map(item => [item.device_sn, item.enrollid, item.backupnum]) : sellectedEmployees.map(item => item.split(',,')) 
+      selectedData = mergeArray(selectedData)
+
       for (let i = 0; i < selectedData.length; i++) {
   
-        await pullEmployee(...selectedData[i], i+1, allLength)
+        await pullEmployee(...selectedData[i], i+1, selectedData.length)
   
         if(i == selectedData.length-1) {
           hideLoading();
@@ -833,6 +850,17 @@
   
       }
 
+    }
+
+    function mergeArray(arr) {
+      const map = new Map();
+      arr.forEach(([deviceSN, enrollid, backupnum]) => {
+        if (!map.has(enrollid)) {
+          map.set(enrollid, [deviceSN, enrollid, []]);
+        }
+        map.get(enrollid)[2].push(backupnum);
+      });
+      return [...map.values()].map(([deviceSN, enrollid, values]) => [deviceSN, enrollid, values.join(",,")]);
     }
 
 
@@ -847,7 +875,7 @@
 
       try {
         // 1) نجلب المعلومات التفصيلية من الـAPI الديناميكي
-        const info = await fetchDynamicUserInfo(deviceSN, enrollid, backupnum);
+        const info = (typeof backupnum == 'string'&&backupnum.includes(',,'))? await fetchDynamicUserInfofromTwoItems(deviceSN, enrollid, backupnum) : await fetchDynamicUserInfo(deviceSN, enrollid, backupnum);
 
         // 2) تجهيز الحقول حسب الطلب
         //    enroll_id = enrollid
@@ -860,15 +888,13 @@
         //    card = info.card (إن وجد)
         //    leave_date = null
 
-        let fingerprintVal = '';
         let imageVal = '';
-        if (backupnum == 11) {
-          fingerprintVal = info.base64Data;
-        }
-        if (backupnum == 50) {
-          imageVal = info.base64Data;
-        }
+        if ((backupnum.toString()).includes('50')) imageVal = info.base64Data;
 
+        let fingerprintVal = '';
+        if (backupnum == 11) fingerprintVal = info.base64Data;
+        if(typeof backupnum == 'string'&&backupnum.includes(',,')) fingerprintVal = info.fingerprintVal 
+        
         const bodyObj = {
           enroll_id: Number(enrollid),
           name: info.userName || 'NoName',
@@ -899,10 +925,11 @@
         }
 
         // نجاح
-        const msg = index? `${getTranslate('done_extracted')} ${index} ${getTranslate('from')} ${allLength || sellectedEmployees.length}` : `${getTranslate("success_msg")} (EnrollID = ${enrollid}).`
+        const msg = index? `${getTranslate('done_extracted')} ${index} ${getTranslate('from')} ${allLength}` : `${getTranslate("success_msg")} (EnrollID = ${enrollid}).`
         showSuccess(msg);
 
         document.getElementById(enrollid).remove()
+        document.getElementById(enrollid)?.remove()
         unregisteredList = unregisteredList.filter(item => item.enrollid != enrollid)
 
       } catch (err) {

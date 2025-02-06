@@ -694,6 +694,13 @@
         }
       });
 
+      document.querySelectorAll('[data-lng-hover-title]').forEach(el => {
+        const key = el.getAttribute('data-lng-hover-title');
+        if (translations[key]) {
+          el.setAttribute('title',translations[key])
+        }
+      });
+
 
     }
 
@@ -741,8 +748,6 @@
       await setLanguage(this.value);
       localStorage.setItem("lng", this.value)
       setupSelect2();
-      loadFingerprints(currentPage)
-      // applyAttendTranslations(this.value);
     });
 
 
@@ -924,10 +929,10 @@
                 onerror="this.onerror=null;this.src='./images/no_image.png';" />
           </td>
           <td>
-            <i class="bi bi-pencil-square actionIcon iconEdit" 
+            <i class="bi bi-pencil-square actionIcon iconEdit" data-lng-hover-title='edit'
                 title=${getTranslate('edit')}
                 onclick="openModalForEdit('${item._id}')"></i>
-            <i class="bi bi-trash actionIcon iconDelete" 
+            <i class="bi bi-trash actionIcon iconDelete" data-lng-hover-title='delete'
                 title=${getTranslate('delete')}
                 onclick="deleteFingerprint('${item._id}')"></i>
           </td>
