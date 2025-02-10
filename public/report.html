@@ -672,10 +672,10 @@
         <i class="bi bi-building"></i>
         الأقسام
       </div>
-      <div class="navItem" onclick="location.href='settings.html'">
+      <!-- <div class="navItem" onclick="location.href='settings.html'">
         <i class="bi bi-gear-fill"></i>
         الإعدادات
-      </div>
+      </div> -->
       <div class="navItem" onclick="location.href='importemployee.html'">
         <i class="bi bi-person-exclamation"></i>
         <span></span>
@@ -729,12 +729,6 @@
         loadEmployees();
         loadDepartments();
 
-        // تفعيل البحث في الـselect
-        $(document).ready(function () {
-          // $('#employeeSelect').select2({ width: '150px', placeholder: 'اختر موظفًا' });
-          // $('#departmentSelect').select2({ width: '150px', placeholder: 'اختر قسمًا' });
-          // $('#statusSelect').select2({ width: '130px', placeholder: 'كل الحالات' });
-        });
       });
 
     }
@@ -843,6 +837,15 @@
           el.textContent = translations[key];
         }
       });
+
+      
+        // تفعيل البحث في الـselect
+        $(document).ready(function () {
+          $('#employeeSelect').select2({ width: '150px', placeholder: 'اختر موظفًا' });
+          // $('#departmentSelect').select2({ width: '150px', placeholder: 'اختر قسمًا' });
+          // $('#statusSelect').select2({ width: '130px', placeholder: 'كل الحالات' });
+        });
+
     }
     // Function to load the general language file
     async function loadLanguageFile(lang) {
@@ -1328,6 +1331,19 @@
               displayedColumns.forEach(col => {
                 let cellVal = row[col.field] || '';
 
+                let cellStyle = `width:${col.width};`;
+
+                if(col.field == 'rest_breaks') {
+                  let val = ''
+                  cellVal.forEach(item => {
+                    val += `${getTranslate('in')}: ${item.rest_in} \n
+                    ${getTranslate('out')}: ${item.rest_out} \n
+                    ${getTranslate('duration')}: ${formatWorkHours(item.duration)} \n`
+                  })
+                  cellVal = val
+                  cellStyle += 'white-space: pre-line;line-height: 0.8;'
+                }
+
                 // Format check_in/check_out times if needed
                 if ((col.field === 'check_in' || col.field === 'check_out') && cellVal.includes(' ')) {
                   cellVal = cellVal.split(' ')[1];
@@ -1341,7 +1357,6 @@
                   cellVal = formatNetSalary(cellVal);
                 }
 
-                let cellStyle = `width:${col.width};`;
                 if (col.field === 'attendance_status') {
                   switch (row.status_code) {
                     case 'absent': cellStyle += 'background-color:#ffd4d4;'; break;
@@ -1352,6 +1367,7 @@
                     case 'late_and_early_exit': cellStyle += 'background-color:#ffe6ff;'; break;
                     case 'overtime': cellStyle += 'background-color:#e6ffe6;'; break;
                   }
+                  cellVal = getTranslate(cellVal)
                 }
                 trHtml += `<td style="${cellStyle}">${cellVal}</td>`;
               });
@@ -1363,7 +1379,6 @@
 
         // Append rows to the table body
         tableBody.innerHTML = rowsHtml;
-
 
 
         // Update summary information
@@ -1669,6 +1684,7 @@
                 case 'late_and_early_exit': cellStyle += 'background-color:#ffe6ff;'; break;
                 case 'overtime': cellStyle += 'background-color:#e6ffe6;'; break;
               }
+              cellVal = getTranslate(cellVal)
             }
             printWindow.document.write(`<td style="${cellStyle}">${cellVal}</td>`);
           });
@@ -2163,14 +2179,14 @@
         if (reportTranslations['report_sidebar_departments']) {
           sidebarItems[10].innerHTML = `<i class="bi bi-building"></i> ${reportTranslations['report_sidebar_departments']}`;
         }
-        if (reportTranslations['report_sidebar_settings']) {
-          sidebarItems[11].innerHTML = `<i class="bi bi-gear-fill"></i> ${reportTranslations['report_sidebar_settings']}`;
-        }
+        // if (reportTranslations['report_sidebar_settings']) {
+        //   sidebarItems[11].innerHTML = `<i class="bi bi-gear-fill"></i> ${reportTranslations['report_sidebar_settings']}`;
+        // }
         if (reportTranslations['attend_sidebar_unregistered']) {
-          sidebarItems[12].innerHTML = `<i class="bi bi-person-exclamation"></i> ${reportTranslations['attend_sidebar_unregistered']}`;
+          sidebarItems[11].innerHTML = `<i class="bi bi-person-exclamation"></i> ${reportTranslations['attend_sidebar_unregistered']}`;
         }
         if (reportTranslations['employee_summary_report']) {
-          sidebarItems[13].innerHTML = `<i class="bi bi-people-fill"></i> ${reportTranslations['employee_summary_report']}`;
+          sidebarItems[12].innerHTML = `<i class="bi bi-people-fill"></i> ${reportTranslations['employee_summary_report']}`;
         }
 
       }

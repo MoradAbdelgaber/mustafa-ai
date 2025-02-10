@@ -491,10 +491,10 @@
         <i class="bi bi-building"></i>
         <span data-lng="dep_sidebar_departments"></span>
       </div>
-      <div class="navItem" onclick="location.href='settings.html'">
+      <!-- <div class="navItem" onclick="location.href='settings.html'">
         <i class="bi bi-gear-fill"></i>
         <span data-lng="dep_sidebar_settings"></span>
-      </div>
+      </div> -->
       <div class="navItem" onclick="location.href='importemployee.html'">
         <i class="bi bi-person-exclamation"></i>
         <span data-lng="attend_sidebar_unregistered"></span>
@@ -781,9 +781,9 @@
   <script>
     const LANG_KEY = 'lng';  // المفتاح نفسه المستخدم في مشروعك
     const DEPART_LANG_PATH = './lang';   // مسار ملفات ar_departments.json و en_departments.json
-    let depTranslations = {};
+    let translations = {};
 
-    function getTranslate(key) { return depTranslations[key] || '' }
+    function getTranslate(key) { return translations[key] || '' }
 
     /**
      * تحميل ملف الترجمة
@@ -833,31 +833,31 @@
         }
       });
       // // العنوان في التبويب
-      // if (depTranslations['dep_head_title']) {
-      //   document.title = depTranslations['dep_head_title'];
+      // if (translations['dep_head_title']) {
+      //   document.title = translations['dep_head_title'];
       // }
       // // الهيدر الرئيسي
-      // if (depTranslations['dep_header_title']) {
-      //   document.querySelector('header h1').textContent = depTranslations['dep_header_title'];
+      // if (translations['dep_header_title']) {
+      //   document.querySelector('header h1').textContent = translations['dep_header_title'];
       // }
-      // if (depTranslations['dep_logout']) {
-      //   document.querySelector('header button').textContent = depTranslations['dep_logout'];
+      // if (translations['dep_logout']) {
+      //   document.querySelector('header button').textContent = translations['dep_logout'];
       // }
 
       // // الفلاتر
-      // if (depTranslations['dep_filter_name_label']) {
-      //   document.querySelector('label[for="searchName"]').textContent = depTranslations['dep_filter_name_label'];
+      // if (translations['dep_filter_name_label']) {
+      //   document.querySelector('label[for="searchName"]').textContent = translations['dep_filter_name_label'];
       // }
-      // if (depTranslations['dep_filter_status_label']) {
-      //   document.querySelector('label[for="searchStatus"]').textContent = depTranslations['dep_filter_status_label'];
+      // if (translations['dep_filter_status_label']) {
+      //   document.querySelector('label[for="searchStatus"]').textContent = translations['dep_filter_status_label'];
       // }
-      // if (depTranslations['dep_filter_date_label']) {
-      //   document.querySelector('label[for="searchCreation"]').textContent = depTranslations['dep_filter_date_label'];
+      // if (translations['dep_filter_date_label']) {
+      //   document.querySelector('label[for="searchCreation"]').textContent = translations['dep_filter_date_label'];
       // }
 
       // // زر إضافة
-      // if (depTranslations['dep_button_add_dept']) {
-      //   document.querySelector('.addBtn').textContent = depTranslations['dep_button_add_dept'];
+      // if (translations['dep_button_add_dept']) {
+      //   document.querySelector('.addBtn').textContent = translations['dep_button_add_dept'];
       // }
 
       // // عناوين الجدول
@@ -870,18 +870,18 @@
       // // 4 -> dep_table_header_created
       // // 5 -> dep_table_header_actions
       // if (theadCells.length >= 6) {
-      //   if (depTranslations['dep_table_header_index']) theadCells[0].textContent = depTranslations['dep_table_header_index'];
-      //   if (depTranslations['dep_table_header_name']) theadCells[1].textContent = depTranslations['dep_table_header_name'];
-      //   if (depTranslations['dep_table_header_status']) theadCells[2].textContent = depTranslations['dep_table_header_status'];
-      //   if (depTranslations['dep_table_header_mawjood']) theadCells[3].textContent = depTranslations['dep_table_header_mawjood'];
-      //   if (depTranslations['dep_table_header_created']) theadCells[4].textContent = depTranslations['dep_table_header_created'];
-      //   if (depTranslations['dep_table_header_actions']) theadCells[5].textContent = depTranslations['dep_table_header_actions'];
+      //   if (translations['dep_table_header_index']) theadCells[0].textContent = translations['dep_table_header_index'];
+      //   if (translations['dep_table_header_name']) theadCells[1].textContent = translations['dep_table_header_name'];
+      //   if (translations['dep_table_header_status']) theadCells[2].textContent = translations['dep_table_header_status'];
+      //   if (translations['dep_table_header_mawjood']) theadCells[3].textContent = translations['dep_table_header_mawjood'];
+      //   if (translations['dep_table_header_created']) theadCells[4].textContent = translations['dep_table_header_created'];
+      //   if (translations['dep_table_header_actions']) theadCells[5].textContent = translations['dep_table_header_actions'];
       // }
 
       // // الشريط الجانبي
       // const sidebarTitle = document.querySelector('.sidebar h2');
-      // if (sidebarTitle && depTranslations['dep_sidebar_title']) {
-      //   sidebarTitle.textContent = depTranslations['dep_sidebar_title'];
+      // if (sidebarTitle && translations['dep_sidebar_title']) {
+      //   sidebarTitle.textContent = translations['dep_sidebar_title'];
       // }
       // const sidebarItems = document.querySelectorAll('.sidebar .navItem');
       // // مثال بحسب ترتيب العناصر:
@@ -890,35 +890,35 @@
       // //   2 => dep_sidebar_report
       // //   ...
       // if (sidebarItems.length >= 12) {
-      //   if (depTranslations['dep_sidebar_overview']) sidebarItems[0].innerHTML = `<i class="bi bi-house-fill"></i> ${depTranslations['dep_sidebar_overview']}`;
-      //   if (depTranslations['dep_sidebar_employees']) sidebarItems[1].innerHTML = `<i class="bi bi-people-fill"></i> ${depTranslations['dep_sidebar_employees']}`;
-      //   if (depTranslations['dep_sidebar_report']) sidebarItems[2].innerHTML = `<i class="bi bi-bar-chart-line-fill"></i> ${depTranslations['dep_sidebar_report']}`;
-      //   if (depTranslations['dep_sidebar_time_leaves']) sidebarItems[3].innerHTML = `<i class="bi bi-clock-fill"></i> ${depTranslations['dep_sidebar_time_leaves']}`;
-      //   if (depTranslations['dep_sidebar_holidays']) sidebarItems[4].innerHTML = `<i class="bi bi-calendar-event-fill"></i> ${depTranslations['dep_sidebar_holidays']}`;
-      //   if (depTranslations['dep_sidebar_leaves']) sidebarItems[5].innerHTML = `<i class="bi bi-calendar3"></i> ${depTranslations['dep_sidebar_leaves']}`;
-      //   if (depTranslations['dep_sidebar_attend']) sidebarItems[6].innerHTML = `<i class="bi bi-journal-check"></i> ${depTranslations['dep_sidebar_attend']}`;
-      //   if (depTranslations['dep_sidebar_rewards']) sidebarItems[7].innerHTML = `<i class="bi bi-gift-fill"></i> ${depTranslations['dep_sidebar_rewards']}`;
-      //   if (depTranslations['dep_sidebar_devices']) sidebarItems[8].innerHTML = `<i class="bi bi-device-hdd-fill"></i> ${depTranslations['dep_sidebar_devices']}`;
-      //   if (depTranslations['dep_sidebar_requests']) sidebarItems[9].innerHTML = `<i class="bi bi-list-check"></i> ${depTranslations['dep_sidebar_requests']}`;
-      //   if (depTranslations['dep_sidebar_departments']) sidebarItems[10].innerHTML = `<i class="bi bi-building"></i> ${depTranslations['dep_sidebar_departments']}`;
-      //   if (depTranslations['dep_sidebar_settings']) sidebarItems[11].innerHTML = `<i class="bi bi-gear-fill"></i> ${depTranslations['dep_sidebar_settings']}`;
+      //   if (translations['dep_sidebar_overview']) sidebarItems[0].innerHTML = `<i class="bi bi-house-fill"></i> ${translations['dep_sidebar_overview']}`;
+      //   if (translations['dep_sidebar_employees']) sidebarItems[1].innerHTML = `<i class="bi bi-people-fill"></i> ${translations['dep_sidebar_employees']}`;
+      //   if (translations['dep_sidebar_report']) sidebarItems[2].innerHTML = `<i class="bi bi-bar-chart-line-fill"></i> ${translations['dep_sidebar_report']}`;
+      //   if (translations['dep_sidebar_time_leaves']) sidebarItems[3].innerHTML = `<i class="bi bi-clock-fill"></i> ${translations['dep_sidebar_time_leaves']}`;
+      //   if (translations['dep_sidebar_holidays']) sidebarItems[4].innerHTML = `<i class="bi bi-calendar-event-fill"></i> ${translations['dep_sidebar_holidays']}`;
+      //   if (translations['dep_sidebar_leaves']) sidebarItems[5].innerHTML = `<i class="bi bi-calendar3"></i> ${translations['dep_sidebar_leaves']}`;
+      //   if (translations['dep_sidebar_attend']) sidebarItems[6].innerHTML = `<i class="bi bi-journal-check"></i> ${translations['dep_sidebar_attend']}`;
+      //   if (translations['dep_sidebar_rewards']) sidebarItems[7].innerHTML = `<i class="bi bi-gift-fill"></i> ${translations['dep_sidebar_rewards']}`;
+      //   if (translations['dep_sidebar_devices']) sidebarItems[8].innerHTML = `<i class="bi bi-device-hdd-fill"></i> ${translations['dep_sidebar_devices']}`;
+      //   if (translations['dep_sidebar_requests']) sidebarItems[9].innerHTML = `<i class="bi bi-list-check"></i> ${translations['dep_sidebar_requests']}`;
+      //   if (translations['dep_sidebar_departments']) sidebarItems[10].innerHTML = `<i class="bi bi-building"></i> ${translations['dep_sidebar_departments']}`;
+      //   if (translations['dep_sidebar_settings']) sidebarItems[11].innerHTML = `<i class="bi bi-gear-fill"></i> ${translations['dep_sidebar_settings']}`;
       // }
 
       // // المودال
-      // if (depTranslations['dep_modal_title_add'] && !document.getElementById('deptId').value) {
-      //   document.getElementById('modalTitle').textContent = depTranslations['dep_modal_title_add'];
+      // if (translations['dep_modal_title_add'] && !document.getElementById('deptId').value) {
+      //   document.getElementById('modalTitle').textContent = translations['dep_modal_title_add'];
       // }
-      // if (depTranslations['dep_modal_field_dept_name']) {
-      //   document.querySelector('label[for="departmentName"]').textContent = depTranslations['dep_modal_field_dept_name'];
+      // if (translations['dep_modal_field_dept_name']) {
+      //   document.querySelector('label[for="departmentName"]').textContent = translations['dep_modal_field_dept_name'];
       // }
-      // if (depTranslations['dep_modal_field_dept_status']) {
-      //   document.querySelector('label[for="departmentStatus"]').textContent = depTranslations['dep_modal_field_dept_status'];
+      // if (translations['dep_modal_field_dept_status']) {
+      //   document.querySelector('label[for="departmentStatus"]').textContent = translations['dep_modal_field_dept_status'];
       // }
-      // if (depTranslations['dep_modal_field_mawjood']) {
-      //   document.querySelector('label[for="mawjoodId"]').textContent = depTranslations['dep_modal_field_mawjood'];
+      // if (translations['dep_modal_field_mawjood']) {
+      //   document.querySelector('label[for="mawjoodId"]').textContent = translations['dep_modal_field_mawjood'];
       // }
-      // if (depTranslations['dep_modal_save_button']) {
-      //   document.querySelector('.modalSaveBtn').textContent = depTranslations['dep_modal_save_button'];
+      // if (translations['dep_modal_save_button']) {
+      //   document.querySelector('.modalSaveBtn').textContent = translations['dep_modal_save_button'];
       // }
     }
 
@@ -937,7 +937,6 @@
       if (!storedLang) {
         storedLang = 'en'; // لو أردت العربية افتراضية، استبدلها بـ 'ar'
       }
-      await loadDepartmentsLangFile(storedLang);
       applyDepartmentsTranslations(storedLang);
     });
 

@@ -174,8 +174,12 @@
 
   "records_from": "Records from",
 
-  "err_1": "Please select a start and end date"
+  "err_1": "Please select a start and end date",
   
+  "week_work_off": "week_work_off",
+  "in": "In",
+  "out": "Out",
+  "duration": "Duration"
   
 }
   

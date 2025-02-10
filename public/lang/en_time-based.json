@@ -22,5 +22,15 @@
     "err3": "Failed to fetch timed leave data",
     "err": "Operation error",
   
-    "success": "Operation completed successfully"
-}
+    "success": "Operation completed successfully",
+
+
+    "page_title": "Attendance and Leave Management System - Leaves",
+    "holiday_add": "Add Leave",
+    "holiday_edit": "Edit Leave",
+    "holiday_date": "Leave Date:",
+    "holiday_datee": "Leave Date",
+    "holiday_status": "Leave Status:",
+    "reason_placeholder": "Leave Reason"
+
+} 

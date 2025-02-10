@@ -450,7 +450,7 @@
           <tr>
             <th>#</th>
             <th>اسم الموظف</th>
-            <th>تاريخ الإجازة</th>
+            <th data-lng="holiday_datee">تاريخ الإجازة</th>
             <th>من الساعة</th>
             <th>إلى الساعة</th>
             <th>مدة الدخول</th>
@@ -514,10 +514,10 @@
         <i class="bi bi-building"></i>
         الأقسام
       </div>
-      <div class="navItem" onclick="location.href='settings.html'">
+      <!-- <div class="navItem" onclick="location.href='settings.html'">
         <i class="bi bi-gear-fill"></i>
         الإعدادات
-      </div>
+      </div> -->
       <div class="navItem" onclick="location.href='importemployee.html'">
         <i class="bi bi-person-exclamation"></i>
         <span></span>
@@ -563,8 +563,8 @@
 
         <label for="paidOrUnpaid">هل هي مدفوعة؟</label>
         <select id="paidOrUnpaid">
-          <option id="id_Paid" value="Paid">نعم</option>
-          <option id="id_Unpaid" value="Unpaid">لا</option>
+          <option data-lng-option="yes" id="id_Paid" value="Paid">نعم</option>
+          <option data-lng-option="no" id="id_Unpaid" value="Unpaid">لا</option>
         </select>
 
         <label for="status">حالة الإجازة:</label>
@@ -575,7 +575,7 @@
         </select>
 
         <label for="leaveReason">السبب:</label>
-        <input type="text" id="leaveReason" placeholder="سبب الإجازة" />
+        <input type="text" id="leaveReason" data-lng-placeholder="reason_placeholder" placeholder="سبب الإجازة" />
 
         <label for="addedDate">تاريخ الإضافة:</label>
         <input type="date" id="addedDate" />
@@ -635,6 +635,21 @@
           el.textContent = translations[key];
         }
       });
+
+      // <title>
+      document.title = translations['page_title'];
+      // الرأس (header)
+      document.querySelector('header h1').textContent = translations['page_title'];
+
+      document.querySelector('label[for="searchDate"]').textContent = translations['holiday_date'];
+
+      // زر الإضافة
+      document.querySelector('.addVacationBtn').textContent = translations['holiday_add'];
+
+      document.querySelector('label[for="leaveDate"]').textContent = translations['holiday_date'];
+
+      document.querySelector('label[for="status"]').textContent = translations['holiday_status'];
+
     }
 
     async function setLanguage(lang) {
@@ -725,15 +740,15 @@
           <td>${leave.to_time || ''}</td>
           <td>${leave.leave_duration_for_entry || 0}</td>
           <td>${leave.leave_duration_for_exit || 0}</td>
-          <td>${leave.paid_or_unpaid === 'Paid' ? translations['yes'] : translations['no']}</td>
+          <td data-lng='${leave.paid_or_unpaid === 'Paid' ? 'yes' : 'no'}'>${leave.paid_or_unpaid === 'Paid' ? translations['yes'] : translations['no']}</td>
           <td>${leave.status || ''}</td>
           <td>${leave.leave_reason || ''}</td>
           <td>${addedDate}</td>
           <td>
-            <button class="btnEdit" onclick="openModalForEdit('${leave._id}')">${translations['edit']}</button>
+            <button data-lng='edit' class="btnEdit" onclick="openModalForEdit('${leave._id}')">${translations['edit']}</button>
           </td>
           <td>
-            <button class="btnDanger" onclick="deleteTimeBasedLeave('${leave._id}')">${translations['delete']}</button>
+            <button data-lng='delete' class="btnDanger" onclick="deleteTimeBasedLeave('${leave._id}')">${translations['delete']}</button>
           </td>
         `;
         tb.appendChild(tr);
@@ -790,7 +805,7 @@
     // فتح المودال للإضافة
     function openModalForAdd() {
       editModeLeaveId = null;
-      document.getElementById('modalTitle').textContent = penaltiesTranslations['penalties_modal_title_add'];
+      document.getElementById('modalTitle').textContent = translations['holiday_add'];
       document.getElementById('leaveId').value = '';
 
       const today = new Date().toISOString().split('T')[0];
@@ -813,14 +828,11 @@
       document.getElementById('durationEntry').value = 0;
       document.getElementById('durationExit').value = 0;
       document.getElementById('paidOrUnpaid').value = 'Paid';
-      document.getElementById('id_Paid').textContent = penaltiesTranslations['payed']
-      document.getElementById('id_Unpaid').textContent = penaltiesTranslations['notPayed']
       document.getElementById('id_Pending').textContent = penaltiesTranslations['pending']
       document.getElementById('id_Approved').textContent = penaltiesTranslations['approved']
       document.getElementById('id_Rejected').textContent = penaltiesTranslations['rejected']
       document.getElementById('status').value = 'Pending';
       document.getElementById('leaveReason').value = '';
-      document.getElementById('leaveReason').placeholder = penaltiesTranslations['reason_placeholder'];
 
       showModal();
     }
@@ -840,7 +852,7 @@
         if (!resp.ok) throw new Error(translations['err3']);
         const leave = await resp.json();
 
-        document.getElementById('modalTitle').textContent = penaltiesTranslations['penalties_modal_title_edit']
+        document.getElementById('modalTitle').textContent = translations['holiday_edit']
         document.getElementById('leaveId').value = leave._id || '';
 
         // الموظف
@@ -859,7 +871,7 @@
         document.getElementById('durationExit').value = leave.leave_duration_for_exit || 0;
 
         // مدفوعة أم لا
-        document.getElementById('paidOrUnpaid').value = (leave.paid_or_unpaid === 'Paid') ? translations['paid'] : translations['un_paid'];
+        document.getElementById('paidOrUnpaid').value = (leave.paid_or_unpaid === 'Paid') ? 'Paid' : 'Unpaid';
 
         // الحالة
         document.getElementById('id_Pending').textContent = penaltiesTranslations['pending']
@@ -1012,15 +1024,6 @@
       document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
       document.documentElement.lang = lang;
 
-      // <title>
-      if (penaltiesTranslations['penalties_head_title']) {
-        document.title = penaltiesTranslations['penalties_head_title'];
-      }
-
-      // الرأس (header)
-      if (penaltiesTranslations['penalties_header_title']) {
-        document.querySelector('header h1').textContent = penaltiesTranslations['penalties_header_title'];
-      }
       if (penaltiesTranslations['penalties_logout']) {
         document.querySelector('header button').textContent = penaltiesTranslations['penalties_logout'];
       }
@@ -1029,17 +1032,10 @@
       if (penaltiesTranslations['penalties_filter_employee_label']) {
         document.querySelector('label[for="searchEmployee"]').textContent = penaltiesTranslations['penalties_filter_employee_label'];
       }
-      if (penaltiesTranslations['penalties_filter_date_label']) {
-        document.querySelector('label[for="searchDate"]').textContent = penaltiesTranslations['penalties_filter_date_label'];
-      }
       if (penaltiesTranslations['penalties_filter_status_label']) {
         document.querySelector('label[for="searchStatus"]').textContent = penaltiesTranslations['penalties_filter_status_label'];
       }
 
-      // زر الإضافة
-      if (penaltiesTranslations['penalties_button_add_penalty']) {
-        document.querySelector('.addVacationBtn').textContent = penaltiesTranslations['penalties_button_add_penalty'];
-      }
 
       // عناوين الجدول
       const tableHeads = document.querySelectorAll('#timeBasedLeavesTable thead th');
@@ -1047,7 +1043,6 @@
       if (tableHeads.length >= 13) {
         if (penaltiesTranslations['penalties_table_header_index']) tableHeads[0].textContent = penaltiesTranslations['penalties_table_header_index'];
         if (penaltiesTranslations['penalties_table_header_employee']) tableHeads[1].textContent = penaltiesTranslations['penalties_table_header_employee'];
-        if (penaltiesTranslations['penalties_table_header_date']) tableHeads[2].textContent = penaltiesTranslations['penalties_table_header_date'];
         if (penaltiesTranslations['penalties_table_header_from_time']) tableHeads[3].textContent = penaltiesTranslations['penalties_table_header_from_time'];
         if (penaltiesTranslations['penalties_table_header_to_time']) tableHeads[4].textContent = penaltiesTranslations['penalties_table_header_to_time'];
         if (penaltiesTranslations['penalties_table_header_entry']) tableHeads[5].textContent = penaltiesTranslations['penalties_table_header_entry'];
@@ -1079,24 +1074,22 @@
         if (penaltiesTranslations['penalties_sidebar_devices']) sideItems[8].innerHTML = `<i class="bi bi-device-hdd-fill"></i> ${penaltiesTranslations['penalties_sidebar_devices']}`;
         if (penaltiesTranslations['penalties_sidebar_requests']) sideItems[9].innerHTML = `<i class="bi bi-list-check"></i> ${penaltiesTranslations['penalties_sidebar_requests']}`;
         if (penaltiesTranslations['penalties_sidebar_departments']) sideItems[10].innerHTML = `<i class="bi bi-building"></i> ${penaltiesTranslations['penalties_sidebar_departments']}`;
-        if (penaltiesTranslations['penalties_sidebar_settings']) sideItems[11].innerHTML = `<i class="bi bi-gear-fill"></i> ${penaltiesTranslations['penalties_sidebar_settings']}`;
-        if (penaltiesTranslations['attend_sidebar_unregistered']) sideItems[12].innerHTML = `<i class="bi bi-person-exclamation"></i> ${penaltiesTranslations['attend_sidebar_unregistered']}`;
-        if (penaltiesTranslations['employee_summary_report']) sideItems[13].innerHTML = `<i class="bi bi-people-fill"></i> ${penaltiesTranslations['employee_summary_report']}`;
-        if (penaltiesTranslations['public_settings']) sideItems[14].innerHTML = `<i class="bi bi-gear"></i> ${penaltiesTranslations['public_settings']}`;
+        // if (penaltiesTranslations['penalties_sidebar_settings']) sideItems[11].innerHTML = `<i class="bi bi-gear-fill"></i> ${penaltiesTranslations['penalties_sidebar_settings']}`;
+        if (penaltiesTranslations['attend_sidebar_unregistered']) sideItems[11].innerHTML = `<i class="bi bi-person-exclamation"></i> ${penaltiesTranslations['attend_sidebar_unregistered']}`;
+        if (penaltiesTranslations['employee_summary_report']) sideItems[12].innerHTML = `<i class="bi bi-people-fill"></i> ${penaltiesTranslations['employee_summary_report']}`;
+        if (penaltiesTranslations['public_settings']) sideItems[13].innerHTML = `<i class="bi bi-gear"></i> ${penaltiesTranslations['public_settings']}`;
       }
 
       // المودال
       const leaveId = document.getElementById('leaveId').value;
-      if (!leaveId && penaltiesTranslations['penalties_modal_title_add']) {
-        document.getElementById('modalTitle').textContent = penaltiesTranslations['penalties_modal_title_add'];
+      if (!leaveId) {
+        document.getElementById('modalTitle').textContent = translations['holiday_add'];
       }
 
       if (penaltiesTranslations['penalties_modal_employee_label']) {
         document.querySelector('label[for="employeeSelect"]').textContent = penaltiesTranslations['penalties_modal_employee_label'];
       }
-      if (penaltiesTranslations['penalties_modal_penalty_date_label']) {
-        document.querySelector('label[for="leaveDate"]').textContent = penaltiesTranslations['penalties_modal_penalty_date_label'];
-      }
+
       if (penaltiesTranslations['penalties_modal_from_time_label']) {
         document.querySelector('label[for="fromTime"]').textContent = penaltiesTranslations['penalties_modal_from_time_label'];
       }
@@ -1112,9 +1105,7 @@
       if (penaltiesTranslations['penalties_modal_paid_label']) {
         document.querySelector('label[for="paidOrUnpaid"]').textContent = penaltiesTranslations['penalties_modal_paid_label'];
       }
-      if (penaltiesTranslations['penalties_modal_status_label']) {
-        document.querySelector('label[for="status"]').textContent = penaltiesTranslations['penalties_modal_status_label'];
-      }
+
       if (penaltiesTranslations['penalties_modal_reason_label']) {
         document.querySelector('label[for="leaveReason"]').textContent = penaltiesTranslations['penalties_modal_reason_label'];
       }

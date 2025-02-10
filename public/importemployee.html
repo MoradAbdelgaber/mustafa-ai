@@ -380,10 +380,10 @@
         <i class="bi bi-building"></i>
         <span data-lng="attend_sidebar_departments"></span>
       </div>
-      <div class="navItem" onclick="location.href='settings.html'">
+      <!-- <div class="navItem" onclick="location.href='settings.html'">
         <i class="bi bi-gear-fill"></i>
         <span data-lng="attend_sidebar_settings"></span>
-      </div>
+      </div> -->
       <!-- عنصر يدل أننا في هذه الصفحة -->
       <div class="navItem active" onclick="location.href='importemployee.html'">
         <i class="bi bi-person-exclamation"></i>
@@ -557,22 +557,34 @@
 
         // 3) جلب الموظفين من كل جهاز
         let allDeviceUsers = [];
+
+        let notActiveDevices = []
+
         for (const dev of devicesList) {
-          const deviceName = dev.device_name || getTranslate("Device without name");
+          const deviceName = dev.name || getTranslate("Device without name");
           const serverIp = dev.serverip;
           const serial = dev.serial;
 
           // جلب المستخدمين من هذا الجهاز
           const deviceUsers = await fetchDeviceUsers(serverIp, serial);
 
-          // إضافة معلومات الجهاز لكل مستخدم (اختياري)
-          deviceUsers.forEach(u => {
-            u.device_name = deviceName;
-            u.device_sn = serial;
-          });
+          if(typeof deviceUsers == 'string') {
 
-          // دمج في مصفوفة واحدة
-          allDeviceUsers = allDeviceUsers.concat(deviceUsers);
+            notActiveDevices.push(deviceName)
+
+          } else {
+
+            // إضافة معلومات الجهاز لكل مستخدم (اختياري)
+            deviceUsers.forEach(u => {
+              u.device_name = deviceName;
+              u.device_sn = serial;
+            });
+  
+            // دمج في مصفوفة واحدة
+            allDeviceUsers = allDeviceUsers.concat(deviceUsers);
+            
+          }
+
         }
 
         // 4) تصفية من هم غير موجودين في الـ DB
@@ -585,6 +597,9 @@
         await renderUnregistered(unregisteredList);
 
         showSuccess(getTranslate("The list of unregistered employees has been successfully fetched."));
+        if(notActiveDevices.length) showError(getTranslate("Failed to fetch device users") + ' ' + notActiveDevices.join(' , '));
+        document.getElementById('successMsg').style.display = 'block';
+
       } catch (err) {
         showError(getTranslate("An error occurred: ") + err.message);
       } finally {
@@ -655,13 +670,20 @@
       });
 
       if (!resp.ok) {
-        throw new Error(`${getTranslate("Failed to fetch device users")} ${serial}`);
+
+        // throw new Error(`${getTranslate("Failed to fetch device users")} ${serial}`);
+        return serial
+
+      } else {
+        
+        const result = await resp.json();
+        if (!result.data || !result.data.record) {
+          return [];
+        }
+        return result.data.record;
+        
       }
-      const result = await resp.json();
-      if (!result.data || !result.data.record) {
-        return [];
-      }
-      return result.data.record;
+        
     }
 
     /**
