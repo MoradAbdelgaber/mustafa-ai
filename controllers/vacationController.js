@@ -60,7 +60,7 @@ exports.getAllVacations = async (req, res) => {
 
     // جلب النتائج بعد تطبيق الشروط
     const data = await Vacation.find(query).populate(
-      "vacation_type",
+      "vacation_type_id",
       "vacation_name"
     );
 
