@@ -1,21 +1,28 @@
 // routes/vacationRoutes.js
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const vacationController = require('../controllers/vacationController');
+const vacationController = require("../controllers/vacationController");
+const { authMiddleware, authEmployeeMiddleware } = require("../auth");
 
 // إنشاء إجازة جديدة
-router.post('/', vacationController.createVacation);
+router.post("/", authMiddleware, vacationController.createVacation);
 
 // جلب جميع الإجازات (مع فلترة التاريخ إن لزم)
-router.get('/', vacationController.getAllVacations);
+router.get("/", authMiddleware, vacationController.getAllVacations);
+
+//employee
+router
+  .route("/employee")
+  .post(authEmployeeMiddleware, vacationController.createVacation)
+  .get(authEmployeeMiddleware, vacationController.getAllVacations);
 
 // جلب إجازة واحدة بالمعرّف
-router.get('/:id', vacationController.getVacationById);
+router.get("/:id", authMiddleware, vacationController.getVacationById);
 
 // تحديث إجازة بالمعرّف
-router.put('/:id', vacationController.updateVacation);
+router.put("/:id", authMiddleware, vacationController.updateVacation);
 
 // حذف إجازة بالمعرّف
-router.delete('/:id', vacationController.deleteVacation);
+router.delete("/:id", authMiddleware, vacationController.deleteVacation);
 
 module.exports = router;
