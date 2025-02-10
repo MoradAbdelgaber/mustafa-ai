@@ -257,16 +257,23 @@ function calculateAttendanceMetrics({
 /** التقرير */
 exports.getFullAttendanceReport = async (req, res) => {
   try {
-    const {
+    let {
       start_date = "2025-02-01",
       end_date = "2025-02-05",
       employee_id = 0,
       department_id = 0,
       show_official_holidays = 1,
       show_weekly_off_days = 1,
-      timeZone = req.user.timeZone,
+      timeZone = req.user?.timeZone ||
+        req.employee?.owner?.timeZone ||
+        "Asia/Baghdad",
       status_code,
     } = req.query;
+
+    //employee get his logs
+    if (req.employee) {
+      employee_id = req.employee.enroll_id;
+    }
 
     const startDate = new Date(start_date);
     const endDate = new Date(end_date);

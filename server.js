@@ -55,7 +55,7 @@ app.use("/api/pdf-designs", pdfDesignRoutes);
 app.use("/api/status-names", statusNameRoutes);
 app.use("/api/vacation-types", authMiddleware, vacationTypeRoutes);
 app.use("/api/vacations", authMiddleware, vacationRoutes);
-app.use("/api/reports", authMiddleware, reportRoutes);
+app.use("/api/reports", reportRoutes);
 app.use("/api/devices", authMiddleware, deviceRoutes);
 
 app.get("/", (req, res) => {

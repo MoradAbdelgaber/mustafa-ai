@@ -43,10 +43,14 @@ exports.authEmployeeMiddleware = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     // نفترض أن الـ userId مخزن في التوكن
     req.employeeId = decoded.employeeId;
-    req.employee = await Employee.findById(req.employeeId).select("-password");
+    req.employee = await Employee.findById(req.employeeId)
+      .select("-password")
+      .populate("owner", "timeZone");
+
     if (!req.employee) {
       return res.status(401).json({ error: "No token" });
     }
+    req.userId = req.employee.owner._id;
     next();
   } catch (err) {
     return res.status(403).json({ error: "Invalid token" });
