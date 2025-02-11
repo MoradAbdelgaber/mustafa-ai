@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 exports.registerUser = async (req, res) => {
   try {
-    const { user_name, pass, display_name } = req.body;
+    const { user_name, pass, display_name, timeZone } = req.body;
 
     // تأكد أنه غير موجود
     const existingUser = await User.findOne({ user_name });
@@ -21,6 +21,7 @@ exports.registerUser = async (req, res) => {
       user_name,
       pass: hashedPass,
       display_name,
+      timeZone,
     });
     await newUser.save();
     res.status(201).json({ message: "User registered successfully" });
