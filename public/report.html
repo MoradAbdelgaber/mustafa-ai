@@ -684,6 +684,10 @@
         <i class="bi bi-people-fill"></i>
         <span></span>
       </div>
+      <div class="navItem" onclick="location.href='leaves-type.html'">
+        <i class="bi bi-briefcase-fill"></i>
+        <span data-lng="leaves_type">أنواع الإجازات</span>
+      </div>
       <div class="navItem" onclick="location.href='public-settings.html'">
         <i class="bi bi-gear"></i>
         <span data-lng="public_settings"></span>
@@ -2179,8 +2183,12 @@
         if (reportTranslations['attend_sidebar_unregistered']) {
           sidebarItems[11].innerHTML = `<i class="bi bi-person-exclamation"></i> ${reportTranslations['attend_sidebar_unregistered']}`;
         }
+        if (reportTranslations['leaves_type']) {
+          sidebarItems[12].innerHTML = `<i class="bi bi-briefcase-fill"></i> ${reportTranslations['leaves_type']}`;
+        }
+
         if (reportTranslations['employee_summary_report']) {
-          sidebarItems[12].innerHTML = `<i class="bi bi-people-fill"></i> ${reportTranslations['employee_summary_report']}`;
+          sidebarItems[13].innerHTML = `<i class="bi bi-people-fill"></i> ${reportTranslations['employee_summary_report']}`;
         }
 
       }

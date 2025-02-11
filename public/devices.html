@@ -183,7 +183,6 @@
       color: #fff;
       padding: 8px 14px;
       border-radius: 4px;
-      margin-bottom: 15px;
       transition: background 0.3s;
       font-size: 0.9rem;
       border: none;
@@ -523,6 +522,12 @@
       background: #007bff;
       color: #fff;
     }
+    .topDiv{
+      margin-bottom: 15px;
+      display: flex;align-items: center;gap: 32px;
+    }
+    .topDiv p{ color: #5b5b5b;margin: 0; }
+    .topDiv span{ padding-inline: 18px; }
   </style>
 </head>
 
@@ -558,30 +563,31 @@
 
       <!-- حاوية البحث أعلى الجدول -->
       <div class="searchFilters">
-        <label id="devices_search_name_label" for="searchName"></label>
-        <input type="text" id="searchName" oninput="filterDevicesLocally()" placeholder="">
+        <label id="devices_search_name_label" for="searchName" data-lng="devices_search_name_label"></label>
+        <input type="text" id="searchName" oninput="filterDevicesLocally()" data-lng-placeholder="devices_search_name_placeholder" placeholder="">
 
-        <label id="devices_search_serial_label" for="searchSerial"></label>
-        <input type="text" id="searchSerial" oninput="filterDevicesLocally()" placeholder="">
+        <label id="devices_search_serial_label" for="searchSerial" data-lng="devices_search_serial_label"></label>
+        <input type="text" id="searchSerial" oninput="filterDevicesLocally()" data-lng-placeholder="devices_search_serial_placeholder" placeholder="">
 
-        <label id="devices_search_serverip_label" for="searchServerIp"></label>
-        <input type="text" id="searchServerIp" oninput="filterDevicesLocally()" placeholder="">
+        <label id="devices_search_serverip_label" for="searchServerIp" data-lng="devices_search_serverip_label"></label>
+        <input type="text" id="searchServerIp" oninput="filterDevicesLocally()" data-lng-placeholder="devices_search_serverip_placeholder" placeholder="">
 
-        <label id="devices_search_status_label" for="searchStatus"></label>
+        <label id="devices_search_status_label" for="searchStatus" data-lng="devices_search_status_label"></label>
         <select id="searchStatus" onchange="filterDevicesLocally()">
           <option value="">...</option>
           <option value="true">...</option>
           <option value="false">...</option>
         </select>
 
-        <label id="devices_search_creation_label" for="searchCreation"></label>
+        <label id="devices_search_creation_label" for="searchCreation" data-lng="devices_search_creation_label"></label>
         <input type="date" id="searchCreation" onchange="filterDevicesLocally()" />
       </div>
 
       <!-- زر إضافة جهاز -->
-      <button class="addDeviceBtn" id="devices_add_button" onclick="openModalForAdd()" data-lng="devices_add_button">
-        Add Device
-      </button>
+       <div class="topDiv">
+         <button class="addDeviceBtn" id="devices_add_button" onclick="openModalForAdd()" data-lng="devices_add_button"> Add Device</button>
+         <p>IP: 140.82.38.238  <span></span>Port: 7715 </p>
+       </div>
 
       <!-- جدول الأجهزة -->
       <table id="devicesTable">
@@ -661,6 +667,10 @@
       <div class="navItem" onclick="location.href='employee-summary-report.html'">
         <i class="bi bi-people-fill"></i>
         <span data-lng="employee_summary_report"></span>
+      </div>
+      <div class="navItem" onclick="location.href='leaves-type.html'">
+        <i class="bi bi-briefcase-fill"></i>
+        <span data-lng="leaves_type">أنواع الإجازات</span>
       </div>
       <div class="navItem" onclick="location.href='public-settings.html'">
         <i class="bi bi-gear"></i>
@@ -1769,7 +1779,7 @@
             <td>${d.name || ''}</td>
             <td>${d.serial || ''}</td>
             <td>${d.serverip || ''}</td>
-            <td>${getTranslate(d.status ? 'devices_modal_status_option_true' : 'devices_modal_status_option_false')}</td>
+            <td data-lng='${d.status ? 'devices_modal_status_option_true' : 'devices_modal_status_option_false'}'>${getTranslate(d.status ? 'devices_modal_status_option_true' : 'devices_modal_status_option_false')}</td>
             <td>${creationDate}</td>
             <td>
               <i class="bi bi-pencil-fill actionIcon" data-lng-hover-title='devices_table_control_titles_edit'
@@ -1798,13 +1808,13 @@
             <td>
               <select class="actionSelect" onchange="handleDeviceAction('${d.serverip}', '${d.serial}', this.value)">
                 <option value="">---</option>
-                <option value="settime">${getTranslate('setTime')}</option>
-                <option value="reboot">${getTranslate('Reboot')}</option>
-                <option value="cleanuser">${getTranslate('Clean_Users')}</option>
-                <option value="cleanlog">${getTranslate('Clean_Logs')}</option>
-                <option value="initsys">${getTranslate('Init_System')}</option>
-                <option value="cleanadmin">${getTranslate('Clean_Admin')}</option>
-                <option value="opendoor">${getTranslate('Open_Door')}</option>
+                <option value="settime" data-lng='setTime'>${getTranslate('setTime')}</option>
+                <option value="reboot" data-lng='Reboot'>${getTranslate('Reboot')}</option>
+                <option value="cleanuser" data-lng='Clean_Users'>${getTranslate('Clean_Users')}</option>
+                <option value="cleanlog" data-lng='Clean_Logs'>${getTranslate('Clean_Logs')}</option>
+                <option value="initsys" data-lng='Init_System'>${getTranslate('Init_System')}</option>
+                <option value="cleanadmin" data-lng='Clean_Admin'>${getTranslate('Clean_Admin')}</option>
+                <option value="opendoor" data-lng='Open_Door'>${getTranslate('Open_Door')}</option>
               </select>
             </td>
             <td class="connStatusCell">Checking...</td>
@@ -1851,7 +1861,7 @@
       document.getElementById('devices_modal_title').textContent = getTranslate('devices_modal_add_title');
       document.getElementById('deviceId').value = '';
 
-      document.getElementById('deviceName').value = '';
+      document.getElementById('deviceName').value = 'https://hr-socket.timeattendhr.com';
       document.getElementById('deviceSerial').value = '';
       document.getElementById('serverIp').value = '';
       document.getElementById('deviceStatus').value = 'true';
@@ -2055,11 +2065,13 @@
       cell.classList.remove('disconnectedCell');
       cell.classList.add('connectedCell');
       cell.textContent = getTranslate('online');
+      cell.setAttribute('data-lng', 'online')
     }
     function setDisconnectedCell(cell) {
       cell.classList.remove('connectedCell');
       cell.classList.add('disconnectedCell');
       cell.textContent = getTranslate('offline');
+      cell.setAttribute('data-lng', 'offline')
     }
 
     // إظهار/إخفاء مودال الجهاز

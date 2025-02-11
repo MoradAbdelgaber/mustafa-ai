@@ -1,0 +1,57 @@
+{
+
+    "page_title": "Attendance and Leave Management System - Leave Types",
+    "logOut": "Logout",
+
+    "leave_name": "Leave Name:",
+    "name_placeholder": "Search by name",
+    "leave_status": "Status:",
+    "all_statuses": "All statuses",
+    "active_status": "Active",
+    "disabled_status": "Disabled",
+    "add_date": "Addition Date:",
+    "add_leaveType": "Add Leave Type",
+    "edit_leaveType": "Edit Leave Type",
+    "th_name": "Leave Name",
+    "th_status": "Status",
+    "th_mawgood": "Mawgood ID",
+    "th_add_date": "Addition Date",
+    "th_control": "Control",
+
+    "mawgoodId": "Mawgood ID:",
+
+    "name_example": "Example: Maternity Leave",
+    "mawgood_example": "Example: 6294d76f...",
+    "save": "Save",
+
+    "edit": "Edit",
+    "delete": "Delete",
+
+    "sure_to_delete": "Are you sure you want to delete this type?",
+    "delete_err": "Failed to delete leave type",
+    "add_err": "Failed to add leave type",
+    "edit_err": "Failed to edit leave type",
+    "error_getting_data": "Failed to fetch leave types",
+    "err_getting_typeData": "Failed to fetch leave type data",
+    "success": "Operation completed successfully",
+
+
+
+    "attend_sidebar_title": "Menu",
+    "attend_sidebar_overview": "Overview",
+    "attend_sidebar_employees": "Employees",
+    "attend_sidebar_report": "Attendance Report",
+    "attend_sidebar_time_leaves": "Time-based Leaves",
+    "attend_sidebar_holidays": "Official Holidays",
+    "attend_sidebar_leaves": "Leaves",
+    "attend_sidebar_attend": "Attendance Log",
+    "attend_sidebar_rewards": "Rewards & Sanctions",
+    "attend_sidebar_devices": "Devices",
+    "attend_sidebar_requests": "Requests",
+    "attend_sidebar_departments": "Departments",
+    "attend_sidebar_settings": "Settings",
+    "attend_sidebar_unregistered": "Unregistered employees",
+    "employee_summary_report": "Employee  Summary Report",
+    "leaves_type": "Leave Types",
+    "public_settings": "Public Settings"
+}

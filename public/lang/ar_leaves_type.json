@@ -1,0 +1,67 @@
+{
+
+
+    "page_title": "نظام إدارة الحضور والانصراف - أنواع الإجازات",
+    "logOut": "خروج",
+
+    "leave_name": "اسم الإجازة:",
+    "name_placeholder": "بحث بالاسم",
+    "leave_status": "الحالة:",
+    "all_statuses": "كل الحالات",
+    "active_status": "مفعّلة",
+    "disabled_status": "غير مفعّلة",
+    "add_date": "تاريخ الإضافة:",
+    "add_leaveType": "إضافة نوع إجازة",
+    "edit_leaveType": "تعديل نوع إجازة",
+    "th_name": "اسم الإجازة",
+    "th_status": "الحالة",
+    "th_mawgood": "موجود ID",
+    "th_add_date": "تاريخ الإضافة",
+    "th_control": "التحكم",
+
+    "mawgoodId": "موجود ID:",
+
+    "name_example": "مثال: إجازة أمومة",
+    "mawgood_example": "مثال: 6294d76f...",
+    "save": "حفظ",
+
+    "edit": "تعديل",
+    "delete": "حذف",
+
+    "sure_to_delete": "هل أنت متأكد من حذف هذا النوع؟",
+    "delete_err": "فشل حذف نوع الإجازة",
+    "add_err": "فشل إضافة نوع الإجازة",
+    "edit_err": "فشل تعديل نوع الإجازة",
+    "error_getting_data": "فشل جلب أنواع الإجازات",
+    "err_getting_typeData": "فشل جلب بيانات نوع الإجازة",
+    "success": "تمت العملية بنجاح",
+
+
+
+
+
+
+
+
+
+
+
+
+    "attend_sidebar_title": "القائمة",
+    "attend_sidebar_overview": "نظرة عامة",
+    "attend_sidebar_employees": "الموظفين",
+    "attend_sidebar_report": "تقرير الحضور",
+    "attend_sidebar_time_leaves": "إجازات زمنية",
+    "attend_sidebar_holidays": "العطل الرسمية",
+    "attend_sidebar_leaves": "أجازات",
+    "attend_sidebar_attend": "سجل الحضور",
+    "attend_sidebar_rewards": "مكافآت وعقوبات",
+    "attend_sidebar_devices": "الأجهزة",
+    "attend_sidebar_requests": "الأوامر",
+    "attend_sidebar_departments": "الأقسام",
+    "attend_sidebar_settings": "الإعدادات",
+    "attend_sidebar_unregistered": "غير المسجلين",
+    "employee_summary_report": "تقرير ملخص الموظفين",
+    "leaves_type": "أنواع الإجازات",
+    "public_settings": "الاعدادات العامة"
+}

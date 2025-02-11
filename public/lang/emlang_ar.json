@@ -19,6 +19,7 @@
     "navSettings": "الإعدادات",
     "attend_sidebar_unregistered": "غير المسجلين",
     "employee_summary_report": "تقرير ملخص الموظفين",
+    "leaves_type": "أنواع الإجازات",
     "public_settings": "الاعدادات العامة",
 
   
@@ -61,6 +62,7 @@
     "face": "الوجه",
     "card_number": "رقم البطاقة",
 
+    "btnAddRest": "إضافة إستراحة",
   
     "employeeModalTitleAdd": "إضافة موظف",
     "employeeModalTitleEdit": "تعديل موظف",

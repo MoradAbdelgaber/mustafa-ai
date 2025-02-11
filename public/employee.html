@@ -395,6 +395,8 @@
       transition: background 0.3s;
     }
 
+
+
     .modalSaveBtn:hover {
       background: #218838;
     }
@@ -406,6 +408,9 @@
       width: 600px;
       max-height: 90vh;
     }
+
+    .restBtn{background: #17a2b8;}
+    .restBtn:hover{ background: #12889b; }
 
     .scheduleTable {
       width: 100%;
@@ -662,6 +667,10 @@
         <i class="bi bi-people-fill"></i>
         <span data-lng="employee_summary_report"></span>
       </div>
+      <div class="navItem" onclick="location.href='leaves-type.html'">
+        <i class="bi bi-briefcase-fill"></i>
+        <span data-lng="leaves_type">أنواع الإجازات</span>
+      </div>
       <div class="navItem" onclick="location.href='public-settings.html'">
         <i class="bi bi-gear"></i>
         <span data-lng="public_settings"></span>
@@ -776,7 +785,10 @@
           <tbody></tbody>
         </table>
         <div style="display: flex;justify-content: space-between;align-items: center;">
-          <button class="modalSaveBtn" style="margin-top:10px;" data-lng="btnAddDay" onclick="addScheduleDay()"></button>
+          <div style="margin-top:10px;">
+            <button class="modalSaveBtn" data-lng="btnAddDay" onclick="addScheduleDay()"></button>
+            <button class="modalSaveBtn restBtn" data-lng="btnAddRest" onclick="addScheduleDay(true)"></button>
+          </div>
           <button class="saveScheduleBtn" id="saveScheduleBtn" data-lng="btnSaveEmployee" onclick="saveScheduleToEmployee()"></button>
         </div>
       </div>
@@ -1463,7 +1475,6 @@
         const file = fileInput.files[0];
         imageBase64 = await fileToBase64(file);
       }
-
       const bodyObj = {
         enroll_id: +enrollId,
         name: empName,
@@ -1484,7 +1495,7 @@
       }
 
       if (imageBase64) {
-        bodyObj.image = imageBase64;
+        bodyObj.image = await resizeImg(imageBase64, 480, 640);
       }
 
       try {
@@ -1561,6 +1572,30 @@
       });
     }
 
+    async function resizeImg(base64, width, height) {
+      return new Promise((resolve, reject) => {
+
+        const img = new Image()
+        img.src = base64
+  
+        img.onload = function () {
+  
+          const canvas = document.createElement('canvas')
+          const ctx = canvas.getContext('2d')
+  
+          canvas.width = width
+          canvas.height = height
+  
+          ctx.drawImage(img, 0, 0, width, height)
+  
+          const resizedBase64 = canvas.toDataURL('image/jpeg', 1)
+          resolve(resizedBase64)
+  
+        }
+
+      })
+    }
+
     function generateUniqueEnrollId() {
       while (true) {
         let randId = Math.floor(Math.random() * 90000) + 10000;
@@ -1627,14 +1662,14 @@
         tb.appendChild(row);
       });
     }
-    function addScheduleDay() {
+    function addScheduleDay(isRest=false) {
       const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
       if (currentSchedules.length === 0) {
         currentSchedules.push({
           day: 'Sun',
-          startTime: '08:00:00',
-          endTime: '17:00:00',
-          overtimeStart: '17:30:00',
+          startTime: isRest? '00:00:00' : '08:00:00',
+          endTime: isRest? '00:00:00' : '17:00:00',
+          overtimeStart: isRest? '00:00:00' : '17:30:00',
           endDayOffset: 0,
           hourPrice: 0,
           overtimePrice: 0,
@@ -1670,6 +1705,11 @@
         }
         let newDayObj = { ...lastDayObj };
         newDayObj.day = dayOrder[dayOrderIndex + 1];
+
+        newDayObj.startTime = isRest? '00:00:00' : '08:00:00'
+        newDayObj.endTime = isRest? '00:00:00' : '17:00:00'
+        newDayObj.overtimeStart = isRest? '00:00:00' : '17:30:00'
+        
         currentSchedules.push(newDayObj);
       }
       renderSchedule(currentSchedules);

@@ -18,6 +18,7 @@
     "navSettings": "Settings",
     "attend_sidebar_unregistered": "Unregistered employees",
     "employee_summary_report": "Employee  Summary Report",
+    "leaves_type": "Leave Types",
     "public_settings": "Public Settings",
   
     "searchNameLabel": "Employee Name:",
@@ -138,6 +139,7 @@
     "btnCaptureCard": "Capture Card",
 
 
+    "btnAddRest": "Add Rest",
 
     "last_day": "Saturday is the last day, no day after it",
     "delete_day": "Are you sure to delete this day?",
