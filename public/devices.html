@@ -522,12 +522,22 @@
       background: #007bff;
       color: #fff;
     }
-    .topDiv{
+
+    .topDiv {
       margin-bottom: 15px;
-      display: flex;align-items: center;gap: 32px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
     }
-    .topDiv p{ color: #5b5b5b;margin: 0; }
-    .topDiv span{ padding-inline: 18px; }
+
+    .topDiv p {
+      color: #5b5b5b;
+      margin: 0;
+    }
+
+    .topDiv span {
+      padding-inline: 18px;
+    }
   </style>
 </head>
 
@@ -564,13 +574,16 @@
       <!-- حاوية البحث أعلى الجدول -->
       <div class="searchFilters">
         <label id="devices_search_name_label" for="searchName" data-lng="devices_search_name_label"></label>
-        <input type="text" id="searchName" oninput="filterDevicesLocally()" data-lng-placeholder="devices_search_name_placeholder" placeholder="">
+        <input type="text" id="searchName" oninput="filterDevicesLocally()"
+          data-lng-placeholder="devices_search_name_placeholder" placeholder="">
 
         <label id="devices_search_serial_label" for="searchSerial" data-lng="devices_search_serial_label"></label>
-        <input type="text" id="searchSerial" oninput="filterDevicesLocally()" data-lng-placeholder="devices_search_serial_placeholder" placeholder="">
+        <input type="text" id="searchSerial" oninput="filterDevicesLocally()"
+          data-lng-placeholder="devices_search_serial_placeholder" placeholder="">
 
         <label id="devices_search_serverip_label" for="searchServerIp" data-lng="devices_search_serverip_label"></label>
-        <input type="text" id="searchServerIp" oninput="filterDevicesLocally()" data-lng-placeholder="devices_search_serverip_placeholder" placeholder="">
+        <input type="text" id="searchServerIp" oninput="filterDevicesLocally()"
+          data-lng-placeholder="devices_search_serverip_placeholder" placeholder="">
 
         <label id="devices_search_status_label" for="searchStatus" data-lng="devices_search_status_label"></label>
         <select id="searchStatus" onchange="filterDevicesLocally()">
@@ -584,10 +597,11 @@
       </div>
 
       <!-- زر إضافة جهاز -->
-       <div class="topDiv">
-         <button class="addDeviceBtn" id="devices_add_button" onclick="openModalForAdd()" data-lng="devices_add_button"> Add Device</button>
-         <p>IP: 140.82.38.238  <span></span>Port: 7715 </p>
-       </div>
+      <div class="topDiv">
+        <button class="addDeviceBtn" id="devices_add_button" onclick="openModalForAdd()" data-lng="devices_add_button">
+          Add Device</button>
+        <p>IP: 140.82.38.238 <span></span>Port: 7715 </p>
+      </div>
 
       <!-- جدول الأجهزة -->
       <table id="devicesTable">
@@ -695,7 +709,8 @@
         <label id="devices_modal_serial_label" data-lng="deviceSerial" for="deviceSerial">Device Serial:</label>
         <input type="text" id="deviceSerial" placeholder="12345-ABCDE" />
 
-        <label id="devices_modal_serverip_label" data-lng="devices_modal_label_serverip" for="serverIp">ServerIP:</label>
+        <label id="devices_modal_serverip_label" data-lng="devices_modal_label_serverip"
+          for="serverIp">ServerIP:</label>
         <input type="text" id="serverIp" placeholder="192.168.1.50" />
 
         <label id="devices_modal_status_label" data-lng="devices_modal_label_status" for="deviceStatus">Status:</label>
@@ -704,7 +719,8 @@
           <option value="false" data-lng-option="devices_modal_status_option_false">Disabled</option>
         </select>
 
-        <button class="modalSaveBtn" id="devices_modal_save_button" data-lng="devices_modal_button_save" onclick="saveDevice()">Save</button>
+        <button class="modalSaveBtn" id="devices_modal_save_button" data-lng="devices_modal_button_save"
+          onclick="saveDevice()">Save</button>
       </div>
     </div>
   </div>
@@ -1415,7 +1431,8 @@
           </tbody>
         </table>
 
-        <button class="modalSaveBtn" id="devices_lockmodal_save_button" data-lng="save" onclick="saveDevLock()">Save</button>
+        <button class="modalSaveBtn" id="devices_lockmodal_save_button" data-lng="save"
+          onclick="saveDevLock()">Save</button>
       </div>
     </div>
   </div>
@@ -1606,7 +1623,7 @@
       document.querySelectorAll('[data-lng-hover-title]').forEach(el => {
         const key = el.getAttribute('data-lng-hover-title');
         if (translations[key]) {
-          el.setAttribute('title',translations[key])
+          el.setAttribute('title', translations[key])
         }
       });
       // // تغيير عنوان الصفحة
@@ -1861,9 +1878,9 @@
       document.getElementById('devices_modal_title').textContent = getTranslate('devices_modal_add_title');
       document.getElementById('deviceId').value = '';
 
-      document.getElementById('deviceName').value = 'https://hr-socket.timeattendhr.com';
+      document.getElementById('deviceName').value = '';
       document.getElementById('deviceSerial').value = '';
-      document.getElementById('serverIp').value = '';
+      document.getElementById('serverIp').value = 'https://hr-socket.timeattendhr.com';
       document.getElementById('deviceStatus').value = 'true';
 
       showModal();
@@ -1936,7 +1953,7 @@
         closeModal();
         loadDevices();
       } catch (err) {
-        showError(getTranslate(deviceId? 'devices_msg_error_edit':'devices_msg_error_add'));
+        showError(getTranslate(deviceId ? 'devices_msg_error_edit' : 'devices_msg_error_add'));
       } finally {
         hideLoading();
       }
@@ -2749,7 +2766,7 @@
       currentQuestionnaireSN = serial;
       const modal = document.getElementById('questionnaireModal')
       modal.style.display = 'flex';
-      const dir = document.getElementById('langSelector').value == 'ar'? 'rtl':'ltr'
+      const dir = document.getElementById('langSelector').value == 'ar' ? 'rtl' : 'ltr'
       modal.style.direction = dir
     }
 
