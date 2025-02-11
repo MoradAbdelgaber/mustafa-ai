@@ -1327,7 +1327,8 @@
               sumEarly += (row.early_exit_minutes || 0);
               sumNet += (row.net_salary || 0);
 
-              let trHtml = '<tr>';
+              // console.log(row)
+              let trHtml = `<tr id=${row.enroll_id}>`;
               displayedColumns.forEach(col => {
                 let cellVal = row[col.field] || '';
 
@@ -1950,28 +1951,21 @@
           return; // تجاهل صفوف التجميع والملخص
         }
 
+        const item = originalReportData.filter(item => item.enroll_id == row.id)[0] || {}
+
         if (!row.dataset.clickBound) {
+
           row.dataset.clickBound = 'true';
 
-          const dateCell = row.cells[0];
-          const offsetCell = row.cells[1];
+          const dateVal = item.attendance_date?.trim();
+          if (!dateVal) return;
 
-          if (!dateCell) return;
+          const offsetVal = item.endDayOffset;
 
-          const attDateStr = dateCell.textContent.trim();
-          let offsetVal = 0;
-          if (offsetCell) {
-            const maybeOffset = parseInt(offsetCell.textContent.trim(), 10);
-            if (!isNaN(maybeOffset)) {
-              offsetVal = maybeOffset;
-            }
-          }
-
-          // إن كنت ترغب بجلب الـ enrollId من عمود آخر، عدّل ذلك هنا.
-          const exampleEnrollId = 4433; // مثال
+          const enrollId = item.enroll_id;
 
           row.addEventListener('click', () => {
-            openAttendanceLogsModal(attDateStr, offsetVal, exampleEnrollId);
+            openAttendanceLogsModal(dateVal, offsetVal, enrollId);
           });
         }
       });

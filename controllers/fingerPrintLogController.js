@@ -1,6 +1,7 @@
 const FingerPrintLog = require("../models/FingerPrintLog");
 const Device = require("../models/Device");
 const Employee = require("../models/Employee");
+const moment = require("moment-timezone");
 
 /**
  * إنشاء سجل جديد مع شرط عدم الإضافة في حال وجود سجل مسبق بنفس الوقت والسيريال نمبر
@@ -44,10 +45,42 @@ exports.createLog = async (req, res) => {
   }
 };
 
+//"2023-02-23 22:19:47"
+exports.getBioTime = (stringTime, timezone) => {
+  const m = moment(stringTime);
+  const year = m.year();
+  const month = m.month();
+  const date = m.date();
+  const hour = m.hour();
+  const minutes = m.minutes();
+  const seconds = m.seconds();
+
+  const timestampsZoned = moment()
+    .tz(timezone)
+    .year(year)
+    .month(month)
+    .date(date)
+    .hour(hour)
+    .minutes(minutes)
+    .seconds(seconds)
+    .milliseconds(0)
+    .valueOf();
+
+  return moment(timestampsZoned).format("YYYY-MM-DD HH:mm:ss");
+};
+
 exports.createLogFromSocket = async (req, res) => {
   try {
-    const device = await Device.findOne({ serial: req.body.device_sn });
+    const device = await Device.findOne({
+      serial: req.body.device_sn,
+    }).populate("owner", "timeZone");
+
     if (!device) throw new Error("Device not found");
+
+    //format time to timezone
+    console.log("old time : " + req.body.time);
+    req.body.time = this.getBioTime(req.body.time, device.owner.timeZone);
+    console.log("formatted time : " + req.body.time);
 
     // جهّز بيانات السجل الجديدة
     const logData = {

@@ -899,9 +899,7 @@
           default: eventText = getStringByKey("not_none");
         }
 
-        let timeVal = item.time
-          ? new Date(item.time).toLocaleString()
-          : '';
+        let timeVal = item.time? new Date(item.time).toLocaleString() : '';
 
         let imageSrc = item.image
           ? 'data:image/png;base64,' + item.image
