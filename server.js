@@ -53,7 +53,7 @@ app.use("/api/device-employees", authMiddleware, deviceEmployeeRoutes);
 app.use("/api/official-holidays", authMiddleware, officialHolidayRoutes);
 app.use("/api/pdf-designs", pdfDesignRoutes);
 app.use("/api/status-names", statusNameRoutes);
-app.use("/api/vacation-types", authMiddleware, vacationTypeRoutes);
+app.use("/api/vacation-types", vacationTypeRoutes);
 app.use("/api/vacations", vacationRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/devices", authMiddleware, deviceRoutes);
