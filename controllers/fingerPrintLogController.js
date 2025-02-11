@@ -79,6 +79,7 @@ exports.createLogFromSocket = async (req, res) => {
 
     //format time to timezone
     console.log("old time : " + req.body.time);
+    console.log("timeZone : " + device.owner.timeZone);
     req.body.time = this.getBioTime(req.body.time, device.owner.timeZone);
     console.log("formatted time : " + req.body.time);
 
