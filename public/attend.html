@@ -1041,7 +1041,12 @@
           let dt = new Date(item.time);
           // let localVal = dt.toISOString().slice(0, 16);
           // document.getElementById('timeInput').value = localVal;
-          document.getElementById('timeInput').value = dt;
+
+          let offset = dt.getTimezoneOffset() * 60000; // Convert minutes to milliseconds
+          let localTime = new Date(dt.getTime() - offset).toISOString().slice(0, 16);
+
+          document.getElementById('timeInput').value = localTime;
+
         } else {
           document.getElementById('timeInput').value = '';
         }
