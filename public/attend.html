@@ -697,7 +697,7 @@
       document.querySelectorAll('[data-lng-hover-title]').forEach(el => {
         const key = el.getAttribute('data-lng-hover-title');
         if (translations[key]) {
-          el.setAttribute('title',translations[key])
+          el.setAttribute('title', translations[key])
         }
       });
 
@@ -835,7 +835,7 @@
         console.error(err);
       } finally {
         showLoader(false);
-      } 
+      }
     }
 
     function updatePaginationUI() {
@@ -867,13 +867,13 @@
     }
 
     document.getElementById('imagePreview').addEventListener('click', (event) => {
-      if(event.target.matches('img')) return
+      if (event.target.matches('img')) return
       const modal = document.getElementById('imagePreview')
       modal.style.display = 'none'
     })
 
     function previewImage(src) {
-      if(!src) return
+      if (!src) return
       const modal = document.getElementById('imagePreview')
       const img = modal.querySelector('img')
       modal.style.display = 'flex'
@@ -899,7 +899,7 @@
           default: eventText = getStringByKey("not_none");
         }
 
-        let timeVal = item.time? new Date(item.time).toLocaleString() : '';
+        let timeVal = item.time ? new Date(item.time).toLocaleString() : '';
 
         let imageSrc = item.image
           ? 'data:image/png;base64,' + item.image
@@ -1039,8 +1039,9 @@
 
         if (item.time) {
           let dt = new Date(item.time);
-          let localVal = dt.toISOString().slice(0, 16);
-          document.getElementById('timeInput').value = localVal;
+          // let localVal = dt.toISOString().slice(0, 16);
+          // document.getElementById('timeInput').value = localVal;
+          document.getElementById('timeInput').value = dt;
         } else {
           document.getElementById('timeInput').value = '';
         }
