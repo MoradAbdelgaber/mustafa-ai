@@ -26,6 +26,7 @@ const vacationTypeRoutes = require("./routes/vacationTypeRoutes");
 const vacationRoutes = require("./routes/vacationRoutes");
 const reportRoutes = require("./routes/reportRoutes");
 const deviceRoutes = require("./routes/deviceRoutes");
+const weekScheduleTemplatesRoutes = require("./routes/weekScheduleTemplatesRoutes");
 
 const app = express();
 app.use(bodyParser.json({ limit: "50mb" }));
@@ -57,6 +58,11 @@ app.use("/api/vacation-types", vacationTypeRoutes);
 app.use("/api/vacations", vacationRoutes);
 app.use("/api/reports", reportRoutes);
 app.use("/api/devices", authMiddleware, deviceRoutes);
+app.use(
+  "/api/weekSchedule-templates",
+  authMiddleware,
+  weekScheduleTemplatesRoutes
+);
 
 app.get("/", (req, res) => {
   res.redirect("/login.html");
