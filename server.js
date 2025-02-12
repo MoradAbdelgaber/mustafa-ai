@@ -3,7 +3,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 const connectDB = require("./config/db");
 const { authMiddleware } = require("./auth");
 const userRoutes = require("./routes/userRoutes");
@@ -41,7 +42,7 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 
 // بقية المسارات
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 app.use("/api/departments", authMiddleware, departmentRoutes);
 app.use("/api/employees", employeeRoutes);
 app.use("/api/fingerprints", fingerPrintLogRoutes);
