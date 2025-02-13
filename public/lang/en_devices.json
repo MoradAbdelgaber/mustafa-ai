@@ -29,6 +29,7 @@
     "devices_modal_label_serial": "Serial Number:",
     "devices_modal_label_serverip": "Server IP:",
     "devices_modal_label_status": "Status:",
+    "all_statuses": "All Statuses",
     "devices_modal_status_option_true": "Enabled",
     "devices_modal_status_option_false": "Disabled",
     "devices_modal_button_save": "Save",

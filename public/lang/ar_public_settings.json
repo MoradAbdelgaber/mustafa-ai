@@ -8,6 +8,90 @@
   "time_zone": " المنطقة الزمنية :",
   "time_zone_place": "أدخل المنطقة الزمنية",
 
+  "add_template": "إضافة نموذج",
+  "edit_template": "تعديل نموذج",
+
+  "template_name": "اسم النموذج:",
+  "template_name_place": "أدخل اسم النموذج ...",
+  
+  "table_header_name": "الاسم",
+  "table_header_actions": "التحكم",
+  "table_header_apply": "تطبيق",
+
+  "aplly_template": "هل انت متاكد من تطبيق هذا النموذج؟",
+
+
+  "templates_msg_error_fetch": "خطأ في جلب النمازج",
+  "err_delete_template": "خطأ في حذف النمازج",
+  "err_apply_template": "خطأ في تطبيق النمازج",
+  "edit": "تعديل",
+  "delete": "حذف",
+  "copy": "نسخ",
+
+  "failed_to_save_template": "خطأ في حفظ النموذج",
+  "success_msg": "تمت العملية بنجاح",
+
+
+  "schDay": "اليوم",
+  "schStart": "البداية",
+  "schEnd": "النهاية",
+  "schOTStart": "بداية OT",
+  "schOffset": "Offset",
+  "schHourPrice": "سعر الساعة",
+  "schOTPrice": "سعر OT",
+  "schEdit": "تعديل",
+  "schDelete": "حذف",
+  "schCopy": "نسخ",
+  "btnAddDay": "إضافة يوم",
+  "btnAddRest": "إضافة إستراحة",
+  "save": "حفظ",
+
+  "unknown_day": "يوم غير معروف",
+  
+  "last_day": "يوم السبت هو اليوم الأخير، لا يوجد يوم بعده",
+  "delete_day": "هل انت متاكد من حذف هذا اليوم؟",
+  "delete_template": "هل انت متاكد من حذف هذا النموذج؟",
+  "can_not_copy": "لا يمكن نسخ يوم غير معروف!",
+  "can_not_copy_sat": "لا يمكن النسخ من يوم السبت",
+
+  "lblDayModalTitle": "تحرير يوم",
+  "lblDaySelect": "اليوم:",
+  "lblDayStart": "وقت البداية:",
+  "lblDayEnd": "وقت النهاية:",
+  "lblDayOTStart": "بداية الوقت الإضافي:",
+  "lblDayOffset": "فرق اليوم (Offset):",
+  "lblDayHourPrice": "سعر الساعة:",
+  "lblDayOTPrice": "سعر OT:",
+  "lblDayAllowedDelay": "التأخير المسموح (دقيقة):",
+  "lblDayAllowedExit": "الخروج المبكر المسموح (دقيقة):",
+  "lblDayOfficialHours": "عدد ساعات الدوام الرسمي:",
+  "lblDayLateCutCount": "قطع للتأخير حسب العدد:",
+  "lblDayAbsentCut": "قطع عند الغياب:",
+  "lblDayDailySalary": "أجر يومي:",
+  "lblDayEarlyCutCount": "قطع للخروج المبكر:",
+  "lblDayLateMinPrice": "سعر الدقيقة المتأخرة:",
+  "lblDayEarlyMinPrice": "سعر الدقيقة المبكرة:",
+  "lblDayMinOTHours": "الحد الأدنى لساعات OT:",
+  "lblDayWrStart": "بداية تسجيل الدوام:",
+  "lblDayLastEntry": "آخر وقت للدخول:",
+  "lblDayFirstExit": "أول وقت للخروج:",
+  "lblDayLastExit": "آخر وقت للخروج:",
+  "lblDayDailyWage": "يعمل بالأجر اليومي:",
+  "lblDayOTEligible": "مؤهل للوقت الإضافي:",
+  "lblDayAllowedMinRest": "الاستراحة المسموحة (دقائق):",
+  "lblDayRestMinPrice": "سعر الدقيقة في الاستراحة:",
+  "btnSaveDay": "حفظ اليوم",
+
+
+
+
+
+
+
+
+
+
+
 
 
 

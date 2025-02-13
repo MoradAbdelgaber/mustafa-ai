@@ -96,8 +96,8 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      display: none;
+      background: #00000080;
+      display: flex;
       justify-content: center;
       align-items: center;
       z-index: 99999;
@@ -131,6 +131,7 @@
       font-weight: 600;
       padding: 10px;
       border-radius: 4px;
+      display: none;
     }
     .errorMsg {
       background-color: #f8d7da;
@@ -211,6 +212,219 @@
       border: 1px solid #ccc;border-radius: 4px;
     }
 
+    .addBtn {
+      background: #28a745;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      transition: background 0.3s;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .addBtn:hover {
+      background: #218838;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    table thead {
+      background: #007bff;
+      color: #fff;
+    }
+
+    table th,
+    table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .actionIcon {
+      color: #007bff;
+      cursor: pointer;
+      font-size: 1.1rem;
+      margin: 0 6px;
+      transition: color 0.3s;
+    }
+
+    .actionIcon:hover {
+      color: #0056b3;
+    }
+
+
+
+
+    .modalOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .modalContent {
+      width: 400px;
+      max-width: 90%;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: fadeInModal 0.3s ease;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 2px solid #eee;
+    }
+
+    @keyframes fadeInModal {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .modalHeader {
+      background: #007bff;
+      color: #fff;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modalHeader h2 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .modalCloseBtn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .modalCloseBtn:hover {
+      color: #ffdddd;
+    }
+
+    .modalBody {
+      padding: 20px;
+    }
+
+    .modalBody label {
+      display: block;
+      margin: 8px 0 4px;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .modalBody input,
+    .modalBody select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+
+    .modalSaveBtn,.saveScheduleBtn {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 14px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+
+
+
+    .modalSaveBtn:hover {
+      background: #218838;
+    }
+
+    .saveScheduleBtn{ background: #007bff; }
+    .saveScheduleBtn:hover{ background: #0756aa; }
+
+    .modalContent.scheduleWidth {
+      width: 600px;
+      max-height: 90vh;
+    }
+
+    .restBtn{background: #17a2b8;}
+    .restBtn:hover{ background: #12889b; }
+
+    .scheduleTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .scheduleTable thead {
+      background: #17a2b8;
+      color: #fff;
+    }
+
+    .scheduleTable th,
+    .scheduleTable td {
+      border: 1px solid #ddd;
+      padding: 5px;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    .btnSmall {
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 2px;
+      border: none;
+    }
+
+    .btnSmall:hover {
+      opacity: 0.9;
+    }
+
+    .applyBtn{
+      background: #17a2b8;margin: 0;
+    }
+    .applyBtn:hover{
+      background: #12889b;
+    }
+
 
 
   </style>
@@ -237,21 +451,184 @@
   </div>
 
 
-  <!-- الحاوية العامة -->
   <div class="container">
-    <!-- المحتوى الرئيسي -->
-    <div class="mainContent">
-      <div class="errorMsg" id="errorMsg" style="display:none;"></div>
-      <div class="successMsg" id="successMsg" style="display:none;"></div>
 
-      <div class="timezoneField">
+
+    <div class="mainContent">
+      <div class="errorMsg" id="errorMsg"></div>
+      <div class="successMsg" id="successMsg"></div>
+
+      <!-- <div class="timezoneField">
         <label for="timeZone" data-lng="time_zone">Time Zone: </label>
         <input id="timeZone" data-lng-placeholder="time_zone_place" placeholder="enter time zone" />
-      </div>
+      </div> -->
+
+      <button class="addBtn" onclick="openModalForAddTemplate()" data-lng="add_template"> </button>
+
+      <table id="templatesTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th data-lng="table_header_name"></th>
+            <th data-lng="table_header_actions"></th>
+            <th data-lng="table_header_apply"></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
 
       
 
-    </div>  
+    </div>
+
+
+    <!-- modals --> 
+    <!-- مودال النموذج -->
+    <div class="modalOverlay" id="templateModal">
+      <div class="modalContent scheduleWidth">
+        <div class="modalHeader">
+          <h2 id="templateModalTitle"></h2>
+          <button class="modalCloseBtn" onclick="closeTemplateModal()">×</button>
+        </div>
+
+        <div class="modalBody">
+
+          <div class="nameDiv" style="display: flex;align-items: center;justify-content: flex-start;gap: 6px;margin-bottom: 22px;">
+            <label for="templateNameInput" data-lng="template_name" style="margin: 0;font-weight: 500;"></label>
+            <input type="text" id="templateNameInput" data-lng-placeholder="template_name_place" style="width: fit-content;padding: 6px;border: 1px solid #ccc;border-radius: 4px;font-size: 0.9rem;margin: 0;">
+          </div>
+
+          <table class="scheduleTable" id="scheduleTable">
+            <thead>
+              <tr>
+                <th data-lng="schDay"></th>
+                <th data-lng="schStart"></th>
+                <th data-lng="schEnd"></th>
+                <th data-lng="schOTStart"></th>
+                <th data-lng="schOffset"></th>
+                <th data-lng="schHourPrice"></th>
+                <th data-lng="schOTPrice"></th>
+                <th data-lng="schEdit"></th>
+                <th data-lng="schDelete"></th>
+                <th data-lng="schCopy"></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <div style="display: flex;justify-content: space-between;align-items: center;">
+            <div style="margin-top:10px;">
+              <button class="modalSaveBtn" data-lng="btnAddDay" onclick="addScheduleDay()"></button>
+              <button class="modalSaveBtn restBtn" data-lng="btnAddRest" onclick="addScheduleDay(true)"></button>
+            </div>
+            <button class="saveScheduleBtn" id="saveScheduleBtn" data-lng="save" onclick="saveTemplate()"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- مودال تعديل/إضافة يوم في الجدول -->
+    <div class="modalOverlay" id="dayModal">
+      <div class="modalContent">
+        <div class="modalHeader">
+          <h2 id="dayModalTitle" data-lng="lblDayModalTitle"></h2>
+          <button class="modalCloseBtn" onclick="closeDayModal()">×</button>
+        </div>
+        <div class="modalBody">
+
+          <label data-lng="lblDaySelect" for="daySelect"></label>
+          <select id="daySelect">
+            <option value="Sun">Sun</option>
+            <option value="Mon">Mon</option>
+            <option value="Tue">Tue</option>
+            <option value="Wed">Wed</option>
+            <option value="Thu">Thu</option>
+            <option value="Fri">Fri</option>
+            <option value="Sat">Sat</option>
+          </select>
+
+          <label data-lng="lblDayStart" for="dayStart"></label>
+          <input type="time" id="dayStart" />
+
+          <label data-lng="lblDayEnd" for="dayEnd"></label>
+          <input type="time" id="dayEnd" />
+
+          <label data-lng="lblDayOTStart" for="dayOTStart"></label>
+          <input type="time" id="dayOTStart" />
+
+          <label data-lng="lblDayOffset" for="dayOffset"></label>
+          <input type="number" id="dayOffset" />
+
+          <label data-lng="lblDayHourPrice" for="dayHourPrice"></label>
+          <input type="number" id="dayHourPrice" />
+
+          <label data-lng="lblDayOTPrice" for="dayOTPrice"></label>
+          <input type="number" id="dayOTPrice" />
+
+          <label data-lng="lblDayAllowedDelay" for="dayAllowedDelay"></label>
+          <input type="number" id="dayAllowedDelay" />
+
+          <label data-lng="lblDayAllowedExit" for="dayAllowedExit"></label>
+          <input type="number" id="dayAllowedExit" />
+
+          <label data-lng="lblDayOfficialHours" for="dayOfficialHours"></label>
+          <input type="number" id="dayOfficialHours" />
+
+          <label data-lng="lblDayLateCutCount" for="dayLateCutCount"></label>
+          <input type="number" id="dayLateCutCount" />
+
+          <label data-lng="lblDayAbsentCut" for="dayAbsentCut"></label>
+          <input type="number" id="dayAbsentCut" />
+
+          <label data-lng="lblDayDailySalary" for="dayDailySalary"></label>
+          <input type="number" id="dayDailySalary" />
+
+          <label data-lng="lblDayEarlyCutCount" for="dayEarlyCutCount"></label>
+          <input type="number" id="dayEarlyCutCount" />
+
+          <label data-lng="lblDayLateMinPrice" for="dayLateMinPrice"></label>
+          <input type="number" id="dayLateMinPrice" />
+
+          <label data-lng="lblDayEarlyMinPrice" for="dayEarlyMinPrice"></label>
+          <input type="number" id="dayEarlyMinPrice" />
+
+          <label data-lng="lblDayMinOTHours" for="dayMinOTHours"></label>
+          <input type="number" id="dayMinOTHours" />
+
+          <label data-lng="lblDayWrStart" for="dayWrStart"></label>
+          <input type="time" id="dayWrStart" />
+
+          <label data-lng="lblDayLastEntry" for="dayLastEntry"></label>
+          <input type="time" id="dayLastEntry" />
+
+          <label data-lng="lblDayFirstExit" for="dayFirstExit"></label>
+          <input type="time" id="dayFirstExit" />
+
+          <label data-lng="lblDayLastExit" for="dayLastExit"></label>
+          <input type="time" id="dayLastExit" />
+
+          <label data-lng="lblDayDailyWage" for="dayDailyWage"></label>
+          <select id="dayDailyWage">
+            <option value="false">false</option>
+            <option value="true">true</option>
+          </select>
+
+          <label data-lng="lblDayOTEligible" for="dayOTEligible"></label>
+          <select id="dayOTEligible">
+            <option value="false">false</option>
+            <option value="true">true</option>
+          </select>
+
+          <label data-lng="lblDayAllowedMinRest" for="dayAllowedMinRest"></label>
+          <input type="number" id="dayAllowedMinRest" />
+
+          <label data-lng="lblDayRestMinPrice" for="dayRestMinPrice"></label>
+          <input type="number" id="dayRestMinPrice" />
+
+          <button class="modalSaveBtn" data-lng="btnSaveDay" onclick="saveDay()"></button>
+        </div>
+      </div>
+    </div>
+
 
 
 
@@ -325,145 +702,65 @@
     </div>
 
   </div>
-  </div>
   <script>
     /////////////////////////////////////////////////
-    /////////////////// language and auth /////////////
+    /////////////////// start language and auth /////
     /////////////////////////////////////////////////
     let authToken = null;
-    let translations = {}; // General translations
-
-    const LANG_PATH = './lang';        // Folder for JSON language files
+    let translations = {};
+    function getTranslate(str) { return translations[str] }
+    const LANG_PATH = './lang';
     const LNG_KEY = 'lng';
 
     function initPage() {
+
+      authToken = localStorage.getItem('authToken');
+      if (!authToken) return window.location.href = 'login.html';
+
       let storedLang = localStorage.getItem(LNG_KEY);
-      // If no language is stored, set default to 'en'
       if (!storedLang) {
         storedLang = 'en';
-        localStorage.setItem(LNG_KEY, storedLang); // Store default language
+        localStorage.setItem(LNG_KEY, storedLang);
       }
       document.getElementById('langSelector').value = storedLang;
-      if (storedLang === 'ar') {
-        document.documentElement.dir = 'rtl';
-      } else {
-        document.documentElement.dir = 'ltr';
-      }
-      // Set the language
       setLanguage(storedLang).then(() => {
-        // Check if the user is authenticated
-        authToken = localStorage.getItem('authToken');
-        if (!authToken) {
-          window.location.href = 'login.html';
-          return;
-        }
+        loadTemplates()
       });
     }
 
-    // Initialize language settings on page load
-    window.addEventListener('DOMContentLoaded', async () => {
-      let storedLang = localStorage.getItem(LNG_KEY) || 'en';
-      await loadLanguageFile(storedLang);
-      applyTranslations(storedLang);
-      applyRequestsTranslations(storedLang);
-    });
-
     async function setLanguage(lang) {
-      await loadLanguageFile(lang); // Load the general language file
-      localStorage.setItem(LNG_KEY, lang); // Store the selected language
-      // Apply translations to the page content
-      applyTranslations(lang);
-      applyRequestsTranslations(lang);
-
-      // Set the language (lang) and text direction (dir)
+      localStorage.setItem(LNG_KEY, lang);
       document.documentElement.lang = lang;
-      console.log(lang);
-      if (lang === 'ar') {
-        document.documentElement.dir = 'rtl';
-      }
-      else {
-        document.documentElement.dir = 'ltr';
-      }
+      document.documentElement.dir = lang === 'ar'? 'rtl':'ltr'
+      await loadLanguageFile(lang);
+      applyTranslations(lang);
     }
 
     function applyTranslations(lang) {
 
-      document.documentElement.lang = lang;
-      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-      // Apply translations to elements with data-lng attribute
+      document.title = getTranslate('head_title')
+
       document.querySelectorAll('[data-lng]').forEach(el => {
         const key = el.getAttribute('data-lng');
-        if (translations[key]) {
-          if (el.tagName === 'OPTION') {
-            el.textContent = translations[key]; // Apply translation to <option> text
-          } else {
-            el.textContent = translations[key]; // Apply translation to other elements
-          }
-        }
+        if(translations[key]) el.textContent = translations[key];
       });
 
-      // Apply translations to placeholders
       document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
         const key = el.getAttribute('data-lng-placeholder');
-        if (translations[key]) {
-          el.placeholder = translations[key];
-        }
+        if(translations[key]) el.placeholder = translations[key];
       });
 
-      // Apply translations to options
-      document.querySelectorAll('[data-lng-option]').forEach(el => {
-        const key = el.getAttribute('data-lng-option');
-        if (translations[key]) {
-          el.textContent = translations[key];
-        }
+      document.querySelectorAll('[data-lng-hover-title]').forEach(el => {
+        const key = el.getAttribute('data-lng-hover-title');
+        if (translations[key]) el.setAttribute('title',translations[key])
       });
-    }
-
-    function applyRequestsTranslations(lang) {
-      console.log(`Loading leaves translations for ${lang} from ${LANG_PATH}/${lang}_requests.json`);
-
-      // Apply leaves-specific translations to elements with data-lng attribute
-      document.querySelectorAll('[data-lng]').forEach(el => {
-        const key = el.getAttribute('data-lng');
-        if (translations[key]) {
-          // For elements like <H2>, <DIV>, <SPAN>, set textContent
-          if (el.tagName === 'H2' || el.tagName === 'DIV' || el.tagName === 'SPAN') {
-            el.textContent = translations[key];
-          } else {
-            // For other elements, set innerHTML
-            el.innerHTML = translations[key];
-          }
-        }
-      });
-
-      // Apply translations to placeholders (using data-lng-placeholder attribute)
-      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-lng-placeholder');
-        if (translations[key]) {
-          el.placeholder = translations[key]; // Set translated placeholder
-        }
-      });
-
-      // Apply translations to options (for <select> dropdowns)
-      document.querySelectorAll('option[data-lng]').forEach(option => {
-        const key = option.getAttribute('data-lng');
-        if (translations[key]) {
-          option.textContent = translations[key]; // Set translated option text
-        }
-      });
-
-      // Update the <title> with leaves-specific title
-      document.title = translations['head_title'];
 
     }
 
-    // Function to load the leaves language file
     async function loadLanguageFile(lang) {
       try {
-        const response = await fetch(`${LANG_PATH}/${lang}_public_settings.json`); // Specific leaves lang file (e.g., en_leaves.json or ar_leaves.json)
-        if (!response.ok) {
-          throw new Error(`Error loading ${lang}_public_settings.json`);
-        }
+        const response = await fetch(`${LANG_PATH}/${lang}_public_settings.json`);
+        if(!response.ok) throw new Error(`Error loading ${lang}_public_settings.json`);
         translations = await response.json();
       } catch (error) {
         console.error("Leaves translation file error:", error);
@@ -475,21 +772,336 @@
       window.location.href = 'login.html';
     }
 
-    // Language selection event listener
     document.getElementById('langSelector').addEventListener('change', (event) => {
-      const selectedLang = event.target.value;
-      setLanguage(selectedLang); // Set the new language and apply changes
+      setLanguage(event.target.value);
       clearMessages()
     });
-    //////////////////////////////////////////////////////
-    /////////////////////// api functions ////////////////
-    //////////////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    /////////////////// end language and auth /////
+    /////////////////////////////////////////////////
+
+
+
+    let templates = []
+
+    async function loadTemplates() {
+      try {
+        const resp = await fetch('https://timeattendhr.com/api/weekSchedule-templates', {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!resp.ok) throw new Error(getTranslate('templates_msg_error_fetch'));
+        const data = await resp.json();
+        templates = data;
+        renderTemplates(templates);
+      } catch (err) {
+        showError(err.message);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    function renderTemplates(templates) {
+      const tb = document.querySelector('#templatesTable tbody');
+      tb.innerHTML = '';
+
+      templates.forEach((template, i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i + 1}</td>
+          <td>${template.name || ''}</td>
+          <td>
+            <i class="bi bi-pencil-fill actionIcon" onclick="openModalForEditTemplate('${template._id}')" data-lng-hover-title='edit' title="${getTranslate('edit')}"></i>
+            <i class="bi bi-trash-fill actionIcon" onclick="deleteTemplate('${template._id}')" data-lng-hover-title='delete' title="${getTranslate('delete')}"></i>
+          </td>
+          <td><button class="addBtn applyBtn" onclick="applyTemplate('${template._id}')" data-lng="table_header_apply">${getTranslate('table_header_apply')}</button></td>
+        `;
+        tb.appendChild(tr);
+      });
+    }
 
 
 
 
+    let currentTemplate = null;
+    let addOrEdit = 'add'
+    let dayIndex = null;
 
-    
+
+    function openModalForAddTemplate() {
+      currentTemplate = { name: '', weekSchedules: [] }
+      addOrEdit = 'add'
+      document.getElementById('templateModalTitle').innerText = getTranslate('add_template')
+      document.getElementById('templateNameInput').value = ''
+      renderSchedule([]);
+      showTemplateModal();
+    }
+
+    function openModalForEditTemplate(template_id) {
+      currentTemplate = templates.filter(el => el._id == template_id)[0]
+      addOrEdit = 'edit'
+      document.getElementById('templateModalTitle').innerText = getTranslate('edit_template')
+      document.getElementById('templateNameInput').value = currentTemplate.name
+      renderSchedule(currentTemplate.weekSchedules);
+      showTemplateModal();
+    }
+
+    function renderSchedule(sch) {
+      const tb = document.getElementById('scheduleTable').querySelector('tbody');
+      tb.innerHTML = '';
+      sch.forEach((dayObj, i) => {
+        let row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${dayObj.day || ''}</td>
+          <td>${dayObj.startTime || ''}</td>
+          <td>${dayObj.endTime || ''}</td>
+          <td>${dayObj.overtimeStart || ''}</td>
+          <td>${dayObj.endDayOffset || 0}</td>
+          <td>${dayObj.hourPrice || 0}</td>
+          <td>${dayObj.overtimePrice || 0}</td>
+          <td><button class="btnSmall" style="background:#007bff;color:#fff;" onclick="openDayModal(${i})">${getTranslate('edit')}</button></td>
+          <td><button class="btnSmall" style="background:#dc3545;color:#fff;" onclick="deleteDay(${i})">${getTranslate('delete')}</button></td>
+          <td><button class="btnSmall" style="background:#17a2b8;color:#fff;" onclick="copyDay(${i})">${getTranslate('copy')}</button></td>
+        `;
+        tb.appendChild(row);
+      });
+    }
+
+    function addScheduleDay(isRest = false) {
+      const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      if (currentTemplate.weekSchedules.length == 0) {
+        currentTemplate.weekSchedules.push({
+          day: 'Sun',
+          startTime: isRest? '00:00:00' : '08:00:00',
+          endTime: isRest? '00:00:00' : '17:00:00',
+          overtimeStart: isRest? '00:00:00' : '17:30:00',
+          endDayOffset: 0,
+          hourPrice: 0,
+          overtimePrice: 0,
+          allowed_delay_minutes: 0,
+          allowed_exit_minutes: 0,
+          official_working_hours: 8,
+          late_cutting_by_count: 0,
+          absent_cutting: 0,
+          daily_salary: 0,
+          early_cutting_by_count: 0,
+          late_min_prices: 0,
+          early_min_prices: 0,
+          minimum_working_hours_overtime: 10,
+          work_registration_start_time: '06:00:00',
+          last_entry_prevention_time: '11:00:00',
+          first_exit_allowed_time: '15:00:00',
+          last_exit_allowed_time: '20:00:00',
+          works_for_daily_wage: false,
+          overtime_eligible: false,
+          allowed_min_rest: 0,
+          rest_min_prices: 0
+        });
+      } else {
+        const lastDayObj = currentTemplate.weekSchedules[currentTemplate.weekSchedules.length - 1];
+        const dayOrderIndex = dayOrder.indexOf(lastDayObj.day);
+        if(dayOrderIndex < 0) return alert(getTranslate('unknown_day'));
+        if(dayOrderIndex == 6) return alert(getTranslate("last_day"));
+        let newDayObj = { ...lastDayObj };
+        newDayObj.day = dayOrder[dayOrderIndex + 1];
+
+        newDayObj.startTime = isRest? '00:00:00' : '08:00:00'
+        newDayObj.endTime = isRest? '00:00:00' : '17:00:00'
+        newDayObj.overtimeStart = isRest? '00:00:00' : '17:30:00'
+        
+        currentTemplate.weekSchedules.push(newDayObj);
+      }
+      renderSchedule(currentTemplate.weekSchedules);
+    }
+
+    function deleteDay(i) {
+      if (!confirm(getTranslate("delete_day"))) return;
+      currentTemplate.weekSchedules.splice(i, 1);
+      renderSchedule(currentTemplate.weekSchedules);
+    }
+
+    function openDayModal(i) {
+      dayIndex = i;
+      const dayObj = currentTemplate.weekSchedules[i];
+      document.getElementById('dayModalTitle').setAttribute('data-lng', 'lblDayModalTitle');
+      document.getElementById('daySelect').value = dayObj.day || 'Sun';
+      document.getElementById('dayStart').value = dayObj.startTime || '08:00:00';
+      document.getElementById('dayEnd').value = dayObj.endTime || '17:00:00';
+      document.getElementById('dayOTStart').value = dayObj.overtimeStart || '17:30:00';
+      document.getElementById('dayOffset').value = dayObj.endDayOffset || 0;
+      document.getElementById('dayHourPrice').value = dayObj.hourPrice || 0;
+      document.getElementById('dayOTPrice').value = dayObj.overtimePrice || 0;
+      document.getElementById('dayAllowedDelay').value = dayObj.allowed_delay_minutes || 0;
+      document.getElementById('dayAllowedExit').value = dayObj.allowed_exit_minutes || 0;
+      document.getElementById('dayOfficialHours').value = dayObj.official_working_hours || 8;
+      document.getElementById('dayLateCutCount').value = dayObj.late_cutting_by_count || 0;
+      document.getElementById('dayAbsentCut').value = dayObj.absent_cutting || 0;
+      document.getElementById('dayDailySalary').value = dayObj.daily_salary || 0;
+      document.getElementById('dayEarlyCutCount').value = dayObj.early_cutting_by_count || 0;
+      document.getElementById('dayLateMinPrice').value = dayObj.late_min_prices || 0;
+      document.getElementById('dayEarlyMinPrice').value = dayObj.early_min_prices || 0;
+      document.getElementById('dayMinOTHours').value = dayObj.minimum_working_hours_overtime || 10;
+      document.getElementById('dayWrStart').value = dayObj.work_registration_start_time || '06:00:00';
+      document.getElementById('dayLastEntry').value = dayObj.last_entry_prevention_time || '11:00:00';
+      document.getElementById('dayFirstExit').value = dayObj.first_exit_allowed_time || '15:00:00';
+      document.getElementById('dayLastExit').value = dayObj.last_exit_allowed_time || '20:00:00';
+      document.getElementById('dayDailyWage').value = dayObj.works_for_daily_wage ? 'true' : 'false';
+      document.getElementById('dayOTEligible').value = dayObj.overtime_eligible ? 'true' : 'false';
+      document.getElementById('dayAllowedMinRest').value = dayObj.allowed_min_rest || 0;
+      document.getElementById('dayRestMinPrice').value = dayObj.rest_min_prices || 0;
+      showDayModal();
+    }
+    function saveDay() {
+      const dayObj = currentTemplate.weekSchedules[dayIndex];
+      dayObj.day = document.getElementById('daySelect').value;
+      dayObj.startTime = document.getElementById('dayStart').value;
+      dayObj.endTime = document.getElementById('dayEnd').value;
+      dayObj.overtimeStart = document.getElementById('dayOTStart').value;
+      dayObj.endDayOffset = +document.getElementById('dayOffset').value;
+      dayObj.hourPrice = +document.getElementById('dayHourPrice').value;
+      dayObj.overtimePrice = +document.getElementById('dayOTPrice').value;
+      dayObj.allowed_delay_minutes = +document.getElementById('dayAllowedDelay').value;
+      dayObj.allowed_exit_minutes = +document.getElementById('dayAllowedExit').value;
+      dayObj.official_working_hours = +document.getElementById('dayOfficialHours').value;
+      dayObj.late_cutting_by_count = +document.getElementById('dayLateCutCount').value;
+      dayObj.absent_cutting = +document.getElementById('dayAbsentCut').value;
+      dayObj.daily_salary = +document.getElementById('dayDailySalary').value;
+      dayObj.early_cutting_by_count = +document.getElementById('dayEarlyCutCount').value;
+      dayObj.late_min_prices = +document.getElementById('dayLateMinPrice').value;
+      dayObj.early_min_prices = +document.getElementById('dayEarlyMinPrice').value;
+      dayObj.minimum_working_hours_overtime = +document.getElementById('dayMinOTHours').value;
+      dayObj.work_registration_start_time = document.getElementById('dayWrStart').value;
+      dayObj.last_entry_prevention_time = document.getElementById('dayLastEntry').value;
+      dayObj.first_exit_allowed_time = document.getElementById('dayFirstExit').value;
+      dayObj.last_exit_allowed_time = document.getElementById('dayLastExit').value;
+      dayObj.works_for_daily_wage = (document.getElementById('dayDailyWage').value === 'true');
+      dayObj.overtime_eligible = (document.getElementById('dayOTEligible').value === 'true');
+      dayObj.allowed_min_rest = +document.getElementById('dayAllowedMinRest').value;
+      dayObj.rest_min_prices = +document.getElementById('dayRestMinPrice').value;
+      renderSchedule(currentTemplate.weekSchedules);
+      closeDayModal();
+    }
+
+    function copyDay(i) {
+      const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      let currentDayObj = currentTemplate.weekSchedules[i];
+      let currentDayIndex = dayOrder.indexOf(currentDayObj.day);
+      if(currentDayIndex < 0) return alert(getTranslate(can_not_copy));
+      if(currentDayIndex === 6) return alert(getTranslate('can_not_copy_sat'));
+      let newDayObj = { ...currentTemplate.weekSchedules[i] };
+      newDayObj.day = dayOrder[currentDayIndex + 1];
+      currentTemplate.weekSchedules.splice(i + 1, 0, newDayObj);
+      renderSchedule(currentTemplate.weekSchedules);
+    }
+
+
+
+
+    async function saveTemplate() {
+
+      const body = {
+        name: document.getElementById('templateNameInput').value,
+        weekSchedules: currentTemplate.weekSchedules
+      }
+      if(!body.name?.trim()) return
+
+      showLoading()
+
+      try {
+
+        let endPoint = `https://timeattendhr.com/api/weekSchedule-templates`
+        let method = 'POST'
+        if(addOrEdit == 'edit') {
+          endPoint += `/${currentTemplate._id}`
+          method = 'PUT'
+        }
+
+        const resp = await fetch(endPoint, {
+          method,
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+
+        if (!resp.ok) throw new Error(getTranslate('failed_to_save_template'));
+        showSuccess(getTranslate("success_msg"))
+        closeTemplateModal()
+        await loadTemplates()
+
+      } catch (err) {
+        showError(err.message)
+      } finally {
+        hideLoading()
+      }
+
+    }
+
+
+    async function deleteTemplate(id) {
+
+      if (!confirm(translations['delete_template'])) return;
+
+      showLoading()
+
+      try {
+        
+        const resp = await fetch(`https://timeattendhr.com/api/weekSchedule-templates/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+
+        if (!resp.ok) throw new Error(translations['err_delete_template']);
+
+        showSuccess(getTranslate("success_msg"))
+        await loadTemplates()
+
+      } catch (err) {
+        showError(err.message)
+      } finally {
+        hideLoading()
+      }
+
+    }
+
+    async function applyTemplate(id) {
+
+      if (!confirm(translations['aplly_template'])) return;
+
+      showLoading()
+
+      try {
+        
+        const resp = await fetch(`https://timeattendhr.com/api/weekSchedule-templates/${id}/apply`, {
+          method: 'POST',
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+
+        if (!resp.ok) throw new Error(translations['err_apply_template']);
+
+        showSuccess(getTranslate("success_msg"))
+
+      } catch (err) {
+        showError(err.message)
+      } finally {
+        hideLoading()
+      }
+
+    }
+
+
+
+
+    function showTemplateModal() { document.getElementById('templateModal').style.display = 'flex'; }
+    function closeTemplateModal() { document.getElementById('templateModal').style.display = 'none'; }
+
+    function showDayModal() { document.getElementById('dayModal').style.display = 'flex'; }
+    function closeDayModal() { document.getElementById('dayModal').style.display = 'none'; }
+
+
+    /////////////////////////////////////////////////
+    /////////////////// helpers /////////////////////
+    /////////////////////////////////////////////////
     function showLoading() { document.getElementById('loadingOverlay').style.display = 'flex'; }
     function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
 

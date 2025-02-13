@@ -157,7 +157,10 @@
 
     
     "next": "التالي",
-    "prev": "السابق"
+    "prev": "السابق",
+
+    "templates_msg_error_fetch": "خطأ في جلب النمازج",
+    "choose_template": "حدد نموذج"
 
   }
   

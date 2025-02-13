@@ -156,7 +156,11 @@
     "success_msg": "Process done successfully",
 
     "next": "Next",
-    "prev": "Prev"
+    "prev": "Prev",
+
+    
+   "templates_msg_error_fetch": "Error in getting templates",
+    "choose_template": "Choose Template"
 
   }
   

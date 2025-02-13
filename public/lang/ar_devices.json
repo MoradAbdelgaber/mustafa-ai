@@ -29,6 +29,7 @@
   "devices_modal_label_serial": "الرقم التسلسلي:",
   "devices_modal_label_serverip": "IP السيرفر:",
   "devices_modal_label_status": "الحالة:",
+  "all_statuses": "كل الحالات",
   "devices_modal_status_option_true": "مفعل",
   "devices_modal_status_option_false": "معطل",
   "devices_modal_button_save": "حفظ", 

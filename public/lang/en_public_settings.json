@@ -7,6 +7,83 @@
   "time_zone": "TimeZone :",
   "time_zone_place": "enter timezone",
 
+  "add_template": "Add Template",
+  "edit_template": "Edit Template",
+
+  "template_name": "Template Name:",
+  "template_name_place": "Enter Template Name ...",
+  
+  "table_header_name": "Name",
+  "table_header_actions": "Control",
+  "table_header_apply": "Apply",
+
+  "aplly_template": "Are you sure to apply this template?",
+
+  "templates_msg_error_fetch": "Error in getting templates",
+  "err_delete_template": "Error in deleting templates",
+  "err_apply_template": "Error in applying templates",
+  "edit": "Edit",
+  "delete": "Del",
+  "copy": "Copy",
+
+  "failed_to_save_template": "Failed to save Template",
+  "success_msg": "Process done successfully",
+
+
+
+  "schDay": "Day",
+  "schStart": "Start",
+  "schEnd": "End",
+  "schOTStart": "OT Start",
+  "schOffset": "Offset",
+  "schHourPrice": "Hour Price",
+  "schOTPrice": "OT Price",
+  "schEdit": "Edit",
+  "schDelete": "Delete",
+  "schCopy": "Copy",
+  "btnAddDay": "Add Day",
+  "btnAddRest": "Add Rest",
+  "save": "save",
+
+  "unknown_day": "Unknown day",
+  "last_day": "Saturday is the last day, no day after it",
+  "delete_day": "Are you sure to delete this day?",
+  "delete_template": "Are you sure to delete this template?",
+  "can_not_copy": "Cannot copy unknown day!",
+  "can_not_copy_sat": "Cannot copy from Sat",
+
+  "lblDayModalTitle": "Edit Day",
+  "lblDaySelect": "Day of Week:",
+  "lblDayStart": "Start Time:",
+  "lblDayEnd": "End Time:",
+  "lblDayOTStart": "Overtime Start:",
+  "lblDayOffset": "End Day Offset:",
+  "lblDayHourPrice": "Hour Price:",
+  "lblDayOTPrice": "Overtime Price:",
+  "lblDayAllowedDelay": "Allowed Delay (min):",
+  "lblDayAllowedExit": "Allowed Early Exit (min):",
+  "lblDayOfficialHours": "Official Working Hours:",
+  "lblDayLateCutCount": "Late Cutting by Count:",
+  "lblDayAbsentCut": "Absent Cutting:",
+  "lblDayDailySalary": "Daily Salary:",
+  "lblDayEarlyCutCount": "Early Cutting by Count:",
+  "lblDayLateMinPrice": "Late Min Price:",
+  "lblDayEarlyMinPrice": "Early Min Price:",
+  "lblDayMinOTHours": "Min OT Hours:",
+  "lblDayWrStart": "Work Reg Start Time:",
+  "lblDayLastEntry": "Last Entry Prevention:",
+  "lblDayFirstExit": "First Exit Allowed:",
+  "lblDayLastExit": "Last Exit Allowed:",
+  "lblDayDailyWage": "Works for Daily Wage:",
+  "lblDayOTEligible": "Overtime Eligible:",
+  "lblDayAllowedMinRest": "Allowed Min Rest:",
+  "lblDayRestMinPrice": "Rest Min Price:",
+  "btnSaveDay": "Save Day",
+
+
+
+
+
   "sidebar_title": "Menu",
   "sidebar_overview": "Overview",
   "sidebar_employees": "Employees",
@@ -23,8 +100,6 @@
   "attend_sidebar_unregistered": "Unregistered employees",
   "employee_summary_report": "Employee  Summary Report",
   "leaves_type": "Leave Types",
-  "public_settings": "Public Settings",
-
-  "": ""
+  "public_settings": "Public Settings"
   
 }

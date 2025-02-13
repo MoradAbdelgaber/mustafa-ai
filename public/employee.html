@@ -533,6 +533,14 @@
     #cardModal .modalContent {
       width: 300px;
     }
+
+    #templateSelect{
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      min-width: 120px;
+    }
   </style>
 </head>
 
@@ -764,6 +772,9 @@
     <div class="modalContent scheduleWidth">
       <div class="modalHeader">
         <h2 id="scheduleModalTitle" data-lng="lblScheduleTitle"></h2>
+        <select id="templateSelect" onchange="applyTemplate(event)">
+          <option value="" data-lng="choose_template"></option>
+        </select>
         <button class="modalCloseBtn" onclick="closeScheduleModal()">×</button>
       </div>
       <div class="modalBody">
@@ -1036,6 +1047,8 @@
     let currentPage = 1;
     let pageSize = 10;
 
+    let templates = []
+
     function initPage() {
       // (أ) إعداد اللغة أولاً
       let storedLang = localStorage.getItem(LANG_KEY);
@@ -1053,6 +1066,7 @@
         loadEmployees();
         loadDepartments();
         loadAllDevices();
+        loadTemplates()
         // تهيئة select2
         $('#devicesSelect').select2({
           width: '100%',
@@ -1626,10 +1640,11 @@
     }
 
     function openScheduleModal(indexInFiltered) {
+      document.getElementById('templateSelect').value = ''
       if(indexInFiltered != -1) {
         const emp = filteredEmployees[indexInFiltered];
+        if(emp.weekScheduleId) document.getElementById('templateSelect').value = emp.weekScheduleId
         currentEmployeeIndex = findEmployeeIndexInAll(emp._id);
-        console.log(emp.weekSchedules)
         currentSchedules = emp.weekSchedules || [];
         renderSchedule(currentSchedules);
         return showScheduleModal();
@@ -1820,6 +1835,10 @@
       } else {
         const emp = allEmployees[currentEmployeeIndex];
         emp.weekSchedules = currentSchedules;
+
+        const weekScheduleId = document.getElementById('templateSelect').value
+        if(weekScheduleId) emp.weekScheduleId = weekScheduleId
+
         try {
           const resp = await fetch(`https://timeattendhr.com/api/employees/${emp._id}`, {
             method: 'PUT',
@@ -1849,6 +1868,9 @@
 
       openModalFromAllSellection? body.all = true : body.ids = sellectedEmployees
 
+      const weekScheduleId = document.getElementById('templateSelect').value
+      if(weekScheduleId) body.weekScheduleId = weekScheduleId
+
       try {
         const resp = await fetch(`https://timeattendhr.com/api/employees/multi-update`, {
           method: 'PUT',
@@ -1865,6 +1887,57 @@
       }
 
     }
+
+
+
+
+
+
+
+    async function loadTemplates() {
+      try {
+        const resp = await fetch('https://timeattendhr.com/api/weekSchedule-templates', {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!resp.ok) throw new Error(getTranslate('templates_msg_error_fetch'));
+        const data = await resp.json();
+        templates = data;
+        renderTemplates();
+      } catch (err) {
+        const errorMsg = document.getElementById('errorMsg');
+        const successMsg = document.getElementById('successMsg');
+        errorMsg.style.display = 'block'
+        errorMsg.textContent = err.message;
+        successMsg.style.display = 'none';
+      }
+    }
+
+    function renderTemplates() {
+      const templatesSelect = document.getElementById('templateSelect');
+      templates.forEach(tem => {
+        const opt = document.createElement('option');
+        opt.value = tem._id;
+        opt.textContent = tem.name;
+        templatesSelect.appendChild(opt);
+      });
+    }
+
+    function applyTemplate(ev) {
+
+      const choosedTemplate = templates.filter(tem => tem._id == ev.target.value)[0]
+      if(!choosedTemplate) return
+
+      currentSchedules = [...choosedTemplate.weekSchedules]
+      renderSchedule(currentSchedules)
+
+    }
+
+
+
+
+
+
+
 
 
 
