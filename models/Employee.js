@@ -59,6 +59,11 @@ const employeeSchema = new Schema(
     allowed_exit_minutes: { type: Number },
     works_for_daily_wage: { type: Boolean },
     overtime_eligible: { type: Boolean },
+    weekSchedulesId: {
+      type: Schema.Types.ObjectId,
+      ref: "WeekScheduleTemplate",
+      default: null,
+    },
     weekSchedules: {
       type: [dayScheduleSchema],
       default: [],

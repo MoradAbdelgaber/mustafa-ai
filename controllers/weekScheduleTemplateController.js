@@ -1,4 +1,5 @@
 // controllers/WeekScheduleTemplateController.js
+const Employee = require("../models/Employee");
 const WeekScheduleTemplate = require("../models/WeekScheduleTemplate");
 
 exports.createWeekScheduleTemplate = async (req, res) => {
@@ -45,6 +46,33 @@ exports.getWeekScheduleTemplateById = async (req, res) => {
       });
     }
     return res.json(vt);
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ error: "Error fetching WeekScheduleTemplate" });
+  }
+};
+
+exports.applyTemplate = async (req, res) => {
+  try {
+    const { id } = req.params;
+    // ابحث عن نوع إجازة يخص هذا المستخدم
+    const vt = await WeekScheduleTemplate.findOne({
+      _id: id,
+      owner: req.userId,
+    });
+    if (!vt) {
+      return res.status(404).json({
+        message: "WeekScheduleTemplate not found or not owned by you",
+      });
+    }
+
+    const updated = await Employee.updateMany(
+      { weekSchedulesId: vt._id },
+      { weekSchedules: vt.weekSchedules }
+    );
+
+    return res.json(updated);
   } catch (error) {
     return res
       .status(400)
