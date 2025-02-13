@@ -1643,7 +1643,7 @@
       document.getElementById('templateSelect').value = ''
       if(indexInFiltered != -1) {
         const emp = filteredEmployees[indexInFiltered];
-        if(emp.weekScheduleId) document.getElementById('templateSelect').value = emp.weekScheduleId
+        if(emp.weekSchedulesId) document.getElementById('templateSelect').value = emp.weekSchedulesId
         currentEmployeeIndex = findEmployeeIndexInAll(emp._id);
         currentSchedules = emp.weekSchedules || [];
         renderSchedule(currentSchedules);
@@ -1836,8 +1836,8 @@
         const emp = allEmployees[currentEmployeeIndex];
         emp.weekSchedules = currentSchedules;
 
-        const weekScheduleId = document.getElementById('templateSelect').value
-        if(weekScheduleId) emp.weekScheduleId = weekScheduleId
+        const weekSchedulesId = document.getElementById('templateSelect').value
+        if(weekSchedulesId) emp.weekSchedulesId = weekSchedulesId
 
         try {
           const resp = await fetch(`https://timeattendhr.com/api/employees/${emp._id}`, {
@@ -1868,8 +1868,8 @@
 
       openModalFromAllSellection? body.all = true : body.ids = sellectedEmployees
 
-      const weekScheduleId = document.getElementById('templateSelect').value
-      if(weekScheduleId) body.weekScheduleId = weekScheduleId
+      const weekSchedulesId = document.getElementById('templateSelect').value
+      if(weekSchedulesId) body.weekSchedulesId = weekSchedulesId
 
       try {
         const resp = await fetch(`https://timeattendhr.com/api/employees/multi-update`, {
