@@ -18,7 +18,8 @@
   <!-- خطوط (Tajawal للعربية، Open Sans للإنجليزية) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+  <link
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
     rel="stylesheet">
 
   <style>
@@ -27,13 +28,8 @@
     }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     /* عند العربية: استخدم Tajawal مع اتجاه RTL */
@@ -41,7 +37,6 @@
       font-family: 'Tajawal', sans-serif;
       direction: rtl;
     }
-
     /* عند الإنجليزية: استخدم Open Sans مع اتجاه LTR */
     html[lang="en"] body {
       font-family: 'Open Sans', sans-serif;
@@ -172,18 +167,6 @@
       display: none;
     }
 
-    .searchFilters {
-      background: #fff;
-      padding: 10px;
-      margin-bottom: 15px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      border-radius: 6px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
     table {
       width: 100%;
       border-collapse: collapse;
@@ -222,17 +205,21 @@
       color: #0056b3;
     }
 
-    .btns{
-      display: flex;margin-block: 12px 8px;
+    .btns {
+      display: flex;
+      margin-block: 12px 8px;
     }
 
-    .btns div{
+    .btns div {
       margin-inline-start: auto;
-      display: flex;gap: 6px;
+      display: flex;
+      gap: 6px;
     }
 
-    .selectedBtn,.selectedAllBtn {
-      background: #17a2b8;display: none;
+    .selectedBtn,
+    .selectedAllBtn {
+      background: #17a2b8;
+      display: none;
       color: #fff;
       padding: 8px 14px;
       border-radius: 4px;
@@ -241,12 +228,26 @@
       border: none;
       cursor: pointer;
     }
-    .selectedBtn:hover{ background: #167c8b; }
 
-    .selectedAllBtn{ background: #007bff;display: block; }
-    .selectedAllBtn:hover{ background: #0851a0; }
+    .selectedBtn:hover {
+      background: #167c8b;
+    }
 
-    input[type="checkbox"] { margin: 0;width: 18px;height: 18px;cursor: pointer; }
+    .selectedAllBtn {
+      background: #007bff;
+      display: block;
+    }
+
+    .selectedAllBtn:hover {
+      background: #0851a0;
+    }
+
+    input[type="checkbox"] {
+      margin: 0;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
 
     .loadingOverlay {
       position: fixed;
@@ -271,13 +272,8 @@
     }
 
     @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -305,13 +301,15 @@
       <div class="errorMsg" id="errorMsg"></div>
       <div class="successMsg" id="successMsg"></div>
 
-      <!-- الجدول: الموظفون غير المسجلين -->
-       <div class="btns">
+      <!-- أزرار التحكّم في السحب (اختر المحدد فقط / الجميع) -->
+      <div class="btns">
         <div>
-          <button class="selectedBtn" id="selectedBtn" data-lng="extract_selected" onclick="pullMany()"></button>
+          <button class="selectedBtn" id="selectedBtn" data-lng="extract_selected" onclick="pullMany(false)"></button>
           <button class="selectedAllBtn" id="selectedAllBtn" data-lng="extract_all_selected" onclick="pullMany(true)"></button>
         </div>
-       </div>
+      </div>
+
+      <!-- الجدول: الموظفون غير المسجلين -->
       <table id="unregisteredTable">
         <thead>
           <tr>
@@ -380,10 +378,7 @@
         <i class="bi bi-building"></i>
         <span data-lng="attend_sidebar_departments"></span>
       </div>
-      <!-- <div class="navItem" onclick="location.href='settings.html'">
-        <i class="bi bi-gear-fill"></i>
-        <span data-lng="attend_sidebar_settings"></span>
-      </div> -->
+
       <!-- عنصر يدل أننا في هذه الصفحة -->
       <div class="navItem active" onclick="location.href='importemployee.html'">
         <i class="bi bi-person-exclamation"></i>
@@ -405,18 +400,20 @@
   </div>
 
   <script>
-    // دالة لإزالة أي محرف خارج نطاق ASCII من سلسلة ما
+    // إزالة أي محرف خارج نطاق ASCII
     function removeNonASCII(str) {
       return str.replace(/[^\x00-\x7F]/g, '');
     }
 
     let authToken = null;
     let allLocalEmployees = [];  // قائمة الموظفين من الـ DB
-    let unregisteredList = [];  // الموظفون غير المسجلين
-    let devicesList = [];  // قائمة الأجهزة
-    const LANG_PATH = "./lang";        // مجلد ملفات JSON
+    let unregisteredList = [];   // الموظفون غير المسجلين
+    let devicesList = [];        // قائمة الأجهزة
+    const LANG_PATH = "./lang";  // مجلد ملفات JSON
     const LANG_KEY = 'import_employee';
 
+    // لتخزين الترجمات بعد التحميل
+    let translations = {};
 
     async function initPage() {
       authToken = localStorage.getItem('authToken');
@@ -434,101 +431,64 @@
       await loadUnregisteredEmployees();
     }
 
-    // LANGUAGES
-    // _______________________________________/
+    // _____________ 1) إعداد الترجمة
     async function loadLanguageFile(lang) {
       try {
-
-
         const response = await fetch(`${LANG_PATH}/${lang}_${LANG_KEY}.json`);
         if (!response.ok) {
           throw new Error(`Error loading ${lang}.json`);
         }
-
         translations = await response.json();
       } catch (error) {
         console.error("Error loading translation file:", error);
       }
     }
-
     async function setLanguage(lang) {
       await loadLanguageFile(lang);
       localStorage.setItem("lng", lang);
       applyTranslations(lang);
     }
-
     function getTranslate(key) {
       return translations[key] || key;
     }
-
-
     function applyTranslations(lang) {
-      // تغيير اتجاه الصفحة ولغتها
       document.documentElement.lang = lang;
       document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
 
-      // طبيق النصوص على العناصر data-lng="..."
       document.querySelectorAll('[data-lng]').forEach(el => {
         const key = el.getAttribute('data-lng');
-        if (translations[key]) {
-          el.textContent = translations[key];
-        }
+        if (translations[key]) el.textContent = translations[key];
       });
-
-      // تطبيق placeholder
       document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
         const key = el.getAttribute('data-lng-placeholder');
-        if (translations[key]) {
-          el.placeholder = translations[key];
-        }
+        if (translations[key]) el.placeholder = translations[key];
       });
-
-      // تطبيق نص للأوبشن
       document.querySelectorAll('[data-lng-option]').forEach(el => {
         const key = el.getAttribute('data-lng-option');
-        if (translations[key]) {
-          el.textContent = translations[key];
-        }
+        if (translations[key]) el.textContent = translations[key];
       });
-
       document.querySelectorAll('[data-lng-title]').forEach(el => {
         const key = el.getAttribute('data-lng-title');
-        if (translations[key]) {
-          el.textContent = translations[key];
-        }
+        if (translations[key]) el.textContent = translations[key];
       });
-
       document.querySelectorAll('[data-lng-hover-title]').forEach(el => {
         const key = el.getAttribute('data-lng-hover-title');
-        if (translations[key]) {
-          el.setAttribute('title',translations[key])
-        }
+        if (translations[key]) el.setAttribute('title', translations[key]);
       });
-
     }
-
-
-    // تغيير اللغة من الـselect
     document.getElementById('langSelector').addEventListener('change', async function () {
       await setLanguage(this.value);
-      localStorage.setItem("lng", this.value)
-      clearMessages()
+      localStorage.setItem("lng", this.value);
+      clearMessages();
     });
 
-    // _______________________________________/
-    // _______________________________________/
-
-
+    // _____________ 2) الدوال العامة
     function logout() {
       localStorage.removeItem('authToken');
       window.location.href = 'login.html';
     }
-
-    // إظهار/إخفاء شاشة التحميل
     function showLoading() { document.getElementById('loadingOverlay').style.display = 'flex'; }
     function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
-
-    // عرض رسائل
     function showError(msg) {
       document.getElementById('errorMsg').textContent = msg;
       document.getElementById('errorMsg').style.display = 'block';
@@ -544,10 +504,7 @@
       document.getElementById('successMsg').style.display = 'none';
     }
 
-    /**
-     * الدالة الرئيسية: تجلب الأجهزة + الموظفين المحليين + موظفي كل جهاز
-     * وتعرض غير المسجلين.
-     */
+    // _____________ 3) تحميل بيانات "الموظفون غير المسجلين"
     async function loadUnregisteredEmployees() {
       clearMessages();
       showLoading();
@@ -561,8 +518,7 @@
 
         // 3) جلب الموظفين من كل جهاز
         let allDeviceUsers = [];
-
-        let notActiveDevices = []
+        let notActiveDevices = [];
 
         for (const dev of devicesList) {
           const deviceName = dev.name || getTranslate("Device without name");
@@ -572,37 +528,32 @@
           // جلب المستخدمين من هذا الجهاز
           const deviceUsers = await fetchDeviceUsers(serverIp, serial);
 
-          if(typeof deviceUsers == 'string') {
-
-            notActiveDevices.push(deviceName)
-
+          // إذا لم نتمكن من جلب أي بيانات (أو حصل خطأ في الاستجابة)
+          if (typeof deviceUsers === 'string') {
+            notActiveDevices.push(deviceName);
           } else {
-
             // إضافة معلومات الجهاز لكل مستخدم (اختياري)
             deviceUsers.forEach(u => {
               u.device_name = deviceName;
               u.device_sn = serial;
             });
-  
             // دمج في مصفوفة واحدة
             allDeviceUsers = allDeviceUsers.concat(deviceUsers);
-            
           }
-
         }
 
         // 4) تصفية من هم غير موجودين في الـ DB
         unregisteredList = allDeviceUsers.filter(du => {
-          const found = allLocalEmployees.some(le => le.enroll_id == du.enrollid);
-          return !found;
+          return !allLocalEmployees.some(le => le.enroll_id == du.enrollid);
         });
 
         // 5) عرض الجدول
         await renderUnregistered(unregisteredList);
 
         showSuccess(getTranslate("The list of unregistered employees has been successfully fetched."));
-        if(notActiveDevices.length) showError(getTranslate("Failed to fetch device users") + ' ' + notActiveDevices.join(' , '));
-        document.getElementById('successMsg').style.display = 'block';
+        if (notActiveDevices.length) {
+          showError(getTranslate("Failed to fetch device users") + ' ' + notActiveDevices.join(' , '));
+        }
 
       } catch (err) {
         showError(getTranslate("An error occurred: ") + err.message);
@@ -611,7 +562,7 @@
       }
     }
 
-    // جلب قائمة الأجهزة من السيرفر (مثلاً منفذ 3500)
+    // جلب قائمة الأجهزة من الـ API
     async function fetchDevices() {
       const safeToken = removeNonASCII(authToken);
       const myHeaders = new Headers();
@@ -644,14 +595,11 @@
       }
 
       const responseData = await resp.json();
-      // إعادة مصفوفة الموظفين فقط
-      return responseData.data;
+      return responseData.data; // مصفوفة الموظفين
     }
 
-    // جلب موظفي جهاز معيّن باستخدام serverIP + sn
+    // جلب مستخدمي جهاز معيّن
     async function fetchDeviceUsers(serverIp, serial) {
-      // قد يكون المنفذ 4000 مثلاً، عدّلها حسب الحاجة
-      // تحتاج توكن خاص بالأجهزة (إن كان مختلفاً)
       const deviceToken = getTranslate("<Put device token here>");
       const safeDeviceToken = removeNonASCII(deviceToken);
 
@@ -659,13 +607,8 @@
       myHeaders.append('Authorization', 'Bearer ' + safeDeviceToken);
       myHeaders.append('Content-Type', 'application/json');
 
-      // مثال لاستدعاء getuserlist:
       const url = `${serverIp}/api/getuserlist`;
-      const bodyObj = {
-        "sn": serial,
-        "from": 0,
-        "to": 10000
-      };
+      const bodyObj = { sn: serial, from: 0, to: 10000 };
 
       const resp = await fetch(url, {
         method: 'POST',
@@ -674,33 +617,20 @@
       });
 
       if (!resp.ok) {
-
-        // throw new Error(`${getTranslate("Failed to fetch device users")} ${serial}`);
-        return serial
-
+        // نعيد serial للدلالة على تعذر الاتصال
+        return serial;
       } else {
-        
         const result = await resp.json();
         if (!result.data || !result.data.record) {
           return [];
         }
         return result.data.record;
-        
       }
-        
     }
 
-    /**
-     * جلب معلومات المستخدم التفصيلية من الـAPI الثاني (dynamic)
-     * - name        => اسم (قد يكون اسم الموظف)
-     * - departmant  => القسم
-     * - weekzone     => الأسبوع الزمني
-     * - record      => قد تكون صورة بصمة أو وجه (base64)
-     * - card        => رقم الكارت (إن وجد)
-     * - starttime   => يمكن اعتباره joining_date إن وجد
-     */
+    // دالة لجلب المعلومات التفصيلية لمستخدم واحد عبر الـAPI الديناميكي
     async function fetchDynamicUserInfo(sn, enrollid, backupnum) {
-      // ضع التوكن الصحيح إن كنت تستخدم توكنًا مختلفًا
+      // اكتب هنا التوكن المناسب لجهازك
       const devToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.---';
       const safeDevToken = removeNonASCII(devToken);
 
@@ -709,12 +639,12 @@
       myHeaders.append('Authorization', 'Bearer ' + safeDevToken);
 
       const bodyObj = {
-        "sn": sn,
-        "payload": {
-          "password": "aa",
-          "cmd": "getuserinfo",
-          "enrollid": Number(enrollid),
-          "backupnum": Number(backupnum)
+        sn,
+        payload: {
+          password: "aa",
+          cmd: "getuserinfo",
+          enrollid: Number(enrollid),
+          backupnum: Number(backupnum)
         }
       };
 
@@ -731,41 +661,18 @@
       const result = await resp.json();
       if (!result.data) return {};
 
-      // من واقع الاستجابة في الصورة:
-      //  "name", "departmant", "weekzone", "backupnum", "record", "card", "starttime"...
+      // الحقول المهمة
       return {
-        userName: result.data.name || '',
+        userName:   result.data.name       || '',
         department: result.data.departmant || '',
-        weekzone: result.data.zoneid || '',
-        base64Data: result.data.record || '',
-        card: result.data.card || '',
-        starttime: result.data.starttime || ''
+        weekzone:   result.data.zoneid     || '',
+        base64Data: result.data.record     || '',
+        card:       result.data.card       || '',
+        starttime:  result.data.starttime  || ''
       };
     }
 
-
-    async function fetchDynamicUserInfofromTwoItems(sn, enrollid, backupnum) {
-
-      const backupnums = backupnum.split(',,')
-
-      let info1 = await fetchDynamicUserInfo(sn, enrollid, backupnums[0])
-      let info2 = await fetchDynamicUserInfo(sn, enrollid, backupnums[1])
-
-      if(info1.card) {
-        info1.fingerprintVal = info1.base64Data
-        info1.base64Data = info2.base64Data
-      } else {
-        info1.card = info2.card
-        info1.fingerprintVal = info2.record
-      }
-
-      return info1
-
-    }
-
-
-    
-    // دالة الرسم الأساسية
+    // _____________ 4) عرض جدول الموظفين غير المسجلين
     async function renderUnregistered(list) {
       const tb = document.querySelector('#unregisteredTable tbody');
       tb.innerHTML = '';
@@ -773,7 +680,6 @@
       for (let i = 0; i < list.length; i++) {
         const item = list[i];
 
-        // تحديد نوع البصمة
         let backupType = getTranslate("Not none");
         if (item.backupnum == 0) {
           backupType = getTranslate("Fingerprint");
@@ -783,14 +689,13 @@
           backupType = getTranslate("Face");
         }
 
-        // حقول للعرض في الجدول
+        // نجلب بعض التفاصيل لعرضها في الجدول (اختياري)
         let deviceNameFromApi = '-';
         let department = '-';
         let weekzone = '-';
         let faceImgHtml = '-';
         let otherDataHtml = '-';
 
-        // نجلب بيانات المستخدم التفصيلية
         try {
           const info = await fetchDynamicUserInfo(item.device_sn, item.enrollid, item.backupnum);
 
@@ -798,26 +703,25 @@
           department = info.department || '-';
           weekzone = info.weekzone || '-';
 
-          // لو كانت بصمة وجه، نعرض الصورة
+          // إن كانت بصمة وجه نعرض الصورة
           if (item.backupnum == 50 && info.base64Data) {
             faceImgHtml = `
-              <img 
-                src="data:image/jpeg;base64,${info.base64Data}" 
+              <img
+                src="data:image/jpeg;base64,${info.base64Data}"
                 alt="${getTranslate("Face")}"
                 style="width: 70px; border-radius: 6px;">
             `;
           }
-          // لو لم تكن بصمة وجه، نعرض قيمة record في "بيانات أخرى"
+          // وإلا نعرض القيم في خانة "بيانات أخرى"
           else if (item.backupnum != 50 && info.base64Data) {
             otherDataHtml = `<div style="max-width:300px;overflow-wrap:break-word;">${info.base64Data}</div>`;
           }
-
         } catch (e) {
           console.warn("fetchDynamicUserInfo error:", e);
         }
 
         const tr = document.createElement('tr');
-        tr.id = item.enrollid 
+        tr.id = `${item.device_sn}__${item.enrollid}__${item.backupnum}`;
         tr.innerHTML = `
           <td>${i + 1}</td>
           <td>${item.device_sn || ''}</td>
@@ -829,116 +733,125 @@
           <td>${department}</td>
           <td>${otherDataHtml}</td>
           <td>
-            <i class="bi bi-arrow-down-circle-fill actionIcon" data-lng-hover-title='Extract employee data' title=${getTranslate('Extract employee data')} onclick="pullEmployee('${item.device_sn}', '${item.enrollid}', '${item.backupnum}')"></i>
+            <i class="bi bi-arrow-down-circle-fill actionIcon"
+               data-lng-hover-title="Extract employee data"
+               title="${getTranslate('Extract employee data')}"
+               onclick="pullEmployee('${item.enrollid}')"></i>
           </td>
           <td>
-            <input type="checkbox" class="em_checkbox" value='${[item.device_sn,, item.enrollid,, item.backupnum]}'>
+            <input type="checkbox" class="em_checkbox" value="${item.enrollid}">
           </td>
         `;
         tb.appendChild(tr);
       }
 
-      const checkboxes = Array.from(document.querySelectorAll('.em_checkbox'))
+      // تحكّم في عرض زر (سحب المحدد) حسب عدد الاختيارات
+      const checkboxes = Array.from(document.querySelectorAll('.em_checkbox'));
       checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', _=> {
-          sellectedEmployees = checkboxes.filter(item => item.checked).map(item => item.value)
-          selectedBtn.style.display = sellectedEmployees.length? 'block' : 'none'
-        })
-      })
-
+        checkbox.addEventListener('change', () => {
+          sellectedEmployees = checkboxes.filter(item => item.checked).map(item => item.value);
+          selectedBtn.style.display = sellectedEmployees.length ? 'block' : 'none';
+        });
+      });
     }
 
-    let sellectedEmployees = []
-    const selectedBtn = document.getElementById('selectedBtn')
-    const selectedAllBtn = document.getElementById('selectedAllBtn')
+    let sellectedEmployees = [];
+    const selectedBtn = document.getElementById('selectedBtn');
+    const selectedAllBtn = document.getElementById('selectedAllBtn');
 
+    // سحب بيانات لعدة موظفين (محددين أو الجميع)
     async function pullMany(all = false) {
-
-      if(!unregisteredList.length) return alert(getTranslate('no_items'))
-
-      const checkboxes = Array.from(document.querySelectorAll('.em_checkbox'))
-
+      if (!unregisteredList.length) {
+        return alert(getTranslate('no_items'));
+      }
       clearMessages();
       showLoading();
 
-      let selectedData = all? unregisteredList.map(item => [item.device_sn, item.enrollid, item.backupnum]) : sellectedEmployees.map(item => item.split(',,')) 
-      selectedData = mergeArray(selectedData)
+      // لو زر "الجميع" => خذ كل الـ enrollid من القائمة
+      let targetEnrollIDs = all
+        ? unregisteredList.map(item => item.enrollid)
+        : sellectedEmployees;
 
-      for (let i = 0; i < selectedData.length; i++) {
-  
-        await pullEmployee(...selectedData[i], i+1, selectedData.length)
-  
-        if(i == selectedData.length-1) {
-          hideLoading();
-          selectedBtn.style.display ='none'
-          checkboxes.forEach(checkbox => checkbox.checked = false )
-        }
-  
+      // إزالة التكرار
+      targetEnrollIDs = [...new Set(targetEnrollIDs)];
+
+      // نفذ السحب لكل EnrollID
+      for (let i = 0; i < targetEnrollIDs.length; i++) {
+        const eID = targetEnrollIDs[i];
+        await pullEmployee(eID, i + 1, targetEnrollIDs.length);
       }
-
+      hideLoading();
+      selectedBtn.style.display = 'none';
     }
 
-    function mergeArray(arr) {
-      const map = new Map();
-      arr.forEach(([deviceSN, enrollid, backupnum]) => {
-        if (!map.has(enrollid)) {
-          map.set(enrollid, [deviceSN, enrollid, []]);
-        }
-        map.get(enrollid)[2].push(backupnum);
-      });
-      return [...map.values()].map(([deviceSN, enrollid, values]) => [deviceSN, enrollid, values.join(",,")]);
-    }
-
-
-
-    // دالة "سحب بيانات الموظف" وإضافته إلى قاعدة البيانات
-    async function pullEmployee(deviceSN, enrollid, backupnum, index= null, allLength=0) {
-
-      if(!index) {
+    /**
+     * دالة "سحب بيانات" موظف واحد بالاعتماد على enrollid
+     *  - نجمع كل backupnums التي تخص هذا الـenrollid من unregisteredList
+     *  - نجلب المعلومات التفصيلية لكل backupnum
+     *  - نحفظ في حقل image إذا كانت backupnum=50، وفي fingerprint إذا backupnum=0، وفي card إذا backupnum=11
+     */
+    async function pullEmployee(enrollid, index = null, totalCount = 1) {
+      // إظهار شاشة التحميل لو لم يكن استدعاء ضمن مجموعة
+      if (!index) {
         clearMessages();
         showLoading();
       }
 
       try {
-        // 1) نجلب المعلومات التفصيلية من الـAPI الديناميكي
-        const info = (typeof backupnum == 'string'&&backupnum.includes(',,'))? await fetchDynamicUserInfofromTwoItems(deviceSN, enrollid, backupnum) : await fetchDynamicUserInfo(deviceSN, enrollid, backupnum);
+        // نجمع كل الأسطر التي لها نفس enrollid
+        const sameEnrollItems = unregisteredList.filter(u => u.enrollid == enrollid);
 
-        // 2) تجهيز الحقول حسب الطلب
-        //    enroll_id = enrollid
-        //    name = info.userName
-        //    department = info.department
-        //    joining_date = info.starttime || تاريخ افتراضي
-        //    week_zone = info.weekzone
-        //    fingerprint = record إذا backupnum=11
-        //    image = record إذا backupnum=50
-        //    card = info.card (إن وجد)
-        //    leave_date = null
+        // حقول سيتم تعبئتها
+        let userName    = '';
+        let department  = '';
+        let weekzone    = 0;
+        let starttime   = '2025-01-01';
+        let faceVal     = ''; // للـimage
+        let fingerprintVal = ''; // للـfingerprint
+        let cardVal     = ''; // للـcard
 
-        let imageVal = '';
-        if ((backupnum.toString()).includes('50')) imageVal = info.base64Data;
+        // نجلب معلومات كل backupnum ونخزّن القيم المناسبة
+        for (const item of sameEnrollItems) {
+          const info = await fetchDynamicUserInfo(item.device_sn, item.enrollid, item.backupnum);
 
-        let fingerprintVal = '';
-        if (backupnum == 11) fingerprintVal = info.base64Data;
-        if(typeof backupnum == 'string'&&backupnum.includes(',,')) fingerprintVal = info.fingerprintVal 
-        
-        const bodyObj = {
-          enroll_id: Number(enrollid),
-          name: info.userName || 'NoName',
-          department: info.department || '',
-          joining_date: info.starttime || '2025-01-01',
-          leave_date: null,
-          week_zone: info.weekzone ? Number(info.weekzone) : 0,
-          card: info.card || '',
-          fingerprint: fingerprintVal,
-          image: "data:image/jpg;base64," + imageVal
-        };
+          if (info.userName && !userName)      userName = info.userName;
+          if (info.department && !department)  department = info.department;
+          if (info.weekzone && !weekzone)      weekzone = Number(info.weekzone);
+          if (info.starttime && starttime === '2025-01-01') starttime = info.starttime;
 
-        // 3) استدعاء API الإدخال في قاعدة البيانات
+          const bn = Number(item.backupnum);
+          if (bn === 50) {
+            // بصمة وجه => نخزّن في image
+            faceVal = info.base64Data; 
+          } else if (bn === 0) {
+            // بصمة إصبع => نخزّن في fingerprint كما هي
+            fingerprintVal = info.base64Data; 
+          } else if (bn === 11) {
+            // بطاقة => نخزّن رقم البطاقة في card
+            cardVal = info.card || '';
+          }
+        }
+
+        // بناء جسم الطلب
         const safeToken = removeNonASCII(authToken);
         const myHeaders = new Headers();
         myHeaders.append('Authorization', 'Bearer ' + safeToken);
         myHeaders.append('Content-Type', 'application/json');
 
+        const bodyObj = {
+          enroll_id: Number(enrollid),
+          name:       userName   || 'NoName',
+          department: department,
+          joining_date: starttime,
+          leave_date: null,
+          week_zone:  weekzone,
+          card:       cardVal,
+          fingerprint: fingerprintVal,
+          // إن كان لدينا بصمة وجه => نخزّن الصورة بصيغة data:image
+          image: faceVal ? `data:image/jpg;base64,${faceVal}` : ""
+        };
+
+        // استدعاء API الحفظ في قاعدة البيانات
         const resp = await fetch('https://timeattendhr.com/api/employees', {
           method: 'POST',
           headers: myHeaders,
@@ -951,17 +864,24 @@
         }
 
         // نجاح
-        const msg = index? `${getTranslate('done_extracted')} ${index} ${getTranslate('from')} ${allLength}` : `${getTranslate("success_msg")} (EnrollID = ${enrollid}).`
-        showSuccess(msg);
+        const doneMsg = index
+          ? `${getTranslate('done_extracted')} ${index} ${getTranslate('from')} ${totalCount}`
+          : `${getTranslate("success_msg")} (EnrollID = ${enrollid}).`;
+        showSuccess(doneMsg);
 
-        document.getElementById(enrollid).remove()
-        document.getElementById(enrollid)?.remove()
-        unregisteredList = unregisteredList.filter(item => item.enrollid != enrollid)
+        // إزالة الأسطر المتعلقة بهذا الموظف من الجدول
+        sameEnrollItems.forEach(item => {
+          const rowId = `${item.device_sn}__${item.enrollid}__${item.backupnum}`;
+          document.getElementById(rowId)?.remove();
+        });
 
-      } catch (err) {
-        showError(getTranslate("Error while retrieving employee data:") + err.message);
+        // إزالته من مصفوفة unregisteredList
+        unregisteredList = unregisteredList.filter(x => x.enrollid != enrollid);
+
+      } catch (error) {
+        showError(getTranslate("Error while retrieving employee data:") + error.message);
       } finally {
-        if(!index) hideLoading();
+        if (!index) hideLoading();
       }
     }
   </script>

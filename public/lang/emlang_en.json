@@ -56,8 +56,8 @@
     "allSchedule": "All Schedule",
     "sellectedSchedule": "Selected Schedule",
     "devices": "Devices",
-    "send_to_devices": "Send To Devices",
-    "face": "Face",
+    "send_to_devices": "Send Face To Devices",
+    "face": "Enroll Face",
     "card_number": "Card Number",
 
   
@@ -157,6 +157,7 @@
 
     "next": "Next",
     "prev": "Prev",
+    "send_fingerprint":"Send Finger Print ",
 
     
    "templates_msg_error_fetch": "Error in getting templates",
