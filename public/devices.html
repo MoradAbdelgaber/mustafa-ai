@@ -593,15 +593,16 @@
       <table id="devicesTable">
         <thead>
           <tr>
-            <th id="devices_table_th_no" data-lng="devices_table_th_no">#</th>
-            <th id="devices_table_th_name" data-lng="devices_table_th_name">Device Name</th>
-            <th id="devices_table_th_serial" data-lng="devices_table_th_serial">Serial</th>
-            <th id="devices_table_th_serverip" data-lng="devices_table_th_serverip">Server IP</th>
-            <th id="devices_table_th_status" data-lng="devices_table_th_status">Status</th>
-            <th id="devices_table_th_creation" data-lng="devices_table_th_creation">Creation</th>
-            <th id="devices_table_th_control" data-lng="devices_table_th_control">Control</th>
-            <th id="devices_table_th_actions" data-lng="devices_table_th_actions">Actions</th>
-            <th id="devices_table_th_connection" data-lng="devices_table_th_connection">Connection</th>
+            <th data-lng="devices_table_th_no">#</th>
+            <th data-lng="devices_table_th_name">Device Name</th>
+            <th data-lng="devices_table_th_serial">Serial</th>
+            <th data-lng="devices_table_th_serverip">Server IP</th>
+            <th data-lng="timeZone">timeZone</th>
+            <th data-lng="devices_table_th_status">Status</th>
+            <th data-lng="devices_table_th_creation">Creation</th>
+            <th data-lng="devices_table_th_control">Control</th>
+            <th data-lng="devices_table_th_actions">Actions</th>
+            <th data-lng="devices_table_th_connection">Connection</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -697,6 +698,10 @@
 
         <label id="devices_modal_serverip_label" data-lng="devices_modal_label_serverip" for="serverIp">ServerIP:</label>
         <input type="text" id="serverIp" placeholder="192.168.1.50" />
+
+        <label data-lng="timeZoneLable" for="deviceTimeZone">timeZone:</label>
+        <input list="timezones" id="deviceTimeZone" data-lng-placeholder="timeZone" />
+        <datalist id="timezones"></datalist>
 
         <label id="devices_modal_status_label" data-lng="devices_modal_label_status" for="deviceStatus">Status:</label>
         <select id="deviceStatus">
@@ -1700,6 +1705,7 @@
         return;
       }
       loadDevices();
+      renderTimeZones()
     }
 
     function logout() {
@@ -1779,6 +1785,7 @@
             <td>${d.name || ''}</td>
             <td>${d.serial || ''}</td>
             <td>${d.serverip || ''}</td>
+            <td>${d.timeZone || ''}</td>
             <td data-lng='${d.status ? 'devices_modal_status_option_true' : 'devices_modal_status_option_false'}'>${getTranslate(d.status ? 'devices_modal_status_option_true' : 'devices_modal_status_option_false')}</td>
             <td>${creationDate}</td>
             <td>
@@ -1864,6 +1871,9 @@
       document.getElementById('deviceName').value = '';
       document.getElementById('deviceSerial').value = '';
       document.getElementById('serverIp').value = 'https://hr-socket.timeattendhr.com';
+
+      document.getElementById('deviceTimeZone').value = Intl.DateTimeFormat().resolvedOptions().timeZone
+
       document.getElementById('deviceStatus').value = 'true';
 
       showModal();
@@ -1886,6 +1896,7 @@
         document.getElementById('deviceName').value = d.name || '';
         document.getElementById('deviceSerial').value = d.serial || '';
         document.getElementById('serverIp').value = d.serverip || '';
+        document.getElementById('deviceTimeZone').value = d.timeZone
         document.getElementById('deviceStatus').value = d.status ? 'true' : 'false';
 
         showModal();
@@ -1898,20 +1909,26 @@
 
     // حفظ (إضافة/تعديل)
     async function saveDevice() {
-      clearMessages();
-      showLoading();
 
       const deviceId = document.getElementById('deviceId').value;
       const name = document.getElementById('deviceName').value.trim();
       const serial = document.getElementById('deviceSerial').value.trim();
       const serverip = document.getElementById('serverIp').value.trim();
+      const timeZone = document.getElementById('deviceTimeZone').value
       const statusVal = (document.getElementById('deviceStatus').value === 'true');
+
+      if(!name || !serial || !serverip || !timeZone) return
+
+      clearMessages();
+      showLoading();
+
 
       const bodyObj = {
         name,
         serial,
+        serverip,
+        timeZone,
         status: statusVal,
-        serverip
       };
 
       try {
@@ -2073,6 +2090,27 @@
       cell.textContent = getTranslate('offline');
       cell.setAttribute('data-lng', 'offline')
     }
+
+
+
+    function renderTimeZones() {
+
+      const timeZones = Intl.supportedValuesOf("timeZone")
+      const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+      const input = document.getElementById('deviceTimeZone');
+      const list = document.getElementById('timezones');
+
+      timeZones.forEach(zone => {
+        const opt = document.createElement('option');
+        opt.value = zone;
+        list.appendChild(opt);
+      });
+
+      input.value = currentTimeZone
+
+    }      
+
 
     // إظهار/إخفاء مودال الجهاز
     function showModal() {
