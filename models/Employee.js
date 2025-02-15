@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 
 const employeeSchema = new Schema(
   {
-    enroll_id: { type: Number, required: true },
+    enroll_id: { type: String, required: true },
     serial_number: { type: String },
     insertion_date: { type: Date },
     aliasid: { type: String },
