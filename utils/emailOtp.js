@@ -3,7 +3,7 @@ const VerificationCodeModel = require("../models/VerificationCode");
 
 const sendEmail = async (options) => {
   const transporter = nodemailer.createTransport({
-    host: "iraq-soft.com", // Replace with your SMTP server (e.g., smtp.gmail.com)
+    host: "smtp.zoho.com",
     port: 465, // Common ports: 465 (SSL), 587 (TLS)
     secure: true, // `true` for port 465, `false` for other ports
     auth: {
