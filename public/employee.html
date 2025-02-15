@@ -33,6 +33,7 @@
       from {
         opacity: 0;
       }
+
       to {
         opacity: 1;
       }
@@ -361,6 +362,7 @@
         transform: scale(0.9);
         opacity: 0;
       }
+
       to {
         transform: scale(1);
         opacity: 1;
@@ -518,6 +520,7 @@
       0% {
         transform: rotate(0deg);
       }
+
       100% {
         transform: rotate(360deg);
       }
@@ -619,24 +622,28 @@
       <div class="btns">
         <div style="display: flex; gap: 8px;">
           <button class="addEmployeeBtn" data-lng="addEmployeeBtn" onclick="openModalForAdd()"></button>
-          <button class="addEmployeeBtn" id="exportExcelBtn" style="background:#6f42c1;" onclick="exportEmployeesToExcel()">
+          <button class="addEmployeeBtn" id="exportExcelBtn" style="background:#6f42c1;"
+            onclick="exportEmployeesToExcel()">
             Export Excel
           </button>
           <label for="importExcelInput" class="addEmployeeBtn" style="background:#fd7e14; cursor:pointer;">
             Import Excel
           </label>
-          <input type="file" id="importExcelInput" accept=".xlsx,.xls" style="display:none" onchange="importEmployeesFromExcel(event)" />
+          <input type="file" id="importExcelInput" accept=".xlsx,.xls" style="display:none"
+            onchange="importEmployeesFromExcel(event)" />
         </div>
 
         <div style="display: flex; gap: 8px;">
           <button class="selectedBtn" id="selectedBtn" data-lng="sellectedSchedule"></button>
           <button class="allSelectedBtn" id="allSelectedBtn" data-lng="allSchedule"></button>
           <!-- زر تعيين الأجهزة للموظفين المحددين -->
-          <button class="selectedBtn" id="devicesSelectedBtn" style="background:#6f42c1; display:none;" onclick="openDevicesModalForSelected()">
-           Assign Devices 
+          <button class="selectedBtn" id="devicesSelectedBtn" style="background:#6f42c1; display:none;"
+            onclick="openDevicesModalForSelected()">
+            Assign Devices
           </button>
           <!-- زر حذف المحددين -->
-          <button class="selectedBtn" id="deleteSelectedBtn" style="background:#dc3545; display:none;" onclick="deleteSelectedEmployees()">
+          <button class="selectedBtn" id="deleteSelectedBtn" style="background:#dc3545; display:none;"
+            onclick="deleteSelectedEmployees()">
             Delete Selected Employee
           </button>
           <!-- زر لتحديد كل الموظفين في الصفحة -->
@@ -750,7 +757,8 @@
       <div class="modalBody">
         <label data-lng="newPassword" for="resetInput"></label>
         <input type="text" id="resetInput" data-lng-placeholder="newPasswordPlac" />
-        <button class="modalSaveBtn" style="margin-top:10px;" data-lng="btnSaveEmployee" onclick="resetPassword()"></button>
+        <button class="modalSaveBtn" style="margin-top:10px;" data-lng="btnSaveEmployee"
+          onclick="resetPassword()"></button>
       </div>
     </div>
   </div>
@@ -773,8 +781,9 @@
 
         <div id="passUsernameContainer" style="position: relative;">
           <label data-lng="username" for="username"></label>
-          <input id="username" data-lng-placeholder="username_plac" oninput="checkUsername()"/>
-          <p id="err_msg" style="font-size: 13px;color: red;position: absolute;top: 43px; display: none;" data-lng="username_used"></p>
+          <input id="username" data-lng-placeholder="username_plac" oninput="checkUsername()" />
+          <p id="err_msg" style="font-size: 13px;color: red;position: absolute;top: 43px; display: none;"
+            data-lng="username_used"></p>
 
           <label data-lng="password" for="password"></label>
           <input id="password" data-lng-placeholder="password_plac" />
@@ -849,7 +858,8 @@
             <button class="modalSaveBtn restBtn" data-lng="btnAddRest" onclick="addScheduleDay(true)"></button>
             <button class="modalSaveBtn" data-lng="btnAddDay" onclick="addScheduleDay(false)"></button>
           </div>
-          <button class="saveScheduleBtn" id="saveScheduleBtn" data-lng="btnSaveEmployee" onclick="saveScheduleToEmployee()"></button>
+          <button class="saveScheduleBtn" id="saveScheduleBtn" data-lng="btnSaveEmployee"
+            onclick="saveScheduleToEmployee()"></button>
         </div>
       </div>
     </div>
@@ -971,7 +981,7 @@
         <select id="devicesSelect" multiple></select>
 
         <button class="modalSaveBtn" style="background:#fd7e14;" onclick="selectAllDevicesInModal()">
-          All Devices 
+          All Devices
         </button>
         <button class="modalSaveBtn" data-lng="btnSaveDevices" onclick="saveEmployeeDevices()"></button>
       </div>
@@ -1081,7 +1091,7 @@
       document.querySelectorAll('[data-lng-hover-title]').forEach(el => {
         const key = el.getAttribute('data-lng-hover-title');
         if (translations[key]) {
-          el.setAttribute('title',translations[key])
+          el.setAttribute('title', translations[key])
         }
       });
     }
@@ -1182,7 +1192,7 @@
         allDepartments = data;
 
         // حفظ أول قسم
-        if(allDepartments.length > 0) {
+        if (allDepartments.length > 0) {
           firstDepartmentId = allDepartments[0]._id;
           firstDepartmentName = allDepartments[0].department_name;
         }
@@ -1252,11 +1262,11 @@
     let openModalFromAllSellection = false
 
     const selectedBtn = document.getElementById('selectedBtn')
-    selectedBtn.addEventListener('click', _=> {
+    selectedBtn.addEventListener('click', _ => {
       openModalFromSellection = true
       openScheduleModal(-1)
     })
-    document.getElementById('allSelectedBtn').addEventListener('click', _=> {
+    document.getElementById('allSelectedBtn').addEventListener('click', _ => {
       openModalFromSellection = true
       openModalFromAllSellection = true
       openScheduleModal(-1)
@@ -1279,12 +1289,12 @@
         const dateLeave = emp.leave_date ? emp.leave_date.split('T')[0] : '';
         const departmentName = emp.department || '';
 
-        let imgTag = `<img src="${emp.image||'./images/no_image.png'}" alt="" class="employeeImage" />`
-        
+        let imgTag = `<img src="${emp.image || './images/no_image.png'}" alt="" class="employeeImage" />`
+
         const devicesCount = Array.isArray(emp.devices) ? emp.devices.length : 0;
 
         const tr = document.createElement('tr');
-        tr.innerHTML = 
+        tr.innerHTML =
           `<td>${globalIndex + 1}</td>
           <td>${imgTag}</td>
           <td>${emp.enroll_id || ''}</td>
@@ -1333,13 +1343,13 @@
         `;
         tb.appendChild(tr);
       });
-      
+
       const checkboxes = Array.from(document.querySelectorAll('.em_checkbox'))
       checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', _=> {
+        checkbox.addEventListener('change', _ => {
           sellectedEmployees = checkboxes.filter(item => item.checked).map(item => item.value)
-          selectedBtn.style.display = sellectedEmployees.length? 'block' : 'none'
-          devicesSelectedBtn.style.display = sellectedEmployees.length? 'block' : 'none'
+          selectedBtn.style.display = sellectedEmployees.length ? 'block' : 'none'
+          devicesSelectedBtn.style.display = sellectedEmployees.length ? 'block' : 'none'
         })
       })
     }
@@ -1550,7 +1560,7 @@
       successMsg.textContent = '';
 
       const newPass = input.value
-      if(!newPass?.trim()) return input.value = ''
+      if (!newPass?.trim()) return input.value = ''
 
       const body = {
         employee: currentEmployeeForReset._id,
@@ -1573,7 +1583,7 @@
       } catch (err) {
         errorMsg.textContent = err.message;
       }
-      
+
       input.value = ''
       closeResetModal()
     }
@@ -1667,7 +1677,7 @@
         imageBase64 = await fileToBase64(file);
       }
       const bodyObj = {
-        enroll_id: +enrollId,
+        enroll_id: enrollId,
         name: empName,
         department_id: departmentId,
         department: depName,
@@ -1678,7 +1688,7 @@
         card: empCard
       };
 
-      if(!dbId) {
+      if (!dbId) {
         const password = document.getElementById('password').value.trim();
         const username = document.getElementById('username').value.trim();
         bodyObj.password = password
@@ -1704,7 +1714,7 @@
           },
           body: JSON.stringify(bodyObj)
         });
-        if (!resp.ok) throw new Error(getTranslate(dbId? "edit_emp_err" : "add_emp_err"));
+        if (!resp.ok) throw new Error(getTranslate(dbId ? "edit_emp_err" : "add_emp_err"));
         successMsg.textContent = getTranslate('success_msg');
         closeEmployeeModal();
         loadEmployees();
@@ -1722,7 +1732,7 @@
       input.value = input.value.trim()
       const inputValue = input.value
 
-      if(!inputValue) {
+      if (!inputValue) {
         errMsg.style.display = 'none'
         saveBtn.style.pointerEvents = 'auto'
         return saveBtn.style.opacity = 1
@@ -1734,7 +1744,7 @@
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         const respons = await resp.json()
-        if(respons.exists) {
+        if (respons.exists) {
           errMsg.style.display = 'block'
           saveBtn.style.pointerEvents = 'none'
           return saveBtn.style.opacity = .5
@@ -1803,9 +1813,9 @@
     // جدول الدوام
     function openScheduleModal(indexInFiltered) {
       document.getElementById('templateSelect').value = ''
-      if(indexInFiltered != -1) {
+      if (indexInFiltered != -1) {
         const emp = filteredEmployees[indexInFiltered];
-        if(emp.weekSchedulesId) document.getElementById('templateSelect').value = emp.weekSchedulesId
+        if (emp.weekSchedulesId) document.getElementById('templateSelect').value = emp.weekSchedulesId
         currentEmployeeIndex = findEmployeeIndexInAll(emp._id);
         currentSchedules = emp.weekSchedules || [];
         renderSchedule(currentSchedules);
@@ -1825,7 +1835,7 @@
       tb.innerHTML = '';
       sch.forEach((dayObj, i) => {
         let row = document.createElement('tr');
-        row.innerHTML = 
+        row.innerHTML =
           `<td>${dayObj.day || ''}</td>
           <td>${dayObj.startTime || ''}</td>
           <td>${dayObj.endTime || ''}</td>
@@ -1840,14 +1850,14 @@
       });
     }
 
-    function addScheduleDay(isRest=false) {
+    function addScheduleDay(isRest = false) {
       const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
       if (currentSchedules.length === 0) {
         currentSchedules.push({
           day: 'Sun',
-          startTime: isRest? '00:00:00' : '08:00:00',
-          endTime: isRest? '00:00:00' : '17:00:00',
-          overtimeStart: isRest? '00:00:00' : '17:30:00',
+          startTime: isRest ? '00:00:00' : '08:00:00',
+          endTime: isRest ? '00:00:00' : '17:00:00',
+          overtimeStart: isRest ? '00:00:00' : '17:30:00',
           endDayOffset: 0,
           hourPrice: 0,
           overtimePrice: 0,
@@ -1883,9 +1893,9 @@
         }
         let newDayObj = { ...lastDayObj };
         newDayObj.day = dayOrder[dayOrderIndex + 1];
-        newDayObj.startTime = isRest? '00:00:00' : '08:00:00'
-        newDayObj.endTime = isRest? '00:00:00' : '17:00:00'
-        newDayObj.overtimeStart = isRest? '00:00:00' : '17:30:00'
+        newDayObj.startTime = isRest ? '00:00:00' : '08:00:00'
+        newDayObj.endTime = isRest ? '00:00:00' : '17:00:00'
+        newDayObj.overtimeStart = isRest ? '00:00:00' : '17:30:00'
         currentSchedules.push(newDayObj);
       }
       renderSchedule(currentSchedules);
@@ -1992,13 +2002,13 @@
       const successMsg = document.getElementById('successMsg');
       errorMsg.textContent = '';
       successMsg.textContent = '';
-      if(openModalFromSellection) {
+      if (openModalFromSellection) {
         await saveScheduleToMultiEmployee(errorMsg, successMsg)
       } else {
         const emp = allEmployees[currentEmployeeIndex];
         emp.weekSchedules = currentSchedules;
         const weekSchedulesId = document.getElementById('templateSelect').value
-        if(weekSchedulesId) emp.weekSchedulesId = weekSchedulesId
+        if (weekSchedulesId) emp.weekSchedulesId = weekSchedulesId
 
         try {
           const resp = await fetch(`https://timeattendhr.com/api/employees/${emp._id}`, {
@@ -2020,9 +2030,9 @@
 
     async function saveScheduleToMultiEmployee(errMsgEl, successMsgEl) {
       const body = { update: { weekSchedules: currentSchedules } }
-      openModalFromAllSellection? body.all = true : body.ids = sellectedEmployees
+      openModalFromAllSellection ? body.all = true : body.ids = sellectedEmployees
       const weekSchedulesId = document.getElementById('templateSelect').value
-      if(weekSchedulesId) body.weekSchedulesId = weekSchedulesId
+      if (weekSchedulesId) body.weekSchedulesId = weekSchedulesId
 
       try {
         const resp = await fetch(`https://timeattendhr.com/api/employees/multi-update`, {
@@ -2076,7 +2086,7 @@
 
     function applyTemplate(ev) {
       const choosedTemplate = templates.filter(tem => tem._id == ev.target.value)[0]
-      if(!choosedTemplate) return
+      if (!choosedTemplate) return
       currentSchedules = [...choosedTemplate.weekSchedules]
       renderSchedule(currentSchedules)
     }
@@ -2096,7 +2106,7 @@
     }
 
     function openDevicesModalForSelected() {
-      if(!sellectedEmployees.length) return;
+      if (!sellectedEmployees.length) return;
       multiDevices = true;
       selectedEmployeesForDevices = [...sellectedEmployees];
       document.getElementById('devicesModalTitle').innerText = 'Assign Devices';
@@ -2123,12 +2133,12 @@
       successMsg.textContent = '';
       const selectedDevices = $('#devicesSelect').val() || [];
 
-      if(multiDevices) {
+      if (multiDevices) {
         showLoader();
         try {
-          for(const empId of selectedEmployeesForDevices) {
+          for (const empId of selectedEmployeesForDevices) {
             const empObj = allEmployees.find(e => e._id === empId);
-            if(!empObj) continue;
+            if (!empObj) continue;
             empObj.devices = selectedDevices;
             await fetch(`https://timeattendhr.com/api/employees/${empObj._id}`, {
               method: 'PUT',
@@ -2315,7 +2325,7 @@
         const bodyObj = {
           sn: sn,
           userInfo: {
-            enrollid: +emp.enroll_id,
+            enrollid: emp.enroll_id,
             name: emp.name || '',
             backupnum: 50,
             admin: faceAdmin ? 1 : 0
@@ -2397,7 +2407,7 @@
         const bodyObj = {
           sn: sn,
           userInfo: {
-            enrollid: +emp.enroll_id,
+            enrollid: emp.enroll_id,
             name: emp.name || '',
             backupnum: 0
           }
@@ -2429,7 +2439,7 @@
           body: JSON.stringify(updateBody)
         });
         if (!updateResp.ok) throw new Error('DB update fail');
-        
+
         successMsg.textContent = getTranslate("success_msg");
         closeFingerModal();
         loadEmployees();
@@ -2475,7 +2485,7 @@
         const bodyObj = {
           sn: sn,
           userInfo: {
-            enrollid: +emp.enroll_id,
+            enrollid: emp.enroll_id,
             name: emp.name || '',
             backupnum: 11
           }
@@ -2584,7 +2594,7 @@
     // الاستيراد من إكسل
     async function importEmployeesFromExcel(event) {
       const file = event.target.files[0];
-      if(!file) return;
+      if (!file) return;
       const errorMsg = document.getElementById('errorMsg');
       const successMsg = document.getElementById('successMsg');
       errorMsg.textContent = '';
@@ -2602,9 +2612,9 @@
           const rows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
           const header = rows[0];
-          const needed = ["enroll_id","name","department_id","department","joining_date","leave_date","main_salary","week_zone","card"];
+          const needed = ["enroll_id", "name", "department_id", "department", "joining_date", "leave_date", "main_salary", "week_zone", "card"];
           const sameHeader = JSON.stringify(header) === JSON.stringify(needed);
-          if(!sameHeader) {
+          if (!sameHeader) {
             alert("صيغة الملف غير مطابقة. يرجى استخدام الملف الذي تم تصديره.");
             hideLoader();
             return;
@@ -2640,17 +2650,17 @@
 
     // أهم جزء: نعطي قسم افتراضي إذا كان department_id فارغ
     async function processImportedEmployees(importList) {
-      for(let i=0; i<importList.length; i++) {
+      for (let i = 0; i < importList.length; i++) {
         const row = importList[i];
-        if(!row.enroll_id) {
+        if (!row.enroll_id) {
           continue;
         }
 
         let depId = row.department_id;
         let depName = row.department;
-        if(!depId && firstDepartmentId) {
+        if (!depId && firstDepartmentId) {
           depId = firstDepartmentId;
-          depName = firstDepartmentName; 
+          depName = firstDepartmentName;
         }
 
         const existingEmp = allEmployees.find(e => e.enroll_id == row.enroll_id);
@@ -2669,7 +2679,7 @@
         try {
           let method = 'POST';
           let url = 'https://timeattendhr.com/api/employees';
-          if(existingEmp) {
+          if (existingEmp) {
             method = 'PUT';
             url = `https://timeattendhr.com/api/employees/${existingEmp._id}`;
           }
@@ -2686,11 +2696,11 @@
         }
       }
     }
-    
+
     /****************************************************************
      * 1) دالة لتحديد كل الموظفين الموجودين في الصفحة الحالية فقط
      ****************************************************************/
-     function selectAllInPage() {
+    function selectAllInPage() {
       const checkboxes = Array.from(document.querySelectorAll('.em_checkbox'));
       checkboxes.forEach(ch => {
         ch.checked = true;
@@ -2705,8 +2715,8 @@
      * 2) دالة لحذف كل الموظفين المحددين
      ****************************************************************/
     async function deleteSelectedEmployees() {
-      if(!sellectedEmployees.length) return;
-      if(!confirm("Are U Sure From Delete ?")) return;
+      if (!sellectedEmployees.length) return;
+      if (!confirm("Are U Sure From Delete ?")) return;
 
       const errorMsg = document.getElementById('errorMsg');
       const successMsg = document.getElementById('successMsg');
@@ -2716,18 +2726,18 @@
       showLoader();
 
       try {
-        for(const empId of sellectedEmployees) {
+        for (const empId of sellectedEmployees) {
           const resp = await fetch(`https://timeattendhr.com/api/employees/${empId}`, {
             method: 'DELETE',
             headers: { 'Authorization': 'Bearer ' + authToken }
           });
-          if(!resp.ok) {
+          if (!resp.ok) {
             const txt = await resp.text();
             console.error("Error deleting", empId, txt);
           }
         }
         successMsg.textContent = "تم الحذف بنجاح";
-      } catch(err) {
+      } catch (err) {
         errorMsg.textContent = err.message;
       } finally {
         sellectedEmployees = [];
@@ -2737,4 +2747,5 @@
     }
   </script>
 </body>
+
 </html>
