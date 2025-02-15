@@ -1,5 +1,6 @@
 {
     "login_title": "تسجيل الدخول",
+    "register": "إنشاء حساب",
     "login_username_label": "اسم المستخدم",
     "login_password_label": "كلمة المرور",
     "login_button": "دخول",

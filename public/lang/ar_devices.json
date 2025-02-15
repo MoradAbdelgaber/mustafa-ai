@@ -39,6 +39,8 @@
   "devices_table_th_name": "اسم الجهاز",
   "devices_table_th_serial": "الرقم التسلسلي",
   "devices_table_th_serverip": "IP السيرفر",
+  "timeZone": "المنطقة الزمنية",
+  "timeZoneLable": "المنطقة الزمنية: ",
   "devices_table_th_status": "الحالة",
   "devices_table_th_creation": "تاريخ الإضافة",
   "devices_table_th_control": "التحكم",

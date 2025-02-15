@@ -1,0 +1,24 @@
+{
+  "page_title": "Register - Attendance System",
+  "register": "Register",
+  "displayName": "Account Name",
+  "register_username_label": "Username",
+  "register_password_label": "Password",
+  "register_password_confirm": "Confirm Password",
+  "emailLabel": "Email",
+  "confirm": "Verify",
+  "code_sent": "Verification Code Sent Successfully",
+  "code": "Verification Code",
+  "codePlace": "Enter code",
+  "register_button": "Register",
+  
+  "register_main_heading": "Attendance Management System",
+  "register_main_paragraph": "Welcome to the best system for managing employee attendance. Monitor your system smartly and easily, and get comprehensive reports at any time.",
+
+  "register_error_generic": "Register error",
+  "register_error_fail": "Register failed",
+  "notValidEmail" : "Not Valid Email",
+  "sendingCodeErr" : "Error in sending verification code",
+  "errInEnterData" : "Error in form data",
+  "errInconfirmPass" : "Error in confirm Password"
+}

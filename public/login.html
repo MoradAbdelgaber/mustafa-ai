@@ -174,17 +174,15 @@
         <label id="login_password_label" for="pass"></label>
         <input type="password" id="pass" placeholder="">
 
-        <button id="login_button" onclick="login()">Sign In</button>
+        <button id="login_button" onclick="login()"></button>
+        <button style="background: #17a2b8;margin-top: 12px;" id="register_button" onclick="window.location.href = 'register.html'"></button>
       </div>
     </div>
 
     <!-- القسم السفلي: معلومات أو شعار -->
     <div class="bottom-section">
-      <h1 id="login_main_heading">Attendance Management System</h1>
-      <p id="login_main_paragraph">
-        Welcome to the best system for managing employee attendance. Monitor your system smartly and easily, and get
-        comprehensive reports at any time.
-      </p>
+      <h1 id="login_main_heading"></h1>
+      <p id="login_main_paragraph"></p>
     </div>
   </div>
 
@@ -223,6 +221,7 @@
       document.getElementById('login_username_label').textContent = translations['login_username_label'];
       document.getElementById('login_password_label').textContent = translations['login_password_label'];
       document.getElementById('login_button').textContent = translations['login_button'];
+      document.getElementById('register_button').textContent = translations['register'];
 
       // placeholders
       document.getElementById('user_name').placeholder = translations['login_placeholder_username'];
