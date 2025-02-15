@@ -2663,9 +2663,10 @@
           depName = firstDepartmentName;
         }
 
+
         const existingEmp = allEmployees.find(e => e.enroll_id == row.enroll_id);
         const body = {
-          enroll_id: +row.enroll_id,
+          enroll_id: row.enroll_id,
           name: row.name || '',
           department_id: depId || '',
           department: depName || '',
