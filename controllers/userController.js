@@ -2,10 +2,20 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const {
+  sendVerificationEmail,
+  checkVerificationCode,
+} = require("../utils/emailOtp");
 
 exports.registerUser = async (req, res) => {
   try {
-    const { user_name, pass, display_name, timeZone } = req.body;
+    const { user_name, pass, display_name, timeZone, email, code } = req.body;
+
+    //verify email
+    const isVerified = await checkVerificationCode(email, code);
+    if (!isVerified) {
+      return res.status(400).json({ message: "Invalid verification code" });
+    }
 
     // تأكد أنه غير موجود
     const existingUser = await User.findOne({ user_name });
@@ -22,9 +32,30 @@ exports.registerUser = async (req, res) => {
       pass: hashedPass,
       display_name,
       timeZone,
+      email,
     });
     await newUser.save();
     res.status(201).json({ message: "User registered successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+exports.verifyEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    // تأكد أنه غير موجود
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "email already used" });
+    }
+
+    // تشفير كلمة المرور
+    await sendVerificationEmail(email);
+
+    res.status(201).json({ success: true });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });

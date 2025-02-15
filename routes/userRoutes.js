@@ -6,10 +6,12 @@ const {
   loginUser,
   getProfile,
   updateProfile,
+  verifyEmail,
 } = require("../controllers/userController");
 const { authMiddleware } = require("../auth");
 
 // لا نستخدم authMiddleware لأن التسجيل/الدخول لا يحتاجه
+router.post("/verify-email", verifyEmail);
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/profile", authMiddleware, getProfile);
