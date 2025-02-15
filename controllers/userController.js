@@ -109,6 +109,8 @@ exports.getProfile = async (req, res) => {
 exports.updateProfile = async (req, res) => {
   try {
     delete req.body.pass;
+    console.log(req.body);
+    console.log(req.user._id);
     const saved = await User.findByIdAndUpdate(req.user._id, req.body, {
       new: true,
     });
