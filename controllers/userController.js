@@ -108,6 +108,7 @@ exports.getProfile = async (req, res) => {
 
 exports.updateProfile = async (req, res) => {
   try {
+    console.log(req.body);
     delete req.body.pass;
     console.log(req.body);
     console.log(req.user._id);
