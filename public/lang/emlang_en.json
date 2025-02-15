@@ -133,6 +133,9 @@
     "lblFaceDeviceSelect": "Choose Device:",
     "lblFaceAdminCheck": "Enable Admin",
     "btnCaptureFace": "Capture Face",
+    "save": "save",
+
+    "lblFingerModalTitle": "Add Fingerprint",
   
     "lblCardModalTitle": "Capture Card",
     "lblCardDeviceSelect": "Choose Device:",

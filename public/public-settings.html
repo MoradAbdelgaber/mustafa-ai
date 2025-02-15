@@ -201,10 +201,12 @@
     /* start from here the content *//* start from here the content */
 
     /* حاوية البحث (Filters) */
-    .timezoneField {
+    .topSection {
       background: #fff;padding: 10px;margin-bottom: 15px;
-      display: flex;flex-wrap: wrap;gap: 10px;align-items: center;
       border-radius: 6px;box-shadow: 0 2px 5px #0000001a;
+    }
+    .timezoneField {
+      display: flex;flex-wrap: wrap;gap: 10px;align-items: center;
     }
     .timezoneField label { margin-right: 4px;font-weight: 500; }
     .timezoneField input{
@@ -212,14 +214,38 @@
       border: 1px solid #ccc;border-radius: 4px;
     }
 
+    .sec2{
+      display: flex;align-items: center;justify-content: space-between;
+      margin-block: 62px 15px;
+    }
+    .sec2 p{
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .saveBtn{
+      color: #fff;margin-block: 24px 6px;
+      background: #007bff;
+      border: none;
+      border-radius: 4px;
+      font-family: sans-serif;
+      padding: 8px 30px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+
+    .saveBtn:hover{ background: #0d66c4; }
+
     .addBtn {
       background: #28a745;
       color: #fff;
       padding: 8px 14px;
       border-radius: 4px;
-      margin-bottom: 15px;
       transition: background 0.3s;
-      font-size: 0.9rem;
+      font-size: .9rem;
+      font-family: sans-serif;
       border: none;
       cursor: pointer;
     }
@@ -458,12 +484,19 @@
       <div class="errorMsg" id="errorMsg"></div>
       <div class="successMsg" id="successMsg"></div>
 
-      <!-- <div class="timezoneField">
-        <label for="timeZone" data-lng="time_zone">Time Zone: </label>
-        <input id="timeZone" data-lng-placeholder="time_zone_place" placeholder="enter time zone" />
-      </div> -->
+      <div class="topSection">
+        <div class="timezoneField">
+          <label for="timeZone" data-lng="time_zone">Time Zone: </label>
+          <input list="timezones" id="timeZone" data-lng-placeholder="time_zone_place"/>
+          <datalist id="timezones"></datalist>
+        </div>
+        <button class="saveBtn" data-lng="save" onclick="saveProfile()"></button>
+      </div>
 
-      <button class="addBtn" onclick="openModalForAddTemplate()" data-lng="add_template"> </button>
+      <div class="sec2">
+        <p data-lng="templates"></p>
+        <button class="addBtn" onclick="openModalForAddTemplate()" data-lng="add_template"> </button>
+      </div>
 
       <table id="templatesTable">
         <thead>
@@ -725,6 +758,7 @@
       document.getElementById('langSelector').value = storedLang;
       setLanguage(storedLang).then(() => {
         loadTemplates()
+        getProfile()
       });
     }
 
@@ -780,6 +814,60 @@
     /////////////////// end language and auth /////
     /////////////////////////////////////////////////
 
+    async function getProfile() {
+      const resp = await fetch('https://timeattendhr.com/api/users/profile', {
+        headers: { 'Authorization': 'Bearer ' + authToken }
+      });
+      const data = await resp.json();
+      renderTimeZones(data.timeZone)
+    }
+
+    function renderTimeZones(currentVal) {
+
+      currentTimeZone = currentVal || Intl.DateTimeFormat().resolvedOptions().timeZone
+      const input = document.getElementById('timeZone');
+      input.value = currentTimeZone
+
+      const timeZones = Intl.supportedValuesOf("timeZone")
+      const list = document.getElementById('timezones');
+      timeZones.forEach(zone => {
+        const opt = document.createElement('option');
+        opt.value = zone;
+        list.appendChild(opt);
+      });
+
+    }      
+
+    async function saveProfile() {
+
+      const timeZone = document.getElementById('timeZone').value.trim();
+      if(!timeZone) return
+
+      const body = { timeZone }
+
+      try {
+
+        showLoading()
+
+        const resp = await fetch('https://timeattendhr.com/api/users/profile', {
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          method: 'PUT',
+          body: JSON.stringify(body)
+        });
+        if (!resp.ok) throw new Error(getTranslate('err_saving_timeZone'));
+
+        showSuccess(getTranslate('success_msg'))
+
+      } catch (err) {
+        showError(err.message);
+      } finally {
+        hideLoading();
+      }
+
+    }
 
 
     let templates = []

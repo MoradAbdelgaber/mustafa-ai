@@ -136,6 +136,9 @@
     "lblFaceDeviceSelect": "اختر الجهاز:",
     "lblFaceAdminCheck": "تفعيل أدمن",
     "btnCaptureFace": "سحب البصمة",
+    "save": "حفظ",
+
+    "lblFingerModalTitle": "سحب بصمة الإصبع",
   
     "lblCardModalTitle": "سحب رقم البطاقة",
     "lblCardDeviceSelect": "اختر الجهاز:",
