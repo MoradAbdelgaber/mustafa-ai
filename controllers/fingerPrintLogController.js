@@ -78,10 +78,8 @@ exports.createLogFromSocket = async (req, res) => {
     if (!device) throw new Error("Device not found");
 
     //format time to timezone
-    console.log("old time : " + req.body.time);
-    console.log("timeZone : " + device.owner.timeZone);
-    req.body.time = this.getBioTime(req.body.time, device.owner.timeZone);
-    console.log("formatted time : " + req.body.time);
+    const timeZone = device.timeZone || device.owner.timeZone;
+    req.body.time = this.getBioTime(req.body.time, timeZone);
 
     // جهّز بيانات السجل الجديدة
     const logData = {
