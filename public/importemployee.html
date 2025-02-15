@@ -18,8 +18,7 @@
   <!-- خطوط (Tajawal للعربية، Open Sans للإنجليزية) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
     rel="stylesheet">
 
   <style>
@@ -28,8 +27,13 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
 
     /* عند العربية: استخدم Tajawal مع اتجاه RTL */
@@ -37,6 +41,7 @@
       font-family: 'Tajawal', sans-serif;
       direction: rtl;
     }
+
     /* عند الإنجليزية: استخدم Open Sans مع اتجاه LTR */
     html[lang="en"] body {
       font-family: 'Open Sans', sans-serif;
@@ -272,8 +277,13 @@
     }
 
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
   </style>
 </head>
@@ -305,7 +315,8 @@
       <div class="btns">
         <div>
           <button class="selectedBtn" id="selectedBtn" data-lng="extract_selected" onclick="pullMany(false)"></button>
-          <button class="selectedAllBtn" id="selectedAllBtn" data-lng="extract_all_selected" onclick="pullMany(true)"></button>
+          <button class="selectedAllBtn" id="selectedAllBtn" data-lng="extract_all_selected"
+            onclick="pullMany(true)"></button>
         </div>
       </div>
 
@@ -400,6 +411,11 @@
   </div>
 
   <script>
+
+    function isNumber(str) {
+      return /^\d+$/.test(str); // Checks if the string consists only of digits
+    }
+
     // إزالة أي محرف خارج نطاق ASCII
     function removeNonASCII(str) {
       return str.replace(/[^\x00-\x7F]/g, '');
@@ -643,7 +659,7 @@
         payload: {
           password: "aa",
           cmd: "getuserinfo",
-          enrollid: Number(enrollid),
+          enrollid: isNumber(enrollid) ? +enrollid : enrollid,
           backupnum: Number(backupnum)
         }
       };
@@ -663,12 +679,12 @@
 
       // الحقول المهمة
       return {
-        userName:   result.data.name       || '',
+        userName: result.data.name || '',
         department: result.data.departmant || '',
-        weekzone:   result.data.zoneid     || '',
-        base64Data: result.data.record     || '',
-        card:       result.data.card       || '',
-        starttime:  result.data.starttime  || ''
+        weekzone: result.data.zoneid || '',
+        base64Data: result.data.record || '',
+        card: result.data.card || '',
+        starttime: result.data.starttime || ''
       };
     }
 
@@ -802,30 +818,30 @@
         const sameEnrollItems = unregisteredList.filter(u => u.enrollid == enrollid);
 
         // حقول سيتم تعبئتها
-        let userName    = '';
-        let department  = '';
-        let weekzone    = 0;
-        let starttime   = '2025-01-01';
-        let faceVal     = ''; // للـimage
+        let userName = '';
+        let department = '';
+        let weekzone = 0;
+        let starttime = '2025-01-01';
+        let faceVal = ''; // للـimage
         let fingerprintVal = ''; // للـfingerprint
-        let cardVal     = ''; // للـcard
+        let cardVal = ''; // للـcard
 
         // نجلب معلومات كل backupnum ونخزّن القيم المناسبة
         for (const item of sameEnrollItems) {
           const info = await fetchDynamicUserInfo(item.device_sn, item.enrollid, item.backupnum);
 
-          if (info.userName && !userName)      userName = info.userName;
-          if (info.department && !department)  department = info.department;
-          if (info.weekzone && !weekzone)      weekzone = Number(info.weekzone);
+          if (info.userName && !userName) userName = info.userName;
+          if (info.department && !department) department = info.department;
+          if (info.weekzone && !weekzone) weekzone = Number(info.weekzone);
           if (info.starttime && starttime === '2025-01-01') starttime = info.starttime;
 
           const bn = Number(item.backupnum);
           if (bn === 50) {
             // بصمة وجه => نخزّن في image
-            faceVal = info.base64Data; 
+            faceVal = info.base64Data;
           } else if (bn === 0) {
             // بصمة إصبع => نخزّن في fingerprint كما هي
-            fingerprintVal = info.base64Data; 
+            fingerprintVal = info.base64Data;
           } else if (bn === 11) {
             // بطاقة => نخزّن رقم البطاقة في card
             cardVal = info.card || '';
@@ -840,12 +856,12 @@
 
         const bodyObj = {
           enroll_id: Number(enrollid),
-          name:       userName   || 'NoName',
+          name: userName || 'NoName',
           department: department,
           joining_date: starttime,
           leave_date: null,
-          week_zone:  weekzone,
-          card:       cardVal,
+          week_zone: weekzone,
+          card: cardVal,
           fingerprint: fingerprintVal,
           // إن كان لدينا بصمة وجه => نخزّن الصورة بصيغة data:image
           image: faceVal ? `data:image/jpg;base64,${faceVal}` : ""

@@ -1159,6 +1159,10 @@
       window.location.href = 'login.html';
     }
 
+    function isNumber(str) {
+      return /^\d+$/.test(str); // Checks if the string consists only of digits
+    }
+
     // جلب الموظفين
     async function loadEmployees() {
       const errorMsg = document.getElementById('errorMsg');
@@ -1368,7 +1372,7 @@
         }
         const recordBase64 = emp.image || '';
         const userInfoTemplate = {
-          enrollid: emp.enroll_id,
+          enrollid: isVa,
           name: emp.name || '',
           backupnum: 50,
           admin: 0,
@@ -1423,7 +1427,7 @@
           throw new Error('No fingerprint data available for this employee.');
         }
         const userInfoTemplate = {
-          enrollid: emp.enroll_id,
+          enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : '',
           name: emp.name || '',
           backupnum: 0,
           admin: 0,
@@ -2193,7 +2197,7 @@
         }
         const recordBase64 = emp.image || '';
         const userInfoTemplate = {
-          enrollid: emp.enroll_id,
+          enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : emp.enroll_id,
           name: emp.name || '',
           backupnum: 50,
           admin: 0,
@@ -2248,7 +2252,7 @@
           throw new Error('No fingerprint data available for this employee.');
         }
         const userInfoTemplate = {
-          enrollid: emp.enroll_id,
+          enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : emp.enroll_id,
           name: emp.name || '',
           backupnum: 0,
           admin: 0,
@@ -2325,7 +2329,7 @@
         const bodyObj = {
           sn: sn,
           userInfo: {
-            enrollid: emp.enroll_id,
+            enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : emp.enroll_id,
             name: emp.name || '',
             backupnum: 50,
             admin: faceAdmin ? 1 : 0
@@ -2407,7 +2411,7 @@
         const bodyObj = {
           sn: sn,
           userInfo: {
-            enrollid: emp.enroll_id,
+            enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : emp.enroll_id,
             name: emp.name || '',
             backupnum: 0
           }
@@ -2485,7 +2489,7 @@
         const bodyObj = {
           sn: sn,
           userInfo: {
-            enrollid: emp.enroll_id,
+            enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : emp.enroll_id,
             name: emp.name || '',
             backupnum: 11
           }
