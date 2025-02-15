@@ -35,7 +35,15 @@ exports.registerUser = async (req, res) => {
       email,
     });
     await newUser.save();
-    res.status(201).json({ message: "User registered successfully" });
+
+    // إنشاء توكن
+    const token = jwt.sign(
+      { userId: newUser._id, userName: newUser.user_name },
+      process.env.JWT_SECRET,
+      { expiresIn: "8h" }
+    );
+
+    res.status(201).json({ message: "User registered successfully", token });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
