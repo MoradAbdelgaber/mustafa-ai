@@ -955,13 +955,16 @@
     }
 
     function addScheduleDay(isRest = false) {
+
+      if(!isRest && currentTemplate.weekSchedules.length) return copyDay(currentTemplate.weekSchedules.length - 1)
+
       const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
       if (currentTemplate.weekSchedules.length == 0) {
         currentTemplate.weekSchedules.push({
           day: 'Sun',
-          startTime: isRest? '00:00:00' : '08:00:00',
-          endTime: isRest? '00:00:00' : '17:00:00',
-          overtimeStart: isRest? '00:00:00' : '17:30:00',
+          startTime: isRest ? '00:00:00' : '09:00:00',
+          endTime: isRest ? '00:00:00' : '17:00:00',
+          overtimeStart: isRest ? '00:00:00' : '17:30:00',
           endDayOffset: 0,
           hourPrice: 0,
           overtimePrice: 0,
@@ -975,10 +978,10 @@
           late_min_prices: 0,
           early_min_prices: 0,
           minimum_working_hours_overtime: 10,
-          work_registration_start_time: '06:00:00',
+          work_registration_start_time: '00:00:00',
           last_entry_prevention_time: '11:00:00',
-          first_exit_allowed_time: '15:00:00',
-          last_exit_allowed_time: '20:00:00',
+          first_exit_allowed_time: '00:00:00',
+          last_exit_allowed_time: '23:59:00',
           works_for_daily_wage: false,
           overtime_eligible: false,
           allowed_min_rest: 0,

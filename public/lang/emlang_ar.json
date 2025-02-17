@@ -131,6 +131,12 @@
     "lblDevicesModalTitle": "تعيين أجهزة",
     "lblChooseDevices": "اختر الأجهزة:",
     "btnSaveDevices": "حفظ",
+    "btnAllDevices": "كل الاجهزة",
+    "chooseDevices": "حدد الاجهزة",
+
+    
+    "deleteSelectedBtn": "حذف المحدد",
+    "selectAllBtn": "تحديد الكل",
   
     "lblFaceModalTitle": "سحب بصمة الوجه",
     "lblFaceDeviceSelect": "اختر الجهاز:",
@@ -162,8 +168,13 @@
     "next": "التالي",
     "prev": "السابق",
 
+    "send_fingerprint": "إرسال البصمة",
+
     "templates_msg_error_fetch": "خطأ في جلب النمازج",
-    "choose_template": "حدد نموذج"
+    "choose_template": "حدد نموذج",
+    "err_send_fingerPrint": "خطأ في ارسال بصمة الاصبع الى الجهاز:",
+    "noAssignedD_err": "لا توجد أجهزة مخصصة لهذا الموظف.",
+    "no_fingerprint_data": "لا توجد بيانات بصمة متاحة لهذا الموظف."
 
   }
   

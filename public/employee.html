@@ -637,19 +637,11 @@
           <button class="selectedBtn" id="selectedBtn" data-lng="sellectedSchedule"></button>
           <button class="allSelectedBtn" id="allSelectedBtn" data-lng="allSchedule"></button>
           <!-- زر تعيين الأجهزة للموظفين المحددين -->
-          <button class="selectedBtn" id="devicesSelectedBtn" style="background:#6f42c1; display:none;"
-            onclick="openDevicesModalForSelected()">
-            Assign Devices
-          </button>
+          <button data-lng="lblDevicesModalTitle" class="selectedBtn" id="devicesSelectedBtn" style="background:#6f42c1; display:none;" onclick="openDevicesModalForSelected()"></button>
           <!-- زر حذف المحددين -->
-          <button class="selectedBtn" id="deleteSelectedBtn" style="background:#dc3545; display:none;"
-            onclick="deleteSelectedEmployees()">
-            Delete Selected Employee
-          </button>
+          <button data-lng="deleteSelectedBtn" class="selectedBtn" id="deleteSelectedBtn" style="background:#dc3545; display:none;" onclick="deleteSelectedEmployees()"></button>
           <!-- زر لتحديد كل الموظفين في الصفحة -->
-          <button class="allSelectedBtn" style="background:#6c757d;" onclick="selectAllInPage()">
-            Select All
-          </button>
+          <button data-lng="selectAllBtn" class="allSelectedBtn" style="background:#6c757d;" onclick="selectAllInPage()"></button>
         </div>
       </div>
 
@@ -980,9 +972,7 @@
         <label data-lng="lblChooseDevices" for="devicesSelect"></label>
         <select id="devicesSelect" multiple></select>
 
-        <button class="modalSaveBtn" style="background:#fd7e14;" onclick="selectAllDevicesInModal()">
-          All Devices
-        </button>
+        <button class="modalSaveBtn" style="background:#fd7e14;" data-lng="btnAllDevices" onclick="selectAllDevicesInModal()">All Devices</button>
         <button class="modalSaveBtn" data-lng="btnSaveDevices" onclick="saveEmployeeDevices()"></button>
       </div>
     </div>
@@ -1143,7 +1133,7 @@
 
         $('#devicesSelect').select2({
           width: '100%',
-          placeholder: 'Choose devices',
+          placeholder: getTranslate('chooseDevices'),
           dropdownParent: $('#devicesModal .modalBody'),
           closeOnSelect: false
         });
@@ -1152,6 +1142,8 @@
 
     document.getElementById('langSelector').addEventListener('change', function () {
       setLanguage(this.value);
+      document.getElementById('errorMsg').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'none';
     });
 
     function logout() {
@@ -1454,7 +1446,7 @@
           });
           if (!resp.ok) {
             const errText = await resp.text();
-            throw new Error(`Fail to send fingerprint to device: ${dev.name || dev._id} | ${errText}`);
+            throw new Error(`${getTranslate('err_send_fingerPrint')} ${dev.name || dev._id} | ${errText}`);
           }
         }
         successMsg.textContent = getTranslate("success_msg");
@@ -1855,11 +1847,14 @@
     }
 
     function addScheduleDay(isRest = false) {
+
+      if(!isRest && currentSchedules.length) return copyDay(currentSchedules.length - 1)
+
       const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
       if (currentSchedules.length === 0) {
         currentSchedules.push({
           day: 'Sun',
-          startTime: isRest ? '00:00:00' : '08:00:00',
+          startTime: isRest ? '00:00:00' : '09:00:00',
           endTime: isRest ? '00:00:00' : '17:00:00',
           overtimeStart: isRest ? '00:00:00' : '17:30:00',
           endDayOffset: 0,
@@ -1875,10 +1870,10 @@
           late_min_prices: 0,
           early_min_prices: 0,
           minimum_working_hours_overtime: 10,
-          work_registration_start_time: '06:00:00',
+          work_registration_start_time: '00:00:00',
           last_entry_prevention_time: '11:00:00',
-          first_exit_allowed_time: '15:00:00',
-          last_exit_allowed_time: '20:00:00',
+          first_exit_allowed_time: '00:00:00',
+          last_exit_allowed_time: '23:59:00',
           works_for_daily_wage: false,
           overtime_eligible: false,
           allowed_min_rest: 0,
@@ -2103,7 +2098,6 @@
       multiDevices = false;
       const emp = filteredEmployees[indexInFiltered];
       currentEmployeeIndex = findEmployeeIndexInAll(emp._id);
-      document.getElementById('devicesModalTitle').setAttribute('data-lng', 'lblDevicesModalTitle');
       const chosenDevices = emp.devices || [];
       $('#devicesSelect').val(chosenDevices).trigger('change');
       showDevicesModal();
@@ -2113,7 +2107,6 @@
       if (!sellectedEmployees.length) return;
       multiDevices = true;
       selectedEmployeesForDevices = [...sellectedEmployees];
-      document.getElementById('devicesModalTitle').innerText = 'Assign Devices';
       $('#devicesSelect').val([]).trigger('change');
       showDevicesModal();
     }
@@ -2245,11 +2238,11 @@
       try {
         const emp = filteredEmployees[indexInFiltered];
         if (!emp.devices || emp.devices.length === 0) {
-          throw new Error('No assigned devices for this employee.');
+          throw new Error(getTranslate('noAssignedD_err')); 
         }
         const fingerprintData = emp.fingerprint || '';
         if (!fingerprintData) {
-          throw new Error('No fingerprint data available for this employee.');
+          throw new Error(getTranslate('no_fingerprint_data'));
         }
         const userInfoTemplate = {
           enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : emp.enroll_id,
@@ -2279,7 +2272,7 @@
           });
           if (!resp.ok) {
             const errText = await resp.text();
-            throw new Error(`Fail to send fingerprint to device: ${dev.name || dev._id} | ${errText}`);
+            throw new Error(`${getTranslate('err_send_fingerPrint')} ${dev.name || dev._id} | ${errText}`);
           }
         }
         successMsg.textContent = getTranslate("success_msg");
