@@ -1871,7 +1871,7 @@
           early_min_prices: 0,
           minimum_working_hours_overtime: 10,
           work_registration_start_time: '00:00:00',
-          last_entry_prevention_time: '11:00:00',
+          last_entry_prevention_time: '23:59:00',
           first_exit_allowed_time: '00:00:00',
           last_exit_allowed_time: '23:59:00',
           works_for_daily_wage: false,
@@ -1892,7 +1892,7 @@
         }
         let newDayObj = { ...lastDayObj };
         newDayObj.day = dayOrder[dayOrderIndex + 1];
-        newDayObj.startTime = isRest ? '00:00:00' : '08:00:00'
+        newDayObj.startTime = isRest ? '00:00:00' : '09:00:00'
         newDayObj.endTime = isRest ? '00:00:00' : '17:00:00'
         newDayObj.overtimeStart = isRest ? '00:00:00' : '17:30:00'
         currentSchedules.push(newDayObj);
@@ -1912,7 +1912,7 @@
       document.getElementById('dayModalTitle').setAttribute('data-lng', 'lblDayModalTitle');
       document.getElementById('dayIndex').value = i;
       document.getElementById('daySelect').value = dayObj.day || 'Sun';
-      document.getElementById('dayStart').value = dayObj.startTime || '08:00:00';
+      document.getElementById('dayStart').value = dayObj.startTime || '09:00:00';
       document.getElementById('dayEnd').value = dayObj.endTime || '17:00:00';
       document.getElementById('dayOTStart').value = dayObj.overtimeStart || '17:30:00';
       document.getElementById('dayOffset').value = dayObj.endDayOffset || 0;
@@ -1928,10 +1928,10 @@
       document.getElementById('dayLateMinPrice').value = dayObj.late_min_prices || 0;
       document.getElementById('dayEarlyMinPrice').value = dayObj.early_min_prices || 0;
       document.getElementById('dayMinOTHours').value = dayObj.minimum_working_hours_overtime || 10;
-      document.getElementById('dayWrStart').value = dayObj.work_registration_start_time || '06:00:00';
-      document.getElementById('dayLastEntry').value = dayObj.last_entry_prevention_time || '11:00:00';
-      document.getElementById('dayFirstExit').value = dayObj.first_exit_allowed_time || '15:00:00';
-      document.getElementById('dayLastExit').value = dayObj.last_exit_allowed_time || '20:00:00';
+      document.getElementById('dayWrStart').value = dayObj.work_registration_start_time || '00:00:00';
+      document.getElementById('dayLastEntry').value = dayObj.last_entry_prevention_time || '23:59:00';
+      document.getElementById('dayFirstExit').value = dayObj.first_exit_allowed_time || '00:00:00';
+      document.getElementById('dayLastExit').value = dayObj.last_exit_allowed_time || '23:59:00';
       document.getElementById('dayDailyWage').value = dayObj.works_for_daily_wage ? 'true' : 'false';
       document.getElementById('dayOTEligible').value = dayObj.overtime_eligible ? 'true' : 'false';
       document.getElementById('dayAllowedMinRest').value = dayObj.allowed_min_rest || 0;
