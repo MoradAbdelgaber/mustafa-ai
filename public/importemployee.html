@@ -584,7 +584,7 @@
       const myHeaders = new Headers();
       myHeaders.append('Authorization', 'Bearer ' + safeToken);
 
-      const resp = await fetch('https://timeattendhr.com/api/devices', {
+      const resp = await fetch('http://140.82.38.238:4089/api/devices', {
         method: 'GET',
         headers: myHeaders
       });
@@ -601,7 +601,7 @@
       const myHeaders = new Headers();
       myHeaders.append('Authorization', 'Bearer ' + safeToken);
 
-      const resp = await fetch('https://timeattendhr.com/api/employees?page=1&limit=9999', {
+      const resp = await fetch('http://140.82.38.238:4089/api/employees?page=1&limit=9999', {
         method: 'GET',
         headers: myHeaders
       });
@@ -868,7 +868,7 @@
         };
 
         // استدعاء API الحفظ في قاعدة البيانات
-        const resp = await fetch('https://timeattendhr.com/api/employees', {
+        const resp = await fetch('http://140.82.38.238:4089/api/employees', {
           method: 'POST',
           headers: myHeaders,
           body: JSON.stringify(bodyObj)

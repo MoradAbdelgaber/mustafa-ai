@@ -21,22 +21,32 @@
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
-    html { animation: fadeIn .3s ease-in forwards; }
+    html {
+      animation: fadeIn .3s ease-in forwards;
+    }
 
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
+
     /* عند العربية: Tajawal + RTL */
     html[lang="ar"] body {
       font-family: 'Tajawal', sans-serif;
       direction: rtl;
     }
+
     /* عند الإنجليزية: Open Sans + LTR */
     html[lang="en"] body {
       font-family: 'Open Sans', sans-serif;
       direction: ltr;
     }
+
     body {
       margin: 0;
       padding: 0;
@@ -44,6 +54,7 @@
       background: #f2f2f2;
       direction: rtl;
     }
+
     /* رأس الصفحة */
     header {
       background: linear-gradient(45deg, #0062cc, #004085);
@@ -58,6 +69,7 @@
       margin: 0;
       font-size: 1.2rem;
     }
+
     .lang-select {
       margin-left: 10px;
       padding: 5px;
@@ -66,6 +78,7 @@
       font-size: 0.9rem;
       cursor: pointer;
     }
+
     header button {
       background: #dc3545;
       color: #fff;
@@ -76,9 +89,11 @@
       font-size: 0.9rem;
       transition: background 0.3s;
     }
+
     header button:hover {
       background: #c82333;
     }
+
     /* زر اختيار اللغة */
     #langSelector {
       margin: 10px;
@@ -133,11 +148,13 @@
       border-radius: 4px;
       display: none;
     }
+
     .errorMsg {
       background-color: #f8d7da;
       border: 1px solid #f5c6cb;
       color: #721c24;
     }
+
     .successMsg {
       background-color: #d4edda;
       border: 1px solid #c3e6cb;
@@ -149,11 +166,13 @@
       display: flex;
       flex-direction: row-reverse;
     }
+
     /* المحتوى الرئيسي */
     .mainContent {
       flex: 1;
       padding: 20px;
     }
+
     /* الشريط الجانبي (Sidebar) */
     .sidebar {
       width: 240px;
@@ -162,12 +181,14 @@
       min-height: 100vh;
       padding: 20px 10px;
     }
+
     .sidebar h2 {
       margin-bottom: 15px;
       font-size: 1rem;
       text-align: center;
       color: #444;
     }
+
     .navItem {
       padding: 12px 10px;
       margin: 6px 0;
@@ -180,52 +201,77 @@
       align-items: center;
       gap: 8px;
     }
+
     .navItem i {
       font-size: 1.1rem;
       color: #666;
       transition: color 0.3s;
     }
+
     .navItem:hover {
       background: #f0f0f0;
     }
+
     .navItem.active {
       background: #007bff;
       color: #fff;
     }
+
     .navItem.active i {
       color: #fff;
     }
 
-    /* start from here the content *//* start from here the content */
-    /* start from here the content *//* start from here the content */
-    /* start from here the content *//* start from here the content */
+    /* start from here the content */
+    /* start from here the content */
+    /* start from here the content */
+    /* start from here the content */
+    /* start from here the content */
+    /* start from here the content */
 
     /* حاوية البحث (Filters) */
     .topSection {
-      background: #fff;padding: 10px;margin-bottom: 15px;
-      border-radius: 6px;box-shadow: 0 2px 5px #0000001a;
-    }
-    .timezoneField {
-      display: flex;flex-wrap: wrap;gap: 10px;align-items: center;
-    }
-    .timezoneField label { margin-right: 4px;font-weight: 500; }
-    .timezoneField input{
-      padding: 6px;font-size: 0.9rem;
-      border: 1px solid #ccc;border-radius: 4px;
+      background: #fff;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px #0000001a;
     }
 
-    .sec2{
-      display: flex;align-items: center;justify-content: space-between;
+    .timezoneField {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .timezoneField label {
+      margin-right: 4px;
+      font-weight: 500;
+    }
+
+    .timezoneField input {
+      padding: 6px;
+      font-size: 0.9rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .sec2 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       margin-block: 62px 15px;
     }
-    .sec2 p{
+
+    .sec2 p {
       margin: 0;
       font-size: 18px;
       font-weight: 600;
     }
 
-    .saveBtn{
-      color: #fff;margin-block: 24px 6px;
+    .saveBtn {
+      color: #fff;
+      margin-block: 24px 6px;
       background: #007bff;
       border: none;
       border-radius: 4px;
@@ -236,7 +282,9 @@
       transition: background 0.3s;
     }
 
-    .saveBtn:hover{ background: #0d66c4; }
+    .saveBtn:hover {
+      background: #0d66c4;
+    }
 
     .addBtn {
       background: #28a745;
@@ -384,7 +432,8 @@
       font-size: 0.9rem;
     }
 
-    .modalSaveBtn,.saveScheduleBtn {
+    .modalSaveBtn,
+    .saveScheduleBtn {
       background: #28a745;
       color: #fff;
       border: none;
@@ -402,16 +451,26 @@
       background: #218838;
     }
 
-    .saveScheduleBtn{ background: #007bff; }
-    .saveScheduleBtn:hover{ background: #0756aa; }
+    .saveScheduleBtn {
+      background: #007bff;
+    }
+
+    .saveScheduleBtn:hover {
+      background: #0756aa;
+    }
 
     .modalContent.scheduleWidth {
       width: 600px;
       max-height: 90vh;
     }
 
-    .restBtn{background: #17a2b8;}
-    .restBtn:hover{ background: #12889b; }
+    .restBtn {
+      background: #17a2b8;
+    }
+
+    .restBtn:hover {
+      background: #12889b;
+    }
 
     .scheduleTable {
       width: 100%;
@@ -444,15 +503,14 @@
       opacity: 0.9;
     }
 
-    .applyBtn{
-      background: #17a2b8;margin: 0;
+    .applyBtn {
+      background: #17a2b8;
+      margin: 0;
     }
-    .applyBtn:hover{
+
+    .applyBtn:hover {
       background: #12889b;
     }
-
-
-
   </style>
 </head>
 
@@ -487,7 +545,7 @@
       <div class="topSection">
         <div class="timezoneField">
           <label for="timeZone" data-lng="time_zone">Time Zone: </label>
-          <input list="timezones" id="timeZone" data-lng-placeholder="time_zone_place"/>
+          <input list="timezones" id="timeZone" data-lng-placeholder="time_zone_place" />
           <datalist id="timezones"></datalist>
         </div>
         <button class="saveBtn" data-lng="save" onclick="saveProfile()"></button>
@@ -510,12 +568,12 @@
         <tbody></tbody>
       </table>
 
-      
+
 
     </div>
 
 
-    <!-- modals --> 
+    <!-- modals -->
     <!-- مودال النموذج -->
     <div class="modalOverlay" id="templateModal">
       <div class="modalContent scheduleWidth">
@@ -526,9 +584,11 @@
 
         <div class="modalBody">
 
-          <div class="nameDiv" style="display: flex;align-items: center;justify-content: flex-start;gap: 6px;margin-bottom: 22px;">
+          <div class="nameDiv"
+            style="display: flex;align-items: center;justify-content: flex-start;gap: 6px;margin-bottom: 22px;">
             <label for="templateNameInput" data-lng="template_name" style="margin: 0;font-weight: 500;"></label>
-            <input type="text" id="templateNameInput" data-lng-placeholder="template_name_place" style="width: fit-content;padding: 6px;border: 1px solid #ccc;border-radius: 4px;font-size: 0.9rem;margin: 0;">
+            <input type="text" id="templateNameInput" data-lng-placeholder="template_name_place"
+              style="width: fit-content;padding: 6px;border: 1px solid #ccc;border-radius: 4px;font-size: 0.9rem;margin: 0;">
           </div>
 
           <table class="scheduleTable" id="scheduleTable">
@@ -765,7 +825,7 @@
     async function setLanguage(lang) {
       localStorage.setItem(LNG_KEY, lang);
       document.documentElement.lang = lang;
-      document.documentElement.dir = lang === 'ar'? 'rtl':'ltr'
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr'
       await loadLanguageFile(lang);
       applyTranslations(lang);
     }
@@ -776,17 +836,17 @@
 
       document.querySelectorAll('[data-lng]').forEach(el => {
         const key = el.getAttribute('data-lng');
-        if(translations[key]) el.textContent = translations[key];
+        if (translations[key]) el.textContent = translations[key];
       });
 
       document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
         const key = el.getAttribute('data-lng-placeholder');
-        if(translations[key]) el.placeholder = translations[key];
+        if (translations[key]) el.placeholder = translations[key];
       });
 
       document.querySelectorAll('[data-lng-hover-title]').forEach(el => {
         const key = el.getAttribute('data-lng-hover-title');
-        if (translations[key]) el.setAttribute('title',translations[key])
+        if (translations[key]) el.setAttribute('title', translations[key])
       });
 
     }
@@ -794,7 +854,7 @@
     async function loadLanguageFile(lang) {
       try {
         const response = await fetch(`${LANG_PATH}/${lang}_public_settings.json`);
-        if(!response.ok) throw new Error(`Error loading ${lang}_public_settings.json`);
+        if (!response.ok) throw new Error(`Error loading ${lang}_public_settings.json`);
         translations = await response.json();
       } catch (error) {
         console.error("Leaves translation file error:", error);
@@ -815,7 +875,7 @@
     /////////////////////////////////////////////////
 
     async function getProfile() {
-      const resp = await fetch('https://timeattendhr.com/api/users/profile', {
+      const resp = await fetch('http://140.82.38.238:4089/api/users/profile', {
         headers: { 'Authorization': 'Bearer ' + authToken }
       });
       const data = await resp.json();
@@ -836,12 +896,12 @@
         list.appendChild(opt);
       });
 
-    }      
+    }
 
     async function saveProfile() {
 
       const timeZone = document.getElementById('timeZone').value.trim();
-      if(!timeZone) return
+      if (!timeZone) return
 
       const body = { timeZone }
 
@@ -849,7 +909,7 @@
 
         showLoading()
 
-        const resp = await fetch('https://timeattendhr.com/api/users/profile', {
+        const resp = await fetch('http://140.82.38.238:4089/api/users/profile', {
           headers: {
             'Authorization': 'Bearer ' + authToken,
             'Content-Type': 'application/json'
@@ -874,7 +934,7 @@
 
     async function loadTemplates() {
       try {
-        const resp = await fetch('https://timeattendhr.com/api/weekSchedule-templates', {
+        const resp = await fetch('http://140.82.38.238:4089/api/weekSchedule-templates', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(getTranslate('templates_msg_error_fetch'));
@@ -956,7 +1016,7 @@
 
     function addScheduleDay(isRest = false) {
 
-      if(!isRest && currentTemplate.weekSchedules.length) return copyDay(currentTemplate.weekSchedules.length - 1)
+      if (!isRest && currentTemplate.weekSchedules.length) return copyDay(currentTemplate.weekSchedules.length - 1)
 
       const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
       if (currentTemplate.weekSchedules.length == 0) {
@@ -990,15 +1050,15 @@
       } else {
         const lastDayObj = currentTemplate.weekSchedules[currentTemplate.weekSchedules.length - 1];
         const dayOrderIndex = dayOrder.indexOf(lastDayObj.day);
-        if(dayOrderIndex < 0) return alert(getTranslate('unknown_day'));
-        if(dayOrderIndex == 6) return alert(getTranslate("last_day"));
+        if (dayOrderIndex < 0) return alert(getTranslate('unknown_day'));
+        if (dayOrderIndex == 6) return alert(getTranslate("last_day"));
         let newDayObj = { ...lastDayObj };
         newDayObj.day = dayOrder[dayOrderIndex + 1];
 
-        newDayObj.startTime = isRest? '00:00:00' : '09:00:00'
-        newDayObj.endTime = isRest? '00:00:00' : '17:00:00'
-        newDayObj.overtimeStart = isRest? '00:00:00' : '17:30:00'
-        
+        newDayObj.startTime = isRest ? '00:00:00' : '09:00:00'
+        newDayObj.endTime = isRest ? '00:00:00' : '17:00:00'
+        newDayObj.overtimeStart = isRest ? '00:00:00' : '17:30:00'
+
         currentTemplate.weekSchedules.push(newDayObj);
       }
       renderSchedule(currentTemplate.weekSchedules);
@@ -1076,8 +1136,8 @@
       const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
       let currentDayObj = currentTemplate.weekSchedules[i];
       let currentDayIndex = dayOrder.indexOf(currentDayObj.day);
-      if(currentDayIndex < 0) return alert(getTranslate(can_not_copy));
-      if(currentDayIndex === 6) return alert(getTranslate('can_not_copy_sat'));
+      if (currentDayIndex < 0) return alert(getTranslate(can_not_copy));
+      if (currentDayIndex === 6) return alert(getTranslate('can_not_copy_sat'));
       let newDayObj = { ...currentTemplate.weekSchedules[i] };
       newDayObj.day = dayOrder[currentDayIndex + 1];
       currentTemplate.weekSchedules.splice(i + 1, 0, newDayObj);
@@ -1093,15 +1153,15 @@
         name: document.getElementById('templateNameInput').value,
         weekSchedules: currentTemplate.weekSchedules
       }
-      if(!body.name?.trim()) return
+      if (!body.name?.trim()) return
 
       showLoading()
 
       try {
 
-        let endPoint = `https://timeattendhr.com/api/weekSchedule-templates`
+        let endPoint = `http://140.82.38.238:4089/api/weekSchedule-templates`
         let method = 'POST'
-        if(addOrEdit == 'edit') {
+        if (addOrEdit == 'edit') {
           endPoint += `/${currentTemplate._id}`
           method = 'PUT'
         }
@@ -1136,8 +1196,8 @@
       showLoading()
 
       try {
-        
-        const resp = await fetch(`https://timeattendhr.com/api/weekSchedule-templates/${id}`, {
+
+        const resp = await fetch(`http://140.82.38.238:4089/api/weekSchedule-templates/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
@@ -1162,8 +1222,8 @@
       showLoading()
 
       try {
-        
-        const resp = await fetch(`https://timeattendhr.com/api/weekSchedule-templates/${id}/apply`, {
+
+        const resp = await fetch(`http://140.82.38.238:4089/api/weekSchedule-templates/${id}/apply`, {
           method: 'POST',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });

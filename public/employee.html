@@ -637,11 +637,14 @@
           <button class="selectedBtn" id="selectedBtn" data-lng="sellectedSchedule"></button>
           <button class="allSelectedBtn" id="allSelectedBtn" data-lng="allSchedule"></button>
           <!-- زر تعيين الأجهزة للموظفين المحددين -->
-          <button data-lng="lblDevicesModalTitle" class="selectedBtn" id="devicesSelectedBtn" style="background:#6f42c1; display:none;" onclick="openDevicesModalForSelected()"></button>
+          <button data-lng="lblDevicesModalTitle" class="selectedBtn" id="devicesSelectedBtn"
+            style="background:#6f42c1; display:none;" onclick="openDevicesModalForSelected()"></button>
           <!-- زر حذف المحددين -->
-          <button data-lng="deleteSelectedBtn" class="selectedBtn" id="deleteSelectedBtn" style="background:#dc3545; display:none;" onclick="deleteSelectedEmployees()"></button>
+          <button data-lng="deleteSelectedBtn" class="selectedBtn" id="deleteSelectedBtn"
+            style="background:#dc3545; display:none;" onclick="deleteSelectedEmployees()"></button>
           <!-- زر لتحديد كل الموظفين في الصفحة -->
-          <button data-lng="selectAllBtn" class="allSelectedBtn" style="background:#6c757d;" onclick="selectAllInPage()"></button>
+          <button data-lng="selectAllBtn" class="allSelectedBtn" style="background:#6c757d;"
+            onclick="selectAllInPage()"></button>
         </div>
       </div>
 
@@ -972,7 +975,8 @@
         <label data-lng="lblChooseDevices" for="devicesSelect"></label>
         <select id="devicesSelect" multiple></select>
 
-        <button class="modalSaveBtn" style="background:#fd7e14;" data-lng="btnAllDevices" onclick="selectAllDevicesInModal()">All Devices</button>
+        <button class="modalSaveBtn" style="background:#fd7e14;" data-lng="btnAllDevices"
+          onclick="selectAllDevicesInModal()">All Devices</button>
         <button class="modalSaveBtn" data-lng="btnSaveDevices" onclick="saveEmployeeDevices()"></button>
       </div>
     </div>
@@ -1162,7 +1166,7 @@
       errorMsg.textContent = '';
       successMsg.textContent = '';
       try {
-        const resp = await fetch('https://timeattendhr.com/api/employees?page=1&limit=9999999', {
+        const resp = await fetch('http://140.82.38.238:4089/api/employees?page=1&limit=9999999', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('Failed to fetch employees');
@@ -1180,7 +1184,7 @@
     // جلب الأقسام
     async function loadDepartments() {
       try {
-        const resp = await fetch('https://timeattendhr.com/api/departments', {
+        const resp = await fetch('http://140.82.38.238:4089/api/departments', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('Failed to fetch departments');
@@ -1223,7 +1227,7 @@
 
     async function loadAllDevices() {
       try {
-        const resp = await fetch('https://timeattendhr.com/api/devices', {
+        const resp = await fetch('http://140.82.38.238:4089/api/devices', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('Failed to fetch devices');
@@ -1564,7 +1568,7 @@
       }
 
       try {
-        let url = 'https://timeattendhr.com/api/employees/reset-password';
+        let url = 'http://140.82.38.238:4089/api/employees/reset-password';
         let method = 'PUT';
         const resp = await fetch(url, {
           method,
@@ -1696,10 +1700,10 @@
       }
 
       try {
-        let url = 'https://timeattendhr.com/api/employees';
+        let url = 'http://140.82.38.238:4089/api/employees';
         let method = 'POST';
         if (dbId) {
-          url = `https://timeattendhr.com/api/employees/${dbId}`;
+          url = `http://140.82.38.238:4089/api/employees/${dbId}`;
           method = 'PUT';
         }
         const resp = await fetch(url, {
@@ -1735,7 +1739,7 @@
       }
 
       try {
-        const resp = await fetch(`https://timeattendhr.com/api/employees/check-username?username=${inputValue}`, {
+        const resp = await fetch(`http://140.82.38.238:4089/api/employees/check-username?username=${inputValue}`, {
           method: 'GET',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
@@ -1794,7 +1798,7 @@
       successMsg.textContent = '';
       if (!confirm(getTranslate("confirm_delete_employee"))) return;
       try {
-        const resp = await fetch(`https://timeattendhr.com/api/employees/${dbId}`, {
+        const resp = await fetch(`http://140.82.38.238:4089/api/employees/${dbId}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
@@ -1848,7 +1852,7 @@
 
     function addScheduleDay(isRest = false) {
 
-      if(!isRest && currentSchedules.length) return copyDay(currentSchedules.length - 1)
+      if (!isRest && currentSchedules.length) return copyDay(currentSchedules.length - 1)
 
       const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
       if (currentSchedules.length === 0) {
@@ -2010,7 +2014,7 @@
         if (weekSchedulesId) emp.weekSchedulesId = weekSchedulesId
 
         try {
-          const resp = await fetch(`https://timeattendhr.com/api/employees/${emp._id}`, {
+          const resp = await fetch(`http://140.82.38.238:4089/api/employees/${emp._id}`, {
             method: 'PUT',
             headers: {
               'Authorization': 'Bearer ' + authToken,
@@ -2034,7 +2038,7 @@
       if (weekSchedulesId) body.weekSchedulesId = weekSchedulesId
 
       try {
-        const resp = await fetch(`https://timeattendhr.com/api/employees/multi-update`, {
+        const resp = await fetch(`http://140.82.38.238:4089/api/employees/multi-update`, {
           method: 'PUT',
           headers: {
             'Authorization': 'Bearer ' + authToken,
@@ -2051,7 +2055,7 @@
 
     async function loadTemplates() {
       try {
-        const resp = await fetch('https://timeattendhr.com/api/weekSchedule-templates', {
+        const resp = await fetch('http://140.82.38.238:4089/api/weekSchedule-templates', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(getTranslate('templates_msg_error_fetch'));
@@ -2137,7 +2141,7 @@
             const empObj = allEmployees.find(e => e._id === empId);
             if (!empObj) continue;
             empObj.devices = selectedDevices;
-            await fetch(`https://timeattendhr.com/api/employees/${empObj._id}`, {
+            await fetch(`http://140.82.38.238:4089/api/employees/${empObj._id}`, {
               method: 'PUT',
               headers: {
                 'Authorization': 'Bearer ' + authToken,
@@ -2158,7 +2162,7 @@
         const emp = allEmployees[currentEmployeeIndex];
         emp.devices = selectedDevices;
         try {
-          const resp = await fetch(`https://timeattendhr.com/api/employees/${emp._id}`, {
+          const resp = await fetch(`http://140.82.38.238:4089/api/employees/${emp._id}`, {
             method: 'PUT',
             headers: {
               'Authorization': 'Bearer ' + authToken,
@@ -2238,7 +2242,7 @@
       try {
         const emp = filteredEmployees[indexInFiltered];
         if (!emp.devices || emp.devices.length === 0) {
-          throw new Error(getTranslate('noAssignedD_err')); 
+          throw new Error(getTranslate('noAssignedD_err'));
         }
         const fingerprintData = emp.fingerprint || '';
         if (!fingerprintData) {
@@ -2347,7 +2351,7 @@
         }
         const newImage = 'data:image/jpeg;base64,' + recordBase64;
         const updateBody = { image: newImage };
-        const updateResp = await fetch(`https://timeattendhr.com/api/employees/${emp._id}`, {
+        const updateResp = await fetch(`http://140.82.38.238:4089/api/employees/${emp._id}`, {
           method: 'PUT',
           headers: {
             'Authorization': 'Bearer ' + authToken,
@@ -2427,7 +2431,7 @@
           throw new Error('No fingerprint data received from device');
         }
         const updateBody = { fingerprint: recordData };
-        const updateResp = await fetch(`https://timeattendhr.com/api/employees/${emp._id}`, {
+        const updateResp = await fetch(`http://140.82.38.238:4089/api/employees/${emp._id}`, {
           method: 'PUT',
           headers: {
             'Authorization': 'Bearer ' + authToken,
@@ -2505,7 +2509,7 @@
           throw new Error('No card number received from device');
         }
         const updateBody = { card: cardNum };
-        const updateResp = await fetch(`https://timeattendhr.com/api/employees/${emp._id}`, {
+        const updateResp = await fetch(`http://140.82.38.238:4089/api/employees/${emp._id}`, {
           method: 'PUT',
           headers: {
             'Authorization': 'Bearer ' + authToken,
@@ -2676,10 +2680,10 @@
 
         try {
           let method = 'POST';
-          let url = 'https://timeattendhr.com/api/employees';
+          let url = 'http://140.82.38.238:4089/api/employees';
           if (existingEmp) {
             method = 'PUT';
-            url = `https://timeattendhr.com/api/employees/${existingEmp._id}`;
+            url = `http://140.82.38.238:4089/api/employees/${existingEmp._id}`;
           }
           await fetch(url, {
             method,
@@ -2725,7 +2729,7 @@
 
       try {
         for (const empId of sellectedEmployees) {
-          const resp = await fetch(`https://timeattendhr.com/api/employees/${empId}`, {
+          const resp = await fetch(`http://140.82.38.238:4089/api/employees/${empId}`, {
             method: 'DELETE',
             headers: { 'Authorization': 'Bearer ' + authToken }
           });

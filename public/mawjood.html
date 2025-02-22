@@ -243,11 +243,11 @@
     // =========================== [ إعدادات عامة ] ===========================
     //Endpoints الخاصة بالبصمات
     const apiGetEndpoint = 'https://mawjood.iraqsapp.com/original-fingerprints'; // السيرفر الأول (لجلب البصمات)
-    const apiPostEndpoint = 'https://timeattendhr.com/api/fingerprints';         // السيرفر الثاني (لحفظ البصمات)
+    const apiPostEndpoint = 'http://140.82.38.238:4089/api/fingerprints';         // السيرفر الثاني (لحفظ البصمات)
 
     //Endpoints الخاصة بالموظفين
     const apiGetEmployeesEndpoint = 'https://mawjood.iraqsapp.com/users';       // السيرفر الأول (لجلب الموظفين)
-    const apiPostEmployeesEndpoint = 'https://timeattendhr.com/api/employees';   // السيرفر الثاني (لحفظ الموظفين)
+    const apiPostEmployeesEndpoint = 'http://140.82.38.238:4089/api/employees';   // السيرفر الثاني (لحفظ الموظفين)
 
     // ======================= [ جلب البصمات وإرسالها ] ======================
     const sentFingerprints = new Set(); // لتجنب التكرار في نفس الجلسة

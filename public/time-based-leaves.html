@@ -713,7 +713,7 @@
       successMsg.textContent = '';
 
       try {
-        const resp = await fetch('https://timeattendhr.com/api/time-based-leaves', {
+        const resp = await fetch('http://140.82.38.238:4089/api/time-based-leaves', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(translations['err1']);
@@ -784,7 +784,7 @@
     // جلب قائمة الموظفين
     async function loadEmployees() {
       try {
-        const resp = await fetch('https://timeattendhr.com/api/employees?page=1&limit=9999', {
+        const resp = await fetch('http://140.82.38.238:4089/api/employees?page=1&limit=9999', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(translations['err2']);
@@ -850,7 +850,7 @@
       successMsg.textContent = '';
 
       try {
-        const resp = await fetch(`https://timeattendhr.com/api/time-based-leaves/${id}`, {
+        const resp = await fetch(`http://140.82.38.238:4089/api/time-based-leaves/${id}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(translations['err3']);
@@ -940,10 +940,10 @@
       };
 
       try {
-        let url = 'https://timeattendhr.com/api/time-based-leaves';
+        let url = 'http://140.82.38.238:4089/api/time-based-leaves';
         let method = 'POST';
         if (leaveId) {
-          url = `https://timeattendhr.com/api/time-based-leaves/${leaveId}`;
+          url = `http://140.82.38.238:4089/api/time-based-leaves/${leaveId}`;
           method = 'PUT';
         }
 
@@ -978,7 +978,7 @@
       if (!confirm(translations['sure_delete_holiday'])) return;
 
       try {
-        const resp = await fetch(`https://timeattendhr.com/api/time-based-leaves/${id}`, {
+        const resp = await fetch(`http://140.82.38.238:4089/api/time-based-leaves/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });

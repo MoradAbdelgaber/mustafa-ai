@@ -730,7 +730,7 @@
   async function loadEmployees() {
     const sel = document.getElementById('employeeSelect');
     try {
-      const url = 'https://timeattendhr.com/api/employees?page=1&limit=9999';
+      const url = 'http://140.82.38.238:4089/api/employees?page=1&limit=9999';
       const resp = await fetch(url, { headers: { 'Authorization': 'Bearer ' + authToken } });
       if (!resp.ok) throw new Error('فشل جلب قائمة الموظفين');
       const data = await resp.json();
@@ -749,7 +749,7 @@
   async function loadDepartments() {
     const sel = document.getElementById('departmentSelect');
     try {
-      const url = 'https://timeattendhr.com/api/departments';
+      const url = 'http://140.82.38.238:4089/api/departments';
       const resp = await fetch(url, { headers: { 'Authorization': 'Bearer ' + authToken } });
       if (!resp.ok) throw new Error('فشل جلب قائمة الأقسام');
       const data = await resp.json();
@@ -777,7 +777,7 @@
     const empId = document.getElementById('employeeSelect').value || '0';
     const deptId = document.getElementById('departmentSelect').value || '0';
 
-    let url = 'https://timeattendhr.com/api/reports/attendance';
+    let url = 'http://140.82.38.238:4089/api/reports/attendance';
     url += `?start_date=${startD}&end_date=${endD}`;
     url += `&employee_id=${empId}`;
     url += `&department_id=${deptId}`;
@@ -1023,7 +1023,7 @@
   // طباعة
   function printCustomReport() {
 
-    const dir = document.getElementById('langSelector').value=='ar'? 'rtl' : 'ltr'
+    const dir = document.getElementById('langSelector').value == 'ar' ? 'rtl' : 'ltr'
 
     const startDate = document.getElementById('startDate').value || '';
     const endDate = document.getElementById('endDate').value || '';

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar">
+
 <head>
   <meta charset="UTF-8">
   <title>نظام إدارة الحضور والانصراف - أنواع الإجازات</title>
@@ -8,26 +9,20 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <!-- مكتبة Select2 (اختياري) -->
-  <link 
-    href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" 
-    rel="stylesheet" />
-  <script 
-    src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
   <!-- أيقونات Bootstrap -->
-  <link 
-    rel="stylesheet" 
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
   <!-- استيراد خطّي Tajawal (للعربية) وOpen Sans (للإنجليزية) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link 
-    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap" 
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
     rel="stylesheet">
-  
+
   <style>
-        html {
+    html {
       animation: fadeIn .3s ease-in forwards;
     }
 
@@ -72,101 +67,114 @@
     }
 
     body {
-      margin: 0; 
-      padding: 0; 
-      background: #f2f2f2; 
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
     }
 
     header {
       background: linear-gradient(45deg, #0062cc, #004085);
       color: #fff;
       padding: 10px 20px;
-      display: flex; 
-      justify-content: space-between; 
+      display: flex;
+      justify-content: space-between;
       align-items: center;
     }
+
     header h1 {
-      margin: 0; 
+      margin: 0;
       font-size: 1.2rem;
     }
+
     header button {
-      background: #dc3545; 
+      background: #dc3545;
       color: #fff;
-      border: none; 
+      border: none;
       padding: 8px 14px;
-      border-radius: 4px; 
+      border-radius: 4px;
       cursor: pointer;
       font-size: 0.9rem;
       transition: background 0.3s;
     }
+
     header button:hover {
       background: #c82333;
     }
 
     .container {
       display: flex;
-      flex-direction: row-reverse; /* لأننا بالعربية */
+      flex-direction: row-reverse;
+      /* لأننا بالعربية */
     }
 
     .mainContent {
-      flex: 1; 
+      flex: 1;
       padding: 20px;
     }
 
     .sidebar {
-      width: 240px; 
+      width: 240px;
       background: #fff;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      min-height: 100vh; 
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      min-height: 100vh;
       padding: 20px 10px;
     }
+
     .sidebar h2 {
-      margin-bottom: 15px; 
-      font-size: 1rem; 
-      text-align: center; 
+      margin-bottom: 15px;
+      font-size: 1rem;
+      text-align: center;
       color: #444;
     }
+
     .navItem {
-      padding: 12px 10px; 
-      margin: 6px 0; 
+      padding: 12px 10px;
+      margin: 6px 0;
       border-radius: 4px;
-      cursor: pointer; 
-      color: #333; 
+      cursor: pointer;
+      color: #333;
       font-weight: 500;
       transition: background 0.3s, color 0.3s;
-      display: flex; 
+      display: flex;
       align-items: center;
       gap: 8px;
     }
+
     .navItem i {
-      font-size: 1.1rem; 
-      color: #666; 
+      font-size: 1.1rem;
+      color: #666;
       transition: color 0.3s;
     }
+
     .navItem:hover {
       background: #f0f0f0;
     }
+
     .navItem.active {
-      background: #007bff; 
+      background: #007bff;
       color: #fff;
     }
+
     .navItem.active i {
       color: #fff;
     }
 
-    .errorMsg, .successMsg {
-      margin: 10px 0; 
+    .errorMsg,
+    .successMsg {
+      margin: 10px 0;
       font-size: 0.95rem;
       font-weight: 600;
       padding: 10px;
       border-radius: 4px;
     }
+
     .errorMsg {
       background-color: #f8d7da;
       border: 1px solid #f5c6cb;
       color: #721c24;
       display: none;
     }
+
     .successMsg {
       background-color: #d4edda;
       border: 1px solid #c3e6cb;
@@ -175,9 +183,9 @@
     }
 
     .addBtn {
-      background: #28a745; 
+      background: #28a745;
       color: #fff;
-      padding: 8px 14px; 
+      padding: 8px 14px;
       border-radius: 4px;
       margin-bottom: 15px;
       transition: background 0.3s;
@@ -185,54 +193,60 @@
       border: none;
       cursor: pointer;
     }
+
     .addBtn:hover {
       background: #218838;
     }
 
     .searchFilters {
-      background: #fff; 
-      padding: 10px; 
+      background: #fff;
+      padding: 10px;
       margin-bottom: 15px;
-      display: flex; 
-      flex-wrap: wrap; 
+      display: flex;
+      flex-wrap: wrap;
       gap: 10px;
-      align-items: center; 
+      align-items: center;
       border-radius: 6px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+
     .searchFilters label {
-      margin-right: 4px; 
+      margin-right: 4px;
       font-weight: 500;
     }
-    .searchFilters select, 
-    .searchFilters input[type="date"], 
+
+    .searchFilters select,
+    .searchFilters input[type="date"],
     .searchFilters input[type="text"] {
-      padding: 6px; 
-      border: 1px solid #ccc; 
+      padding: 6px;
+      border: 1px solid #ccc;
       border-radius: 4px;
       font-size: 0.9rem;
       font-family: inherit;
     }
 
     table {
-      width: 100%; 
-      border-collapse: collapse; 
+      width: 100%;
+      border-collapse: collapse;
       background: #fff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      border-radius: 6px; 
-      overflow: hidden; 
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      overflow: hidden;
     }
+
     table thead {
-      background: #007bff; 
+      background: #007bff;
       color: #fff;
     }
-    table th, 
+
+    table th,
     table td {
-      border: 1px solid #ddd; 
-      padding: 8px; 
+      border: 1px solid #ddd;
+      padding: 8px;
       text-align: center;
       font-size: 0.9rem;
     }
+
     table tbody tr:hover {
       background: #f9f9f9;
     }
@@ -244,38 +258,49 @@
       margin: 0 6px;
       transition: color 0.3s;
     }
+
     .actionIcon:hover {
       color: #0056b3;
     }
 
     .modalOverlay {
-      display: none; 
-      position: fixed; 
-      top: 0; 
-      left: 0; 
-      right: 0; 
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
       bottom: 0;
-      background: rgba(0,0,0,0.5);
-      justify-content: center; 
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
       align-items: center;
       z-index: 9999;
     }
+
     .modalContent {
-      width: 400px; 
+      width: 400px;
       max-width: 90%;
       border-radius: 8px;
-      background: #fff; 
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      animation: fadeInModal 0.3s ease; 
+      animation: fadeInModal 0.3s ease;
       position: relative;
     }
+
     @keyframes fadeInModal {
-      from { transform: scale(0.9); opacity: 0; }
-      to   { transform: scale(1);   opacity: 1; }
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
+
     .modalHeader {
       background: #007bff;
       color: #fff;
@@ -284,10 +309,12 @@
       justify-content: space-between;
       align-items: center;
     }
+
     .modalHeader h2 {
-      margin: 0; 
+      margin: 0;
       font-size: 1rem;
     }
+
     .modalCloseBtn {
       background: none;
       border: none;
@@ -296,52 +323,61 @@
       cursor: pointer;
       transition: color 0.3s;
     }
+
     .modalCloseBtn:hover {
       color: #ffdddd;
     }
+
     .modalBody {
       padding: 20px;
     }
+
     .modalBody label {
-      display: block; 
-      margin: 8px 0 4px; 
+      display: block;
+      margin: 8px 0 4px;
       font-weight: 500;
     }
-    .modalBody input, 
+
+    .modalBody input,
     .modalBody select {
-      width: 100%; 
-      padding: 8px; 
-      border: 1px solid #ccc; 
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
       border-radius: 4px;
       margin-bottom: 10px;
       font-size: 0.9rem;
       font-family: inherit;
     }
+
     .modalSaveBtn {
-      background: #28a745; 
-      color: #fff; 
-      border: none; 
+      background: #28a745;
+      color: #fff;
+      border: none;
       border-radius: 4px;
-      padding: 10px 14px; 
-      cursor: pointer; 
+      padding: 10px 14px;
+      cursor: pointer;
       margin-top: 10px;
       font-size: 0.9rem;
       transition: background 0.3s;
     }
+
     .modalSaveBtn:hover {
       background: #218838;
     }
 
     .loadingOverlay {
       position: fixed;
-      top: 0; left: 0;
-      right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
       display: none;
       justify-content: center;
       align-items: center;
       z-index: 99999;
     }
+
     .spinner {
       width: 60px;
       height: 60px;
@@ -350,12 +386,19 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
+
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
   </style>
 </head>
+
 <body onload="initPage()">
   <header>
     <h1 data-lng="page_title">نظام إدارة الحضور والانصراف - أنواع الإجازات</h1>
@@ -381,8 +424,9 @@
       <!-- فلاتر البحث -->
       <div class="searchFilters">
         <label for="searchName" data-lng="leave_name">اسم الإجازة:</label>
-        <input type="text" id="searchName" oninput="filterVacationTypesLocally()" data-lng-placeholder="name_placeholder" placeholder="بحث بالاسم" />
-        
+        <input type="text" id="searchName" oninput="filterVacationTypesLocally()"
+          data-lng-placeholder="name_placeholder" placeholder="بحث بالاسم" />
+
         <label for="searchStatus" data-lng="leave_status">الحالة:</label>
         <select id="searchStatus" onchange="filterVacationTypesLocally()">
           <option value="" data-lng-option="all_statuses">كل الحالات</option>
@@ -493,7 +537,7 @@
       </div>
       <div class="modalBody">
         <input type="hidden" id="vacId" />
-        
+
         <label for="vacName" data-lng="leave_name">اسم الإجازة:</label>
         <input type="text" id="vacName" data-lng-placeholder="name_example" placeholder="مثال: إجازة أمومة" />
 
@@ -504,7 +548,7 @@
         </select>
 
         <label for="mawjoodId" data-lng="mawgoodId">Mawjood ID:</label>
-        <input type="text" id="mawjoodId" placeholder="مثال: 6294d76f..." data-lng-placeholder="mawgood_example"/>
+        <input type="text" id="mawjoodId" placeholder="مثال: 6294d76f..." data-lng-placeholder="mawgood_example" />
 
         <button class="modalSaveBtn" data-lng="save" onclick="saveVacationType()">حفظ</button>
       </div>
@@ -556,7 +600,7 @@
 
       // تطبيق placeholder
       document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
-      const key = el.getAttribute('data-lng-placeholder');
+        const key = el.getAttribute('data-lng-placeholder');
         if (translations[key]) {
           el.placeholder = translations[key];
         }
@@ -573,7 +617,7 @@
       document.querySelectorAll('[data-lng-hover-title]').forEach(el => {
         const key = el.getAttribute('data-lng-hover-title');
         if (translations[key]) {
-          el.setAttribute('title',translations[key])
+          el.setAttribute('title', translations[key])
         }
       });
 
@@ -603,41 +647,41 @@
       await setLanguage(storedLang);
     });
 
-    function initPage(){
+    function initPage() {
       authToken = localStorage.getItem('authToken');
-      if(!authToken){
-        window.location.href='login.html';
+      if (!authToken) {
+        window.location.href = 'login.html';
         return;
       }
       loadVacationTypes();
     }
 
-    function logout(){
+    function logout() {
       localStorage.removeItem('authToken');
-      window.location.href='login.html';
+      window.location.href = 'login.html';
     }
 
-    function showLoading(){
+    function showLoading() {
       document.getElementById('loadingOverlay').style.display = 'flex';
     }
-    function hideLoading(){
+    function hideLoading() {
       document.getElementById('loadingOverlay').style.display = 'none';
     }
 
-    function showError(msg){
+    function showError(msg) {
       const errorMsg = document.getElementById('errorMsg');
       errorMsg.textContent = msg;
       errorMsg.style.display = 'block';
       document.getElementById('successMsg').style.display = 'none';
     }
-    function showSuccess(msg){
+    function showSuccess(msg) {
       const successMsg = document.getElementById('successMsg');
       successMsg.textContent = msg;
       successMsg.style.display = 'block';
       console.log(successMsg)
       document.getElementById('errorMsg').style.display = 'none';
     }
-    function clearMessages(){
+    function clearMessages() {
       document.getElementById('errorMsg').style.display = 'none';
       document.getElementById('successMsg').style.display = 'none';
     }
@@ -645,20 +689,20 @@
     /**
      * جلب قائمة أنواع الإجازات
      */
-    async function loadVacationTypes(){
+    async function loadVacationTypes() {
       // clearMessages();
       showLoading();
       try {
-        const resp = await fetch('https://timeattendhr.com/api/vacation-types', {
-          headers:{ 'Authorization': 'Bearer '+authToken }
+        const resp = await fetch('http://140.82.38.238:4089/api/vacation-types', {
+          headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if(!resp.ok) {
+        if (!resp.ok) {
           throw new Error(getTranslate('error_getting_data'));
         }
         const data = await resp.json();
         allVacationTypes = data;
         renderVacationTypes(allVacationTypes);
-      } catch(err){
+      } catch (err) {
         showError(err.message);
       } finally {
         hideLoading();
@@ -668,20 +712,20 @@
     /**
      * بناء الجدول
      */
-    function renderVacationTypes(vacArray){
+    function renderVacationTypes(vacArray) {
       const tb = document.querySelector('#vacationTypesTable tbody');
       tb.innerHTML = '';
 
       vacArray.forEach((v, i) => {
-        const creationDate = v.createdAt 
-          ? new Date(v.createdAt).toISOString().split('T')[0] 
+        const creationDate = v.createdAt
+          ? new Date(v.createdAt).toISOString().split('T')[0]
           : '';
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${i + 1}</td>
           <td>${v.vacation_name || ''}</td>
-          <td data-lng='${v.vacation_status === "1" ? 'active_status' : 'disabled_status'}'>${ getTranslate(v.vacation_status === "1" ? 'active_status' : 'disabled_status')}</td>
+          <td data-lng='${v.vacation_status === "1" ? 'active_status' : 'disabled_status'}'>${getTranslate(v.vacation_status === "1" ? 'active_status' : 'disabled_status')}</td>
           <td>${v.mawjood_id || ''}</td>
           <td>${creationDate}</td>
           <td>
@@ -700,25 +744,25 @@
     /**
      * فلترة محلية (بدون طلب جديد للسيرفر)
      */
-    function filterVacationTypesLocally(){
-      const nameVal     = document.getElementById('searchName').value.toLowerCase().trim();
-      const statusVal   = document.getElementById('searchStatus').value; 
+    function filterVacationTypesLocally() {
+      const nameVal = document.getElementById('searchName').value.toLowerCase().trim();
+      const statusVal = document.getElementById('searchStatus').value;
       const creationVal = document.getElementById('searchCreation').value;
 
       let filtered = allVacationTypes.filter(v => {
-        if(nameVal && !v.vacation_name?.toLowerCase().includes(nameVal)){
+        if (nameVal && !v.vacation_name?.toLowerCase().includes(nameVal)) {
           return false;
         }
-        if(statusVal){
-          if(v.vacation_status !== statusVal){
+        if (statusVal) {
+          if (v.vacation_status !== statusVal) {
             return false;
           }
         }
-        if(creationVal){
-          let cdate = v.createdAt 
+        if (creationVal) {
+          let cdate = v.createdAt
             ? new Date(v.createdAt).toISOString().split('T')[0]
             : '';
-          if(cdate !== creationVal) return false;
+          if (cdate !== creationVal) return false;
         }
         return true;
       });
@@ -729,7 +773,7 @@
     /**
      * فتح المودال في وضع الإضافة
      */
-    function openModalForAdd(){
+    function openModalForAdd() {
       editModeVacId = null;
       document.getElementById('modalTitle').textContent = getTranslate('add_leaveType');
       document.getElementById('vacId').value = '';
@@ -742,25 +786,25 @@
     /**
      * فتح المودال في وضع التعديل
      */
-    async function openModalForEdit(id){
+    async function openModalForEdit(id) {
       clearMessages();
       editModeVacId = id;
       showLoading();
       try {
-        const resp = await fetch(`https://timeattendhr.com/api/vacation-types/${id}`, {
-          headers:{ 'Authorization': 'Bearer '+authToken }
+        const resp = await fetch(`http://140.82.38.238:4089/api/vacation-types/${id}`, {
+          headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if(!resp.ok) throw new Error(getTranslate('err_getting_typeData'));
+        if (!resp.ok) throw new Error(getTranslate('err_getting_typeData'));
         const v = await resp.json();
 
         document.getElementById('modalTitle').textContent = getTranslate('edit_leaveType');
-        document.getElementById('vacId').value    = v._id || '';
-        document.getElementById('vacName').value  = v.vacation_name   || '';
-        document.getElementById('vacStatus').value= v.vacation_status || '1';
-        document.getElementById('mawjoodId').value= v.mawjood_id      || '';
+        document.getElementById('vacId').value = v._id || '';
+        document.getElementById('vacName').value = v.vacation_name || '';
+        document.getElementById('vacStatus').value = v.vacation_status || '1';
+        document.getElementById('mawjoodId').value = v.mawjood_id || '';
 
         showModal();
-      } catch(err){
+      } catch (err) {
         showError(err.message);
       } finally {
         hideLoading();
@@ -770,13 +814,13 @@
     /**
      * حفظ نوع الإجازة (إضافة أو تعديل)
      */
-    async function saveVacationType(){
+    async function saveVacationType() {
       clearMessages();
       showLoading();
 
-      const vacId      = document.getElementById('vacId').value;
-      const vacName    = document.getElementById('vacName').value.trim();
-      const vacStatus  = document.getElementById('vacStatus').value;
+      const vacId = document.getElementById('vacId').value;
+      const vacName = document.getElementById('vacName').value.trim();
+      const vacStatus = document.getElementById('vacStatus').value;
       const mawjoodVal = document.getElementById('mawjoodId').value.trim();
 
       const bodyObj = {
@@ -786,10 +830,10 @@
       };
 
       try {
-        let url = 'https://timeattendhr.com/api/vacation-types';
+        let url = 'http://140.82.38.238:4089/api/vacation-types';
         let method = 'POST';
-        if(vacId) {
-          url = `https://timeattendhr.com/api/vacation-types/${vacId}`;
+        if (vacId) {
+          url = `http://140.82.38.238:4089/api/vacation-types/${vacId}`;
           method = 'PUT';
         }
 
@@ -801,13 +845,13 @@
           },
           body: JSON.stringify(bodyObj)
         });
-        if(!resp.ok){
-          throw new Error(getTranslate(vacId? 'edit_err':'add_err'));
+        if (!resp.ok) {
+          throw new Error(getTranslate(vacId ? 'edit_err' : 'add_err'));
         }
         showSuccess(getTranslate('success'));
         closeModal();
         loadVacationTypes();
-      } catch(err) {
+      } catch (err) {
         showError(err.message);
       } finally {
         hideLoading();
@@ -817,19 +861,19 @@
     /**
      * حذف نوع إجازة
      */
-    async function deleteVacationType(id){
+    async function deleteVacationType(id) {
       clearMessages();
-      if(!confirm(getTranslate('sure_to_delete'))) return;
+      if (!confirm(getTranslate('sure_to_delete'))) return;
       showLoading();
       try {
-        const resp = await fetch(`https://timeattendhr.com/api/vacation-types/${id}`, {
+        const resp = await fetch(`http://140.82.38.238:4089/api/vacation-types/${id}`, {
           method: 'DELETE',
-          headers: { 'Authorization': 'Bearer '+authToken }
+          headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if(!resp.ok) throw new Error(getTranslate('delete_err'));
+        if (!resp.ok) throw new Error(getTranslate('delete_err'));
         showSuccess(getTranslate('success'));
         loadVacationTypes();
-      } catch(err){
+      } catch (err) {
         showError(err.message);
       } finally {
         hideLoading();
@@ -839,19 +883,19 @@
     /**
      * إظهار المودال
      */
-    function showModal(){
-      document.getElementById('vacationTypeModal').style.display='flex';
+    function showModal() {
+      document.getElementById('vacationTypeModal').style.display = 'flex';
     }
     /**
      * إغلاق المودال
      */
-    function closeModal(){
-      document.getElementById('vacationTypeModal').style.display='none';
-      document.getElementById('vacId').value='';
-      document.getElementById('modalTitle').textContent='';
-      document.getElementById('vacName').value='';
-      document.getElementById('vacStatus').value='1';
-      document.getElementById('mawjoodId').value='';
+    function closeModal() {
+      document.getElementById('vacationTypeModal').style.display = 'none';
+      document.getElementById('vacId').value = '';
+      document.getElementById('modalTitle').textContent = '';
+      document.getElementById('vacName').value = '';
+      document.getElementById('vacStatus').value = '1';
+      document.getElementById('mawjoodId').value = '';
     }
   </script>
 
@@ -860,4 +904,5 @@
   <!-- ... -->
 
 </body>
+
 </html>

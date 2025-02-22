@@ -175,7 +175,8 @@
         <input type="password" id="pass" placeholder="">
 
         <button id="login_button" onclick="login()"></button>
-        <button style="background: #17a2b8;margin-top: 12px;" id="register_button" onclick="window.location.href = 'register.html'"></button>
+        <button style="background: #17a2b8;margin-top: 12px;" id="register_button"
+          onclick="window.location.href = 'register.html'"></button>
       </div>
     </div>
 
@@ -275,7 +276,7 @@
       errorMsg.textContent = '';
 
       try {
-        const resp = await fetch('https://timeattendhr.com/api/users/login', {
+        const resp = await fetch('http://140.82.38.238:4089/api/users/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ user_name: userName, pass })

@@ -601,7 +601,7 @@
       clearMessages();
       showLoading();
       try {
-        const resp = await fetch('https://timeattendhr.com/api/departments', {
+        const resp = await fetch('http://140.82.38.238:4089/api/departments', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) {
@@ -622,13 +622,13 @@
       tb.innerHTML = '';
 
       deptArray.forEach((d, i) => {
-        const creationDate = d.createdAt? new Date(d.createdAt).toISOString().split('T')[0] : '';
+        const creationDate = d.createdAt ? new Date(d.createdAt).toISOString().split('T')[0] : '';
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td>${i + 1}</td>
           <td>${d.department_name || ''}</td>
-          <td>${getTranslate(d.department_status === "1"? 'dep_active_status':'dep_inactive_status') }</td>
+          <td>${getTranslate(d.department_status === "1" ? 'dep_active_status' : 'dep_inactive_status')}</td>
           <td>${d.mawjood_id || ''}</td>
           <td>${creationDate}</td>
           <td>
@@ -685,7 +685,7 @@
       editModeDeptId = id;
       showLoading();
       try {
-        const resp = await fetch(`https://timeattendhr.com/api/departments/${id}`, {
+        const resp = await fetch(`http://140.82.38.238:4089/api/departments/${id}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('فشل جلب بيانات القسم');
@@ -721,10 +721,10 @@
       };
 
       try {
-        let url = 'https://timeattendhr.com/api/departments';
+        let url = 'http://140.82.38.238:4089/api/departments';
         let method = 'POST';
         if (deptId) {
-          url = `https://timeattendhr.com/api/departments/${deptId}`;
+          url = `http://140.82.38.238:4089/api/departments/${deptId}`;
           method = 'PUT';
         }
 
@@ -739,7 +739,7 @@
         if (!resp.ok) {
           throw new Error(`فشل ${deptId ? 'تعديل' : 'إضافة'} القسم`);
         }
-        showSuccess(getTranslate(deptId? 'dep_msg_success_edit' : 'dep_msg_success_add'));
+        showSuccess(getTranslate(deptId ? 'dep_msg_success_edit' : 'dep_msg_success_add'));
         closeModal();
         loadDepartments();
       } catch (err) {
@@ -754,7 +754,7 @@
       if (!confirm(getTranslate('dep_msg_confirm_delete'))) return;
       showLoading();
       try {
-        const resp = await fetch(`https://timeattendhr.com/api/departments/${id}`, {
+        const resp = await fetch(`http://140.82.38.238:4089/api/departments/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });

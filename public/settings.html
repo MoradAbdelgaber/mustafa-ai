@@ -183,7 +183,7 @@
 
     // نقاط النهاية (EndPoints)
     const apiGetEndpoint = 'https://mawjood.iraqsapp.com/original-fingerprints';
-    const apiPostEndpoint = 'https://timeattendhr.com/api/fingerprints';
+    const apiPostEndpoint = 'http://140.82.38.238:4089/api/fingerprints';
 
     // التوكن المطلوب للـAPI الثاني
     const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzhjOTg1MjRhMDJmYTMwNjgyZjRjYjkiLCJ1c2VyTmFtZSI6Im1vIiwiaWF0IjoxNzM3NjczNDc0LCJleHAiOjE3Mzc3MDIyNzR9.QKYdRziTUtKPUBow-saIby6YiAfMD_ym6r_Lo31JZNo'; // ضع التوكن الصحيح هنا
@@ -289,9 +289,9 @@
         }
 
         // انتهت عملية التصفح (Pagination)
-        const msg = document.getElementById('langSelector').value == 'ar'?
-        `انتهى الجلب والإرسال. تم جلب ${totalFetched} بصمة وإرسال ${totalSent} بنجاح.`:
-        `get ${totalFetched} and sent ${totalSent} fingerprint successfully`;
+        const msg = document.getElementById('langSelector').value == 'ar' ?
+          `انتهى الجلب والإرسال. تم جلب ${totalFetched} بصمة وإرسال ${totalSent} بنجاح.` :
+          `get ${totalFetched} and sent ${totalSent} fingerprint successfully`;
         resultDiv.innerText = msg
       } catch (error) {
         console.error(error);

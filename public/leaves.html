@@ -602,7 +602,7 @@
       errorMsg.textContent = '';
       successMsg.textContent = '';
 
-      fetch('https://timeattendhr.com/api/vacations', {
+      fetch('http://140.82.38.238:4089/api/vacations', {
         headers: { 'Authorization': 'Bearer ' + authToken }
       })
         .then(resp => {
@@ -675,7 +675,7 @@
     }
 
     function loadEmployees() {
-      fetch('https://timeattendhr.com/api/employees?page=1&limit=9999', {
+      fetch('http://140.82.38.238:4089/api/employees?page=1&limit=9999', {
         headers: { 'Authorization': 'Bearer ' + authToken }
       })
         .then(resp => {
@@ -704,7 +704,7 @@
     }
 
     function loadVacationTypes() {
-      fetch('https://timeattendhr.com/api/vacation-Types', {
+      fetch('http://140.82.38.238:4089/api/vacation-Types', {
         headers: { 'Authorization': 'Bearer ' + authToken }
       })
         .then(resp => {
@@ -775,7 +775,7 @@
       errorMsg.textContent = '';
       successMsg.textContent = '';
 
-      fetch(`https://timeattendhr.com/api/vacations/${id}`, {
+      fetch(`http://140.82.38.238:4089/api/vacations/${id}`, {
         headers: { 'Authorization': 'Bearer ' + authToken }
       })
         .then(resp => {
@@ -841,10 +841,10 @@
         status
       };
 
-      let url = 'https://timeattendhr.com/api/vacations';
+      let url = 'http://140.82.38.238:4089/api/vacations';
       let method = 'POST';
       if (vacationId) {
-        url = `https://timeattendhr.com/api/vacations/${vacationId}`;
+        url = `http://140.82.38.238:4089/api/vacations/${vacationId}`;
         method = 'PUT';
       }
       fetch(url, {
@@ -859,7 +859,7 @@
           if (!resp.ok) {
             throw new Error(`فشل ${vacationId ? 'تعديل' : 'إضافة'} الإجازة`);
           }
-          successMsg.textContent = getLeavesTranslate(vacationId? 'leaves_msg_success_edit' : 'leaves_msg_success_add');
+          successMsg.textContent = getLeavesTranslate(vacationId ? 'leaves_msg_success_edit' : 'leaves_msg_success_add');
           closeModal();
           loadVacations();
         })
@@ -876,7 +876,7 @@
 
       if (!confirm(getLeavesTranslate('leaves_msg_confirm_delete'))) return;
 
-      fetch(`https://timeattendhr.com/api/vacations/${id}`, {
+      fetch(`http://140.82.38.238:4089/api/vacations/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': 'Bearer ' + authToken }
       })

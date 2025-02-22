@@ -498,8 +498,10 @@
       font-weight: bold;
       margin-top: auto;
     }
+
     .scheduleTable {
-      width: 100%;display: none;
+      width: 100%;
+      display: none;
       border-collapse: collapse;
       margin-top: 10px;
     }
@@ -516,6 +518,7 @@
       text-align: center;
       font-size: 0.85rem;
     }
+
     .btnSmall {
       padding: 4px 8px;
       border-radius: 4px;
@@ -527,6 +530,7 @@
     .btnSmall:hover {
       opacity: 0.9;
     }
+
     .modalOverlay {
       display: none;
       position: fixed;
@@ -539,6 +543,7 @@
       align-items: center;
       z-index: 9999;
     }
+
     .modalContent {
       width: 400px;
       max-width: 90%;
@@ -602,9 +607,6 @@
       margin-bottom: 10px;
       font-size: 0.9rem;
     }
-
-
-
   </style>
 </head>
 
@@ -949,13 +951,13 @@
         }
       });
 
-      
-        // تفعيل البحث في الـselect
-        $(document).ready(function () {
-          $('#employeeSelect').select2({ width: '150px' });
-          $('#departmentSelect').select2({ width: '150px' });
-          $('#statusSelect').select2({ width: '130px' });
-        });
+
+      // تفعيل البحث في الـselect
+      $(document).ready(function () {
+        $('#employeeSelect').select2({ width: '150px' });
+        $('#departmentSelect').select2({ width: '150px' });
+        $('#statusSelect').select2({ width: '130px' });
+      });
 
     }
     // Function to load the general language file
@@ -1033,7 +1035,7 @@
     async function loadEmployees() {
       const sel = document.getElementById('employeeSelect');
       try {
-        const url = 'https://timeattendhr.com/api/employees?page=1&limit=9999';
+        const url = 'http://140.82.38.238:4089/api/employees?page=1&limit=9999';
         const resp = await fetch(url, { headers: { 'Authorization': 'Bearer ' + authToken } });
         if (!resp.ok) throw new Error('فشل جلب قائمة الموظفين');
         const data = await resp.json();
@@ -1052,7 +1054,7 @@
     async function loadDepartments() {
       const sel = document.getElementById('departmentSelect');
       try {
-        const url = 'https://timeattendhr.com/api/departments';
+        const url = 'http://140.82.38.238:4089/api/departments';
         const resp = await fetch(url, { headers: { 'Authorization': 'Bearer ' + authToken } });
         if (!resp.ok) throw new Error('فشل جلب قائمة الأقسام');
         const data = await resp.json();
@@ -1084,7 +1086,7 @@
       const empId = document.getElementById('employeeSelect').value || '0';
       const deptId = document.getElementById('departmentSelect').value || '0';
 
-      let url = 'https://timeattendhr.com/api/reports/attendance';
+      let url = 'http://140.82.38.238:4089/api/reports/attendance';
       url += `?start_date=${startD}&end_date=${endD}`;
       url += `&employee_id=${empId}`;
       url += `&department_id=${deptId}`;
@@ -1446,7 +1448,7 @@
 
                 let cellStyle = `width:${col.width};`;
 
-                if(col.field == 'rest_breaks') {
+                if (col.field == 'rest_breaks') {
                   let val = ''
                   cellVal.forEach(item => {
                     val += `${getTranslate('in')}: ${item.rest_in} \n
@@ -2094,7 +2096,7 @@
       const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
       const dayStr = dayOrder[new Date(attDateStr).getDay()]
       const scheduleDay = weekSchedules.filter(day => day.day == dayStr)[0]
-      if(scheduleDay) {
+      if (scheduleDay) {
         currentScheduleDay = scheduleDay
         renderSchedule(scheduleDay)
       }
@@ -2188,7 +2190,7 @@
       const fromStr = fromDate + 'T00:00:00';
       const toStr = toDate + 'T23:59:59';
 
-      let url = `https://timeattendhr.com/api/fingerprints?from=${fromStr}&to=${toStr}`;
+      let url = `http://140.82.38.238:4089/api/fingerprints?from=${fromStr}&to=${toStr}`;
       if (eid) {
         url += `&enrollid=${eid}`;
       }
