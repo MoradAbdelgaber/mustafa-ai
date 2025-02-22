@@ -16,12 +16,32 @@ exports.authMiddleware = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    // نفترض أن الـ userId مخزن في التوكن
-    req.userId = decoded.userId;
-    req.user = await User.findById(req.userId).select("-pass");
-    if (!req.user) {
+
+    const userId = decoded.userId;
+    const user = await User.findById(userId).select("-pass");
+
+    if (!user) {
       return res.status(401).json({ error: "wrong credentials" });
     }
+
+    //employee
+    if (user.roles.includes(Roles.USER)) {
+      //admin data
+      req.userId = user.owner;
+      req.user = await User.findById(user.owner).select("-pass");
+      //employee data
+      req.employee = user;
+    } else {
+      // Admin
+      req.userId = user._id;
+      req.user = user;
+    }
+
+    //check for activation
+    if (!req.user.active) {
+      return res.status(403).json({ error: "Account is not active" });
+    }
+
     next();
   } catch (err) {
     return res.status(403).json({ error: "Invalid token" });

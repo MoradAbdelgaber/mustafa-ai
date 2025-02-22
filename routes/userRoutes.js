@@ -7,6 +7,11 @@ const {
   getProfile,
   updateProfile,
   verifyEmail,
+  getEmployees,
+  registerEmployee,
+  updateEmployee,
+  deleteEmployee,
+  loginEmployee,
 } = require("../controllers/userController");
 const { authMiddleware } = require("../auth");
 
@@ -16,5 +21,12 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/profile", authMiddleware, getProfile);
 router.put("/profile", authMiddleware, updateProfile);
+
+//employees
+router.get("/employees", authMiddleware, getEmployees);
+router.post("/employees", authMiddleware, registerEmployee);
+router.post("/employees/login", loginEmployee);
+router.put("/employees/:id", authMiddleware, updateEmployee);
+router.delete("/employees/:id", authMiddleware, deleteEmployee);
 
 module.exports = router;

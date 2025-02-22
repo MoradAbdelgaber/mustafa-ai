@@ -1,22 +1,17 @@
 // models/User.js
 const mongoose = require("mongoose");
 const dayScheduleSchema = require("./dayScheduleSchema");
+const { Roles } = require("../utils/roles");
 
 const userSchema = new mongoose.Schema(
   {
     user_name: { type: String, required: true, unique: true },
     pass: { type: String, required: true }, // سيتم تخزين كلمة المرور بشكل مشفّر
     display_name: { type: String },
-    show_dashboard: { type: Boolean, default: true },
-    show_attendance: { type: Boolean, default: true },
-    show_leaves: { type: Boolean, default: true },
-    show_departments: { type: Boolean, default: true },
-    show_employees: { type: Boolean, default: true },
-    show_rewards_and_penalties: { type: Boolean, default: true },
-    show_payroll: { type: Boolean, default: true },
-    show_holidays: { type: Boolean, default: true },
-    show_settings: { type: Boolean, default: true },
-    show_access: { type: Boolean, default: true },
+    active: {
+      type: Boolean,
+      default: true,
+    },
     //default time zone
     timeZone: { type: String, default: "Asia/Dubai" },
     //default week schedule
@@ -26,7 +21,34 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
+      default: "",
+    },
+    roles: {
+      type: [String],
+      default: [Roles.ADMIN],
+    },
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+
+    //permissions
+    permissions: {
+      showDashboard: { type: Boolean, default: true },
+      showEmployees: { type: Boolean, default: true },
+      showAttendanceReport: { type: Boolean, default: true },
+      showTimeLeaves: { type: Boolean, default: true },
+      showOfficialHolidays: { type: Boolean, default: true },
+      showLeaves: { type: Boolean, default: true },
+      showAttendanceLog: { type: Boolean, default: true },
+      showRewardsAndPenalities: { type: Boolean, default: true },
+      showDevices: { type: Boolean, default: true },
+      showRequests: { type: Boolean, default: true },
+      showDepartments: { type: Boolean, default: true },
+      showUnregisteredEmployees: { type: Boolean, default: true },
+      showEmployeeSummaryReport: { type: Boolean, default: true },
+      showLeavesTypes: { type: Boolean, default: true },
+      showPublicSettings: { type: Boolean, default: true },
     },
   },
   {
