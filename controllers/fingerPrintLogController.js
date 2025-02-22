@@ -196,7 +196,7 @@ exports.getLogs = async (req, res) => {
     limit = parseInt(limit, 10);
 
     if (page === 0) {
-      const allLogs = await FingerPrintLog.find(filter);
+      const allLogs = await FingerPrintLog.find(filter).sort({ time: -1 });
       return res.json({
         logs: allLogs,
         totalCount: allLogs.length,
