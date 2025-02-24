@@ -754,7 +754,7 @@
       successMsg.textContent = '';
 
       try {
-        const resp = await fetch('http://140.82.38.238:4089/api/rewards-penalties', {
+        const resp = await fetch('/api/rewards-penalties', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('فشل جلب المكافآت/العقوبات');
@@ -823,7 +823,7 @@
 
     async function loadEmployees() {
       try {
-        const resp = await fetch('http://140.82.38.238:4089/api/employees?page=1&limit=9999', {
+        const resp = await fetch('/api/employees?page=1&limit=9999', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('فشل جلب الموظفين');
@@ -883,7 +883,7 @@
       successMsg.textContent = '';
 
       try {
-        const resp = await fetch(`http://140.82.38.238:4089/api/rewards-penalties/${id}`, {
+        const resp = await fetch(`/api/rewards-penalties/${id}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('فشل جلب بيانات السجل');
@@ -953,10 +953,10 @@
       };
 
       try {
-        let url = 'http://140.82.38.238:4089/api/rewards-penalties';
+        let url = '/api/rewards-penalties';
         let method = 'POST';
         if (recordId) {
-          url = `http://140.82.38.238:4089/api/rewards-penalties/${recordId}`;
+          url = `/api/rewards-penalties/${recordId}`;
           method = 'PUT';
         }
         const resp = await fetch(url, {
@@ -985,7 +985,7 @@
 
       if (!confirm(getTranslate('rewards_msg_confirm_delete'))) return;
       try {
-        const resp = await fetch(`http://140.82.38.238:4089/api/rewards-penalties/${id}`, {
+        const resp = await fetch(`/api/rewards-penalties/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });

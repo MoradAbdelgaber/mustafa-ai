@@ -646,7 +646,7 @@
       clearMessages();
       showLoading();
       try {
-        const resp = await fetch('http://140.82.38.238:4089/api/requests', {
+        const resp = await fetch('/api/requests', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) {

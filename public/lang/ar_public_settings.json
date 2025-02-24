@@ -8,7 +8,6 @@
   "time_zone": " المنطقة الزمنية :",
   "time_zone_place": "أدخل المنطقة الزمنية",
 
-  "templates": "النمازج",
   "add_template": "إضافة نموذج",
   "edit_template": "تعديل نموذج",
 
@@ -29,7 +28,6 @@
   "delete": "حذف",
   "copy": "نسخ",
 
-  "err_saving_timeZone": "خطأ في حفظ المنطقة الزمنية",
   "failed_to_save_template": "خطأ في حفظ النموذج",
   "success_msg": "تمت العملية بنجاح",
 

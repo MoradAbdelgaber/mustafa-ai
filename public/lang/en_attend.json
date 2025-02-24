@@ -12,8 +12,8 @@
   "attend_filter_event_label_attendance": "Attendance",
   "attend_filter_event_label_enter": "Enter",
   "attend_filter_event_label_exit": "Exit",
-  "attend_filter_event_label_vacation_enter": "Break In",
-  "attend_filter_event_label_vacation_exit": "Break Out",
+  "attend_filter_event_label_vacation_enter": "Vacation Enter",
+  "attend_filter_event_label_vacation_exit": "Vacation Exit",
   "not_none": "Not None",
   "attend_filter_button_search": "Search",
   "attend_filter_button_showall": "Show All",
@@ -31,6 +31,7 @@
   "attend_table_header_device": "Device",
   "attend_table_header_image": "Image",
   "attend_table_header_actions": "Actions",
+  
   "attend_sidebar_title": "Menu",
   "attend_sidebar_overview": "Overview",
   "attend_sidebar_employees": "Employees",
@@ -48,6 +49,8 @@
   "employee_summary_report": "Employee  Summary Report",
   "leaves_type": "Leave Types",
   "public_settings": "Public Settings",
+
+
   "attend_modal_add_title": "Add Fingerprint Record",
   "attend_modal_edit_title": "Edit Fingerprint Record",
   "attend_modal_label_employee": "Employee:",

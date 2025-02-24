@@ -128,19 +128,11 @@
     "lblDevicesModalTitle": "Assign Devices",
     "lblChooseDevices": "Select Devices:",
     "btnSaveDevices": "Save Devices",
-    "btnAllDevices": "All Devices",
-    "chooseDevices": "Choose devices",
-
-    "deleteSelectedBtn": "Delete Selected Employee",
-    "selectAllBtn": "Select All",
   
     "lblFaceModalTitle": "Face Capture",
     "lblFaceDeviceSelect": "Choose Device:",
     "lblFaceAdminCheck": "Enable Admin",
     "btnCaptureFace": "Capture Face",
-    "save": "save",
-
-    "lblFingerModalTitle": "Add Fingerprint",
   
     "lblCardModalTitle": "Capture Card",
     "lblCardDeviceSelect": "Choose Device:",
@@ -165,14 +157,11 @@
 
     "next": "Next",
     "prev": "Prev",
-    "send_fingerprint":"Send Finger Print",
+    "send_fingerprint":"Send Finger Print ",
 
     
    "templates_msg_error_fetch": "Error in getting templates",
-    "choose_template": "Choose Template",
-    "err_send_fingerPrint": "Fail to send fingerprint to device:",
-    "noAssignedD_err": "No assigned devices for this employee.",
-    "no_fingerprint_data": "No fingerprint data available for this employee."
+    "choose_template": "Choose Template"
 
   }
   

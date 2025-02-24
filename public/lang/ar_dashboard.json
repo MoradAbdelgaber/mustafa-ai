@@ -74,7 +74,8 @@
     "employee_summary_report": "تقرير ملخص الموظفين",
     "leaves_type": "أنواع الإجازات",
     "public_settings": "الاعدادات العامة",
-
+    "navshift": "شفتات",
+    "navSlot": "اوقات",
 
     "date":"التاريخ",
     "failed_to_bring_pending_leave":"فشل جلب الإجازات بالانتظار",

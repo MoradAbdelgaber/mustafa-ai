@@ -693,7 +693,7 @@
       // clearMessages();
       showLoading();
       try {
-        const resp = await fetch('http://140.82.38.238:4089/api/vacation-types', {
+        const resp = await fetch('/api/vacation-types', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) {
@@ -791,7 +791,7 @@
       editModeVacId = id;
       showLoading();
       try {
-        const resp = await fetch(`http://140.82.38.238:4089/api/vacation-types/${id}`, {
+        const resp = await fetch(`/api/vacation-types/${id}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(getTranslate('err_getting_typeData'));
@@ -830,10 +830,10 @@
       };
 
       try {
-        let url = 'http://140.82.38.238:4089/api/vacation-types';
+        let url = '/api/vacation-types';
         let method = 'POST';
         if (vacId) {
-          url = `http://140.82.38.238:4089/api/vacation-types/${vacId}`;
+          url = `/api/vacation-types/${vacId}`;
           method = 'PUT';
         }
 
@@ -866,7 +866,7 @@
       if (!confirm(getTranslate('sure_to_delete'))) return;
       showLoading();
       try {
-        const resp = await fetch(`http://140.82.38.238:4089/api/vacation-types/${id}`, {
+        const resp = await fetch(`/api/vacation-types/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });

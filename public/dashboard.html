@@ -689,6 +689,14 @@
         <i class="bi bi-gear"></i>
         <span data-lng="public_settings"></span>
       </div>
+      <div class="navItem" onclick="location.href='shifts.html'">
+        <i class="bi bi-hourglass-split"></i>
+        <span data-lng="navshift"></span>
+      </div>
+      <div class="navItem " onclick="location.href='timeslot.html'">
+        <i class="bi bi-watch"></i>
+        <span data-lng="navSlot"></span>
+      </div>
     </div>
   </div>
 
@@ -794,7 +802,7 @@
       errorEle.textContent = '';
       try {
         // مثال لجلب إجمالي الموظفين
-        let resp = await fetch(`http://140.82.38.238:4089/api/employees?limit=1`, {
+        let resp = await fetch(`/api/employees?limit=1`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(getTranslate("err_1"));
@@ -802,7 +810,7 @@
         document.getElementById('totalEmployees').textContent = data.totalCount || data.data_count || 0;
 
         // مثال لجلب الأقسام
-        resp = await fetch(`http://140.82.38.238:4089/api/departments`, {
+        resp = await fetch(`/api/departments`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(getTranslate("err_2"));
@@ -810,7 +818,7 @@
         document.getElementById('totalDepartments').textContent = depts.length || 0;
 
         // مثال لجلب العطل الرسمية
-        resp = await fetch(`http://140.82.38.238:4089/api/official-holidays`, {
+        resp = await fetch(`/api/official-holidays`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(getTranslate("err_3"));
@@ -818,7 +826,7 @@
         document.getElementById('totalHolidays').textContent = hols.length || 0;
 
         // مثال لجلب الإجازات بالانتظار
-        resp = await fetch(`http://140.82.38.238:4089/api/vacations?status=Pending`, {
+        resp = await fetch(`/api/vacations?status=Pending`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(getTranslate("err_4"));
@@ -826,7 +834,7 @@
         document.getElementById('pendingLeaves').textContent = leavesPending.length || 0;
 
         // مثال لجلب الأشخاص المتأخرين
-        resp = await fetch(`http://140.82.38.238:4089/api/reports/attendance?start_date=${startDate}&end_date=${endDate}&status_code=late`, {
+        resp = await fetch(`/api/reports/attendance?start_date=${startDate}&end_date=${endDate}&status_code=late`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(getTranslate("err_5"));
@@ -834,7 +842,7 @@
         document.getElementById('totalLate').textContent = lateData.length || 0;
 
         // مثال لجلب الغائبين
-        resp = await fetch(`http://140.82.38.238:4089/api/reports/attendance?start_date=${startDate}&end_date=${endDate}&status_code=absent`, {
+        resp = await fetch(`/api/reports/attendance?start_date=${startDate}&end_date=${endDate}&status_code=absent`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(getTranslate("err_6"));
@@ -842,7 +850,7 @@
         document.getElementById('totalAbsent').textContent = absentData.length || 0;
 
         // مثال لجلب الأوفر تايم
-        resp = await fetch(`http://140.82.38.238:4089/api/reports/attendance?start_date=${startDate}&end_date=${endDate}&status_code=overtime`, {
+        resp = await fetch(`/api/reports/attendance?start_date=${startDate}&end_date=${endDate}&status_code=overtime`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(getTranslate("err_7"));
@@ -850,7 +858,7 @@
         document.getElementById('totalOvertime').textContent = overData.length || 0;
 
         // مثال لجلب عدد الإجازات خلال الفترة
-        resp = await fetch(`http://140.82.38.238:4089/api/vacations?start_date=${startDate}&end_date=${endDate}`, {
+        resp = await fetch(`/api/vacations?start_date=${startDate}&end_date=${endDate}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(getTranslate("err_8"));
@@ -868,7 +876,7 @@
       const errorEle = document.getElementById('errorMsg');
       errorEle.textContent = '';
       try {
-        const url = `http://140.82.38.238:4089/api/reports/attendance?start_date=${startDate}&end_date=${endDate}`;
+        const url = `/api/reports/attendance?start_date=${startDate}&end_date=${endDate}`;
         const resp = await fetch(url, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
@@ -924,7 +932,7 @@
       const errorEle = document.getElementById('errorMsg');
       errorEle.textContent = '';
       try {
-        const url = `http://140.82.38.238:4089/api/reports/attendance?start_date=${startDate}&end_date=${endDate}`;
+        const url = `/api/reports/attendance?start_date=${startDate}&end_date=${endDate}`;
         const resp = await fetch(url, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
@@ -1003,7 +1011,7 @@
       const errorEle = document.getElementById('errorMsg');
       errorEle.textContent = '';
       try {
-        const url = `http://140.82.38.238:4089/api/reports/attendance?start_date=${startDate}&end_date=${endDate}`;
+        const url = `/api/reports/attendance?start_date=${startDate}&end_date=${endDate}`;
         const resp = await fetch(url, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
@@ -1065,7 +1073,7 @@
       const tbody = document.getElementById('latestHolidaysBody');
       tbody.innerHTML = '<tr><td colspan="2">' + getTranslate("dash_table_loading") + '</td></tr>';
       try {
-        let resp = await fetch('http://140.82.38.238:4089/api/official-holidays', {
+        let resp = await fetch('/api/official-holidays', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(getTranslate("failed_to_official_holidays"));
@@ -1114,7 +1122,7 @@
       const tbody = document.getElementById('pendingVacationsBody');
       tbody.innerHTML = '<tr><td colspan="4">' + getTranslate("dash_table_loading") + '</td></tr>';
       try {
-        let resp = await fetch('http://140.82.38.238:4089/api/vacations?status=Pending', {
+        let resp = await fetch('/api/vacations?status=Pending', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(getTranslate("failed_to_bring_pending_leave"));
@@ -1165,7 +1173,7 @@
 
       tbody.innerHTML = '<tr><td colspan="3">' + text + '</td></tr>';
       try {
-        let resp = await fetch('http://140.82.38.238:4089/api/fingerprints', {
+        let resp = await fetch('/api/fingerprints', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error(getTranslate("failed_to_fetch_fingerprint_records"));

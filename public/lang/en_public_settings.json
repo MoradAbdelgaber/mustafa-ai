@@ -7,8 +7,6 @@
   "time_zone": "TimeZone :",
   "time_zone_place": "enter timezone",
 
-  "templates": "Templates",
-
   "add_template": "Add Template",
   "edit_template": "Edit Template",
 
@@ -28,7 +26,6 @@
   "delete": "Del",
   "copy": "Copy",
 
-  "err_saving_timeZone": "Failed to save TimeZone",
   "failed_to_save_template": "Failed to save Template",
   "success_msg": "Process done successfully",
 

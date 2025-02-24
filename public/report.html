@@ -498,115 +498,6 @@
       font-weight: bold;
       margin-top: auto;
     }
-
-    .scheduleTable {
-      width: 100%;
-      display: none;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-
-    .scheduleTable thead {
-      background: #17a2b8;
-      color: #fff;
-    }
-
-    .scheduleTable th,
-    .scheduleTable td {
-      border: 1px solid #ddd;
-      padding: 5px;
-      text-align: center;
-      font-size: 0.85rem;
-    }
-
-    .btnSmall {
-      padding: 4px 8px;
-      border-radius: 4px;
-      cursor: pointer;
-      margin: 2px;
-      border: none;
-    }
-
-    .btnSmall:hover {
-      opacity: 0.9;
-    }
-
-    .modalOverlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-
-    .modalContent {
-      width: 400px;
-      max-width: 90%;
-      border-radius: 8px;
-      background: #fff;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      animation: fadeInModal 0.3s ease;
-      position: relative;
-      max-height: 90vh;
-      overflow-y: auto;
-      border: 2px solid #eee;
-    }
-
-    .modalHeader {
-      background: #007bff;
-      color: #fff;
-      padding: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .modalHeader h2 {
-      margin: 0;
-      font-size: 1.1rem;
-    }
-
-    .modalCloseBtn {
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: color 0.3s;
-    }
-
-    .modalCloseBtn:hover {
-      color: #ffdddd;
-    }
-
-    .modalBody {
-      padding: 20px;
-    }
-
-    .modalBody label {
-      display: block;
-      margin: 8px 0 4px;
-      font-weight: 500;
-      font-size: 0.95rem;
-    }
-
-    .modalBody input,
-    .modalBody select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      margin-bottom: 10px;
-      font-size: 0.9rem;
-    }
   </style>
 </head>
 
@@ -801,6 +692,7 @@
         <i class="bi bi-gear"></i>
         <span data-lng="public_settings"></span>
       </div>
+
     </div>
   </div>
   <!-- /container -->
@@ -954,9 +846,9 @@
 
       // تفعيل البحث في الـselect
       $(document).ready(function () {
-        $('#employeeSelect').select2({ width: '150px' });
-        $('#departmentSelect').select2({ width: '150px' });
-        $('#statusSelect').select2({ width: '130px' });
+        $('#employeeSelect').select2({ width: '150px', placeholder: 'اختر موظفًا' });
+        // $('#departmentSelect').select2({ width: '150px', placeholder: 'اختر قسمًا' });
+        // $('#statusSelect').select2({ width: '130px', placeholder: 'كل الحالات' });
       });
 
     }
@@ -1031,16 +923,15 @@
       return ISOweekStart;
     }
 
-    employees = []
     async function loadEmployees() {
       const sel = document.getElementById('employeeSelect');
       try {
-        const url = 'http://140.82.38.238:4089/api/employees?page=1&limit=9999';
+        const url = '/api/employees?page=1&limit=9999';
         const resp = await fetch(url, { headers: { 'Authorization': 'Bearer ' + authToken } });
         if (!resp.ok) throw new Error('فشل جلب قائمة الموظفين');
         const data = await resp.json();
-        employees = data.data || [];
-        employees.forEach(emp => {
+        const arr = data.data || [];
+        arr.forEach(emp => {
           const opt = document.createElement('option');
           opt.value = emp.enroll_id;
           opt.textContent = emp.name;
@@ -1054,7 +945,7 @@
     async function loadDepartments() {
       const sel = document.getElementById('departmentSelect');
       try {
-        const url = 'http://140.82.38.238:4089/api/departments';
+        const url = '/api/departments';
         const resp = await fetch(url, { headers: { 'Authorization': 'Bearer ' + authToken } });
         if (!resp.ok) throw new Error('فشل جلب قائمة الأقسام');
         const data = await resp.json();
@@ -1086,7 +977,7 @@
       const empId = document.getElementById('employeeSelect').value || '0';
       const deptId = document.getElementById('departmentSelect').value || '0';
 
-      let url = 'http://140.82.38.238:4089/api/reports/attendance';
+      let url = '/api/reports/attendance';
       url += `?start_date=${startD}&end_date=${endD}`;
       url += `&employee_id=${empId}`;
       url += `&department_id=${deptId}`;
@@ -1909,22 +1800,6 @@
           <button onclick="fetchAttendanceLogs()">بحث</button>
         </div>
 
-        <table class="scheduleTable" id="scheduleTable">
-          <thead>
-            <tr>
-              <th data-lng="schDay"></th>
-              <th data-lng="schStart"></th>
-              <th data-lng="schEnd"></th>
-              <th data-lng="schOTStart"></th>
-              <th data-lng="schOffset"></th>
-              <th data-lng="schHourPrice"></th>
-              <th data-lng="schOTPrice"></th>
-              <th data-lng="schdetails"></th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-
         <!-- حاوية الجدول -->
         <div style="max-height: 400px; overflow:auto;">
           <table id="logsTable" style="width:100%; border-collapse:collapse;">
@@ -1946,107 +1821,6 @@
       </div>
     </div>
   </div>
-
-  <div class="modalOverlay" id="dayModal">
-    <div class="modalContent">
-      <div class="modalHeader">
-        <h2 id="dayModalTitle" data-lng="DayModalTitle"></h2>
-        <button class="modalCloseBtn" onclick="closeDayModal()">×</button>
-      </div>
-      <div class="modalBody" style="pointer-events: none;">
-
-        <label data-lng="lblDaySelect" for="daySelect"></label>
-        <select id="daySelect">
-          <option value="Sun">Sun</option>
-          <option value="Mon">Mon</option>
-          <option value="Tue">Tue</option>
-          <option value="Wed">Wed</option>
-          <option value="Thu">Thu</option>
-          <option value="Fri">Fri</option>
-          <option value="Sat">Sat</option>
-        </select>
-
-        <label data-lng="lblDayStart" for="dayStart"></label>
-        <input type="time" id="dayStart" />
-
-        <label data-lng="lblDayEnd" for="dayEnd"></label>
-        <input type="time" id="dayEnd" />
-
-        <label data-lng="lblDayOTStart" for="dayOTStart"></label>
-        <input type="time" id="dayOTStart" />
-
-        <label data-lng="lblDayOffset" for="dayOffset"></label>
-        <input type="number" id="dayOffset" />
-
-        <label data-lng="lblDayHourPrice" for="dayHourPrice"></label>
-        <input type="number" id="dayHourPrice" />
-
-        <label data-lng="lblDayOTPrice" for="dayOTPrice"></label>
-        <input type="number" id="dayOTPrice" />
-
-        <label data-lng="lblDayAllowedDelay" for="dayAllowedDelay"></label>
-        <input type="number" id="dayAllowedDelay" />
-
-        <label data-lng="lblDayAllowedExit" for="dayAllowedExit"></label>
-        <input type="number" id="dayAllowedExit" />
-
-        <label data-lng="lblDayOfficialHours" for="dayOfficialHours"></label>
-        <input type="number" id="dayOfficialHours" />
-
-        <label data-lng="lblDayLateCutCount" for="dayLateCutCount"></label>
-        <input type="number" id="dayLateCutCount" />
-
-        <label data-lng="lblDayAbsentCut" for="dayAbsentCut"></label>
-        <input type="number" id="dayAbsentCut" />
-
-        <label data-lng="lblDayDailySalary" for="dayDailySalary"></label>
-        <input type="number" id="dayDailySalary" />
-
-        <label data-lng="lblDayEarlyCutCount" for="dayEarlyCutCount"></label>
-        <input type="number" id="dayEarlyCutCount" />
-
-        <label data-lng="lblDayLateMinPrice" for="dayLateMinPrice"></label>
-        <input type="number" id="dayLateMinPrice" />
-
-        <label data-lng="lblDayEarlyMinPrice" for="dayEarlyMinPrice"></label>
-        <input type="number" id="dayEarlyMinPrice" />
-
-        <label data-lng="lblDayMinOTHours" for="dayMinOTHours"></label>
-        <input type="number" id="dayMinOTHours" />
-
-        <label data-lng="lblDayWrStart" for="dayWrStart"></label>
-        <input type="time" id="dayWrStart" />
-
-        <label data-lng="lblDayLastEntry" for="dayLastEntry"></label>
-        <input type="time" id="dayLastEntry" />
-
-        <label data-lng="lblDayFirstExit" for="dayFirstExit"></label>
-        <input type="time" id="dayFirstExit" />
-
-        <label data-lng="lblDayLastExit" for="dayLastExit"></label>
-        <input type="time" id="dayLastExit" />
-
-        <label data-lng="lblDayDailyWage" for="dayDailyWage"></label>
-        <select id="dayDailyWage">
-          <option value="false">false</option>
-          <option value="true">true</option>
-        </select>
-
-        <label data-lng="lblDayOTEligible" for="dayOTEligible"></label>
-        <select id="dayOTEligible">
-          <option value="false">false</option>
-          <option value="true">true</option>
-        </select>
-
-        <label data-lng="lblDayAllowedMinRest" for="dayAllowedMinRest"></label>
-        <input type="number" id="dayAllowedMinRest" />
-
-        <label data-lng="lblDayRestMinPrice" for="dayRestMinPrice"></label>
-        <input type="number" id="dayRestMinPrice" />
-      </div>
-    </div>
-  </div>
-
 
   <script>
     // دوال للمودال وسحب البيانات
@@ -2074,8 +1848,7 @@
 
     // فتح المودال مع حساب الفترة من attendance_date + "T00:00:00"
     // ولغاية attendance_date + endDayOffset + "T23:59:59"
-    let currentScheduleDay = null
-    function openAttendanceLogsModal(attDateStr, endDayOffset, enroll_id) {
+    function openAttendanceLogsModal(attDateStr, endDayOffset, enrollId) {
 
       // parse attDateStr إلى Date
       const baseDate = parseDateString(attDateStr);
@@ -2090,16 +1863,7 @@
       document.getElementById('logsFromDate').value = startDateFormatted;
       document.getElementById('logsToDate').value = endDateFormatted;
       // تعبئة EnrollID (إن وجد)
-      document.getElementById('logsEnrollId').value = enroll_id || '';
-
-      const weekSchedules = employees.filter(em => em.enroll_id == enroll_id)[0].weekSchedules
-      const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-      const dayStr = dayOrder[new Date(attDateStr).getDay()]
-      const scheduleDay = weekSchedules.filter(day => day.day == dayStr)[0]
-      if (scheduleDay) {
-        currentScheduleDay = scheduleDay
-        renderSchedule(scheduleDay)
-      }
+      document.getElementById('logsEnrollId').value = enrollId || '';
 
       // كتابة العنوان في أعلى المودال
       document.getElementById('logsDateRange').textContent =
@@ -2121,60 +1885,9 @@
       fetchAttendanceLogs();
     }
 
-    function renderSchedule(day) {
-      document.getElementById('scheduleTable').style.display = 'table'
-      const tb = document.getElementById('scheduleTable').querySelector('tbody');
-      tb.innerHTML = '';
-      let row = document.createElement('tr');
-      row.innerHTML =
-        `<td>${day.day || ''}</td>
-        <td>${day.startTime || ''}</td>
-        <td>${day.endTime || ''}</td>
-        <td>${day.overtimeStart || ''}</td>
-        <td>${day.endDayOffset || 0}</td>
-        <td>${day.hourPrice || 0}</td>
-        <td>${day.overtimePrice || 0}</td>
-        <td><button class="btnSmall" style="background:#17a2b8;color:#fff;" onclick='openDayModal()'>${getTranslate('schdetails')}</button></td>`;
-      tb.appendChild(row);
-    }
-
     function closeAttendanceLogsModal() {
       document.getElementById('attendanceLogsModal').style.display = 'none';
-      document.getElementById('scheduleTable').style.display = 'none'
-      currentScheduleDay = null
     }
-
-    function openDayModal() {
-      document.getElementById('daySelect').value = currentScheduleDay.day || 'Sun';
-      document.getElementById('dayStart').value = currentScheduleDay.startTime || '08:00:00';
-      document.getElementById('dayEnd').value = currentScheduleDay.endTime || '17:00:00';
-      document.getElementById('dayOTStart').value = currentScheduleDay.overtimeStart || '17:30:00';
-      document.getElementById('dayOffset').value = currentScheduleDay.endDayOffset || 0;
-      document.getElementById('dayHourPrice').value = currentScheduleDay.hourPrice || 0;
-      document.getElementById('dayOTPrice').value = currentScheduleDay.overtimePrice || 0;
-      document.getElementById('dayAllowedDelay').value = currentScheduleDay.allowed_delay_minutes || 0;
-      document.getElementById('dayAllowedExit').value = currentScheduleDay.allowed_exit_minutes || 0;
-      document.getElementById('dayOfficialHours').value = currentScheduleDay.official_working_hours || 8;
-      document.getElementById('dayLateCutCount').value = currentScheduleDay.late_cutting_by_count || 0;
-      document.getElementById('dayAbsentCut').value = currentScheduleDay.absent_cutting || 0;
-      document.getElementById('dayDailySalary').value = currentScheduleDay.daily_salary || 0;
-      document.getElementById('dayEarlyCutCount').value = currentScheduleDay.early_cutting_by_count || 0;
-      document.getElementById('dayLateMinPrice').value = currentScheduleDay.late_min_prices || 0;
-      document.getElementById('dayEarlyMinPrice').value = currentScheduleDay.early_min_prices || 0;
-      document.getElementById('dayMinOTHours').value = currentScheduleDay.minimum_working_hours_overtime || 10;
-      document.getElementById('dayWrStart').value = currentScheduleDay.work_registration_start_time || '06:00:00';
-      document.getElementById('dayLastEntry').value = currentScheduleDay.last_entry_prevention_time || '11:00:00';
-      document.getElementById('dayFirstExit').value = currentScheduleDay.first_exit_allowed_time || '15:00:00';
-      document.getElementById('dayLastExit').value = currentScheduleDay.last_exit_allowed_time || '20:00:00';
-      document.getElementById('dayDailyWage').value = currentScheduleDay.works_for_daily_wage ? 'true' : 'false';
-      document.getElementById('dayOTEligible').value = currentScheduleDay.overtime_eligible ? 'true' : 'false';
-      document.getElementById('dayAllowedMinRest').value = currentScheduleDay.allowed_min_rest || 0;
-      document.getElementById('dayRestMinPrice').value = currentScheduleDay.rest_min_prices || 0;
-      showDayModal();
-    }
-
-    function showDayModal() { document.getElementById('dayModal').style.display = 'flex'; }
-    function closeDayModal() { document.getElementById('dayModal').style.display = 'none'; }
 
     async function fetchAttendanceLogs() {
       const fromDate = document.getElementById('logsFromDate').value; // yyyy-mm-dd
@@ -2190,7 +1903,7 @@
       const fromStr = fromDate + 'T00:00:00';
       const toStr = toDate + 'T23:59:59';
 
-      let url = `http://140.82.38.238:4089/api/fingerprints?from=${fromStr}&to=${toStr}`;
+      let url = `/api/fingerprints?from=${fromStr}&to=${toStr}`;
       if (eid) {
         url += `&enrollid=${eid}`;
       }
@@ -2254,10 +1967,10 @@
 
           const offsetVal = item.endDayOffset;
 
-          const enroll_id = item.enroll_id;
+          const enrollId = item.enroll_id;
 
           row.addEventListener('click', () => {
-            openAttendanceLogsModal(dateVal, offsetVal, enroll_id);
+            openAttendanceLogsModal(dateVal, offsetVal, enrollId);
           });
         }
       });

@@ -600,23 +600,22 @@
       <div class="topDiv">
         <button class="addDeviceBtn" id="devices_add_button" onclick="openModalForAdd()" data-lng="devices_add_button">
           Add Device</button>
-        <p>IP: hr-socket.timeattendhr.com<span></span>Port: 7715</p>
+        <p>IP: 140.82.38.238 <span></span>Port: 7715 </p>
       </div>
 
       <!-- جدول الأجهزة -->
       <table id="devicesTable">
         <thead>
           <tr>
-            <th data-lng="devices_table_th_no">#</th>
-            <th data-lng="devices_table_th_name">Device Name</th>
-            <th data-lng="devices_table_th_serial">Serial</th>
-            <th data-lng="devices_table_th_serverip">Server IP</th>
-            <th data-lng="timeZone">timeZone</th>
-            <th data-lng="devices_table_th_status">Status</th>
-            <th data-lng="devices_table_th_creation">Creation</th>
-            <th data-lng="devices_table_th_control">Control</th>
-            <th data-lng="devices_table_th_actions">Actions</th>
-            <th data-lng="devices_table_th_connection">Connection</th>
+            <th id="devices_table_th_no" data-lng="devices_table_th_no">#</th>
+            <th id="devices_table_th_name" data-lng="devices_table_th_name">Device Name</th>
+            <th id="devices_table_th_serial" data-lng="devices_table_th_serial">Serial</th>
+            <th id="devices_table_th_serverip" data-lng="devices_table_th_serverip">Server IP</th>
+            <th id="devices_table_th_status" data-lng="devices_table_th_status">Status</th>
+            <th id="devices_table_th_creation" data-lng="devices_table_th_creation">Creation</th>
+            <th id="devices_table_th_control" data-lng="devices_table_th_control">Control</th>
+            <th id="devices_table_th_actions" data-lng="devices_table_th_actions">Actions</th>
+            <th id="devices_table_th_connection" data-lng="devices_table_th_connection">Connection</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -713,10 +712,6 @@
         <label id="devices_modal_serverip_label" data-lng="devices_modal_label_serverip"
           for="serverIp">ServerIP:</label>
         <input type="text" id="serverIp" placeholder="192.168.1.50" />
-
-        <label data-lng="timeZoneLable" for="deviceTimeZone">timeZone:</label>
-        <input list="timezones" id="deviceTimeZone" data-lng-placeholder="timeZone" />
-        <datalist id="timezones"></datalist>
 
         <label id="devices_modal_status_label" data-lng="devices_modal_label_status" for="deviceStatus">Status:</label>
         <select id="deviceStatus">
@@ -1722,7 +1717,6 @@
         return;
       }
       loadDevices();
-      renderTimeZones()
     }
 
     function logout() {
@@ -1770,7 +1764,7 @@
       clearMessages();
       showLoading();
       try {
-        const resp = await fetch('http://140.82.38.238:4089/api/devices', {
+        const resp = await fetch('/api/devices', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) {
@@ -1802,7 +1796,6 @@
             <td>${d.name || ''}</td>
             <td>${d.serial || ''}</td>
             <td>${d.serverip || ''}</td>
-            <td>${d.timeZone || ''}</td>
             <td data-lng='${d.status ? 'devices_modal_status_option_true' : 'devices_modal_status_option_false'}'>${getTranslate(d.status ? 'devices_modal_status_option_true' : 'devices_modal_status_option_false')}</td>
             <td>${creationDate}</td>
             <td>
@@ -1887,10 +1880,7 @@
 
       document.getElementById('deviceName').value = '';
       document.getElementById('deviceSerial').value = '';
-      document.getElementById('serverIp').value = 'https://hr-socket.timeattendhr.com';
-
-      document.getElementById('deviceTimeZone').value = Intl.DateTimeFormat().resolvedOptions().timeZone
-
+      document.getElementById('serverIp').value = 'http://140.82.38.238:4087';
       document.getElementById('deviceStatus').value = 'true';
 
       showModal();
@@ -1902,7 +1892,7 @@
       editModeDeviceId = id;
       showLoading();
       try {
-        const resp = await fetch(`http://140.82.38.238:4089/api/devices/${id}`, {
+        const resp = await fetch(`/api/devices/${id}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) throw new Error('Failed to get device data');
@@ -1913,7 +1903,6 @@
         document.getElementById('deviceName').value = d.name || '';
         document.getElementById('deviceSerial').value = d.serial || '';
         document.getElementById('serverIp').value = d.serverip || '';
-        document.getElementById('deviceTimeZone').value = d.timeZone
         document.getElementById('deviceStatus').value = d.status ? 'true' : 'false';
 
         showModal();
@@ -1926,33 +1915,27 @@
 
     // حفظ (إضافة/تعديل)
     async function saveDevice() {
+      clearMessages();
+      showLoading();
 
       const deviceId = document.getElementById('deviceId').value;
       const name = document.getElementById('deviceName').value.trim();
       const serial = document.getElementById('deviceSerial').value.trim();
       const serverip = document.getElementById('serverIp').value.trim();
-      const timeZone = document.getElementById('deviceTimeZone').value
       const statusVal = (document.getElementById('deviceStatus').value === 'true');
-
-      if (!name || !serial || !serverip || !timeZone) return
-
-      clearMessages();
-      showLoading();
-
 
       const bodyObj = {
         name,
         serial,
-        serverip,
-        timeZone,
         status: statusVal,
+        serverip
       };
 
       try {
-        let url = 'http://140.82.38.238:4089/api/devices';
+        let url = '/api/devices';
         let method = 'POST';
         if (deviceId) {
-          url = `http://140.82.38.238:4089/api/devices/${deviceId}`;
+          url = `/api/devices/${deviceId}`;
           method = 'PUT';
         }
 
@@ -1983,7 +1966,7 @@
 
       showLoading();
       try {
-        const resp = await fetch(`http://140.82.38.238:4089/api/devices/${id}`, {
+        const resp = await fetch(`/api/devices/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
@@ -2108,27 +2091,6 @@
       cell.setAttribute('data-lng', 'offline')
     }
 
-
-
-    function renderTimeZones() {
-
-      const timeZones = Intl.supportedValuesOf("timeZone")
-      const currentTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
-
-      const input = document.getElementById('deviceTimeZone');
-      const list = document.getElementById('timezones');
-
-      timeZones.forEach(zone => {
-        const opt = document.createElement('option');
-        opt.value = zone;
-        list.appendChild(opt);
-      });
-
-      input.value = currentTimeZone
-
-    }
-
-
     // إظهار/إخفاء مودال الجهاز
     function showModal() {
       document.getElementById('deviceModal').style.display = 'flex';
@@ -2191,7 +2153,7 @@
 
     async function fetchLogsChunk(serial, from, to, stn) {
       const bodyObj = { sn: serial, from, to, stn };
-      const resp = await fetch('https://hr-socket.timeattendhr.com/api/getalllog', {
+      const resp = await fetch('http://140.82.38.238:4087/api/getalllog', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bodyObj)
@@ -2221,7 +2183,7 @@
         inout: rec.inout
       };
 
-      let resp = await fetch(`http://140.82.38.238:4089/api/fingerprints`, {
+      let resp = await fetch(`/api/fingerprints`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -2267,7 +2229,7 @@
       currentDeviceSN = serial;
       showLoading();
       try {
-        const resp = await fetch('https://hr-socket.timeattendhr.com/api/getdevinfo', {
+        const resp = await fetch('http://140.82.38.238:4087/api/getdevinfo', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ sn: serial })
@@ -2604,7 +2566,7 @@
       showLoading();
       try {
         const bodyObj = collectSettingsForm();
-        const resp = await fetch('https://hr-socket.timeattendhr.com/api/setdevinfo', {
+        const resp = await fetch('http://140.82.38.238:4087/api/setdevinfo', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(bodyObj)
@@ -2639,7 +2601,7 @@
       currentLockSN = serial;
       showLoading();
       try {
-        const resp = await fetch('https://hr-socket.timeattendhr.com/api/getdevlock', {
+        const resp = await fetch('http://140.82.38.238:4087/api/getdevlock', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ sn: serial }),
@@ -2776,7 +2738,7 @@
           sn: currentLockSN,
           devLockInfo: lockObj
         };
-        const resp = await fetch('https://hr-socket.timeattendhr.com/api/setdevlock', {
+        const resp = await fetch('http://140.82.38.238:4087/api/setdevlock', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(bodyObj)
@@ -2861,7 +2823,7 @@
           payload
         };
 
-        const resp = await fetch('https://hr-socket.timeattendhr.com/api/dynamic', {
+        const resp = await fetch('http://140.82.38.238:4087/api/dynamic', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -2889,8 +2851,8 @@
     function openDeviceInfo(serverip, serial) {
       clearMessages();
       showLoading();
-      // نأتي بمعلومات الجهاز من السيرفر الوسيط (مثال: https://hr-socket.timeattendhr.com/api/getdeviceinfo)
-      fetch('https://hr-socket.timeattendhr.com/api/getdeviceinfo', {
+      // نأتي بمعلومات الجهاز من السيرفر الوسيط (مثال: http://140.82.38.238:4087/api/getdeviceinfo)
+      fetch('http://140.82.38.238:4087/api/getdeviceinfo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sn: serial })

@@ -28,8 +28,6 @@
     "devices_modal_label_name": "Device Name:",
     "devices_modal_label_serial": "Serial Number:",
     "devices_modal_label_serverip": "Server IP:",
-    "timeZone": "timeZone",
-    "timeZoneLable": "timeZone: ",
     "devices_modal_label_status": "Status:",
     "all_statuses": "All Statuses",
     "devices_modal_status_option_true": "Enabled",

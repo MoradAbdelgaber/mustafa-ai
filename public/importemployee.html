@@ -411,11 +411,6 @@
   </div>
 
   <script>
-
-    function isNumber(str) {
-      return /^\d+$/.test(str); // Checks if the string consists only of digits
-    }
-
     // إزالة أي محرف خارج نطاق ASCII
     function removeNonASCII(str) {
       return str.replace(/[^\x00-\x7F]/g, '');
@@ -584,7 +579,7 @@
       const myHeaders = new Headers();
       myHeaders.append('Authorization', 'Bearer ' + safeToken);
 
-      const resp = await fetch('http://140.82.38.238:4089/api/devices', {
+      const resp = await fetch('/api/devices', {
         method: 'GET',
         headers: myHeaders
       });
@@ -601,7 +596,7 @@
       const myHeaders = new Headers();
       myHeaders.append('Authorization', 'Bearer ' + safeToken);
 
-      const resp = await fetch('http://140.82.38.238:4089/api/employees?page=1&limit=9999', {
+      const resp = await fetch('/api/employees?page=1&limit=9999', {
         method: 'GET',
         headers: myHeaders
       });
@@ -659,12 +654,12 @@
         payload: {
           password: "aa",
           cmd: "getuserinfo",
-          enrollid: isNumber(enrollid) ? +enrollid : enrollid,
+          enrollid: Number(enrollid),
           backupnum: Number(backupnum)
         }
       };
 
-      const resp = await fetch('https://hr-socket.timeattendhr.com/api/dynamic', {
+      const resp = await fetch('http://140.82.38.238:4087/api/dynamic', {
         method: 'POST',
         headers: myHeaders,
         body: JSON.stringify(bodyObj)
@@ -868,7 +863,7 @@
         };
 
         // استدعاء API الحفظ في قاعدة البيانات
-        const resp = await fetch('http://140.82.38.238:4089/api/employees', {
+        const resp = await fetch('/api/employees', {
           method: 'POST',
           headers: myHeaders,
           body: JSON.stringify(bodyObj)

@@ -1,6 +1,5 @@
 {
     "login_title": "Login",
-    "register": "Register",
     "login_username_label": "Username",
     "login_password_label": "Password",
     "login_button": "Sign In",
