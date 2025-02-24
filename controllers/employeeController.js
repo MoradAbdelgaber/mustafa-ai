@@ -89,12 +89,17 @@ exports.getEmployeeById = async (req, res) => {
 exports.getEmployees = async (req, res) => {
   try {
     // ترقيم الصفحات
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 10, department } = req.query;
     const pageNum = parseInt(page);
     const limitNum = parseInt(limit);
 
     // نرشّح الموظفين بناءً على المالك
     const filter = { owner: req.userId };
+
+    // إذا تم توفير القسم، نقوم بإضافته للتصفية
+    if (department) {
+      filter.department = department;
+    }
 
     const employees = await Employee.find(filter)
       .skip((pageNum - 1) * limitNum)
@@ -231,7 +236,7 @@ exports.resetPassword = async (req, res) => {
     res.json(emp);
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: "Error fetching employee" });
+    res.status(400).json({ error: "Error resetting password" });
   }
 };
 

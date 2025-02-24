@@ -11,6 +11,11 @@ const TimeBasedLeave = require("../models/TimeBasedLeave");
 const StatusName = require("../models/StatusName");
 const { ObjectId } = require("mongoose").Types;
 
+// ------------- إضافة الاستدعاءات لمحرك القواعد -------------
+const Rule = require("../models/Rule");
+const { applyRulesToRecord } = require("../services/ruleEngine");
+// -----------------------------------------------------------
+
 /** توليد قائمة تواريخ من startDate إلى endDate */
 function generateDateRange(start, end) {
   let result = [];
@@ -42,14 +47,14 @@ function utcToLocalString(dateUTC, tz = "Asia/Baghdad") {
   return moment(dateUTC).tz(tz).format("YYYY-MM-DD HH:mm:ss");
 }
 
-/** جمع الاستراحات (event=4 => event=5) */
-function matchMultipleBreaks(e4, e5) {
+/** جمع الاستراحات (event=3 => event=4) */
+function matchMultipleBreaks(e3, e4) {
   let restBreaks = [];
   let j = 0;
-  for (let i = 0; i < e4.length; i++) {
-    let rIn = new Date(e4[i].time); // UTC
-    while (j < e5.length) {
-      let rOut = new Date(e5[j].time);
+  for (let i = 0; i < e3.length; i++) {
+    let rIn = new Date(e3[i].time); // وقت دخول الاستراحة (event=3)
+    while (j < e4.length) {
+      let rOut = new Date(e4[j].time); // وقت خروج الاستراحة (event=4)
       if (rOut >= rIn) {
         let dur = (rOut - rIn) / (1000 * 3600);
         if (dur < 0) dur = 0;
@@ -78,11 +83,11 @@ function calculateAttendanceMetrics({
   checkOutUTC,
   restBreaks,
   daySchedule,
-  dayStartUTC, // startTime UTC (مثلا 09:00 محلي => 06:00 UTC)
-  dayEndUTC, // endTime UTC (17:00 محلي => 14:00 UTC) مع إضافة endDayOffset إن وجد
-  workRegStartUTC, // 08:00 محلي => 05:00 UTC (قبله نهمل البصمة)
-  firstExitUTC, // 15:00 محلي => 12:00 UTC
-  lastExitUTC, // 20:00 محلي => 17:00 UTC
+  dayStartUTC,
+  dayEndUTC,
+  workRegStartUTC,
+  firstExitUTC,
+  lastExitUTC,
   lastEntryPreventionUTC,
   overtimeStartUTC,
 }) {
@@ -92,16 +97,10 @@ function calculateAttendanceMetrics({
   let statusCode = "absent";
   let workHours = 0;
 
-  // نُعرّف متغيرين لوقت الدخول النهائي والخروج النهائي
-  // (وسنُعيدهما ضمن return)
+  // وقت الدخول والخروج الفعلي (قبل أي تعديل)
   let actualCheckIn = checkInUTC ? new Date(checkInUTC) : null;
   let actualCheckOut = checkOutUTC ? new Date(checkOutUTC) : null;
-  // لغرض السمري  لحساب ساعات العمل الأساسية قبل طرح الاستراحات
-  let baseWork = 0;
-  if (actualCheckIn && actualCheckOut) {
-    baseWork = (actualCheckOut - actualCheckIn) / (1000 * 3600);
-    if (baseWork < 0) baseWork = 0;
-  }
+
   // لو عندنا work_registration_start_time => بصمة قبلها = null
   if (actualCheckIn && workRegStartUTC && actualCheckIn < workRegStartUTC) {
     actualCheckIn = null; // تهمل
@@ -129,21 +128,26 @@ function calculateAttendanceMetrics({
   // ### التعامل مع وقت الخروج ###
   if (actualCheckOut) {
     if (!daySchedule.overtime_eligible) {
-      // لو يوجد first_exit_allowed_time, last_exit_allowed_time
-      // إن كان checkOut < firstExitUTC => نعتبره لا خروج
+      // أوّلاً نتحقق إن كان الخروج أكبر من dayEndUTC فنضبطه على dayEndUTC
+      if (actualCheckOut > dayEndUTC) {
+        actualCheckOut = dayEndUTC;
+      }
+
+      // ثانيًا إذا كان أصغر من firstExitUTC أو أكبر من lastExitUTC نجعله null
       if (firstExitUTC && actualCheckOut < firstExitUTC) {
         actualCheckOut = null;
       }
       if (lastExitUTC && actualCheckOut > lastExitUTC) {
         actualCheckOut = null;
       }
-      if (actualCheckOut && actualCheckOut > dayEndUTC) {
-        actualCheckOut = dayEndUTC;
-      }
     }
-    // إذا كان overtime_eligible = true، لا نغير actualCheckOut
   }
-
+  // لحساب ساعات العمل الأساسية قبل طرح الاستراحات
+  let baseWork = 0;
+  if (actualCheckIn && actualCheckOut) {
+    baseWork = (actualCheckOut - actualCheckIn) / (1000 * 3600);
+    if (baseWork < 0) baseWork = 0;
+  }
   // طرح الاستراحات
   let totalRest = 0;
   for (let b of restBreaks) {
@@ -151,26 +155,25 @@ function calculateAttendanceMetrics({
     if (dur < 0) dur = 0;
     totalRest += dur;
   }
-  let finalWorkHours = baseWork - totalRest + daySchedule.allowed_min_rest / 60;
+  let finalWorkHours = 0;
+  if (baseWork > 0) {
+    finalWorkHours =
+      baseWork - totalRest + (daySchedule.allowed_min_rest || 0) / 60;
+  } else {
+    finalWorkHours = baseWork; // أو تهيئها إلى 0 كما هو مناسب
+  }
 
   // إن كان الموظف مؤهلًا للأوفر تايم
   if (daySchedule.overtime_eligible) {
-    // الفارق بين finalWorkHours وساعات العمل الرسمية
     let otHours = finalWorkHours - (daySchedule.official_working_hours || 8);
-
-    // لا نحتسب الأوفر تايم إلا إذا تجاوز الموظف ساعات العمل الرسمية
     if (otHours > 0) {
-      // يمكن أيضًا اشتراط وصوله إلى حد أدنى من الساعات (مثلاً 10 ساعات)
-      // إذا تم تحديد minimum_working_hours_overtime في daySchedule
       if (
         daySchedule.minimum_working_hours_overtime &&
         finalWorkHours < daySchedule.minimum_working_hours_overtime
       ) {
         overtimeMinutes = 0;
       } else {
-        // تأكدنا أيضًا من شرط:
         if (overtimeStartUTC && actualCheckOut < overtimeStartUTC) {
-          // إن كان الخروج قبل وقت بدء الأوفر تايم لا يوجد أوفر تايم
           overtimeMinutes = 0;
         } else {
           overtimeMinutes = otHours * 60; // تحويل الساعات إلى دقائق
@@ -185,7 +188,6 @@ function calculateAttendanceMetrics({
     const addDelayHours = (daySchedule.allowed_delay_minutes || 0) / 60;
     const subExitHours = (daySchedule.allowed_exit_minutes || 0) / 60;
     const officialHours = daySchedule.official_working_hours || 8;
-
     if (finalWorkHours + addDelayHours >= officialHours - subExitHours) {
       finalWorkHours = officialHours;
     }
@@ -207,7 +209,6 @@ function calculateAttendanceMetrics({
 
   // حساب الخروج المبكر
   let emins = 0;
-  // إن كان لم يخرج => no exit
   if (
     actualCheckOut &&
     actualCheckOut < dayEndUTC &&
@@ -240,14 +241,12 @@ function calculateAttendanceMetrics({
     finalStatus = "present";
   }
 
-  // هنا نُعيد قيمة actualCheckIn, actualCheckOut النهائية مع بقية المؤشرات
   return {
     delayMinutes: dmins,
     earlyExitMinutes: emins,
     overtimeMinutes,
     statusCode: finalStatus,
     workHours: finalWorkHours,
-    // تمّت إضافتهما هنا:
     finalCheckIn: actualCheckIn,
     finalCheckOut: actualCheckOut,
     baseWork,
@@ -270,7 +269,7 @@ exports.getFullAttendanceReport = async (req, res) => {
       status_code,
     } = req.query;
 
-    //employee get his logs
+    // إن كان المستخدم الموظف نفسه
     if (req.employee) {
       employee_id = req.employee.enroll_id;
     }
@@ -285,10 +284,16 @@ exports.getFullAttendanceReport = async (req, res) => {
       empMatch.department_id = new ObjectId(department_id);
     }
 
-    //const employees = await Employee.find(empMatch).lean();
-    //if (!employees.length) return res.json([]);
+    // =============== إضافة populate الشفت + التايم سلات ================
     const employees = await Employee.find({ ...empMatch, owner: req.userId })
-      .populate("department_id", "department") // أو أي حقل آخر يُخزن اسم القسم
+      .populate("department_id", "department")
+      .populate({
+        path: "shift_id",
+        populate: {
+          path: "daysMap.timeSlot",
+          model: "TimeSlot",
+        },
+      })
       .lean();
 
     let allDates = generateDateRange(startDate, endDate);
@@ -306,7 +311,7 @@ exports.getFullAttendanceReport = async (req, res) => {
       owner: req.userId,
     }).lean();
 
-    // العطلات
+    // العطلات الرسمية
     let officialHolidays = [];
     if (+show_official_holidays === 1) {
       officialHolidays = await OfficialHoliday.find({
@@ -338,7 +343,7 @@ exports.getFullAttendanceReport = async (req, res) => {
       owner: req.userId,
     }).lean();
 
-    // مكافآت
+    // مكافآت وجزاءات
     let rpMatch = {
       date: { $gte: startDate, $lte: endDate },
     };
@@ -350,25 +355,173 @@ exports.getFullAttendanceReport = async (req, res) => {
 
     const dayNameMap = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     let finalResults = [];
-
     let sumRequiredWorkHours = 0;
+
+    // 1) الحساب الأساسي لكل يوم لكل موظف
     for (const emp of employees) {
+      // حساب عدد أيام العمل الرسمية للموظف خلال الفترة
+      let empWorkingDays = 0;
+      allDates.forEach((dateObj) => {
+        const dateStr = dateObj.toISOString().split("T")[0];
+        if (emp.joining_date && dateObj < new Date(emp.joining_date)) return;
+        if (emp.leave_date && dateObj > new Date(emp.leave_date)) return;
+
+        let dayIndex = dateObj.getDay();
+        let dayName = dayNameMap[dayIndex];
+        let tempSchedule = null;
+
+        // ======== نظام الشفت =========
+        if (
+          emp.scheduleMode === "shift" &&
+          emp.shift_id &&
+          emp.shift_id.daysMap
+        ) {
+          const shiftStart = moment(emp.shift_id.cycleStartDate).startOf("day");
+          const diffDays = moment(dateObj)
+            .startOf("day")
+            .diff(shiftStart, "days");
+          const cycleLen = emp.shift_id.cycleLength || 1;
+          const cycleDayIndex = ((diffDays % cycleLen) + cycleLen) % cycleLen;
+          let dayMapObj = emp.shift_id.daysMap.find(
+            (d) => d.dayIndex === cycleDayIndex
+          );
+          if (dayMapObj && dayMapObj.timeSlot) {
+            let ts = dayMapObj.timeSlot;
+            tempSchedule = {
+              startTime: ts.startTime || "00:00:00",
+              endTime: ts.endTime || "00:00:00",
+              official_working_hours: ts.officialWorkingHours || 8,
+            };
+          }
+        }
+        if (!tempSchedule) {
+          tempSchedule = emp.weekSchedules?.find((ws) => ws.day === dayName);
+        }
+        if (
+          tempSchedule &&
+          !(
+            tempSchedule.startTime === "00:00:00" &&
+            tempSchedule.endTime === "00:00:00"
+          )
+        ) {
+          empWorkingDays++;
+        }
+      });
+
+      // بدء معالجة كل يوم للموظف
       for (const dateObj of allDates) {
         const dateStr = dateObj.toISOString().split("T")[0];
+        // إن كان قبل تاريخ المباشرة
         if (emp.joining_date && dateObj < new Date(emp.joining_date)) continue;
+        // أو بعد تاريخ ترك العمل
         if (emp.leave_date && dateObj > new Date(emp.leave_date)) continue;
 
         let dayIndex = dateObj.getDay();
         let dayName = dayNameMap[dayIndex];
+        let daySchedule = null;
 
-        let daySchedule = emp.weekSchedules?.find((ws) => ws.day === dayName);
+        // ======== نظام الشفت =========
+        if (
+          emp.scheduleMode === "shift" &&
+          emp.shift_id &&
+          emp.shift_id.daysMap
+        ) {
+          const shiftStart = moment(emp.shift_id.cycleStartDate).startOf("day");
+          const diffDays = moment(dateObj)
+            .startOf("day")
+            .diff(shiftStart, "days");
+          const cycleLen = emp.shift_id.cycleLength || 1;
+          const cycleDayIndex = ((diffDays % cycleLen) + cycleLen) % cycleLen;
+
+          // طباعة معلومات الشفت في الـ console:
+          console.log(
+            "[DEBUG SHIFT] الموظف:",
+            emp.enroll_id,
+            ", تاريخ اليوم:",
+            dateStr,
+            ", diffDays=",
+            diffDays,
+            ", cycleLen=",
+            cycleLen,
+            "=> cycleDayIndex=",
+            cycleDayIndex
+          );
+
+          let dayMapObj = emp.shift_id.daysMap.find(
+            (d) => d.dayIndex === cycleDayIndex
+          );
+
+          if (dayMapObj) {
+            console.log(
+              "[DEBUG SHIFT] تم العثور على dayMapObj لـ cycleDayIndex=",
+              cycleDayIndex,
+              ", timeSlot=",
+              dayMapObj.timeSlot
+            );
+          } else {
+            console.log(
+              "[DEBUG SHIFT] لم يتم العثور على dayMapObj لـ cycleDayIndex=",
+              cycleDayIndex
+            );
+          }
+
+          let ts = dayMapObj?.timeSlot;
+          if (ts) {
+            daySchedule = {
+              startTime: ts.startTime || "00:00:00",
+              endTime: ts.endTime || "00:00:00",
+              endDayOffset: ts.offset || 0,
+
+              work_registration_start_time: ts.workRegistrationStartTime,
+              last_entry_prevention_time: ts.lastEntryPreventionTime,
+              overtimeStart: ts.overtimeStartTime,
+
+              official_working_hours: ts.officialWorkingHours || 8,
+              minimum_working_hours_overtime:
+                ts.minimumWorkingHoursOvertime || 10,
+
+              allowed_delay_minutes: ts.allowedDelayMinutes || 0,
+              allowed_exit_minutes: ts.allowedExitMinutes || 0,
+              works_for_daily_wage: ts.worksForDailyWage || false,
+              overtime_eligible: ts.overtimeEligible || false,
+
+              hourPrice: ts.hourPrice || 0,
+              overtimePrice: ts.overtimePrice || 0,
+              daily_salary: ts.dailySalary || 0,
+
+              allowed_min_rest: ts.allowed_min_rest || 0,
+              rest_min_prices: ts.rest_min_prices || 0,
+              absent_cutting: ts.absent_cutting || 0,
+              late_min_prices: ts.late_min_prices || 0,
+              early_min_prices: ts.early_min_prices || 0,
+              late_cutting_by_count: ts.late_cutting_by_count || 0,
+              early_cutting_by_count: ts.early_cutting_by_count || 0,
+              first_exit_allowed_time: ts.first_exit_allowed_time,
+              last_exit_allowed_time: ts.last_exit_allowed_time,
+            };
+          }
+        }
+        // ====================================
+        if (!daySchedule) {
+          daySchedule = emp.weekSchedules?.find((ws) => ws.day === dayName);
+        }
+
         let record = {
           enroll_id: emp.enroll_id,
           employee_name: emp.name,
           department_id: emp.department_id ? emp.department_id._id : null,
           department_name: emp.department,
           attendance_date: dateStr,
-
+          day: dayName,
+          dynamic_hour_price:
+            emp.main_salary &&
+            empWorkingDays &&
+            daySchedule &&
+            daySchedule.official_working_hours
+              ? emp.main_salary /
+                empWorkingDays /
+                daySchedule.official_working_hours
+              : 0,
           check_in: null,
           check_out: null,
           rest_breaks: [],
@@ -403,16 +556,21 @@ exports.getFullAttendanceReport = async (req, res) => {
           net_salary: 0,
         };
 
+        // لو لا يوجد جدولة لهذا اليوم => عطلة أسبوعية
         if (!daySchedule) {
-          // عطلة اسبوعية
           if (+show_weekly_off_days === 1) {
             record.status_code = "week_work_off";
+            // طباعة نتيجة اليوم
+            console.log(
+              "[DEBUG RESULT - لا يوجد daySchedule => عطلة أسبوعية]",
+              record
+            );
             finalResults.push(record);
           }
           continue;
         }
 
-        // يوم راحة كامل
+        // لو يوم راحة كامل
         if (
           daySchedule.startTime === "00:00:00" &&
           daySchedule.endTime === "00:00:00"
@@ -421,25 +579,24 @@ exports.getFullAttendanceReport = async (req, res) => {
           if (daySchedule.daily_salary > 0) {
             record.net_salary = daySchedule.daily_salary;
           }
+          // طباعة نتيجة اليوم
+          console.log("[DEBUG RESULT - يوم راحة كامل]", record);
           finalResults.push(record);
           continue;
         }
 
-        // تحويل start/end => UTC
+        // حساب الـ UTC
         let dayStartUTC = localTimeToUTC(
           dateObj,
           daySchedule.startTime,
           timeZone
         );
         let dayEndUTC = localTimeToUTC(dateObj, daySchedule.endTime, timeZone);
-
-        // لو عندك endDayOffset
         let offset = daySchedule.endDayOffset || 0;
         if (offset > 0) {
           dayEndUTC = new Date(dayEndUTC.getTime() + offset * 24 * 3600 * 1000);
         }
 
-        // work_registration_start_time => UTC
         let wrStartUTC = null;
         if (daySchedule.work_registration_start_time) {
           wrStartUTC = localTimeToUTC(
@@ -449,7 +606,6 @@ exports.getFullAttendanceReport = async (req, res) => {
           );
         }
 
-        // overtimeStartUTC
         let overtimeStartUTC = null;
         if (daySchedule.overtimeStart) {
           overtimeStartUTC = localTimeToUTC(
@@ -460,7 +616,6 @@ exports.getFullAttendanceReport = async (req, res) => {
           daySchedule.overtimeStartUTC = overtimeStartUTC;
         }
 
-        // lastEntryPreventionUTC
         let lastEntryPreventionUTC = null;
         if (daySchedule.last_entry_prevention_time) {
           lastEntryPreventionUTC = localTimeToUTC(
@@ -471,7 +626,6 @@ exports.getFullAttendanceReport = async (req, res) => {
           daySchedule.lastEntryPreventionUTC = lastEntryPreventionUTC;
         }
 
-        // first_exit_allowed_time => UTC
         let firstExitUTC = null,
           lastExitUTC = null;
         if (daySchedule.first_exit_allowed_time) {
@@ -489,15 +643,15 @@ exports.getFullAttendanceReport = async (req, res) => {
           );
         }
 
-        // (التعديل الجديد) إضافة الـ offset على الأوقات الأخرى إذا وجد endDayOffset:
+        // تطبيق offset على الأوقات الأخرى
         if (offset > 0) {
           if (lastEntryPreventionUTC) {
             lastEntryPreventionUTC = new Date(
               lastEntryPreventionUTC.getTime() + offset * 24 * 3600 * 1000
             );
+            daySchedule.lastEntryPreventionUTC = lastEntryPreventionUTC;
           }
-
-          if (offset > 0 && overtimeStartUTC) {
+          if (overtimeStartUTC) {
             overtimeStartUTC = new Date(
               overtimeStartUTC.getTime() + offset * 24 * 3600 * 1000
             );
@@ -514,50 +668,63 @@ exports.getFullAttendanceReport = async (req, res) => {
             );
           }
         }
-        // نهاية التعديل
 
         // فلترة البصمات
         let dayFingerLogs = fingerLogs
           .filter((f) => {
-            // if (f.enrollid !== emp.enroll_id) return false;
-            if (f.enrollid != emp.enroll_id) return false; //string - number
-            let fTime = new Date(f.time); // UTC
-            // اهمال البصمات قبل work_registration_start_time
-            if (wrStartUTC && fTime < wrStartUTC) {
-              return false;
-            }
-            // سنترك التعامل مع بصمات الخروج بعد lastExitUTC للدالة نفسها
+            if (f.enrollid !== emp.enroll_id) return false;
+            let fTime = new Date(f.time);
+            if (wrStartUTC && fTime < wrStartUTC) return false;
+            // بقية الفلترة بتوقيت اليوم
             return fTime <= Math.max(dayEndUTC, lastExitUTC || dayEndUTC);
           })
           .sort((a, b) => new Date(a.time) - new Date(b.time));
 
         // الاستراحات
-        let logsE4 = dayFingerLogs.filter((x) => x.event === 4);
-        let logsE5 = dayFingerLogs.filter((x) => x.event === 5);
-        let restBreaks = matchMultipleBreaks(logsE4, logsE5);
+        let logsEvent3 = dayFingerLogs.filter((x) => x.event === 3);
+        let logsEvent4 = dayFingerLogs.filter((x) => x.event === 4);
+        let restBreaks = matchMultipleBreaks(logsEvent3, logsEvent4);
 
         // checkIn, checkOut
         let checkInUTC = null,
           checkOutUTC = null;
-        let e2 = dayFingerLogs.filter((x) => x.event === 2);
-        if (e2.length) checkInUTC = e2[0].time;
-        let e3 = dayFingerLogs.filter((x) => x.event === 3);
-        if (e3.length) checkOutUTC = e3[e3.length - 1].time;
 
-        // fallback event=1
-        if (!checkInUTC) {
-          let e1 = dayFingerLogs.filter((x) => x.event === 1);
-          if (e1.length) {
-            checkInUTC = e1[0].time;
+        // المرحلة الأولى: نبحث فقط في السجلات التي تكون قيمتها event 1 أو 2
+        let primaryLogs = dayFingerLogs.filter(
+          (x) => x.event === 1 || x.event === 2
+        );
+
+        if (primaryLogs.length > 0) {
+          // البحث عن تسجيل الدخول من خلال الحدث 1
+          let login = primaryLogs.find((x) => x.event === 1);
+          if (login) {
+            checkInUTC = login.time;
+          }
+
+          // البحث عن تسجيل الخروج من خلال الحدث 2 (نأخذ آخر سجل في حالة تكرارها)
+          let logoutLogs = primaryLogs.filter((x) => x.event === 2);
+          if (logoutLogs.length > 0) {
+            checkOutUTC = logoutLogs[logoutLogs.length - 1].time;
           }
         }
-        if (!checkOutUTC) {
-          let e1 = dayFingerLogs.filter((x) => x.event === 1);
-          if (e1.length >= 2) {
-            let firstT = e1[0].time;
-            let lastT = e1[e1.length - 1].time;
-            if (lastT !== firstT) {
-              checkOutUTC = lastT;
+
+        // المرحلة الثانية (fallback): إذا لم نحصل على تسجيل دخول أو خروج نستخدم السجلات التي لا تكون event قيمتها 3 أو 4 أو 5
+        if (checkInUTC === null || checkOutUTC === null) {
+          let fallbackLogs = dayFingerLogs.filter(
+            (x) => ![3, 4, 5].includes(x.event)
+          );
+          if (fallbackLogs.length > 0) {
+            if (checkInUTC === null) {
+              // أول بصمة تعتبر دخولاً
+              checkInUTC = fallbackLogs[0].time;
+            }
+            if (checkOutUTC === null && fallbackLogs.length >= 2) {
+              // آخر بصمة تعتبر خروجاً (نتأكد من وجود أكثر من سجل وأنها ليست متطابقة)
+              let firstT = fallbackLogs[0].time;
+              let lastT = fallbackLogs[fallbackLogs.length - 1].time;
+              if (lastT !== firstT) {
+                checkOutUTC = lastT;
+              }
             }
           }
         }
@@ -596,7 +763,7 @@ exports.getFullAttendanceReport = async (req, res) => {
           return hDate === dateStr;
         });
 
-        // إجازة يومية
+        // إجازة يومية؟
         let foundVacation = vacations.find(
           (v) =>
             v.enroll_id === emp.enroll_id &&
@@ -628,7 +795,6 @@ exports.getFullAttendanceReport = async (req, res) => {
             record.overtime_minutes = metrics.overtimeMinutes;
             record.status_code = metrics.statusCode;
             record.work_hours = +metrics.workHours.toFixed(2);
-
             record.check_in = metrics.finalCheckIn
               ? utcToLocalString(metrics.finalCheckIn, timeZone)
               : null;
@@ -637,7 +803,6 @@ exports.getFullAttendanceReport = async (req, res) => {
               : null;
             record.base_work_hours = +metrics.baseWork.toFixed(2);
           } else {
-            // إجازة مصدّقة
             // إجازة مصدّقة
             let vacName = foundVacation.vacation_type_id?.vacation_name || "";
             if (foundVacation.status === "Approved") {
@@ -652,16 +817,13 @@ exports.getFullAttendanceReport = async (req, res) => {
                 record.work_hours = daySchedule.official_working_hours;
               }
             } else if (foundVacation.status === "Pending") {
-              record.status_code = "أجازة انتظار"; // (إن أردت هذا التصنيف)
+              record.status_code = "أجازة انتظار";
             }
-
-            // لا نحتاج لبصمات لأنه يوم إجازة
             record.check_in = null;
             record.check_out = null;
             record.base_work_hours = 0;
           }
 
-          // معلومات للسمري
           record.is_vacation_day = true;
           record.is_paid_vacation = !!foundVacation.is_paid;
           record.vacation_status = foundVacation.status;
@@ -694,19 +856,18 @@ exports.getFullAttendanceReport = async (req, res) => {
             : null;
           record.base_work_hours = +metrics.baseWork.toFixed(2);
 
-          // أوفر تايم:
-          let otRate = daySchedule.overtimePrice || 0;
+          // أوفر تايم
+          let otRate =
+            daySchedule.overtime_price || daySchedule.overtimePrice || 0;
           let overtimeHours = record.overtime_minutes / 60;
           let overtimeValue = overtimeHours * otRate;
           record.overtime_entitlement = +overtimeValue.toFixed(2);
 
-          // معلومات للسمري
           record.is_vacation_day = false;
           record.is_paid_vacation = false;
           record.vacation_status = null;
         }
 
-        // (بعد إغلاق else، الآن يمكننا تعديل partial وغيره)
         if (partial) {
           record.leave_duration_for_entry =
             partial.leave_duration_for_entry || 0;
@@ -716,7 +877,7 @@ exports.getFullAttendanceReport = async (req, res) => {
           record.leave_duration_for_exit = 0;
         }
 
-        // الاستراحات للعرض
+        // جمع الاستراحات للعرض
         let totalR = 0;
         let displayedBreaks = [];
         for (let b of restBreaks) {
@@ -732,23 +893,19 @@ exports.getFullAttendanceReport = async (req, res) => {
         record.rest_breaks = displayedBreaks;
         record.total_rest_duration = +totalR.toFixed(2);
 
-        // 3) حساب دقائق الاستراحة الفعلية
-        const allowedMinRest = daySchedule.allowed_min_rest || 0; // عدد الدقائق المسموح بها
-        const restMinPrices = daySchedule.rest_min_prices || 0; // سعر خصم الاستراحة لكل دقيقة زائدة
+        // دقائق الاستراحة
+        const allowedMinRest = daySchedule.allowed_min_rest || 0;
+        const restMinPrices = daySchedule.rest_min_prices || 0;
         const totalRestMinutes = totalR * 60;
-        record.total_rest_minutes = Math.round(totalRestMinutes); // للعرض إن أردت
-
+        record.total_rest_minutes = Math.round(totalRestMinutes);
         let restCutting = 0;
-
         if (totalRestMinutes > allowedMinRest) {
           const diff = totalRestMinutes - allowedMinRest;
           restCutting = diff * restMinPrices;
         }
-
-        // تخزينه في الحقل الجديد
         record.rest_cutting = restCutting;
 
-        // الحساب المالي
+        // الحساب المالي (الراتب قبل القواعد)
         if (record.status_code === "absent") {
           record.absent_cutting = daySchedule.absent_cutting || 0;
         }
@@ -776,47 +933,27 @@ exports.getFullAttendanceReport = async (req, res) => {
           ].includes(record.status_code)
         ) {
           record.salary_earned_for_work =
-            record.work_hours * (daySchedule.hourPrice || 0);
+            record.work_hours *
+            (daySchedule.hour_price || daySchedule.hourPrice || 0);
         }
-        // ... بعد حساب record.overtime_entitlement، وقبل حساب netVal:
 
-        // نفترض أنّ لديك حقولاً في daySchedule لتحديد أسعار الخصم لكل دقيقة أو مبالغ القطع لكل مرة تأخير وخروج مبكر:
-        //  - daySchedule.delay_min_price          => سعر الخصم لكل دقيقة تأخير
-        //  - daySchedule.early_exit_min_price     => سعر الخصم لكل دقيقة خروج مبكر
-        //  - daySchedule.late_cutting_by_count    => مبلغ/نسبة القطع عند التأخير (لكل مرة تأخير)
-        //  - daySchedule.early_cutting_by_count   => مبلغ/نسبة القطع عند الخروج المبكر (لكل مرة خروج مبكر)
-
-        // سنقوم بتهيئة قيم الخصم بالدقيقة (إن لم تكن معرّفة في daySchedule فالقيمة 0)
+        // خصومات التأخير والخروج المبكر
         const delayMinPrice = daySchedule.late_min_prices || 0;
         const earlyExitMinPrice = daySchedule.early_min_prices || 0;
         const lateCountCut = daySchedule.late_cutting_by_count || 0;
         const earlyCountCut = daySchedule.early_cutting_by_count || 0;
 
-        // 1) حساب الخصم حسب عدد الدقائق (التأخير والخروج المبكر)
         if (record.delay_minutes > 0) {
-          // مثال: تأخير 5 دقائق وكل دقيقة تُخصم بقيمة delayMinPrice
           record.late_arrival_deduction = record.delay_minutes * delayMinPrice;
-        }
-
-        if (record.early_exit_minutes > 0) {
-          // مثال: خروج مبكر 10 دقائق وكل دقيقة تُخصم بقيمة earlyExitMinPrice
-          record.early_exit_deduction =
-            record.early_exit_minutes * earlyExitMinPrice;
-        }
-
-        // 2) حساب الخصم حسب عدد المرات (مرة تأخير أو مرة خروج مبكر)
-        if (record.delay_minutes > 0) {
-          // لو تريده خصمًا ثابتًا عند حدوث التأخير (مرة واحدة في اليوم):
           record.late_cutting_by_count = lateCountCut;
         }
-
         if (record.early_exit_minutes > 0) {
-          // نفس المنطق للـخروج المبكر
+          record.early_exit_deduction =
+            record.early_exit_minutes * earlyExitMinPrice;
           record.early_cutting_by_count = earlyCountCut;
         }
 
-        // الآن نُعيد حساب netVal بعد إضافة خصومات الدقائق وعدد المرات:
-
+        // حساب أولي للراتب الصافي
         let netVal =
           record.salary_earned_for_work +
           record.overtime_entitlement -
@@ -830,25 +967,30 @@ exports.getFullAttendanceReport = async (req, res) => {
 
         record.net_salary_before_rounding = netVal;
         record.net_salary = netVal;
+
         if (
           !holidayDoc &&
           daySchedule.startTime !== "00:00:00" &&
           daySchedule.endTime !== "00:00:00"
         ) {
-          sumRequiredWorkHours += daySchedule.official_working_hours || 0;
+          sumRequiredWorkHours += daySchedule.official_working_hours || 8;
         }
+
+        // طباعة السجل (اليوم) النهائي للموظف
+        console.log("[DEBUG RESULT - قبل الدفع في finalResults]", record);
+
         finalResults.push(record);
       }
     }
 
-    // ترتيب
+    // 2) ترتيب النتائج
     finalResults.sort((a, b) => {
       let d1 = (a.attendance_date || "").localeCompare(b.attendance_date || "");
       if (d1 !== 0) return d1;
       return (a.employee_name || "").localeCompare(b.employee_name || "");
     });
 
-    // تبديل status_code بالاسم
+    // 3) تحويل status_code إلى اسم للعرض (إن وجد في StatusName)
     for (let r of finalResults) {
       if (!r.status_code) continue;
       let stDoc = await StatusName.findOne({
@@ -861,78 +1003,87 @@ exports.getFullAttendanceReport = async (req, res) => {
       }
     }
 
-    // ملخص
-    let sumDelay = 0,
-      sumEarly = 0,
+    // 4) جلب قواعد المستخدم وتطبيقها
+    const userRules = await Rule.find({ owner: req.userId }).lean();
+    for (let i = 0; i < finalResults.length; i++) {
+      finalResults[i] = applyRulesToRecord(finalResults[i], userRules);
+
+      // بعد التعديل، نعيد حساب net_salary استنادًا إلى القيم النهائية
+      let rec = finalResults[i];
+      let netVal =
+        (rec.salary_earned_for_work || 0) +
+        (rec.overtime_entitlement || 0) -
+        (rec.rest_cutting || 0) -
+        (rec.late_arrival_deduction || 0) -
+        (rec.early_exit_deduction || 0) -
+        (rec.absent_cutting || 0) -
+        (rec.late_cutting_by_count || 0) -
+        (rec.early_cutting_by_count || 0) +
+        (rec.rewards_penalties_amount || 0);
+
+      rec.net_salary_before_rounding = netVal;
+      rec.net_salary = netVal;
+    }
+
+    // 5) فلتر الحالة (status_code) إن وُجد
+    if (status_code) {
+      finalResults = finalResults.filter((r) => r.status_code === status_code);
+    }
+
+    // 6) حساب الملخص بعد تطبيق القواعد والفلتر
+    let sumDelayMinutes = 0,
+      sumEarlyExitMinutes = 0,
+      lateCount = 0,
+      earlyExitCount = 0,
       sumOT = 0,
       sumAbs = 0,
       sumRewards = 0,
       sumPenalties = 0,
-      sumNet = 0;
-    let sumTotalRestDuration = 0; // مجموع الاستراحات (بالساعات)
-    let sumBaseWork = 0; // مجموع ساعات العمل الأساسية (baseWork)
-    let countPaidLeaves = 0; // عدد الإجازات المدفوعة
-    let countUnpaidLeaves = 0; // عدد الإجازات غير المدفوعة
-    let countPendingLeaves = 0; // عدد الإجازات الانتظار
-    let countTimeBasedLeaves = 0; // عدد الإجازات الزمنية
-    let totalEntryLeaveMins = 0; // إجمالي دقائق إجازة الدخول
-    let totalExitLeaveMins = 0; // إجمالي دقائق إجازة الخروج
-    let sumEntryLeaveMins = 0;
-    let sumExitLeaveMins = 0;
-    let sumTotalRest = 0;
-    let sumDelayMinutes = 0; // مجموع دقائق التأخير
-    let sumEarlyExitMinutes = 0; // مجموع دقائق الخروج المبكر
-    let lateCount = 0; // عدد مرات التأخير
-    let earlyExitCount = 0; // عدد مرات الخروج المبكر
-    let officialHolidayCount = 0; // لحساب عدد أيام العطل الرسمية
-    let restDayCount = 0; // لحساب عدد أيام الاستراحة (work_off أو أستراحة)
-    let workingDayCount = 0; // لحساب عدد أيام العمل الرسمية (كل ما عدا العطل الرسمية وأيام الراحة)
-    let week_work_offcount = 0; // لحساب عدد أيام الاستراحة (week_work_off أو أستراحة)
+      sumNet = 0,
+      sumTotalRestDuration = 0,
+      sumBaseWork = 0,
+      countPaidLeaves = 0,
+      countUnpaidLeaves = 0,
+      countPendingLeaves = 0,
+      countTimeBasedLeaves = 0,
+      sumEntryLeaveMins = 0,
+      sumExitLeaveMins = 0,
+      officialHolidayCount = 0,
+      restDayCount = 0,
+      workingDayCount = 0,
+      week_work_offcount = 0;
 
     for (let r of finalResults) {
-      // جمع مجموع دقائق التأخير
       sumDelayMinutes += r.delay_minutes || 0;
-
-      // جمع مجموع دقائق الخروج المبكر
       sumEarlyExitMinutes += r.early_exit_minutes || 0;
 
-      // عدّ مرات التأخير
       if ((r.delay_minutes || 0) > 0) lateCount++;
-
-      // عدّ مرات الخروج المبكر
       if ((r.early_exit_minutes || 0) > 0) earlyExitCount++;
 
-      // 1) أيام العطل الرسمية
-      if (r.status_code === "holiday") {
-        officialHolidayCount++;
-      }
-      // 1) أيام العطل الاسبوعية
-      if (r.status_code === "week_work_off") {
-        week_work_offcount++;
-      }
-      // 2) أيام الاستراحة (work_off أو 'أستراحة')
-      else if (r.status_code === "work_off" || r.status_code === "أستراحة") {
-        restDayCount++;
-      }
-      // 3) ما عدا ذلك يُعتبر يوم عمل رسمي سواءً كان حضورًا أو غيابًا
-      else {
-        // مثل: absent, late, early_exit, present, etc.
-        workingDayCount++;
-      }
       sumOT += r.overtime_minutes || 0;
       if (r.status_code === "absent") sumAbs++;
+      if (r.status_code === "holiday") {
+        officialHolidayCount++;
+      } else if (r.status_code === "week_work_off") {
+        week_work_offcount++;
+      } else if (
+        r.status_code === "work_off" ||
+        r.status_code === "أستراحة" ||
+        r.status_code === "rest_day"
+      ) {
+        restDayCount++;
+      } else {
+        workingDayCount++;
+      }
 
       let rpAmt = r.rewards_penalties_amount || 0;
       if (rpAmt > 0) sumRewards += rpAmt;
       else if (rpAmt < 0) sumPenalties += rpAmt;
 
       sumNet += r.net_salary || 0;
-
-      // تجميع الحقول الجديدة
       sumTotalRestDuration += r.total_rest_duration || 0;
       sumBaseWork += r.base_work_hours || 0;
 
-      // الإجازات اليومية
       if (r.is_vacation_day) {
         if (r.vacation_status === "Approved") {
           if (r.is_paid_vacation) countPaidLeaves++;
@@ -942,18 +1093,16 @@ exports.getFullAttendanceReport = async (req, res) => {
         }
       }
 
-      // الإجازات الجزئية
       let eM = r.leave_duration_for_entry || 0;
       let xM = r.leave_duration_for_exit || 0;
       if (eM > 0 || xM > 0) countTimeBasedLeaves++;
-
       sumEntryLeaveMins += eM;
       sumExitLeaveMins += xM;
     }
 
-    let sumRP = sumRewards + sumPenalties; // مجموع المكافآت والجزاءات
+    let sumRP = sumRewards + sumPenalties;
 
-    // إنشاء سجل السمري
+    // تجهيز سطر الملخص للعرض
     let summaryRow = {
       enroll_id: null,
       employee_name:
@@ -966,8 +1115,8 @@ exports.getFullAttendanceReport = async (req, res) => {
         ` | الغياب=${sumAbs}` +
         ` | المكافآت=${sumRewards}` +
         ` | عقوبات=${sumPenalties}` +
-        ` | المجموع الكلي للمكافآت وعقوبات=${sumRP}` +
-        ` | صافي=${sumNet.toFixed(2)}` +
+        ` | المجموع الصافي للمكافآت والعقوبات=${sumRP}` +
+        ` | صافي=${Number(sumNet).toFixed(2)}` +
         ` | مجموع الاستراحة(ساعة)=${sumTotalRestDuration.toFixed(2)}` +
         ` | ساعات العمل الأساسية=${sumBaseWork.toFixed(2)}` +
         ` | إجازات مدفوعة=${countPaidLeaves}` +
@@ -976,12 +1125,14 @@ exports.getFullAttendanceReport = async (req, res) => {
         ` | إجازات زمنية=${countTimeBasedLeaves}` +
         ` | دقائق اجازات زمنية للدخول=${sumEntryLeaveMins}` +
         ` | دقائق اجازات زمنية للخروج=${sumExitLeaveMins}` +
-        ` | اجمالي ايام العطل=${officialHolidayCount}` +
+        ` | اجمالي عطل رسمية=${officialHolidayCount}` +
         ` | ايام الاستراحة=${restDayCount}` +
         ` | ايام العمل الرسمية=${workingDayCount}` +
         ` | ايام عطل اسبوعية=${week_work_offcount}` +
         ` | ساعات العمل المطلوبة=${sumRequiredWorkHours}`,
       attendance_date: null,
+      // إضافة اليوم في الملخص ليس ضروريًا، نجعله فارغًا
+      day: null,
       check_in: null,
       check_out: null,
       rest_breaks: null,
@@ -1009,17 +1160,8 @@ exports.getFullAttendanceReport = async (req, res) => {
       net_salary_before_rounding: null,
       net_salary: null,
     };
-    finalResults.push(summaryRow);
 
-    // -- أضف هنا فلتر الحالة --
-    // فقط إن كان هناك status_code نُطبّق الفلتر
-    if (status_code) {
-      // إذا أردت "استثناء" المُلخص من الفلترة والإبقاء عليه، يمكنك عمل فلتر بحيث لا يزيله:
-      finalResults = finalResults.filter((r) => {
-        // إن كان الـ status_code في السجل موجودًا ويطابق المطلوب OR السطر هو المُلخص
-        return r.status_code === status_code;
-      });
-    }
+    finalResults.push(summaryRow);
 
     return res.json(finalResults);
   } catch (err) {

@@ -1,0 +1,24 @@
+{
+  "page_title": "التسجيل - نظام الحضور",
+  "register": "إنشاء حساب",
+  "displayName": "اسم الحساب",
+  "register_username_label": "اسم المستخدم",
+  "register_password_label": "كلمة المرور",
+  "register_password_confirm": "تأكيد كلمة المرور",
+  "emailLabel": "البريد الالكتروني",
+  "confirm": "تأكيد",
+  "code_sent": "تم ارسال كود التأكيد بنجاح",
+  "code": "كود التأكيد",
+  "codePlace": "أدخل الكود",
+  "register_button": "إنشاء",
+  
+  "register_main_heading": "نظام إدارة الحضور والانصراف",
+  "register_main_paragraph": "أهلاً بك في أفضل الأنظمة لإدارة حضور وانصراف الموظفين. راقب نظامك بذكاء وسهولة، واحصل على تقارير شاملة في أي وقت.",
+  
+  "register_error_generic": "خطأ في إنشاء الحساب",
+  "register_error_fail": "فشل إنشاء الحساب",
+  "notValidEmail" : "البريد الالكتروني غير متاح",
+  "sendingCodeErr" : "خطأ في ارسال كود التأكيد",
+  "errInEnterData" : "خطأ في ادخال البيانات",
+  "errInconfirmPass" : "خطأ في تأكيد كلمة المرور"
+}

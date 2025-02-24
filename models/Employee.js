@@ -10,6 +10,16 @@ const employeeSchema = new Schema(
     serial_number: { type: String },
     insertion_date: { type: Date },
     aliasid: { type: String },
+    scheduleMode: {
+      type: String,
+      enum: ["fixed", "shift"],
+      default: "fixed",
+    },
+    shift_id: {
+      type: Schema.Types.ObjectId,
+      ref: "Shift",
+      default: null,
+    },
     name: { type: String, required: true },
     department: { type: String }, // يمكنك ربطه مستقبلاً بنموذج Department
     shift: { type: Number },
