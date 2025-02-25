@@ -637,19 +637,14 @@
           <button class="selectedBtn" id="selectedBtn" data-lng="sellectedSchedule"></button>
           <button class="allSelectedBtn" id="allSelectedBtn" data-lng="allSchedule"></button>
           <!-- زر تعيين الأجهزة للموظفين المحددين -->
-          <button class="selectedBtn" id="devicesSelectedBtn" style="background:#6f42c1; display:none;"
-            onclick="openDevicesModalForSelected()">
-            Assign Devices
-          </button>
+          <button data-lng="lblDevicesModalTitle" class="selectedBtn" id="devicesSelectedBtn"
+            style="background:#6f42c1; display:none;" onclick="openDevicesModalForSelected()"></button>
           <!-- زر حذف المحددين -->
-          <button class="selectedBtn" id="deleteSelectedBtn" style="background:#dc3545; display:none;"
-            onclick="deleteSelectedEmployees()">
-            Delete Selected Employee
-          </button>
+          <button data-lng="deleteSelectedBtn" class="selectedBtn" id="deleteSelectedBtn"
+            style="background:#dc3545; display:none;" onclick="deleteSelectedEmployees()"></button>
           <!-- زر لتحديد كل الموظفين في الصفحة -->
-          <button class="allSelectedBtn" style="background:#6c757d;" onclick="selectAllInPage()">
-            Select All
-          </button>
+          <button data-lng="selectAllBtn" class="allSelectedBtn" style="background:#6c757d;"
+            onclick="selectAllInPage()"></button>
         </div>
       </div>
 
@@ -993,9 +988,8 @@
         <label data-lng="lblChooseDevices" for="devicesSelect"></label>
         <select id="devicesSelect" multiple></select>
 
-        <button class="modalSaveBtn" style="background:#fd7e14;" onclick="selectAllDevicesInModal()">
-          All Devices
-        </button>
+        <button class="modalSaveBtn" style="background:#fd7e14;" data-lng="btnAllDevices"
+          onclick="selectAllDevicesInModal()">All Devices</button>
         <button class="modalSaveBtn" data-lng="btnSaveDevices" onclick="saveEmployeeDevices()"></button>
       </div>
     </div>
@@ -1030,9 +1024,9 @@
         <button class="modalCloseBtn" onclick="closeFingerModal()">×</button>
       </div>
       <div class="modalBody">
-        <label data-lng="lblFingerDeviceSelect" for="fingerDeviceSelect"></label>
+        <label data-lng="devices" for="fingerDeviceSelect"></label>
         <select id="fingerDeviceSelect"></select>
-        <button class="modalSaveBtn" data-lng="btnCaptureFinger" onclick="captureFinger()"></button>
+        <button class="modalSaveBtn" data-lng="save" onclick="captureFinger()"></button>
       </div>
     </div>
   </div>
@@ -1394,6 +1388,11 @@
       })
     }
 
+    function isNumber(str) {
+      return /^\d+$/.test(str); // Checks if the string consists only of digits
+    }
+
+
     // دالة إرسال معلومات الوجه (مع backupnum=50)
     async function sendUserToDevices(indexInFiltered) {
       const errorMsg = document.getElementById('errorMsg');
@@ -1408,7 +1407,7 @@
         }
         const recordBase64 = emp.image || '';
         const userInfoTemplate = {
-          enrollid: emp.enroll_id,
+          enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : '',
           name: emp.name || '',
           backupnum: 50,
           admin: 0,
@@ -1463,7 +1462,7 @@
           throw new Error('No fingerprint data available for this employee.');
         }
         const userInfoTemplate = {
-          enrollid: emp.enroll_id,
+          enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : '',
           name: emp.name || '',
           backupnum: 0,
           admin: 0,
@@ -1490,7 +1489,7 @@
           });
           if (!resp.ok) {
             const errText = await resp.text();
-            throw new Error(`Fail to send fingerprint to device: ${dev.name || dev._id} | ${errText}`);
+            throw new Error(`${getTranslate('err_send_fingerPrint')} ${dev.name || dev._id} | ${errText}`);
           }
         }
         successMsg.textContent = getTranslate("success_msg");
@@ -1753,7 +1752,7 @@
         imageBase64 = await fileToBase64(file);
       }
       const bodyObj = {
-        enroll_id: +enrollId,
+        enroll_id: enrollId,
         name: empName,
         department_id: departmentId,
         department: depName,
@@ -1937,11 +1936,14 @@
     }
 
     function addScheduleDay(isRest = false) {
+
+      if (!isRest && currentSchedules.length) return copyDay(currentSchedules.length - 1)
+
       const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
       if (currentSchedules.length === 0) {
         currentSchedules.push({
           day: 'Sun',
-          startTime: isRest ? '00:00:00' : '08:00:00',
+          startTime: isRest ? '00:00:00' : '09:00:00',
           endTime: isRest ? '00:00:00' : '17:00:00',
           overtimeStart: isRest ? '00:00:00' : '17:30:00',
           endDayOffset: 0,
@@ -1957,10 +1959,10 @@
           late_min_prices: 0,
           early_min_prices: 0,
           minimum_working_hours_overtime: 10,
-          work_registration_start_time: '06:00:00',
-          last_entry_prevention_time: '11:00:00',
-          first_exit_allowed_time: '15:00:00',
-          last_exit_allowed_time: '20:00:00',
+          work_registration_start_time: '00:00:00',
+          last_entry_prevention_time: '23:59:00',
+          first_exit_allowed_time: '00:00:00',
+          last_exit_allowed_time: '23:59:00',
           works_for_daily_wage: false,
           overtime_eligible: false,
           allowed_min_rest: 0,
@@ -1979,7 +1981,7 @@
         }
         let newDayObj = { ...lastDayObj };
         newDayObj.day = dayOrder[dayOrderIndex + 1];
-        newDayObj.startTime = isRest ? '00:00:00' : '08:00:00'
+        newDayObj.startTime = isRest ? '00:00:00' : '09:00:00'
         newDayObj.endTime = isRest ? '00:00:00' : '17:00:00'
         newDayObj.overtimeStart = isRest ? '00:00:00' : '17:30:00'
         currentSchedules.push(newDayObj);
@@ -1999,7 +2001,7 @@
       document.getElementById('dayModalTitle').setAttribute('data-lng', 'lblDayModalTitle');
       document.getElementById('dayIndex').value = i;
       document.getElementById('daySelect').value = dayObj.day || 'Sun';
-      document.getElementById('dayStart').value = dayObj.startTime || '08:00:00';
+      document.getElementById('dayStart').value = dayObj.startTime || '09:00:00';
       document.getElementById('dayEnd').value = dayObj.endTime || '17:00:00';
       document.getElementById('dayOTStart').value = dayObj.overtimeStart || '17:30:00';
       document.getElementById('dayOffset').value = dayObj.endDayOffset || 0;
@@ -2015,10 +2017,10 @@
       document.getElementById('dayLateMinPrice').value = dayObj.late_min_prices || 0;
       document.getElementById('dayEarlyMinPrice').value = dayObj.early_min_prices || 0;
       document.getElementById('dayMinOTHours').value = dayObj.minimum_working_hours_overtime || 10;
-      document.getElementById('dayWrStart').value = dayObj.work_registration_start_time || '06:00:00';
-      document.getElementById('dayLastEntry').value = dayObj.last_entry_prevention_time || '11:00:00';
-      document.getElementById('dayFirstExit').value = dayObj.first_exit_allowed_time || '15:00:00';
-      document.getElementById('dayLastExit').value = dayObj.last_exit_allowed_time || '20:00:00';
+      document.getElementById('dayWrStart').value = dayObj.work_registration_start_time || '00:00:00';
+      document.getElementById('dayLastEntry').value = dayObj.last_entry_prevention_time || '23:59:00';
+      document.getElementById('dayFirstExit').value = dayObj.first_exit_allowed_time || '00:00:00';
+      document.getElementById('dayLastExit').value = dayObj.last_exit_allowed_time || '23:59:00';
       document.getElementById('dayDailyWage').value = dayObj.works_for_daily_wage ? 'true' : 'false';
       document.getElementById('dayOTEligible').value = dayObj.overtime_eligible ? 'true' : 'false';
       document.getElementById('dayAllowedMinRest').value = dayObj.allowed_min_rest || 0;
@@ -2279,7 +2281,7 @@
         }
         const recordBase64 = emp.image || '';
         const userInfoTemplate = {
-          enrollid: emp.enroll_id,
+          enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : emp.enroll_id,
           name: emp.name || '',
           backupnum: 50,
           admin: 0,
@@ -2327,14 +2329,14 @@
       try {
         const emp = filteredEmployees[indexInFiltered];
         if (!emp.devices || emp.devices.length === 0) {
-          throw new Error('No assigned devices for this employee.');
+          throw new Error(getTranslate('noAssignedD_err'));
         }
         const fingerprintData = emp.fingerprint || '';
         if (!fingerprintData) {
-          throw new Error('No fingerprint data available for this employee.');
+          throw new Error(getTranslate('no_fingerprint_data'));
         }
         const userInfoTemplate = {
-          enrollid: emp.enroll_id,
+          enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : emp.enroll_id,
           name: emp.name || '',
           backupnum: 0,
           admin: 0,
@@ -2361,7 +2363,7 @@
           });
           if (!resp.ok) {
             const errText = await resp.text();
-            throw new Error(`Fail to send fingerprint to device: ${dev.name || dev._id} | ${errText}`);
+            throw new Error(`${getTranslate('err_send_fingerPrint')} ${dev.name || dev._id} | ${errText}`);
           }
         }
         successMsg.textContent = getTranslate("success_msg");
@@ -2411,7 +2413,7 @@
         const bodyObj = {
           sn: sn,
           userInfo: {
-            enrollid: +emp.enroll_id,
+            enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : emp.enroll_id,
             name: emp.name || '',
             backupnum: 50,
             admin: faceAdmin ? 1 : 0
@@ -2493,7 +2495,7 @@
         const bodyObj = {
           sn: sn,
           userInfo: {
-            enrollid: +emp.enroll_id,
+            enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : emp.enroll_id,
             name: emp.name || '',
             backupnum: 0
           }
@@ -2571,7 +2573,7 @@
         const bodyObj = {
           sn: sn,
           userInfo: {
-            enrollid: +emp.enroll_id,
+            enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : emp.enroll_id,
             name: emp.name || '',
             backupnum: 11
           }
@@ -2751,7 +2753,7 @@
 
         const existingEmp = allEmployees.find(e => e.enroll_id == row.enroll_id);
         const body = {
-          enroll_id: +row.enroll_id,
+          enroll_id: row.enroll_id,
           name: row.name || '',
           department_id: depId || '',
           department: depName || '',

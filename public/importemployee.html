@@ -411,6 +411,11 @@
   </div>
 
   <script>
+
+    function isNumber(str) {
+      return /^\d+$/.test(str); // Checks if the string consists only of digits
+    }
+
     // إزالة أي محرف خارج نطاق ASCII
     function removeNonASCII(str) {
       return str.replace(/[^\x00-\x7F]/g, '');
@@ -654,7 +659,7 @@
         payload: {
           password: "aa",
           cmd: "getuserinfo",
-          enrollid: Number(enrollid),
+          enrollid: isNumber(enrollid) ? +enrollid : enrollid,
           backupnum: Number(backupnum)
         }
       };
