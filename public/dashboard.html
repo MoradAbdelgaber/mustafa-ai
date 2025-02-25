@@ -902,7 +902,7 @@
         if (window.attendanceChartInstance) {
           window.attendanceChartInstance.destroy();
         }
-        const labels = ["attendence_chart", "absence_chart", "late_chart", "early_chatr", "ocer_chart", "other_chat"].map(str => dashTranslations[str])
+        const labels = ["attendence_chart", "absence_chart", "late_chart","early_chatr","ocer_chart","other_chat"].map(str => dashTranslations[str])
         window.attendanceChartInstance = new Chart(ctx, {
           type: 'pie',
           data: {
