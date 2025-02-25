@@ -1064,7 +1064,7 @@
 
     async function loadLanguageFile(lang) {
       try {
-        const response = await fetch(`${LANG_PATH}/emlang_${lang}.json`);
+        const response = await fetch(`${LANG_PATH}/employee_${lang}.json`);
         if (!response.ok) {
           throw new Error(`Error loading ${lang}.json`);
         }
