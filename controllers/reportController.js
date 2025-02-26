@@ -157,7 +157,8 @@ function calculateAttendanceMetrics({
   }
   let finalWorkHours = 0;
   if (baseWork > 0) {
-    finalWorkHours = baseWork - totalRest + (daySchedule.allowed_min_rest || 0) / 60;
+    finalWorkHours =
+      baseWork - totalRest + (daySchedule.allowed_min_rest || 0) / 60;
   } else {
     finalWorkHours = baseWork; // أو تهيئها إلى 0 كما هو مناسب
   }
@@ -265,8 +266,8 @@ function buildIntervalsForSegmentedMode(dayFingerLogs, dayEndUTC) {
   let intervals = [];
   let restBreaks = [];
 
-  let currentIn = null;      // لتتبع بداية فترة العمل
-  let currentRestIn = null;  // لتتبع بداية الاستراحة
+  let currentIn = null; // لتتبع بداية فترة العمل
+  let currentRestIn = null; // لتتبع بداية الاستراحة
 
   for (let log of dayFingerLogs) {
     const evt = log.event;
@@ -410,7 +411,8 @@ function calculateAttendanceMetricsForSegmented({
     ) {
       statusCode = "present";
     } else {
-      if (delayMinutes > 0 && earlyExitMinutes > 0) statusCode = "late_and_early_exit";
+      if (delayMinutes > 0 && earlyExitMinutes > 0)
+        statusCode = "late_and_early_exit";
       else if (delayMinutes > 0) statusCode = "late";
       else if (earlyExitMinutes > 0) statusCode = "early_exit";
       else statusCode = "absent";
@@ -565,9 +567,15 @@ exports.getFullAttendanceReport = async (req, res) => {
         let tempSchedule = null;
 
         // ======== نظام الشفت =========
-        if (emp.scheduleMode === "shift" && emp.shift_id && emp.shift_id.daysMap) {
+        if (
+          emp.scheduleMode === "shift" &&
+          emp.shift_id &&
+          emp.shift_id.daysMap
+        ) {
           const shiftStart = moment(emp.shift_id.cycleStartDate).startOf("day");
-          const diffDays = moment(dateObj).startOf("day").diff(shiftStart, "days");
+          const diffDays = moment(dateObj)
+            .startOf("day")
+            .diff(shiftStart, "days");
           const cycleLen = emp.shift_id.cycleLength || 1;
           const cycleDayIndex = ((diffDays % cycleLen) + cycleLen) % cycleLen;
           let dayMapObj = emp.shift_id.daysMap.find(
@@ -585,7 +593,13 @@ exports.getFullAttendanceReport = async (req, res) => {
         if (!tempSchedule) {
           tempSchedule = emp.weekSchedules?.find((ws) => ws.day === dayName);
         }
-        if (tempSchedule && !(tempSchedule.startTime === "00:00:00" && tempSchedule.endTime === "00:00:00")) {
+        if (
+          tempSchedule &&
+          !(
+            tempSchedule.startTime === "00:00:00" &&
+            tempSchedule.endTime === "00:00:00"
+          )
+        ) {
           empWorkingDays++;
         }
       });
@@ -603,9 +617,15 @@ exports.getFullAttendanceReport = async (req, res) => {
         let daySchedule = null;
 
         // ======== نظام الشفت =========
-        if (emp.scheduleMode === "shift" && emp.shift_id && emp.shift_id.daysMap) {
+        if (
+          emp.scheduleMode === "shift" &&
+          emp.shift_id &&
+          emp.shift_id.daysMap
+        ) {
           const shiftStart = moment(emp.shift_id.cycleStartDate).startOf("day");
-          const diffDays = moment(dateObj).startOf("day").diff(shiftStart, "days");
+          const diffDays = moment(dateObj)
+            .startOf("day")
+            .diff(shiftStart, "days");
           const cycleLen = emp.shift_id.cycleLength || 1;
           const cycleDayIndex = ((diffDays % cycleLen) + cycleLen) % cycleLen;
 
@@ -653,7 +673,8 @@ exports.getFullAttendanceReport = async (req, res) => {
               overtimeStart: ts.overtimeStartTime,
 
               official_working_hours: ts.officialWorkingHours || 8,
-              minimum_working_hours_overtime: ts.minimumWorkingHoursOvertime || 10,
+              minimum_working_hours_overtime:
+                ts.minimumWorkingHoursOvertime || 10,
 
               allowed_delay_minutes: ts.allowedDelayMinutes || 0,
               allowed_exit_minutes: ts.allowedExitMinutes || 0,
@@ -692,8 +713,13 @@ exports.getFullAttendanceReport = async (req, res) => {
           attendance_date: dateStr,
           day: dayName,
           dynamic_hour_price:
-            (emp.main_salary && empWorkingDays && daySchedule && daySchedule.official_working_hours)
-              ? emp.main_salary / empWorkingDays / daySchedule.official_working_hours
+            emp.main_salary &&
+            empWorkingDays &&
+            daySchedule &&
+            daySchedule.official_working_hours
+              ? emp.main_salary /
+                empWorkingDays /
+                daySchedule.official_working_hours
               : 0,
           check_in: null,
           check_out: null,
@@ -733,7 +759,10 @@ exports.getFullAttendanceReport = async (req, res) => {
         if (!daySchedule) {
           if (+show_weekly_off_days === 1) {
             record.status_code = "week_work_off";
-            console.log("[DEBUG RESULT - لا يوجد daySchedule => عطلة أسبوعية]", record);
+            console.log(
+              "[DEBUG RESULT - لا يوجد daySchedule => عطلة أسبوعية]",
+              record
+            );
             finalResults.push(record);
           }
           continue;
@@ -754,7 +783,11 @@ exports.getFullAttendanceReport = async (req, res) => {
         }
 
         // حساب الـ UTC
-        let dayStartUTC = localTimeToUTC(dateObj, daySchedule.startTime, timeZone);
+        let dayStartUTC = localTimeToUTC(
+          dateObj,
+          daySchedule.startTime,
+          timeZone
+        );
         let dayEndUTC = localTimeToUTC(dateObj, daySchedule.endTime, timeZone);
         let offset = daySchedule.endDayOffset || 0;
         if (offset > 0) {
@@ -836,11 +869,13 @@ exports.getFullAttendanceReport = async (req, res) => {
         // فلترة البصمات
         let dayFingerLogs = fingerLogs
           .filter((f) => {
-            if (f.enrollid !== emp.enroll_id) return false;
+            if (f.enrollid != emp.enroll_id) return false;
             let fTime = new Date(f.time);
             // يجب أن يكون في نطاق [dayStartUTC..dayEndUTC] (مع offset)
-            return fTime <= Math.max(dayEndUTC, lastExitUTC || dayEndUTC) 
-              && fTime >= (wrStartUTC || dayStartUTC);
+            return (
+              fTime <= Math.max(dayEndUTC, lastExitUTC || dayEndUTC) &&
+              fTime >= (wrStartUTC || dayStartUTC)
+            );
           })
           .sort((a, b) => new Date(a.time) - new Date(b.time));
 
@@ -863,33 +898,34 @@ exports.getFullAttendanceReport = async (req, res) => {
         if (emp.works_for_segmented_time) {
           // ======= الدوام المتقطع =======
           // نبني الفترات
-          const { intervals, restBreaks: rest2 } = buildIntervalsForSegmentedMode(
-            dayFingerLogs,
-            dayEndUTC
-          );
+          const { intervals, restBreaks: rest2 } =
+            buildIntervalsForSegmentedMode(dayFingerLogs, dayEndUTC);
           // مع دمج الاستراحات من matchMultipleBreaks إن رغبت
           // لكنك قلت تبقيها كما هي (هنا ممكن تعتبر rest2 أو تدمجها)
           // سنعتمد restBreaks نفسها لأنه حسب الكود الأصلي
           segmentedIntervals = intervals;
-
         } else {
           // ======= النظام القديم (دخول/خروج مرة واحدة) =======
           // checkIn, checkOut
           // المرحلة الأولى: نبحث عن حدث 1 أو 2
-          let primaryLogs = dayFingerLogs.filter(x => x.event === 1 || x.event === 2);
+          let primaryLogs = dayFingerLogs.filter(
+            (x) => x.event === 1 || x.event === 2
+          );
           if (primaryLogs.length > 0) {
             // أول حدث 1 => دخول
-            let login = primaryLogs.find(x => x.event === 1);
+            let login = primaryLogs.find((x) => x.event === 1);
             if (login) checkInUTC = login.time;
             // آخر حدث 2 => خروج
-            let logoutLogs = primaryLogs.filter(x => x.event === 2);
+            let logoutLogs = primaryLogs.filter((x) => x.event === 2);
             if (logoutLogs.length > 0) {
               checkOutUTC = logoutLogs[logoutLogs.length - 1].time;
             }
           }
           // المرحلة الثانية (fallback)
           if (checkInUTC === null || checkOutUTC === null) {
-            let fallbackLogs = dayFingerLogs.filter(x => ![3, 4, 5].includes(x.event));
+            let fallbackLogs = dayFingerLogs.filter(
+              (x) => ![3, 4, 5].includes(x.event)
+            );
             if (fallbackLogs.length > 0) {
               if (checkInUTC === null) {
                 // أول بصمة تعتبر دخول
@@ -916,7 +952,9 @@ exports.getFullAttendanceReport = async (req, res) => {
             // النظام القديم: نعدل checkInUTC, checkOutUTC
             if (checkInUTC && partial.leave_duration_for_entry) {
               let cIn = new Date(checkInUTC);
-              cIn.setMinutes(cIn.getMinutes() - partial.leave_duration_for_entry);
+              cIn.setMinutes(
+                cIn.getMinutes() - partial.leave_duration_for_entry
+              );
               checkInUTC = cIn;
             }
             if (checkOutUTC && partial.leave_duration_for_exit) {
@@ -932,14 +970,14 @@ exports.getFullAttendanceReport = async (req, res) => {
               if (partial.leave_duration_for_entry) {
                 segmentedIntervals[0].inTime = new Date(
                   segmentedIntervals[0].inTime.getTime() -
-                  partial.leave_duration_for_entry * 60000
+                    partial.leave_duration_for_entry * 60000
                 );
               }
               if (partial.leave_duration_for_exit) {
                 let lastIdx = segmentedIntervals.length - 1;
                 segmentedIntervals[lastIdx].outTime = new Date(
                   segmentedIntervals[lastIdx].outTime.getTime() +
-                  partial.leave_duration_for_exit * 60000
+                    partial.leave_duration_for_exit * 60000
                 );
               }
             }
@@ -1020,8 +1058,12 @@ exports.getFullAttendanceReport = async (req, res) => {
           record.delay_minutes = metrics.delayMinutes;
           record.early_exit_minutes = metrics.earlyExitMinutes;
           record.overtime_minutes = metrics.overtimeMinutes;
-          if (record.status_code === "holiday" || record.status_code === "sick_leave" 
-              || record.status_code === "annual_leave" || record.status_code === "أجازة انتظار") {
+          if (
+            record.status_code === "holiday" ||
+            record.status_code === "sick_leave" ||
+            record.status_code === "annual_leave" ||
+            record.status_code === "أجازة انتظار"
+          ) {
             // لا نغير status_code لأنه عطلة أو إجازة
           } else {
             record.status_code = metrics.statusCode;
@@ -1050,7 +1092,6 @@ exports.getFullAttendanceReport = async (req, res) => {
           }
           record.rest_breaks = displayedBreaks;
           record.total_rest_duration = +totalR.toFixed(2);
-
         } else {
           // النظام الجديد (الدوام المتعدد)
           let metrics2 = calculateAttendanceMetricsForSegmented({
@@ -1064,8 +1105,12 @@ exports.getFullAttendanceReport = async (req, res) => {
           record.delay_minutes = metrics2.delayMinutes;
           record.early_exit_minutes = metrics2.earlyExitMinutes;
           record.overtime_minutes = metrics2.overtimeMinutes;
-          if (record.status_code === "holiday" || record.status_code === "sick_leave" 
-              || record.status_code === "annual_leave" || record.status_code === "أجازة انتظار") {
+          if (
+            record.status_code === "holiday" ||
+            record.status_code === "sick_leave" ||
+            record.status_code === "annual_leave" ||
+            record.status_code === "أجازة انتظار"
+          ) {
             // لا نغير status_code لأنه عطلة أو إجازة
           } else {
             record.status_code = metrics2.statusCode;
@@ -1121,7 +1166,8 @@ exports.getFullAttendanceReport = async (req, res) => {
         }
 
         // العامل باليومية
-        if (daySchedule.works_for_daily_wage &&
+        if (
+          daySchedule.works_for_daily_wage &&
           ![
             "holiday",
             "annual_leave",
