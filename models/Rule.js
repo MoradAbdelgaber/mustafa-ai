@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 /**
@@ -19,7 +19,7 @@ const { Schema } = mongoose;
  * - validTo: تاريخ انتهاء صلاحية القاعدة (يمكن أن يكون null)
  */
 const RuleSchema = new Schema({
-  owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   name: { type: String, required: true },
   priority: { type: Number, default: 0 },
   stopOnMatch: { type: Boolean, default: false },
@@ -27,18 +27,18 @@ const RuleSchema = new Schema({
     {
       field: { type: String, required: true },
       operator: { type: String, required: true },
-      value: { type: String }, // يمكنك استخدام Mixed لو أردت المرونة
-    },
+      value: { type: String }  // يمكنك استخدام Mixed لو أردت المرونة
+    }
   ],
   actions: [
     {
       field: { type: String, required: true },
       type: { type: String, required: true },
-      value: { type: String }, // نفس الملاحظة أعلاه
-    },
+      value: { type: String } // نفس الملاحظة أعلاه
+    }
   ],
   validFrom: { type: Date, default: null },
-  validTo: { type: Date, default: null },
+  validTo: { type: Date, default: null }
 });
 
-module.exports = mongoose.model("Rule", RuleSchema);
+module.exports = mongoose.model('Rule', RuleSchema);

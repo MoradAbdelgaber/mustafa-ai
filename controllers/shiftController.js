@@ -3,7 +3,7 @@ const Shift = require("../models/Shift");
 exports.createShift = async (req, res) => {
   try {
     const owner = req.userId;
-    const body = req.body;
+    const body = req.body; 
     // المتوقع: { shiftName, cycleUnit, cycleLength, daysMap: [ { dayIndex, timeSlot }, ... ] }
     const doc = new Shift({ ...body, owner });
     await doc.save();

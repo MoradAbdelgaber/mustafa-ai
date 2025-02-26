@@ -1,24 +1,47 @@
 {
-
+  "sidebar_title": "Menu",
+  "sidebar_dashboard": "Dashboard",
+  "sidebar_employees": "Employees",
+  "sidebar_attendance_report": "Attendance Report",
+  "leaves_sidebar_time_leaves":"Partial Time Request",
+  "sidebar_shifts": "Shifts",
+  "sidebar_timeslots": "Time Slots",
+  "sidebarTitle": "Attend System",
+  "navOverview": "Overview",
+  "staffManagement": "Staff Management",
+  "navEmployees": "Employees",
+  "navDepartment": "Departments",
+  "reports": "Reports",
+  "navReport": "Attendance Report",
+  "navAttend": "Attendance Log",
+  "employee_summary_report": "Employee  Summary Report",
+  "navRules": "Advance Rules",
+  "deviceManagement": "Device Management",
+  "navDevices": "Devices",
+  "unregistered": "Unregistered employees",
+  "navOrders": "Requests",
+  "attend_sidebar_unregistered": "Unregistered employees",
+  "workManagement": "Work Management",
+  "navLeaves": "Leaves",
+  "navRewards": "Rewards & Penalties",
+  "navHolidays": "Official Holidays",
+  "timeManagement": "Time Management",
+  "navshift": "Shifts",
+  "navSlot": "Time Slot",
+  "public_settings": "Public Settings",  
   "head_title": "Public Settings",
   "header_title": "Public Settings",
   "logout": "Logout",
-
   "time_zone": "TimeZone :",
   "time_zone_place": "enter timezone",
-
   "add_template": "Add Template",
   "edit_template": "Edit Template",
-
   "template_name": "Template Name:",
   "template_name_place": "Enter Template Name ...",
-  
   "table_header_name": "Name",
   "table_header_actions": "Control",
   "table_header_apply": "Apply",
-
   "aplly_template": "Are you sure to apply this template?",
-
   "templates_msg_error_fetch": "Error in getting templates",
   "err_delete_template": "Error in deleting templates",
   "err_apply_template": "Error in applying templates",
@@ -84,9 +107,9 @@
 
 
 
-  "sidebar_title": "Menu",
+ 
   "sidebar_overview": "Overview",
-  "sidebar_employees": "Employees",
+ 
   "sidebar_report": "Attendance Report",
   "sidebar_time_leaves": "Time-based Leaves",
   "sidebar_holidays": "Official Holidays",
@@ -97,9 +120,6 @@
   "sidebar_requests": "Requests",
   "sidebar_departments": "Departments",
   "sidebar_settings": "Settings",
-  "attend_sidebar_unregistered": "Unregistered employees",
-  "employee_summary_report": "Employee  Summary Report",
-  "leaves_type": "Leave Types",
-  "public_settings": "Public Settings"
+  
   
 }

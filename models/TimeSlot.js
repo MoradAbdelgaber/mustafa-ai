@@ -44,8 +44,8 @@ const timeSlotSchema = new Schema(
     allowedDelayMinutes: { type: Number, default: 0 },
     allowedExitMinutes: { type: Number, default: 0 },
 
-    // إضافة حقل اللون لتحديد لون كل سلوت
-    color: { type: String, default: "#000000" },
+     // إضافة حقل اللون لتحديد لون كل سلوت
+     color: { type: String, default: "#000000" },
 
     // عدد الساعات الرسمية (يمكن حسابها أو إدخاله يدويًا)
     officialWorkingHours: { type: Number, default: 8 },

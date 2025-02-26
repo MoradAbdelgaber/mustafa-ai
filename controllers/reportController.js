@@ -73,7 +73,7 @@ function matchMultipleBreaks(e3, e4) {
 }
 
 /**
- * الدالة الرئيسية لحساب التأخير وخروج مبكر
+ * الدالة الرئيسية لحساب التأخير وخروج مبكر (نظام قديم: اعتماد بصمة دخول واحدة وخروج واحدة)
  * وفيها:
  *   - إن !overtime_eligible && وقت الدخول قبل startTime => نعرضه startTime
  *   - إن !overtime_eligible && وقت الخروج يجب أن يقع بين first_exit_allowed_time و last_exit_allowed_time
@@ -157,8 +157,7 @@ function calculateAttendanceMetrics({
   }
   let finalWorkHours = 0;
   if (baseWork > 0) {
-    finalWorkHours =
-      baseWork - totalRest + (daySchedule.allowed_min_rest || 0) / 60;
+    finalWorkHours = baseWork - totalRest + (daySchedule.allowed_min_rest || 0) / 60;
   } else {
     finalWorkHours = baseWork; // أو تهيئها إلى 0 كما هو مناسب
   }
@@ -252,6 +251,201 @@ function calculateAttendanceMetrics({
     baseWork,
   };
 }
+
+// ==================================================================
+//       أكواد "الدوام المتقطع" (في حال works_for_segmented_time=true)
+// ==================================================================
+
+/**
+ * بناء فترات عمل متعددة من بصمات اليوم (مع طرح الاستراحات لاحقًا)،
+ * نستخدم events=3 و 4 للاستراحات، events=1 و 2 لدخول وخروج،
+ * وأي حدث خارج 1..5 نعامله بمبدأ الـ toggle (إذا لا يوجد دخول => دخول، وإلا => خروج).
+ */
+function buildIntervalsForSegmentedMode(dayFingerLogs, dayEndUTC) {
+  let intervals = [];
+  let restBreaks = [];
+
+  let currentIn = null;      // لتتبع بداية فترة العمل
+  let currentRestIn = null;  // لتتبع بداية الاستراحة
+
+  for (let log of dayFingerLogs) {
+    const evt = log.event;
+    const t = new Date(log.time);
+
+    switch (evt) {
+      case 3:
+        // بدء استراحة
+        currentRestIn = t;
+        break;
+
+      case 4:
+        // نهاية استراحة
+        if (currentRestIn) {
+          restBreaks.push({ rest_in: currentRestIn, rest_out: t });
+          currentRestIn = null;
+        }
+        break;
+
+      case 1:
+        // دخول رسمي
+        if (!currentIn) {
+          currentIn = t;
+        } else {
+          // لو وُجد دخول مفتوح => نختمه بخروج
+          intervals.push({ inTime: currentIn, outTime: t });
+          currentIn = null;
+        }
+        break;
+
+      case 2:
+        // خروج رسمي
+        if (currentIn) {
+          intervals.push({ inTime: currentIn, outTime: t });
+          currentIn = null;
+        } else {
+          // خروج بدون دخول.. ممكن تجاهله
+        }
+        break;
+
+      case 5:
+        // حدث 5 نتجاهله أو نعامله حسب النظام
+        break;
+
+      default:
+        // أي حدث خارج [1..5] => toggle
+        if (!currentIn) {
+          currentIn = t;
+        } else {
+          intervals.push({ inTime: currentIn, outTime: t });
+          currentIn = null;
+        }
+        break;
+    }
+  }
+
+  // لو بقي دخول مفتوح حتى نهاية اليوم
+  if (currentIn) {
+    intervals.push({ inTime: currentIn, outTime: dayEndUTC });
+    currentIn = null;
+  }
+
+  return { intervals, restBreaks };
+}
+
+/**
+ * حساب الـ metrics عند وجود تعدد فترات في نفس اليوم
+ * - جمع فترات العمل (intervals)
+ * - طرح الاستراحات
+ * - حساب التأخير (اعتمادًا على أول دخول)
+ * - حساب الخروج المبكر (اعتمادًا على آخر خروج)
+ */
+function calculateAttendanceMetricsForSegmented({
+  intervals,
+  restBreaks,
+  daySchedule,
+  dayStartUTC,
+  dayEndUTC,
+}) {
+  let totalWorkHours = 0;
+
+  // حساب إجمالي ساعات العمل
+  for (let iv of intervals) {
+    let diffH = (iv.outTime - iv.inTime) / (1000 * 3600);
+    if (diffH > 0) totalWorkHours += diffH;
+  }
+
+  // حساب مجموع الاستراحة
+  let totalRestHours = 0;
+  for (let rb of restBreaks) {
+    let rdur = (rb.rest_out - rb.rest_in) / (1000 * 3600);
+    if (rdur > 0) totalRestHours += rdur;
+  }
+
+  // طرح الاستراحات
+  let finalWorkHours = totalWorkHours - totalRestHours;
+  if (finalWorkHours < 0) finalWorkHours = 0;
+
+  // أول دخول وآخر خروج
+  intervals.sort((a, b) => a.inTime - b.inTime);
+  let firstInTime = intervals.length ? intervals[0].inTime : null;
+  intervals.sort((a, b) => b.outTime - a.outTime);
+  let lastOutTime = intervals.length ? intervals[0].outTime : null;
+
+  // التأخير
+  let delayMinutes = 0;
+  if (firstInTime && firstInTime > dayStartUTC) {
+    let dm = (firstInTime - dayStartUTC) / 60000;
+    if (
+      daySchedule.allowed_delay_minutes &&
+      dm <= daySchedule.allowed_delay_minutes
+    ) {
+      dm = 0;
+    }
+    delayMinutes = Math.round(dm);
+  }
+
+  // الخروج المبكر
+  let earlyExitMinutes = 0;
+  if (lastOutTime && lastOutTime < dayEndUTC) {
+    let em = (dayEndUTC - lastOutTime) / 60000;
+    if (
+      daySchedule.allowed_exit_minutes &&
+      em <= daySchedule.allowed_exit_minutes
+    ) {
+      em = 0;
+    }
+    earlyExitMinutes = Math.round(em);
+  }
+
+  // الحالة
+  let statusCode = "absent";
+  if (intervals.length === 0) {
+    statusCode = "absent";
+  } else {
+    // قارن بالساعات الرسمية
+    const needed = daySchedule.official_working_hours || 8;
+    if (
+      finalWorkHours + (daySchedule.allowed_delay_minutes || 0) / 60 >=
+      needed - (daySchedule.allowed_exit_minutes || 0) / 60
+    ) {
+      statusCode = "present";
+    } else {
+      if (delayMinutes > 0 && earlyExitMinutes > 0) statusCode = "late_and_early_exit";
+      else if (delayMinutes > 0) statusCode = "late";
+      else if (earlyExitMinutes > 0) statusCode = "early_exit";
+      else statusCode = "absent";
+    }
+  }
+
+  // الأوفرتايم
+  let overtimeMinutes = 0;
+  if (daySchedule.overtime_eligible) {
+    let otHours = finalWorkHours - (daySchedule.official_working_hours || 8);
+    if (otHours > 0) {
+      if (
+        daySchedule.minimum_working_hours_overtime &&
+        finalWorkHours < daySchedule.minimum_working_hours_overtime
+      ) {
+        overtimeMinutes = 0;
+      } else {
+        overtimeMinutes = otHours * 60;
+      }
+    }
+  }
+
+  return {
+    delayMinutes,
+    earlyExitMinutes,
+    overtimeMinutes,
+    statusCode,
+    workHours: +finalWorkHours.toFixed(2),
+    totalRestHours: +totalRestHours.toFixed(2),
+    firstInTime,
+    lastOutTime,
+  };
+}
+
+// ==================================================================
 
 /** التقرير */
 exports.getFullAttendanceReport = async (req, res) => {
@@ -371,15 +565,9 @@ exports.getFullAttendanceReport = async (req, res) => {
         let tempSchedule = null;
 
         // ======== نظام الشفت =========
-        if (
-          emp.scheduleMode === "shift" &&
-          emp.shift_id &&
-          emp.shift_id.daysMap
-        ) {
+        if (emp.scheduleMode === "shift" && emp.shift_id && emp.shift_id.daysMap) {
           const shiftStart = moment(emp.shift_id.cycleStartDate).startOf("day");
-          const diffDays = moment(dateObj)
-            .startOf("day")
-            .diff(shiftStart, "days");
+          const diffDays = moment(dateObj).startOf("day").diff(shiftStart, "days");
           const cycleLen = emp.shift_id.cycleLength || 1;
           const cycleDayIndex = ((diffDays % cycleLen) + cycleLen) % cycleLen;
           let dayMapObj = emp.shift_id.daysMap.find(
@@ -397,13 +585,7 @@ exports.getFullAttendanceReport = async (req, res) => {
         if (!tempSchedule) {
           tempSchedule = emp.weekSchedules?.find((ws) => ws.day === dayName);
         }
-        if (
-          tempSchedule &&
-          !(
-            tempSchedule.startTime === "00:00:00" &&
-            tempSchedule.endTime === "00:00:00"
-          )
-        ) {
+        if (tempSchedule && !(tempSchedule.startTime === "00:00:00" && tempSchedule.endTime === "00:00:00")) {
           empWorkingDays++;
         }
       });
@@ -421,19 +603,13 @@ exports.getFullAttendanceReport = async (req, res) => {
         let daySchedule = null;
 
         // ======== نظام الشفت =========
-        if (
-          emp.scheduleMode === "shift" &&
-          emp.shift_id &&
-          emp.shift_id.daysMap
-        ) {
+        if (emp.scheduleMode === "shift" && emp.shift_id && emp.shift_id.daysMap) {
           const shiftStart = moment(emp.shift_id.cycleStartDate).startOf("day");
-          const diffDays = moment(dateObj)
-            .startOf("day")
-            .diff(shiftStart, "days");
+          const diffDays = moment(dateObj).startOf("day").diff(shiftStart, "days");
           const cycleLen = emp.shift_id.cycleLength || 1;
           const cycleDayIndex = ((diffDays % cycleLen) + cycleLen) % cycleLen;
 
-          // طباعة معلومات الشفت في الـ console:
+          // طباعة معلومات الشفت في الـ console (حسب الكود الأصلي):
           console.log(
             "[DEBUG SHIFT] الموظف:",
             emp.enroll_id,
@@ -477,8 +653,7 @@ exports.getFullAttendanceReport = async (req, res) => {
               overtimeStart: ts.overtimeStartTime,
 
               official_working_hours: ts.officialWorkingHours || 8,
-              minimum_working_hours_overtime:
-                ts.minimumWorkingHoursOvertime || 10,
+              minimum_working_hours_overtime: ts.minimumWorkingHoursOvertime || 10,
 
               allowed_delay_minutes: ts.allowedDelayMinutes || 0,
               allowed_exit_minutes: ts.allowedExitMinutes || 0,
@@ -498,6 +673,9 @@ exports.getFullAttendanceReport = async (req, res) => {
               early_cutting_by_count: ts.early_cutting_by_count || 0,
               first_exit_allowed_time: ts.first_exit_allowed_time,
               last_exit_allowed_time: ts.last_exit_allowed_time,
+
+              // الحقل الجديد لتفعيل نظام الدخول المتعدد
+              works_for_segmented_time: ts.worksForSegmentedTime || false,
             };
           }
         }
@@ -514,13 +692,8 @@ exports.getFullAttendanceReport = async (req, res) => {
           attendance_date: dateStr,
           day: dayName,
           dynamic_hour_price:
-            emp.main_salary &&
-            empWorkingDays &&
-            daySchedule &&
-            daySchedule.official_working_hours
-              ? emp.main_salary /
-                empWorkingDays /
-                daySchedule.official_working_hours
+            (emp.main_salary && empWorkingDays && daySchedule && daySchedule.official_working_hours)
+              ? emp.main_salary / empWorkingDays / daySchedule.official_working_hours
               : 0,
           check_in: null,
           check_out: null,
@@ -560,11 +733,7 @@ exports.getFullAttendanceReport = async (req, res) => {
         if (!daySchedule) {
           if (+show_weekly_off_days === 1) {
             record.status_code = "week_work_off";
-            // طباعة نتيجة اليوم
-            console.log(
-              "[DEBUG RESULT - لا يوجد daySchedule => عطلة أسبوعية]",
-              record
-            );
+            console.log("[DEBUG RESULT - لا يوجد daySchedule => عطلة أسبوعية]", record);
             finalResults.push(record);
           }
           continue;
@@ -579,18 +748,13 @@ exports.getFullAttendanceReport = async (req, res) => {
           if (daySchedule.daily_salary > 0) {
             record.net_salary = daySchedule.daily_salary;
           }
-          // طباعة نتيجة اليوم
           console.log("[DEBUG RESULT - يوم راحة كامل]", record);
           finalResults.push(record);
           continue;
         }
 
         // حساب الـ UTC
-        let dayStartUTC = localTimeToUTC(
-          dateObj,
-          daySchedule.startTime,
-          timeZone
-        );
+        let dayStartUTC = localTimeToUTC(dateObj, daySchedule.startTime, timeZone);
         let dayEndUTC = localTimeToUTC(dateObj, daySchedule.endTime, timeZone);
         let offset = daySchedule.endDayOffset || 0;
         if (offset > 0) {
@@ -674,9 +838,9 @@ exports.getFullAttendanceReport = async (req, res) => {
           .filter((f) => {
             if (f.enrollid !== emp.enroll_id) return false;
             let fTime = new Date(f.time);
-            if (wrStartUTC && fTime < wrStartUTC) return false;
-            // بقية الفلترة بتوقيت اليوم
-            return fTime <= Math.max(dayEndUTC, lastExitUTC || dayEndUTC);
+            // يجب أن يكون في نطاق [dayStartUTC..dayEndUTC] (مع offset)
+            return fTime <= Math.max(dayEndUTC, lastExitUTC || dayEndUTC) 
+              && fTime >= (wrStartUTC || dayStartUTC);
           })
           .sort((a, b) => new Date(a.time) - new Date(b.time));
 
@@ -685,45 +849,58 @@ exports.getFullAttendanceReport = async (req, res) => {
         let logsEvent4 = dayFingerLogs.filter((x) => x.event === 4);
         let restBreaks = matchMultipleBreaks(logsEvent3, logsEvent4);
 
-        // checkIn, checkOut
-        let checkInUTC = null,
-          checkOutUTC = null;
+        // -----------------------------------------------
+        // هنا نضيف الشرط: إذا works_for_segmented_time => استخدم الدوام المتعدد
+        // غير ذلك => استخدم المنطق القديم (بصمة دخول واحدة وخروج واحدة)
+        // -----------------------------------------------
 
-        // المرحلة الأولى: نبحث فقط في السجلات التي تكون قيمتها event 1 أو 2
-        let primaryLogs = dayFingerLogs.filter(
-          (x) => x.event === 1 || x.event === 2
-        );
+        let checkInUTC = null;
+        let checkOutUTC = null;
 
-        if (primaryLogs.length > 0) {
-          // البحث عن تسجيل الدخول من خلال الحدث 1
-          let login = primaryLogs.find((x) => x.event === 1);
-          if (login) {
-            checkInUTC = login.time;
-          }
+        // مصفوفة الفترات (إن كنت تريد عرضها لوضعها في التقرير)
+        let segmentedIntervals = [];
 
-          // البحث عن تسجيل الخروج من خلال الحدث 2 (نأخذ آخر سجل في حالة تكرارها)
-          let logoutLogs = primaryLogs.filter((x) => x.event === 2);
-          if (logoutLogs.length > 0) {
-            checkOutUTC = logoutLogs[logoutLogs.length - 1].time;
-          }
-        }
-
-        // المرحلة الثانية (fallback): إذا لم نحصل على تسجيل دخول أو خروج نستخدم السجلات التي لا تكون event قيمتها 3 أو 4 أو 5
-        if (checkInUTC === null || checkOutUTC === null) {
-          let fallbackLogs = dayFingerLogs.filter(
-            (x) => ![3, 4, 5].includes(x.event)
+        if (emp.works_for_segmented_time) {
+          // ======= الدوام المتقطع =======
+          // نبني الفترات
+          const { intervals, restBreaks: rest2 } = buildIntervalsForSegmentedMode(
+            dayFingerLogs,
+            dayEndUTC
           );
-          if (fallbackLogs.length > 0) {
-            if (checkInUTC === null) {
-              // أول بصمة تعتبر دخولاً
-              checkInUTC = fallbackLogs[0].time;
+          // مع دمج الاستراحات من matchMultipleBreaks إن رغبت
+          // لكنك قلت تبقيها كما هي (هنا ممكن تعتبر rest2 أو تدمجها)
+          // سنعتمد restBreaks نفسها لأنه حسب الكود الأصلي
+          segmentedIntervals = intervals;
+
+        } else {
+          // ======= النظام القديم (دخول/خروج مرة واحدة) =======
+          // checkIn, checkOut
+          // المرحلة الأولى: نبحث عن حدث 1 أو 2
+          let primaryLogs = dayFingerLogs.filter(x => x.event === 1 || x.event === 2);
+          if (primaryLogs.length > 0) {
+            // أول حدث 1 => دخول
+            let login = primaryLogs.find(x => x.event === 1);
+            if (login) checkInUTC = login.time;
+            // آخر حدث 2 => خروج
+            let logoutLogs = primaryLogs.filter(x => x.event === 2);
+            if (logoutLogs.length > 0) {
+              checkOutUTC = logoutLogs[logoutLogs.length - 1].time;
             }
-            if (checkOutUTC === null && fallbackLogs.length >= 2) {
-              // آخر بصمة تعتبر خروجاً (نتأكد من وجود أكثر من سجل وأنها ليست متطابقة)
-              let firstT = fallbackLogs[0].time;
-              let lastT = fallbackLogs[fallbackLogs.length - 1].time;
-              if (lastT !== firstT) {
-                checkOutUTC = lastT;
+          }
+          // المرحلة الثانية (fallback)
+          if (checkInUTC === null || checkOutUTC === null) {
+            let fallbackLogs = dayFingerLogs.filter(x => ![3, 4, 5].includes(x.event));
+            if (fallbackLogs.length > 0) {
+              if (checkInUTC === null) {
+                // أول بصمة تعتبر دخول
+                checkInUTC = fallbackLogs[0].time;
+              }
+              if (checkOutUTC === null && fallbackLogs.length >= 2) {
+                let firstT = fallbackLogs[0].time;
+                let lastT = fallbackLogs[fallbackLogs.length - 1].time;
+                if (lastT !== firstT) {
+                  checkOutUTC = lastT;
+                }
               }
             }
           }
@@ -735,17 +912,37 @@ exports.getFullAttendanceReport = async (req, res) => {
           return tb.enroll_id === emp.enroll_id && tbDate === dateStr;
         });
         if (partial) {
-          if (checkInUTC && partial.leave_duration_for_entry) {
-            let cIn = new Date(checkInUTC);
-            cIn.setMinutes(cIn.getMinutes() - partial.leave_duration_for_entry);
-            checkInUTC = cIn;
-          }
-          if (checkOutUTC && partial.leave_duration_for_exit) {
-            let cOut = new Date(checkOutUTC);
-            cOut.setMinutes(
-              cOut.getMinutes() + partial.leave_duration_for_exit
-            );
-            checkOutUTC = cOut;
+          if (!emp.works_for_segmented_time) {
+            // النظام القديم: نعدل checkInUTC, checkOutUTC
+            if (checkInUTC && partial.leave_duration_for_entry) {
+              let cIn = new Date(checkInUTC);
+              cIn.setMinutes(cIn.getMinutes() - partial.leave_duration_for_entry);
+              checkInUTC = cIn;
+            }
+            if (checkOutUTC && partial.leave_duration_for_exit) {
+              let cOut = new Date(checkOutUTC);
+              cOut.setMinutes(
+                cOut.getMinutes() + partial.leave_duration_for_exit
+              );
+              checkOutUTC = cOut;
+            }
+          } else {
+            // إذا الدوام المتعدد: قد نعدل أول فترة وأخر فترة
+            if (segmentedIntervals.length > 0) {
+              if (partial.leave_duration_for_entry) {
+                segmentedIntervals[0].inTime = new Date(
+                  segmentedIntervals[0].inTime.getTime() -
+                  partial.leave_duration_for_entry * 60000
+                );
+              }
+              if (partial.leave_duration_for_exit) {
+                let lastIdx = segmentedIntervals.length - 1;
+                segmentedIntervals[lastIdx].outTime = new Date(
+                  segmentedIntervals[lastIdx].outTime.getTime() +
+                  partial.leave_duration_for_exit * 60000
+                );
+              }
+            }
           }
         }
 
@@ -776,32 +973,7 @@ exports.getFullAttendanceReport = async (req, res) => {
         } else if (foundVacation) {
           if (foundVacation.status === "Pending") {
             // يوم عمل لكن الإجازة لم تُوافق
-            let metrics = calculateAttendanceMetrics({
-              checkInUTC,
-              checkOutUTC,
-              restBreaks,
-              daySchedule,
-              dayStartUTC,
-              dayEndUTC,
-              workRegStartUTC: wrStartUTC,
-              firstExitUTC,
-              lastExitUTC,
-              lastEntryPreventionUTC,
-              overtimeStartUTC,
-            });
-
-            record.delay_minutes = metrics.delayMinutes;
-            record.early_exit_minutes = metrics.earlyExitMinutes;
-            record.overtime_minutes = metrics.overtimeMinutes;
-            record.status_code = metrics.statusCode;
-            record.work_hours = +metrics.workHours.toFixed(2);
-            record.check_in = metrics.finalCheckIn
-              ? utcToLocalString(metrics.finalCheckIn, timeZone)
-              : null;
-            record.check_out = metrics.finalCheckOut
-              ? utcToLocalString(metrics.finalCheckOut, timeZone)
-              : null;
-            record.base_work_hours = +metrics.baseWork.toFixed(2);
+            // (سنتركه يحسبه عاديًا بالأسفل)
           } else {
             // إجازة مصدّقة
             let vacName = foundVacation.vacation_type_id?.vacation_name || "";
@@ -819,16 +991,19 @@ exports.getFullAttendanceReport = async (req, res) => {
             } else if (foundVacation.status === "Pending") {
               record.status_code = "أجازة انتظار";
             }
-            record.check_in = null;
-            record.check_out = null;
-            record.base_work_hours = 0;
+            record.is_vacation_day = true;
+            record.is_paid_vacation = !!foundVacation.is_paid;
+            record.vacation_status = foundVacation.status;
           }
-
-          record.is_vacation_day = true;
-          record.is_paid_vacation = !!foundVacation.is_paid;
-          record.vacation_status = foundVacation.status;
         } else {
-          // يوم عمل عادي
+          record.is_vacation_day = false;
+          record.is_paid_vacation = false;
+          record.vacation_status = null;
+        }
+
+        // الآن نحدد نداء الدالة الحسابية
+        if (!emp.works_for_segmented_time) {
+          // النظام القديم
           let metrics = calculateAttendanceMetrics({
             checkInUTC,
             checkOutUTC,
@@ -842,11 +1017,15 @@ exports.getFullAttendanceReport = async (req, res) => {
             lastEntryPreventionUTC,
             overtimeStartUTC,
           });
-
           record.delay_minutes = metrics.delayMinutes;
           record.early_exit_minutes = metrics.earlyExitMinutes;
           record.overtime_minutes = metrics.overtimeMinutes;
-          record.status_code = metrics.statusCode;
+          if (record.status_code === "holiday" || record.status_code === "sick_leave" 
+              || record.status_code === "annual_leave" || record.status_code === "أجازة انتظار") {
+            // لا نغير status_code لأنه عطلة أو إجازة
+          } else {
+            record.status_code = metrics.statusCode;
+          }
           record.work_hours = +metrics.workHours.toFixed(2);
           record.check_in = metrics.finalCheckIn
             ? utcToLocalString(metrics.finalCheckIn, timeZone)
@@ -856,61 +1035,93 @@ exports.getFullAttendanceReport = async (req, res) => {
             : null;
           record.base_work_hours = +metrics.baseWork.toFixed(2);
 
-          // أوفر تايم
-          let otRate =
-            daySchedule.overtime_price || daySchedule.overtimePrice || 0;
-          let overtimeHours = record.overtime_minutes / 60;
-          let overtimeValue = overtimeHours * otRate;
-          record.overtime_entitlement = +overtimeValue.toFixed(2);
+          // دقائق الاستراحة
+          let totalR = 0;
+          let displayedBreaks = [];
+          for (let b of restBreaks) {
+            let rInLocal = utcToLocalString(b.rest_in, timeZone);
+            let rOutLocal = utcToLocalString(b.rest_out, timeZone);
+            totalR += b.duration;
+            displayedBreaks.push({
+              rest_in: rInLocal,
+              rest_out: rOutLocal,
+              duration: +b.duration.toFixed(2),
+            });
+          }
+          record.rest_breaks = displayedBreaks;
+          record.total_rest_duration = +totalR.toFixed(2);
 
-          record.is_vacation_day = false;
-          record.is_paid_vacation = false;
-          record.vacation_status = null;
-        }
-
-        if (partial) {
-          record.leave_duration_for_entry =
-            partial.leave_duration_for_entry || 0;
-          record.leave_duration_for_exit = partial.leave_duration_for_exit || 0;
         } else {
-          record.leave_duration_for_entry = 0;
-          record.leave_duration_for_exit = 0;
-        }
-
-        // جمع الاستراحات للعرض
-        let totalR = 0;
-        let displayedBreaks = [];
-        for (let b of restBreaks) {
-          let rInLocal = utcToLocalString(b.rest_in, timeZone);
-          let rOutLocal = utcToLocalString(b.rest_out, timeZone);
-          totalR += b.duration;
-          displayedBreaks.push({
-            rest_in: rInLocal,
-            rest_out: rOutLocal,
-            duration: +b.duration.toFixed(2),
+          // النظام الجديد (الدوام المتعدد)
+          let metrics2 = calculateAttendanceMetricsForSegmented({
+            intervals: segmentedIntervals,
+            restBreaks,
+            daySchedule,
+            dayStartUTC,
+            dayEndUTC,
           });
-        }
-        record.rest_breaks = displayedBreaks;
-        record.total_rest_duration = +totalR.toFixed(2);
 
-        // دقائق الاستراحة
-        const allowedMinRest = daySchedule.allowed_min_rest || 0;
-        const restMinPrices = daySchedule.rest_min_prices || 0;
-        const totalRestMinutes = totalR * 60;
-        record.total_rest_minutes = Math.round(totalRestMinutes);
-        let restCutting = 0;
-        if (totalRestMinutes > allowedMinRest) {
-          const diff = totalRestMinutes - allowedMinRest;
-          restCutting = diff * restMinPrices;
-        }
-        record.rest_cutting = restCutting;
+          record.delay_minutes = metrics2.delayMinutes;
+          record.early_exit_minutes = metrics2.earlyExitMinutes;
+          record.overtime_minutes = metrics2.overtimeMinutes;
+          if (record.status_code === "holiday" || record.status_code === "sick_leave" 
+              || record.status_code === "annual_leave" || record.status_code === "أجازة انتظار") {
+            // لا نغير status_code لأنه عطلة أو إجازة
+          } else {
+            record.status_code = metrics2.statusCode;
+          }
+          record.work_hours = metrics2.workHours;
+          record.total_rest_duration = metrics2.totalRestHours;
 
-        // الحساب المالي (الراتب قبل القواعد)
+          // check_in = أول دخول
+          // check_out = آخر خروج
+          if (metrics2.firstInTime) {
+            record.check_in = utcToLocalString(metrics2.firstInTime, timeZone);
+          }
+          if (metrics2.lastOutTime) {
+            record.check_out = utcToLocalString(metrics2.lastOutTime, timeZone);
+          }
+
+          // سجل الاستراحات للعرض
+          let displayedBreaks = [];
+          for (let b of restBreaks) {
+            displayedBreaks.push({
+              rest_in: utcToLocalString(b.rest_in, timeZone),
+              rest_out: utcToLocalString(b.rest_out, timeZone),
+              duration: +((b.rest_out - b.rest_in) / 3600000).toFixed(2),
+            });
+          }
+          record.rest_breaks = displayedBreaks;
+
+          // حفظ الفترات التفصيلية (work_intervals) في التقرير
+          let intervalsForReport = [];
+          for (let iv of segmentedIntervals) {
+            intervalsForReport.push({
+              inTime: utcToLocalString(iv.inTime, timeZone),
+              outTime: utcToLocalString(iv.outTime, timeZone),
+              duration: +((iv.outTime - iv.inTime) / 3600000).toFixed(2),
+            });
+          }
+          record.work_intervals = intervalsForReport;
+
+          record.base_work_hours = record.work_hours; // يمكن الاحتفاظ بها هكذا
+        }
+
+        // أوفر تايم
+        let otRate =
+          daySchedule.overtime_price || daySchedule.overtimePrice || 0;
+        let overtimeHours = record.overtime_minutes / 60;
+        let overtimeValue = overtimeHours * otRate;
+        record.overtime_entitlement = +overtimeValue.toFixed(2);
+
+        // الآن بقية الحسابات المالية كالسابق
+        // لو كان absent
         if (record.status_code === "absent") {
           record.absent_cutting = daySchedule.absent_cutting || 0;
         }
-        if (
-          daySchedule.works_for_daily_wage &&
+
+        // العامل باليومية
+        if (daySchedule.works_for_daily_wage &&
           ![
             "holiday",
             "annual_leave",
@@ -921,7 +1132,9 @@ exports.getFullAttendanceReport = async (req, res) => {
           ].includes(record.status_code)
         ) {
           record.salary_earned_for_work = daySchedule.daily_salary || 0;
-        } else if (
+        }
+        // العامل بالساعة
+        else if (
           !daySchedule.works_for_daily_wage &&
           ![
             "holiday",
@@ -953,17 +1166,27 @@ exports.getFullAttendanceReport = async (req, res) => {
           record.early_cutting_by_count = earlyCountCut;
         }
 
+        // دقائق الاستراحة الزائدة
+        const allowedMinRest = daySchedule.allowed_min_rest || 0;
+        const restMinPrices = daySchedule.rest_min_prices || 0;
+        const totalRestMinutes = record.total_rest_duration * 60;
+        record.rest_cutting = 0;
+        if (totalRestMinutes > allowedMinRest) {
+          const diff = totalRestMinutes - allowedMinRest;
+          record.rest_cutting = diff * restMinPrices;
+        }
+
         // حساب أولي للراتب الصافي
         let netVal =
           record.salary_earned_for_work +
           record.overtime_entitlement -
-          restCutting -
+          record.rest_cutting -
           record.late_arrival_deduction -
           record.early_exit_deduction -
-          record.absent_cutting -
+          (record.absent_cutting || 0) -
           record.late_cutting_by_count -
           record.early_cutting_by_count +
-          rpAmount;
+          record.rewards_penalties_amount;
 
         record.net_salary_before_rounding = netVal;
         record.net_salary = netVal;
@@ -976,7 +1199,6 @@ exports.getFullAttendanceReport = async (req, res) => {
           sumRequiredWorkHours += daySchedule.official_working_hours || 8;
         }
 
-        // طباعة السجل (اليوم) النهائي للموظف
         console.log("[DEBUG RESULT - قبل الدفع في finalResults]", record);
 
         finalResults.push(record);
@@ -1131,7 +1353,6 @@ exports.getFullAttendanceReport = async (req, res) => {
         ` | ايام عطل اسبوعية=${week_work_offcount}` +
         ` | ساعات العمل المطلوبة=${sumRequiredWorkHours}`,
       attendance_date: null,
-      // إضافة اليوم في الملخص ليس ضروريًا، نجعله فارغًا
       day: null,
       check_in: null,
       check_out: null,

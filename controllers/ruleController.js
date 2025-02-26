@@ -1,6 +1,6 @@
 // controllers/ruleController.js
 
-const Rule = require("../models/Rule");
+const Rule = require('../models/Rule');
 
 /**
  * جلب جميع القواعد لهذا الـ owner
@@ -11,9 +11,7 @@ exports.getRules = async (req, res) => {
     res.json(rules);
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({ error: "Failed to get rules", details: err.message });
+    res.status(500).json({ error: 'Failed to get rules', details: err.message });
   }
 };
 
@@ -23,15 +21,7 @@ exports.getRules = async (req, res) => {
  */
 exports.createRule = async (req, res) => {
   try {
-    const {
-      name,
-      priority,
-      stopOnMatch,
-      conditions,
-      actions,
-      validFrom,
-      validTo,
-    } = req.body;
+    const { name, priority, stopOnMatch, conditions, actions, validFrom, validTo } = req.body;
 
     const newRule = new Rule({
       owner: req.userId,
@@ -41,16 +31,14 @@ exports.createRule = async (req, res) => {
       conditions,
       actions,
       validFrom: validFrom ? new Date(validFrom) : null,
-      validTo: validTo ? new Date(validTo) : null,
+      validTo: validTo ? new Date(validTo) : null
     });
 
     await newRule.save();
     res.json(newRule);
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({ error: "Failed to create rule", details: err.message });
+    res.status(500).json({ error: 'Failed to create rule', details: err.message });
   }
 };
 
@@ -62,7 +50,7 @@ exports.updateRule = async (req, res) => {
     const { id } = req.params; // rule ID
     const rule = await Rule.findOne({ _id: id, owner: req.userId });
     if (!rule) {
-      return res.status(404).json({ error: "Rule not found" });
+      return res.status(404).json({ error: 'Rule not found' });
     }
 
     // تحديث الحقول من body
@@ -71,18 +59,14 @@ exports.updateRule = async (req, res) => {
     rule.stopOnMatch = req.body.stopOnMatch ?? rule.stopOnMatch;
     rule.conditions = req.body.conditions ?? rule.conditions;
     rule.actions = req.body.actions ?? rule.actions;
-    rule.validFrom = req.body.validFrom
-      ? new Date(req.body.validFrom)
-      : rule.validFrom;
+    rule.validFrom = req.body.validFrom ? new Date(req.body.validFrom) : rule.validFrom;
     rule.validTo = req.body.validTo ? new Date(req.body.validTo) : rule.validTo;
 
     await rule.save();
     res.json(rule);
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({ error: "Failed to update rule", details: err.message });
+    res.status(500).json({ error: 'Failed to update rule', details: err.message });
   }
 };
 
@@ -91,12 +75,12 @@ exports.getRuleById = async (req, res) => {
     const { id } = req.params;
     const rule = await Rule.findOne({ _id: id, owner: req.userId });
     if (!rule) {
-      return res.status(404).json({ error: "Rule not found" });
+      return res.status(404).json({ error: 'Rule not found' });
     }
     res.json(rule);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to get rule", details: err.message });
+    res.status(500).json({ error: 'Failed to get rule', details: err.message });
   }
 };
 
@@ -108,13 +92,11 @@ exports.deleteRule = async (req, res) => {
     const { id } = req.params;
     const rule = await Rule.findOneAndDelete({ _id: id, owner: req.userId });
     if (!rule) {
-      return res.status(404).json({ error: "Rule not found" });
+      return res.status(404).json({ error: 'Rule not found' });
     }
-    res.json({ message: "Rule deleted successfully" });
+    res.json({ message: 'Rule deleted successfully' });
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({ error: "Failed to delete rule", details: err.message });
+    res.status(500).json({ error: 'Failed to delete rule', details: err.message });
   }
 };

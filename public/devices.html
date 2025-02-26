@@ -106,6 +106,18 @@
       flex: 1;
       padding: 20px;
     }
+        /* تنسيق للقوائم الفرعية لتظهر كفرع */
+        .submenu {
+      border-left: 2px solid #dee2e6;
+      margin-left: 15px;
+      padding-left: 10px;
+      margin-bottom: 5px;
+    }
+
+    .menu-group-header {
+      font-weight: bold;
+      background: #dee2e6;
+    }
 
     /* الشريط الجانبي (Sidebar) */
     .sidebar {
@@ -622,74 +634,147 @@
 
     <!-- الشريط الجانبي -->
     <div class="sidebar">
-      <h2 id="devices_sidebar_menu_title" data-lng="devices_sidebar_menu_title">Menu</h2>
-
-      <div class="navItem" onclick="location.href='dashboard.html'">
-        <i class="bi bi-house-fill"></i>
-        <span id="devices_sidebar_overview" data-lng="devices_sidebar_overview">Overview</span>
-      </div>
-      <div class="navItem" onclick="location.href='employee.html'">
-        <i class="bi bi-people-fill"></i>
-        <span id="devices_sidebar_employees" data-lng="devices_sidebar_employees">Employees</span>
-      </div>
-      <div class="navItem" onclick="location.href='report.html'">
-        <i class="bi bi-bar-chart-line-fill"></i>
-        <span id="devices_sidebar_report" data-lng="devices_sidebar_report">Report</span>
-      </div>
-      <div class="navItem" onclick="location.href='time-based-leaves.html'">
-        <i class="bi bi-clock-fill"></i>
-        <span id="devices_sidebar_time_leaves" data-lng="devices_sidebar_time_leaves">Time-based Leaves</span>
-      </div>
-      <div class="navItem" onclick="location.href='holidays.html'">
-        <i class="bi bi-calendar-event-fill"></i>
-        <span id="devices_sidebar_holidays" data-lng="devices_sidebar_holidays">Holidays</span>
-      </div>
-      <div class="navItem" onclick="location.href='leaves.html'">
-        <i class="bi bi-calendar3"></i>
-        <span id="devices_sidebar_leaves" data-lng="devices_sidebar_leaves">Leaves</span>
-      </div>
-      <div class="navItem" onclick="location.href='attend.html'">
-        <i class="bi bi-journal-check"></i>
-        <span id="devices_sidebar_attend" data-lng="devices_sidebar_attend">Attendance</span>
-      </div>
-      <div class="navItem" onclick="location.href='rewards.html'">
-        <i class="bi bi-gift-fill"></i>
-        <span id="devices_sidebar_rewards" data-lng="devices_sidebar_rewards">Rewards & Punishments</span>
-      </div>
-      <div class="navItem active" onclick="location.href='devices.html'">
-        <i class="bi bi-device-hdd-fill"></i>
-        <span id="devices_sidebar_devices" data-lng="devices_sidebar_devices">Devices</span>
-      </div>
-      <div class="navItem" onclick="location.href='requests.html'">
-        <i class="bi bi-list-check"></i>
-        <span id="devices_sidebar_requests" data-lng="devices_sidebar_requests">Requests</span>
-      </div>
-      <div class="navItem" onclick="location.href='department.html'">
-        <i class="bi bi-building"></i>
-        <span id="devices_sidebar_department" data-lng="devices_sidebar_department">Departments</span>
-      </div>
-      <!-- <div class="navItem" onclick="location.href='settings.html'">
-        <i class="bi bi-gear-fill"></i>
-        <span id="devices_sidebar_settings" data-lng="devices_sidebar_settings">Settings</span>
-      </div> -->
-      <div class="navItem" onclick="location.href='importemployee.html'">
-        <i class="bi bi-person-exclamation"></i>
-        <span data-lng="attend_sidebar_unregistered"></span>
-      </div>
-      <div class="navItem" onclick="location.href='employee-summary-report.html'">
-        <i class="bi bi-people-fill"></i>
-        <span data-lng="employee_summary_report"></span>
-      </div>
-      <div class="navItem" onclick="location.href='leaves-type.html'">
-        <i class="bi bi-briefcase-fill"></i>
-        <span data-lng="leaves_type">أنواع الإجازات</span>
-      </div>
-      <div class="navItem" onclick="location.href='public-settings.html'">
-        <i class="bi bi-gear"></i>
-        <span data-lng="public_settings"></span>
-      </div>
-    </div>
-  </div>
+      
+          
+            <!-- الرئيسية -->
+            <div class="navItem menu-group-header" onclick="location.href='dashboard.html'">
+              <i class="bi bi-house-fill"></i>
+              <span data-lng="navOverview">الرئيسية</span>
+            </div>
+      
+            <!-- ادارة الموظفين -->
+            <div class="navItem menu-group-header" onclick="toggleSubMenu('staffManagementSubmenu')">
+              <i class="bi bi-people-fill"></i>
+              <span data-lng="staffManagement">ادارة الموظفين</span>
+            </div>
+            <div id="staffManagementSubmenu" class="submenu" style="display: none;">
+              <div class="navItem" onclick="location.href='employee.html'">
+                <i class="bi bi-person-lines-fill"></i>
+                <span data-lng="navEmployees">الموظفين</span>
+              </div>
+              <div class="navItem" onclick="location.href='department.html'">
+                <i class="bi bi-building"></i>
+                <span data-lng="navDepartment">الأقسام</span>
+              </div>
+            </div>
+      
+            <!-- التقارير -->
+            <div class="navItem menu-group-header" onclick="toggleSubMenu('reportsSubmenu')">
+              <i class="bi bi-bar-chart-line-fill"></i>
+              <span data-lng="reports">التقارير</span>
+            </div>
+      
+            <div id="reportsSubmenu" class="submenu" style="display: none;">
+              <div class="navItem" onclick="location.href='report.html'">
+                <i class="bi bi-bar-chart-line-fill"></i>
+                <span data-lng="navReport"></span>
+              </div>
+      
+              <div class="navItem" onclick="location.href='attend.html'">
+                <i class="bi bi-journal-check"></i>
+                <span data-lng="navAttend">تقرير الحضور</span>
+              </div>
+      
+      
+              <div class="navItem" onclick="location.href='employee-summary-report.html'">
+                <i class="bi bi-people-fill"></i>
+                <span data-lng="employee_summary_report">تقرير ملخص الموظفين</span>
+              </div>
+              <div class="navItem" onclick="location.href='rule.html'">
+                <i class="bi bi-braces"></i>
+                <span data-lng="navRules">القواعد (Rules)</span>
+              </div>
+            </div>
+      
+            <!-- ادارة الاجهزة -->
+            <div class="navItem menu-group-header" onclick="toggleSubMenu('deviceManagementSubmenu')">
+              <i class="bi bi-device-hdd-fill"></i>
+              <span data-lng="deviceManagement">ادارة الاجهزة</span>
+            </div>
+            <div id="deviceManagementSubmenu" class="submenu" style="display: none;">
+              <div class="navItem active" onclick="location.href='devices.html'">
+                <i class="bi bi-laptop"></i>
+                <span data-lng="navDevices">الأجهزة</span>
+              </div>
+              <div class="navItem" onclick="location.href='requests.html'">
+                <i class="bi bi-list-check"></i>
+                <span data-lng="navOrders">الأوامر</span>
+              </div>
+              <div class="navItem" onclick="location.href='importemployee.html'">
+                <i class="bi bi-person-exclamation"></i>
+                <span data-lng="unregistered">الموظفين غير المسجلين</span>
+              </div>
+            </div>
+      
+            <!-- ادارة الدوام -->
+            <div class="navItem menu-group-header" onclick="toggleSubMenu('workManagementSubmenu')">
+              <i class="bi bi-calendar-event-fill"></i>
+              <span data-lng="workManagement">ادارة الدوام</span>
+            </div>
+            <div id="workManagementSubmenu" class="submenu" style="display: none;">
+              <div class="navItem" onclick="location.href='leaves.html'">
+                <i class="bi bi-calendar3"></i>
+                <span data-lng="navLeaves">الإجازات</span>
+              </div>
+              <div class="navItem" onclick="location.href='rewards.html'">
+                <i class="bi bi-gift-fill"></i>
+                <span data-lng="navRewards">المكافئات</span>
+              </div>
+              <div class="navItem" onclick="location.href='time-based-leaves.html'">
+                <i class="bi bi-clock-fill"></i>
+                <span data-lng="leaves_sidebar_time_leaves">إجازات زمنية</span>
+              </div>
+              
+              <div class="navItem" onclick="location.href='holidays.html'">
+                <i class="bi bi-calendar-event"></i>
+                <span data-lng="navHolidays">العطل الرسمية</span>
+              </div>
+            </div>
+      
+            <!-- ادارة الاوقات -->
+            <div class="navItem menu-group-header" onclick="toggleSubMenu('timeManagementSubmenu')">
+              <i class="bi bi-clock-fill"></i>
+              <span data-lng="timeManagement">ادارة الاوقات</span>
+            </div>
+            <div id="timeManagementSubmenu" class="submenu" style="display: none;">
+              <div class="navItem" onclick="location.href='shifts.html'">
+                <i class="bi bi-hourglass-split"></i>
+                <span data-lng="navshift">الشفتات</span>
+              </div>
+              <div class="navItem" onclick="location.href='TimeSlot.html'">
+                <i class="bi bi-watch"></i>
+                <span data-lng="navSlot">الأوقات</span>
+              </div>
+              <div class="navItem" onclick="location.href='public-settings.html'">
+                <i class="bi bi-gear"></i>
+                <span data-lng="public_settings">الإعدادات</span>
+              </div>
+            </div>
+          </div>
+      
+          <script>
+            // دالة لتبديل عرض وإخفاء القائمة الفرعية
+            function toggleSubMenu(id) {
+              var submenu = document.getElementById(id);
+              if (submenu.style.display === "none" || submenu.style.display === "") {
+                submenu.style.display = "block";
+              } else {
+                submenu.style.display = "none";
+              }
+            }
+      
+            // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
+            // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
+            document.addEventListener("DOMContentLoaded", function () {
+              var submenus = document.querySelectorAll('.submenu');
+              submenus.forEach(function (submenu) {
+                if (submenu.querySelector('.navItem.active')) {
+                  submenu.style.display = "block";
+                }
+              });
+            });
+          </script>
+   
 
   <!-- مودال إضافة / تعديل الجهاز -->
   <div class="modalOverlay" id="deviceModal">

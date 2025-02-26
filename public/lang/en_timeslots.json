@@ -1,6 +1,7 @@
 {
     "timeslots_header_title": "Time Slots Management",
     "timeslots_logout": "Logout",
+    "leaves_sidebar_time_leaves":"Partial Time Request",
     "timeslots_button_add": "Add TimeSlot",
     "timeslots_table_index": "#",
     "timeslots_table_slotName": "Slot Name",

@@ -10,10 +10,10 @@ const employeeSchema = new Schema(
     serial_number: { type: String },
     insertion_date: { type: Date },
     aliasid: { type: String },
-    scheduleMode: {
-      type: String,
-      enum: ["fixed", "shift"],
-      default: "fixed",
+    scheduleMode: { 
+      type: String, 
+      enum: ["fixed", "shift"], 
+      default: "fixed" 
     },
     shift_id: {
       type: Schema.Types.ObjectId,
@@ -26,6 +26,7 @@ const employeeSchema = new Schema(
     admin: { type: Number },
     fingerprint: { type: String },
     palm: { type: Number },
+    works_for_segmented_time: { type: Boolean },
     week_zone: { type: Number },
     face: { type: Number },
     password: { type: String },

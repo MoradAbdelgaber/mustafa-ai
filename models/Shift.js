@@ -22,11 +22,11 @@ const shiftSchema = new Schema(
     },
     shiftName: { type: String, required: true },
     cycleUnit: { type: String, default: "Week" }, // أو "Month"
-    // تاريخ بداية الدورة
-    cycleStartDate: { type: Date }, // يمكن تحديد default إذا رغبت، مثل: default: Date.now
+     // تاريخ بداية الدورة
+     cycleStartDate: { type: Date }, // يمكن تحديد default إذا رغبت، مثل: default: Date.now
     cycleLength: { type: Number, default: 1 },
 
-    // خارطة الأيام (7 أيام للأسبوع مثلاً).
+    // خارطة الأيام (7 أيام للأسبوع مثلاً). 
     // كل عنصر يشير إلى الـTimeSlot المستخدم في ذلك اليوم.
     daysMap: [
       {
