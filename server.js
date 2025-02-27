@@ -12,6 +12,8 @@ const userRoutes = require("./routes/userRoutes");
 // نستدعي بقية المسارات
 
 const departmentRoutes = require("./routes/departmentRoutes");
+const branchRoutes = require("./routes/branchRoutes");
+const commandroutes = require("./routes/commandroutes");
 const employeeRoutes = require("./routes/employeeRoutes");
 const fingerPrintLogRoutes = require("./routes/fingerPrintLogRoutes");
 const rewardsAndPenaltiesRoutes = require("./routes/rewardsAndPenaltiesRoutes");
@@ -61,6 +63,8 @@ app.use("/api/status-names", statusNameRoutes);
 app.use("/api/vacation-types", vacationTypeRoutes);
 app.use("/api/vacations", vacationRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/api/commands", commandroutes);
+app.use("/api/branches",  authMiddleware, branchRoutes);
 app.use("/api/devices", authMiddleware, deviceRoutes);
 app.use(
   "/api/weekSchedule-templates",

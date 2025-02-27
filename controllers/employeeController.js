@@ -88,23 +88,28 @@ exports.getEmployeeById = async (req, res) => {
 
 exports.getEmployees = async (req, res) => {
   try {
-    // ترقيم الصفحات
     const { page = 1, limit = 10, department } = req.query;
-    const pageNum = parseInt(page);
-    const limitNum = parseInt(limit);
+    const pageNum = parseInt(page, 10);
+    const limitNum = parseInt(limit, 10);
 
-    // نرشّح الموظفين بناءً على المالك
+    // ترشيح الموظفين بناءً على المالك
     const filter = { owner: req.userId };
 
-    // إذا تم توفير القسم، نقوم بإضافته للتصفية
+    // إضافة التصفية للقسم إن وُجد
     if (department) {
       filter.department = department;
+    }
+
+    // إذا كانت بيانات الموظف (من التوكن) تحتوي على مصفوفة فروع غير فارغة، نضيف شرط التصفية
+    if (req.employee && Array.isArray(req.employee.branches) && req.employee.branches.length > 0) {
+      filter.branch = { $in: req.employee.branches };
     }
 
     const employees = await Employee.find(filter)
       .skip((pageNum - 1) * limitNum)
       .limit(limitNum)
-      .select("-password");
+      .select("-password")
+      .populate("branch", "name"); // تعبئة بيانات الفرع مع جلب حقل الاسم مثلاً
 
     const totalCount = await Employee.countDocuments(filter);
 
@@ -119,6 +124,7 @@ exports.getEmployees = async (req, res) => {
     res.status(500).json({ error: "Error fetching employees" });
   }
 };
+
 
 exports.updateEmployee = async (req, res, next) => {
   try {

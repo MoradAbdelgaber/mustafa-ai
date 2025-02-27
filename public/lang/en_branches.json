@@ -1,0 +1,30 @@
+{
+    "branches_head_title": "Attendance Management System - Branches",
+    "branches_header_title": "Attendance & Payroll System - Branches",
+    "branches_logout": "Logout",
+  
+    "branches_button_add_branch": "Add Branch",
+    "branches_placeholder_search_name": "Search by branch name...",
+  
+    "branches_table_header_index": "#",
+    "branches_table_header_name": "Branch Name",
+    "branches_table_header_note": "Note",
+    "branches_table_header_created": "Created At",
+    "branches_table_header_edit": "Edit",
+    "branches_table_header_delete": "Delete",
+  
+    "branches_modal_title_add": "Add New Branch",
+    "branches_modal_title_edit": "Edit Branch",
+    "branches_modal_name_label": "Branch Name:",
+    "branches_modal_note_label": "Notes:",
+    "branches_modal_save_button": "Save",
+  
+    "branches_msg_confirm_delete": "Do you want to delete this branch?",
+    "branches_msg_success_delete": "Branch has been deleted successfully",
+    "branches_msg_success_edit": "Branch has been updated successfully",
+    "branches_msg_success_add": "Branch has been added successfully",
+  
+    "navBranchManagement": "Branch Management",
+    "navBranches": "Branches"
+  }
+  

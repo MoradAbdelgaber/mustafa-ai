@@ -1,0 +1,30 @@
+{
+    "branches_head_title": "نظام إدارة الحضور والانصراف - الفروع",
+    "branches_header_title": "نظام إدارة الحضور والانصراف - الفروع",
+    "branches_logout": "خروج",
+  
+    "branches_button_add_branch": "إضافة فرع",
+    "branches_placeholder_search_name": "ابحث بالاسم...",
+    
+    "branches_table_header_index": "#",
+    "branches_table_header_name": "اسم الفرع",
+    "branches_table_header_note": "ملاحظات",
+    "branches_table_header_created": "تاريخ الإضافة",
+    "branches_table_header_edit": "تحرير",
+    "branches_table_header_delete": "حذف",
+    
+    "branches_modal_title_add": "إضافة فرع",
+    "branches_modal_title_edit": "تعديل الفرع",
+    "branches_modal_name_label": "اسم الفرع:",
+    "branches_modal_note_label": "ملاحظات:",
+    "branches_modal_save_button": "حفظ",
+  
+    "branches_msg_confirm_delete": "هل تريد حذف الفرع؟",
+    "branches_msg_success_delete": "تم حذف الفرع بنجاح",
+    "branches_msg_success_edit": "تم تعديل الفرع بنجاح",
+    "branches_msg_success_add": "تمت إضافة الفرع بنجاح",
+  
+    "navBranchManagement": "إدارة الفروع",
+    "navBranches": "الفروع"
+  }
+  

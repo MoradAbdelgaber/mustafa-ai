@@ -836,7 +836,7 @@ exports.getFullAttendanceReport = async (req, res) => {
         // فلترة البصمات
         let dayFingerLogs = fingerLogs
           .filter((f) => {
-            if (f.enrollid !== emp.enroll_id) return false;
+            if (f.enrollid != emp.enroll_id) return false;
             let fTime = new Date(f.time);
             // يجب أن يكون في نطاق [dayStartUTC..dayEndUTC] (مع offset)
             return fTime <= Math.max(dayEndUTC, lastExitUTC || dayEndUTC) 

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="ar">
 <head>
   <meta charset="UTF-8">
   <title data-lng="attend_head_title"></title>
@@ -17,22 +16,17 @@
 
   <!-- خط Tajawal وOpen Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+  <link
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
     rel="stylesheet">
 
   <style>
     html {
       animation: fadeIn .3s ease-in forwards;
     }
-
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     /* عند العربية: Tajawal + RTL */
@@ -40,7 +34,6 @@
       font-family: 'Tajawal', sans-serif;
       direction: rtl;
     }
-
     /* عند الإنجليزية: Open Sans + LTR */
     html[lang="en"] body {
       font-family: 'Open Sans', sans-serif;
@@ -71,12 +64,10 @@
       justify-content: space-between;
       align-items: center;
     }
-
     header h1 {
       margin: 0;
       font-size: 1.2rem;
     }
-
     header button {
       background: #dc3545;
       color: #fff;
@@ -87,18 +78,17 @@
       font-size: 0.9rem;
       transition: background 0.3s;
     }
-
     header button:hover {
       background: #c82333;
     }
-        /* تنسيق للقوائم الفرعية لتظهر كفرع */
-        .submenu {
+
+    /* تنسيق للقوائم الفرعية لتظهر كفرع */
+    .submenu {
       border-left: 2px solid #dee2e6;
       margin-left: 15px;
       padding-left: 10px;
       margin-bottom: 5px;
     }
-
     .menu-group-header {
       font-weight: bold;
       background: #dee2e6;
@@ -108,12 +98,10 @@
       display: flex;
       flex-direction: row-reverse;
     }
-
     .mainContent {
       flex: 1;
       padding: 20px;
     }
-
     .sidebar {
       width: 240px;
       background: #fff;
@@ -121,14 +109,12 @@
       min-height: 100vh;
       padding: 20px 10px;
     }
-
     .sidebar h2 {
       margin-bottom: 15px;
       font-size: 1rem;
       text-align: center;
       color: #444;
     }
-
     .navItem {
       padding: 12px 10px;
       margin: 6px 0;
@@ -141,22 +127,18 @@
       align-items: center;
       gap: 8px;
     }
-
     .navItem i {
       font-size: 1.1rem;
       color: #666;
       transition: color 0.3s;
     }
-
     .navItem:hover {
       background: #f0f0f0;
     }
-
     .navItem.active {
       background: #007bff;
       color: #fff;
     }
-
     .navItem.active i {
       color: #fff;
     }
@@ -167,14 +149,8 @@
       font-size: 0.95rem;
       font-weight: 600;
     }
-
-    .errorMsg {
-      color: red;
-    }
-
-    .successMsg {
-      color: green;
-    }
+    .errorMsg { color: red; }
+    .successMsg { color: green; }
 
     .addFingerprintBtn {
       background: #28a745;
@@ -187,9 +163,25 @@
       border: none;
       cursor: pointer;
     }
-
     .addFingerprintBtn:hover {
       background: #218838;
+    }
+
+    /* زر تعديل البصمات الجديد */
+    .transferFingerprintsBtn {
+      background: #ffc107;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      transition: background 0.3s;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    .transferFingerprintsBtn:hover {
+      background: #e0a800;
     }
 
     .searchFilters {
@@ -203,12 +195,10 @@
       border-radius: 6px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-
     .searchFilters label {
       margin-right: 4px;
       font-weight: 500;
     }
-
     .searchFilters select,
     .searchFilters input[type="date"],
     .searchFilters input[type="text"],
@@ -226,7 +216,6 @@
       gap: 10px;
       margin-bottom: 15px;
     }
-
     .pagination button {
       background: #007bff;
       color: #fff;
@@ -237,19 +226,32 @@
       font-size: 0.8rem;
       transition: background 0.3s;
     }
-
     .pagination button:hover {
       background: #0056b3;
     }
-
     .pagination span {
       font-size: 0.9rem;
       font-weight: 600;
     }
-
     .pagination button:disabled {
       opacity: 0.6;
       cursor: not-allowed;
+    }
+
+    /* زر حذف المحدد/حذف الكل */
+    .deleteSelectedBtn {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-left: 10px;
+      transition: background 0.3s;
+    }
+    .deleteSelectedBtn:hover {
+      background: #c82333;
     }
 
     table {
@@ -260,12 +262,10 @@
       border-radius: 6px;
       overflow: hidden;
     }
-
     table thead {
       background: #007bff;
       color: #fff;
     }
-
     table th,
     table td {
       border: 1px solid #ddd;
@@ -274,11 +274,11 @@
       font-size: 0.9rem;
       vertical-align: middle;
     }
-
     table tbody tr:hover {
       background: #f9f9f9;
     }
 
+    /* صف معدل */
     .modifiedRow {
       background-color: #fff7e6;
     }
@@ -289,18 +289,11 @@
       margin: 0 5px;
       transition: color 0.3s;
     }
-
     .actionIcon:hover {
       opacity: 0.8;
     }
-
-    .iconEdit {
-      color: #007bff;
-    }
-
-    .iconDelete {
-      color: #dc3545;
-    }
+    .iconEdit { color: #007bff; }
+    .iconDelete { color: #dc3545; }
 
     .modalOverlay {
       display: none;
@@ -314,7 +307,6 @@
       align-items: center;
       z-index: 9999;
     }
-
     .modalContent {
       width: 400px;
       max-width: 90%;
@@ -327,19 +319,16 @@
       animation: fadeInModal 0.3s ease;
       position: relative;
     }
-
     @keyframes fadeInModal {
       from {
         transform: scale(0.9);
         opacity: 0;
       }
-
       to {
         transform: scale(1);
         opacity: 1;
       }
     }
-
     .modalHeader {
       background: #007bff;
       color: #fff;
@@ -348,12 +337,10 @@
       justify-content: space-between;
       align-items: center;
     }
-
     .modalHeader h2 {
       margin: 0;
       font-size: 1rem;
     }
-
     .modalCloseBtn {
       background: none;
       border: none;
@@ -362,21 +349,17 @@
       cursor: pointer;
       transition: color 0.3s;
     }
-
     .modalCloseBtn:hover {
       color: #ffdddd;
     }
-
     .modalBody {
       padding: 20px;
     }
-
     .modalBody label {
       display: block;
       margin: 8px 0 4px;
       font-weight: 500;
     }
-
     .modalBody input,
     .modalBody select {
       width: 100%;
@@ -387,7 +370,6 @@
       font-size: 0.9rem;
       font-family: inherit;
     }
-
     .modalSaveBtn {
       background: #28a745;
       color: #fff;
@@ -399,7 +381,6 @@
       font-size: 0.9rem;
       transition: background 0.3s;
     }
-
     .modalSaveBtn:hover {
       background: #218838;
     }
@@ -428,9 +409,56 @@
       border-radius: 4px;
       cursor: pointer;
     }
+
+    /* ============ تنسيقات خاصة بالمودال الجديد (تحويل البصمات) ============ */
+    #transferFingerprintsModal .modalContent {
+      width: 600px;
+      max-width: 90%;
+    }
+    #transferFingerprintsTable {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: none;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    #transferFingerprintsTable thead {
+      background: #ffc107;
+      color: #fff;
+    }
+    #transferFingerprintsTable th,
+    #transferFingerprintsTable td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+      font-size: 0.9rem;
+      vertical-align: middle;
+    }
+    #transferFingerprintsTable tbody tr:hover {
+      background: #f9f9f9;
+    }
+    .transferBtn {
+      background: #17a2b8;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .transferBtn:hover {
+      background: #138496;
+    }
+
+    /* ========== تجميع الجداول (Group By) ========== */
+    .groupHeader {
+      background: #fafad2; /* لون فاتح مميز */
+      font-weight: bold;
+    }
   </style>
 </head>
-
 <body onload="initPage()">
 
   <!-- شريط الهيدر -->
@@ -438,7 +466,6 @@
     <h1 data-lng="attend_head_title"></h1>
     <div>
       <button onclick="logout()" data-lng="attend_logout"></button>
-
       <select id="langSelector" class="lang-select">
         <option value="en">English</option>
         <option value="ar">العربية</option>
@@ -458,6 +485,10 @@
 
       <!-- فلاتر البحث -->
       <div class="searchFilters">
+        <!-- اختيار موظف بالاسم (جديد) -->
+        <label for="searchEmployeeDropdown" data-lng="attend_label_search_employee_name"></label>
+        <select id="searchEmployeeDropdown" style="width:200px;"></select>
+
         <label for="searchFrom" data-lng="attend_filter_from_label"></label>
         <input type="date" id="searchFrom" />
 
@@ -482,24 +513,50 @@
         </button>
       </div>
 
-      <!-- أقسام التصفح (Pagination) + زر عرض الكل -->
+      <!-- تشيك بوكس: Group By (جديدة) -->
+      <div class="searchFilters" style="margin-bottom: 10px;">
+        <label>
+          <input type="checkbox" id="groupByEmployeeChk" onclick="onGroupChange()" />
+          <span data-lng="attend_groupby_employee"></span>
+        </label>
+        <label>
+          <input type="checkbox" id="groupByDeviceChk" onclick="onGroupChange()" />
+          <span data-lng="attend_groupby_device"></span>
+        </label>
+        <label>
+          <input type="checkbox" id="groupByDayChk" onclick="onGroupChange()" />
+          <span data-lng="attend_groupby_day"></span>
+        </label>
+      </div>
+
+      <!-- أقسام التصفح (Pagination) + زر عرض الكل + زر حذف محدد + زر حذف الكل -->
       <div class="pagination">
         <button id="prevPageBtn" onclick="prevPage()" data-lng="attend_pagination_prev"></button>
         <span id="pageInfo" data-lng="attend_pagination_info"></span>
         <button id="nextPageBtn" onclick="nextPage()" data-lng="attend_pagination_next"></button>
-        <button onclick="showAllFingerprints()" style="background:#6c757d;"
-          data-lng="attend_filter_button_showall"></button>
+
+        <button onclick="showAllFingerprints()" style="background:#6c757d;" data-lng="attend_filter_button_showall">
+        </button>
+
+        <!-- زر حذف السجلات المحددة (جديد) -->
+        <button class="deleteSelectedBtn" data-lng="attend_button_delete_selected" onclick="deleteSelectedFingerprints()"></button>
+
+        <!-- زر حذف كل السجلات (جديد) -->
+        <button class="deleteSelectedBtn" style="background:#900;" data-lng="attend_button_delete_all" onclick="deleteAllFingerprints()"></button>
       </div>
 
       <!-- زر إضافة سجل بصمة -->
-      <button class="addFingerprintBtn" onclick="openModalForAdd()" data-lng="attend_button_add_fingerprint">
+      <button class="addFingerprintBtn" onclick="openModalForAdd()" data-lng="attend_button_add_fingerprint"></button>
 
-      </button>
+      <!-- زر تعديل البصمات الجديد -->
+      <button class="transferFingerprintsBtn" onclick="openTransferFingerprintsModal()"
+        data-lng="attend_button_transfer_modal"></button>
 
       <!-- جدول السجلات -->
       <table id="fingerprintsTable">
         <thead>
           <tr>
+            <th><input type="checkbox" id="selectAllChk" onclick="toggleSelectAllMain(this)" /></th>
             <th>#</th>
             <th data-lng="attend_table_header_enroll"></th>
             <th data-lng="attend_table_header_name"></th>
@@ -517,147 +574,134 @@
 
     <!-- الشريط الجانبي -->
     <div class="sidebar">
-      
-          
-            <!-- الرئيسية -->
-            <div class="navItem menu-group-header" onclick="location.href='dashboard.html'">
-              <i class="bi bi-house-fill"></i>
-              <span data-lng="navOverview">الرئيسية</span>
-            </div>
-      
-            <!-- ادارة الموظفين -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('staffManagementSubmenu')">
-              <i class="bi bi-people-fill"></i>
-              <span data-lng="staffManagement">ادارة الموظفين</span>
-            </div>
-            <div id="staffManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='employee.html'">
-                <i class="bi bi-person-lines-fill"></i>
-                <span data-lng="navEmployees">الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='department.html'">
-                <i class="bi bi-building"></i>
-                <span data-lng="navDepartment">الأقسام</span>
-              </div>
-            </div>
-      
-            <!-- التقارير -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('reportsSubmenu')">
-              <i class="bi bi-bar-chart-line-fill"></i>
-              <span data-lng="reports">التقارير</span>
-            </div>
-      
-            <div id="reportsSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='report.html'">
-                <i class="bi bi-bar-chart-line-fill"></i>
-                <span data-lng="navReport"></span>
-              </div>
-      
-              <div class="navItem active" onclick="location.href='attend.html'">
-                <i class="bi bi-journal-check"></i>
-                <span data-lng="navAttend">تقرير الحضور</span>
-              </div>
-      
-      
-              <div class="navItem" onclick="location.href='employee-summary-report.html'">
-                <i class="bi bi-people-fill"></i>
-                <span data-lng="employee_summary_report">تقرير ملخص الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='rule.html'">
-                <i class="bi bi-braces"></i>
-                <span data-lng="navRules">القواعد (Rules)</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاجهزة -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('deviceManagementSubmenu')">
-              <i class="bi bi-device-hdd-fill"></i>
-              <span data-lng="deviceManagement">ادارة الاجهزة</span>
-            </div>
-            <div id="deviceManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='devices.html'">
-                <i class="bi bi-laptop"></i>
-                <span data-lng="navDevices">الأجهزة</span>
-              </div>
-              <div class="navItem" onclick="location.href='requests.html'">
-                <i class="bi bi-list-check"></i>
-                <span data-lng="navOrders">الأوامر</span>
-              </div>
-              <div class="navItem" onclick="location.href='importemployee.html'">
-                <i class="bi bi-person-exclamation"></i>
-                <span data-lng="unregistered">الموظفين غير المسجلين</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الدوام -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('workManagementSubmenu')">
-              <i class="bi bi-calendar-event-fill"></i>
-              <span data-lng="workManagement">ادارة الدوام</span>
-            </div>
-            <div id="workManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='leaves.html'">
-                <i class="bi bi-calendar3"></i>
-                <span data-lng="navLeaves">الإجازات</span>
-              </div>
-              <div class="navItem" onclick="location.href='rewards.html'">
-                <i class="bi bi-gift-fill"></i>
-                <span data-lng="navRewards">المكافئات</span>
-              </div>
-              <div class="navItem" onclick="location.href='time-based-leaves.html'">
-                <i class="bi bi-clock-fill"></i>
-                <span data-lng="leaves_sidebar_time_leaves">إجازات زمنية</span>
-              </div>
-              
-              <div class="navItem" onclick="location.href='holidays.html'">
-                <i class="bi bi-calendar-event"></i>
-                <span data-lng="navHolidays">العطل الرسمية</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاوقات -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('timeManagementSubmenu')">
-              <i class="bi bi-clock-fill"></i>
-              <span data-lng="timeManagement">ادارة الاوقات</span>
-            </div>
-            <div id="timeManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='shifts.html'">
-                <i class="bi bi-hourglass-split"></i>
-                <span data-lng="navshift">الشفتات</span>
-              </div>
-              <div class="navItem" onclick="location.href='TimeSlot.html'">
-                <i class="bi bi-watch"></i>
-                <span data-lng="navSlot">الأوقات</span>
-              </div>
-              <div class="navItem" onclick="location.href='public-settings.html'">
-                <i class="bi bi-gear"></i>
-                <span data-lng="public_settings">الإعدادات</span>
-              </div>
-            </div>
-          </div>
-      
-          <script>
-            // دالة لتبديل عرض وإخفاء القائمة الفرعية
-            function toggleSubMenu(id) {
-              var submenu = document.getElementById(id);
-              if (submenu.style.display === "none" || submenu.style.display === "") {
-                submenu.style.display = "block";
-              } else {
-                submenu.style.display = "none";
-              }
-            }
-      
-            // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
-            // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
-            document.addEventListener("DOMContentLoaded", function () {
-              var submenus = document.querySelectorAll('.submenu');
-              submenus.forEach(function (submenu) {
-                if (submenu.querySelector('.navItem.active')) {
-                  submenu.style.display = "block";
-                }
-              });
-            });
-          </script>
-   
+      <!-- الرئيسية -->
+      <div class="navItem menu-group-header" onclick="location.href='dashboard.html'">
+        <i class="bi bi-house-fill"></i>
+        <span data-lng="navOverview">الرئيسية</span>
+      </div>
+      <!-- ادارة الموظفين -->
+      <div class="navItem menu-group-header" onclick="toggleSubMenu('staffManagementSubmenu')">
+        <i class="bi bi-people-fill"></i>
+        <span data-lng="staffManagement">ادارة الموظفين</span>
+      </div>
+      <div id="staffManagementSubmenu" class="submenu" style="display: none;">
+        <div class="navItem" onclick="location.href='employee.html'">
+          <i class="bi bi-person-lines-fill"></i>
+          <span data-lng="navEmployees">الموظفين</span>
+        </div>
+        <div class="navItem" onclick="location.href='department.html'">
+          <i class="bi bi-building"></i>
+          <span data-lng="navDepartment">الأقسام</span>
+        </div>
+      </div>
+      <!-- التقارير -->
+      <div class="navItem menu-group-header" onclick="toggleSubMenu('reportsSubmenu')">
+        <i class="bi bi-bar-chart-line-fill"></i>
+        <span data-lng="reports">التقارير</span>
+      </div>
+      <div id="reportsSubmenu" class="submenu" style="display: none;">
+        <div class="navItem" onclick="location.href='report.html'">
+          <i class="bi bi-bar-chart-line-fill"></i>
+          <span data-lng="navReport"></span>
+        </div>
+        <div class="navItem active" onclick="location.href='attend.html'">
+          <i class="bi bi-journal-check"></i>
+          <span data-lng="navAttend">تقرير الحضور</span>
+        </div>
+        <div class="navItem" onclick="location.href='employee-summary-report.html'">
+          <i class="bi bi-people-fill"></i>
+          <span data-lng="employee_summary_report">تقرير ملخص الموظفين</span>
+        </div>
+        <div class="navItem" onclick="location.href='rule.html'">
+          <i class="bi bi-braces"></i>
+          <span data-lng="navRules">القواعد (Rules)</span>
+        </div>
+      </div>
+      <!-- ادارة الاجهزة -->
+      <div class="navItem menu-group-header" onclick="toggleSubMenu('deviceManagementSubmenu')">
+        <i class="bi bi-device-hdd-fill"></i>
+        <span data-lng="deviceManagement">ادارة الاجهزة</span>
+      </div>
+      <div id="deviceManagementSubmenu" class="submenu" style="display: none;">
+        <div class="navItem" onclick="location.href='devices.html'">
+          <i class="bi bi-laptop"></i>
+          <span data-lng="navDevices">الأجهزة</span>
+        </div>
+        <div class="navItem" onclick="location.href='requests.html'">
+          <i class="bi bi-list-check"></i>
+          <span data-lng="navOrders">الأوامر</span>
+        </div>
+        <div class="navItem" onclick="location.href='importemployee.html'">
+          <i class="bi bi-person-exclamation"></i>
+          <span data-lng="unregistered">الموظفين غير المسجلين</span>
+        </div>
+      </div>
+      <!-- ادارة الدوام -->
+      <div class="navItem menu-group-header" onclick="toggleSubMenu('workManagementSubmenu')">
+        <i class="bi bi-calendar-event-fill"></i>
+        <span data-lng="workManagement">ادارة الدوام</span>
+      </div>
+      <div id="workManagementSubmenu" class="submenu" style="display: none;">
+        <div class="navItem" onclick="location.href='leaves.html'">
+          <i class="bi bi-calendar3"></i>
+          <span data-lng="navLeaves">الإجازات</span>
+        </div>
+        <div class="navItem" onclick="location.href='rewards.html'">
+          <i class="bi bi-gift-fill"></i>
+          <span data-lng="navRewards">المكافئات</span>
+        </div>
+        <div class="navItem" onclick="location.href='time-based-leaves.html'">
+          <i class="bi bi-clock-fill"></i>
+          <span data-lng="leaves_sidebar_time_leaves">إجازات زمنية</span>
+        </div>
+        <div class="navItem" onclick="location.href='holidays.html'">
+          <i class="bi bi-calendar-event"></i>
+          <span data-lng="navHolidays">العطل الرسمية</span>
+        </div>
+      </div>
+      <!-- ادارة الاوقات -->
+      <div class="navItem menu-group-header" onclick="toggleSubMenu('timeManagementSubmenu')">
+        <i class="bi bi-clock-fill"></i>
+        <span data-lng="timeManagement">ادارة الاوقات</span>
+      </div>
+      <div id="timeManagementSubmenu" class="submenu" style="display: none;">
+        <div class="navItem" onclick="location.href='shifts.html'">
+          <i class="bi bi-hourglass-split"></i>
+          <span data-lng="navshift">الشفتات</span>
+        </div>
+        <div class="navItem" onclick="location.href='TimeSlot.html'">
+          <i class="bi bi-watch"></i>
+          <span data-lng="navSlot">الأوقات</span>
+        </div>
+        <div class="navItem" onclick="location.href='public-settings.html'">
+          <i class="bi bi-gear"></i>
+          <span data-lng="public_settings">الإعدادات</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // دالة لتبديل عرض وإخفاء القائمة الفرعية
+    function toggleSubMenu(id) {
+      var submenu = document.getElementById(id);
+      if (submenu.style.display === "none" || submenu.style.display === "") {
+        submenu.style.display = "block";
+      } else {
+        submenu.style.display = "none";
+      }
+    }
+
+    // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
+    // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
+    document.addEventListener("DOMContentLoaded", function () {
+      var submenus = document.querySelectorAll('.submenu');
+      submenus.forEach(function (submenu) {
+        if (submenu.querySelector('.navItem.active')) {
+          submenu.style.display = "block";
+        }
+      });
+    });
+  </script>
 
   <!-- مودال "إضافة/تعديل سجل بصمة" -->
   <div class="modalOverlay" id="fingerprintModal">
@@ -673,12 +717,10 @@
         <select id="employeeSelect" style="width:100%;"></select>
 
         <label for="enrollIdInput" data-lng="attend_modal_label_enroll"></label>
-        <input type="text" id="enrollIdInput" readonly data-lng-placeholder="it_will_be_filled_automatically"
-          placeholder="" />
+        <input type="text" id="enrollIdInput" readonly data-lng-placeholder="it_will_be_filled_automatically" placeholder="" />
 
         <label for="nameInput" data-lng="attend_modal_label_name"></label>
-        <input type="text" id="nameInput" readonly data-lng-placeholder="it_will_be_filled_automatically"
-          placeholder="" />
+        <input type="text" id="nameInput" readonly data-lng-placeholder="it_will_be_filled_automatically" placeholder="" />
 
         <label for="eventSelect" data-lng="attend_filter_event_label"></label>
         <select id="eventSelect">
@@ -703,23 +745,64 @@
     </div>
   </div>
 
-
-
   <!-- preview image -->
   <div class="modalOverlay" id="imagePreview">
     <div class="modalContent" style="width: 500px;height: 500px;">
-
       <div class="img" style="width: 100%;height: 100%;">
         <img src="./images/no_image.png" style="width: 100%;height: 100%;">
       </div>
-
     </div>
   </div>
 
+  <!-- مودال تحويل البصمات الجديد -->
+  <div class="modalOverlay" id="transferFingerprintsModal">
+    <div class="modalContent">
+      <div class="modalHeader">
+        <h2 data-lng="attend_transfer_modal_title"></h2>
+        <button class="modalCloseBtn" onclick="closeTransferFingerprintsModal()">×</button>
+      </div>
+      <div class="modalBody">
+        <label data-lng="attend_modal_label_transfer_from_employee"></label>
+        <select id="transferFromEmployeeSelect" style="width:100%;"></select>
 
+        <label data-lng="attend_modal_label_from_date"></label>
+        <input type="date" id="transferFromDate" />
 
+        <label data-lng="attend_modal_label_to_date"></label>
+        <input type="date" id="transferToDate" />
 
-  <!-- كل الأكواد الأصلية للجافاسكربت (لا حذف) -->
+        <button class="transferBtn" data-lng="attend_btn_search_transfer" onclick="searchFingerprintsForTransfer()"></button>
+
+        <!-- جدول البصمات الخاصة بالموظف المراد تحويل بصماته -->
+        <table id="transferFingerprintsTable">
+          <thead>
+            <tr>
+              <th><input type="checkbox" id="selectAllTransfer" onclick="toggleSelectAllTransfer(this)" /></th>
+              <th>EnrollID</th>
+              <th>اسم الموظف</th>
+              <th>الحدث</th>
+              <th>الوقت</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+
+        <!-- عند اختيار بصمات، يظهر زر "تحويل البصمات" -->
+        <div id="transferActions" style="display:none; margin-top: 10px;">
+          <label data-lng="attend_modal_label_transfer_to_employee"></label>
+          <select id="transferToEmployeeSelect" style="width:100%; margin-bottom:10px;"></select>
+
+          <label data-lng="attend_modal_label_transfer_reason"></label>
+          <input type="text" id="transferReason" data-lng-placeholder="attend_modal_placeholder_transfer_reason" placeholder="" />
+
+          <button class="transferBtn" data-lng="attend_btn_transfer_execute" onclick="transferSelectedFingerprints()"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- كل الأكواد الأصلية للجافاسكربت + الأكواد المضافة -->
   <script>
     let authToken = null;
 
@@ -728,24 +811,24 @@
     let totalPages = 1;
     let pageSize = 10;
 
+    // مصفوفة الموظفين (للاستخدام في السيلكت)
     let employees = [];
+    // مصفوفة أحدث بيانات البصمات بعد الجلب (لاستخدامها في إعادة الرسم + الحذف الجماعي)
+    let lastFingerprintsData = [];
 
-    const LANG_PATH = './lang';        // مجلد ملفات JSON
+    const LANG_PATH = './lang'; // مجلد ملفات JSON
     const LANG_KEY = 'attend';
     let translations = {};
-    function getTranslate(key) { return translations[key] || '' }
+    function getTranslate(key) {
+      return translations[key] || '';
+    }
 
     async function loadLanguageFile(lang) {
       try {
-
-        console.log(`${LANG_PATH}/${lang}_${LANG_KEY}.json`);
-
-
         const response = await fetch(`${LANG_PATH}/${lang}_${LANG_KEY}.json`);
         if (!response.ok) {
           throw new Error(`Error loading ${lang}.json`);
         }
-
         translations = await response.json();
       } catch (error) {
         console.error("Error loading translation file:", error);
@@ -757,7 +840,7 @@
       document.documentElement.lang = lang;
       document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
 
-      // طبيق النصوص على العناصر data-lng="..."
+      // تطبيق النصوص على العناصر data-lng="..."
       document.querySelectorAll('[data-lng]').forEach(el => {
         const key = el.getAttribute('data-lng');
         if (translations[key]) {
@@ -781,21 +864,18 @@
         }
       });
 
+      // تطبيق الـtitle عند الـhover
       document.querySelectorAll('[data-lng-hover-title]').forEach(el => {
         const key = el.getAttribute('data-lng-hover-title');
         if (translations[key]) {
           el.setAttribute('title', translations[key])
         }
       });
-
-
     }
 
     function getStringByKey(key) {
-      const text = translations[key];
-      return text
+      return translations[key];
     }
-
 
     async function setLanguage(lang) {
       await loadLanguageFile(lang);
@@ -803,54 +883,79 @@
       applyTranslations(lang);
     }
 
-
-
-    function initPage() {
+    async function initPage() {
       authToken = localStorage.getItem('authToken');
       if (!authToken) {
         window.location.href = 'login.html';
         return;
       }
 
-      loadEmployees();
+      // تحميل الموظفين
+      await loadEmployees();
       setupSelect2();
 
+      // تحميل أول مرة
       loadFingerprints(1);
 
-
+      // اللغة
       let storedLang = localStorage.getItem("lng");
       if (!storedLang) {
         storedLang = 'en'; // افتراضي إنجليزي
       }
-      loadLanguageFile(storedLang);
+      await setLanguage(storedLang);
       document.getElementById('langSelector').value = storedLang;
-      setLanguage(storedLang);
-
-
-
     }
 
     // تغيير اللغة من الـselect
-    document.getElementById('langSelector').addEventListener('change', async function () {
+    document.getElementById('langSelector').addEventListener('change', async function() {
       await setLanguage(this.value);
-      localStorage.setItem("lng", this.value)
-      setupSelect2();
+      localStorage.setItem("lng", this.value);
+      setupSelect2(); // إعادة ضبط الـ Select2 للعناصر ذات العلاقة
     });
 
-
+    // تفعيل Select2
     function setupSelect2() {
-      const text = getStringByKey("select_employee");
-      console.log(text);
-
+      const text = getStringByKey("select_employee") || "اختر موظف";
       $(document).ready(function () {
-
         $('#employeeSelect').select2({
           width: '100%',
           placeholder: text,
           dropdownParent: $('#fingerprintModal .modalBody')
         });
         $('#employeeSelect').on('change', onEmployeeSelectChange);
+
+        // مخصص لمودال تحويل البصمات
+        $('#transferFromEmployeeSelect').select2({
+          width: '100%',
+          placeholder: 'اختر موظف',
+          dropdownParent: $('#transferFingerprintsModal .modalBody')
+        });
+        $('#transferToEmployeeSelect').select2({
+          width: '100%',
+          placeholder: 'اختر موظف جديد',
+          dropdownParent: $('#transferFingerprintsModal .modalBody')
+        });
+
+        // البحث بالسيلكت الجديد (في البحث)
+        $('#searchEmployeeDropdown').select2({
+          width: '200px',
+          placeholder: 'اختر موظف للبحث',
+          allowClear: true
+        }).on('change', onSearchEmployeeDropdownChange);
       });
+    }
+
+    function onSearchEmployeeDropdownChange() {
+      const selValue = $('#searchEmployeeDropdown').val();
+      if (!selValue) {
+        // لو تم إلغاء الاختيار نُفرغ حقل الـEnroll
+        document.getElementById('searchEnrollId').value = '';
+        return;
+      }
+      const emp = employees.find(e => e._id === selValue);
+      if (emp) {
+        document.getElementById('searchEnrollId').value = emp.enroll_id || '';
+      }
     }
 
     function showLoader(show) {
@@ -862,6 +967,7 @@
       window.location.href = 'login.html';
     }
 
+    // تحميل البصمات
     function startSearch() {
       loadFingerprints(1);
     }
@@ -901,7 +1007,7 @@
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) {
-          const text = getStringByKey("attend_msg_error_fetch");
+          const text = getStringByKey("attend_msg_error_fetch") || "خطأ في جلب البيانات";
           throw new Error(text);
         }
         const data = await resp.json();
@@ -915,7 +1021,8 @@
           totalPages = 1;
         }
 
-        renderFingerprints(fingerprints);
+        lastFingerprintsData = fingerprints; // حفظ آخر بيانات
+        renderFingerprints(lastFingerprintsData);
         updatePaginationUI();
       } catch (err) {
         errorMsg.textContent = err.message;
@@ -931,13 +1038,15 @@
       const nextBtn = document.getElementById('nextPageBtn');
 
       if (currentPage === 0) {
-        const text = getStringByKey("view_all_records");
+        const text = getStringByKey("view_all_records") || "عرض كل السجلات";
         pageInfo.textContent = text;
         prevBtn.disabled = true;
         nextBtn.disabled = true;
       } else {
-        const text = `${getStringByKey("page")} ${currentPage} ${getStringByKey('from')} ${totalPages}`;
-        pageInfo.textContent = text;
+        const textPage = getStringByKey("page") || "الصفحة";
+        const textFrom = getStringByKey("from") || "من";
+        const infoStr = `${textPage} ${currentPage} ${textFrom} ${totalPages}`;
+        pageInfo.textContent = infoStr;
         prevBtn.disabled = (currentPage <= 1);
         nextBtn.disabled = (currentPage >= totalPages);
       }
@@ -953,105 +1062,290 @@
       }
     }
 
+    // عرض الصورة بالحجم الكبير
     document.getElementById('imagePreview').addEventListener('click', (event) => {
-      if (event.target.matches('img')) return
-      const modal = document.getElementById('imagePreview')
-      modal.style.display = 'none'
-    })
-
+      if (event.target.matches('img')) return;
+      document.getElementById('imagePreview').style.display = 'none';
+    });
     function previewImage(src) {
-      if (!src) return
-      const modal = document.getElementById('imagePreview')
-      const img = modal.querySelector('img')
-      modal.style.display = 'flex'
-      img.src = src
+      if (!src) return;
+      const modal = document.getElementById('imagePreview');
+      const img = modal.querySelector('img');
+      modal.style.display = 'flex';
+      img.src = src;
+    }
+
+    // ========================================================================
+    // ============= جزء خاص بالتجميع (Group By) في الواجهة ===================
+    // ========================================================================
+    function onGroupChange() {
+      // إعادة رسم الجدول مع نفس البيانات المخزنة، لكن بتطبيق التجميع حسب الحالة
+      renderFingerprints(lastFingerprintsData);
     }
 
     function renderFingerprints(arr) {
+      // حقل التحقق من التجميع
+      const groupByEmployee = document.getElementById('groupByEmployeeChk').checked;
+      const groupByDevice = document.getElementById('groupByDeviceChk').checked;
+      const groupByDay = document.getElementById('groupByDayChk').checked;
+
       const tb = document.querySelector('#fingerprintsTable tbody');
       tb.innerHTML = '';
 
-      arr.forEach((item, index) => {
-        let createdAt = item.createdAt
-          ? new Date(item.createdAt).toISOString().split('T')[0]
-          : '';
+      // إعادة تعيين خانة selectAll
+      document.getElementById('selectAllChk').checked = false;
 
-        let eventText = '';
-        switch (item.event) {
-          case 0: eventText = getStringByKey("attend_filter_event_label_attendance"); break;
-          case 1: eventText = getStringByKey("attend_filter_event_label_enter"); break;
-          case 2: eventText = getStringByKey("attend_filter_event_label_exit"); break;
-          case 3: eventText = getStringByKey("attend_filter_event_label_vacation_enter"); break;
-          case 4: eventText = getStringByKey("attend_filter_event_label_vacation_exit"); break;
-          default: eventText = getStringByKey("not_none");
+      // إذا لم يكن هناك أي تجميع، نعرض البيانات مباشرة
+      if (!groupByEmployee && !groupByDevice && !groupByDay) {
+        arr.forEach((item, idx) => {
+          const tr = createFingerprintRow(item, idx);
+          tb.appendChild(tr);
+        });
+        return;
+      }
+
+      // تطبيق التجميع (Nested Grouping): الموظف -> الجهاز -> اليوم
+      let groupedData = [...arr];
+
+      // دالة عامة للتجميع حسب مفتاح معين
+      function groupBy(array, keyFunc) {
+        const map = {};
+        array.forEach(el => {
+          const key = keyFunc(el);
+          if (!map[key]) map[key] = [];
+          map[key].push(el);
+        });
+        return map;
+      }
+
+      // طبّق التجميع بالترتيب: حسب الموظف -> الجهاز -> اليوم
+      if (groupByEmployee) {
+        // group by enrollid (أو الاسم، ولكن enrollid فريد أكثر)
+        const mapEmp = groupBy(groupedData, (x) => x.enrollid + '||' + (x.name || ''));
+        groupedData = mapEmp;
+      }
+      if (groupByDevice) {
+        if (groupByEmployee) {
+          // لو كان موظف مفعل، معناها groupedData عبارة عن كائنات مجموعات
+          // نمر عليها ونقوم بالتجميع داخل كل مجموعة
+          for (let empKey in groupedData) {
+            const empArr = groupedData[empKey];
+            const mapDevice = groupBy(empArr, (x) => x.device_name || 'جهاز غير معروف');
+            groupedData[empKey] = mapDevice;
+          }
+        } else {
+          // إذا لم يكن هناك تجميع موظف قبلها
+          const mapDev = groupBy(groupedData, (x) => x.device_name || 'جهاز غير معروف');
+          groupedData = mapDev;
         }
-
-        let timeVal = item.time ? new Date(item.time).toLocaleString() : '';
-
-        let imageSrc = item.image
-          ? 'data:image/png;base64,' + item.image
-          : './images/no_image.png';
-
-        const tr = document.createElement('tr');
-
-        if (item.modified_time) {
-          tr.classList.add('modifiedRow');
+      }
+      if (groupByDay) {
+        // اليوم نستخرجه من الحقل time (نحوله إلى تاريخ YYYY-MM-DD)
+        function extractDay(x) {
+          if (!x.time) return '';
+          const d = new Date(x.time);
+          return d.toISOString().split('T')[0];
         }
+        // إذا كان لدينا تجميع مزدوج/ثلاثي سابق
+        if (groupByEmployee || groupByDevice) {
+          // هنا صار لدينا في groupedData تفرعات عميقة
+          // نحتاج نتوغل في كل فرع
+          if (groupByEmployee && groupByDevice) {
+            // structure: groupedData[empKey][deviceKey] = Array of items
+            for (let empKey in groupedData) {
+              const devObj = groupedData[empKey];
+              for (let devKey in devObj) {
+                const arr2 = devObj[devKey];
+                const mapDay = groupBy(arr2, extractDay);
+                devObj[devKey] = mapDay;
+              }
+              groupedData[empKey] = devObj;
+            }
+          } else {
+            // إما employee فقط أو device فقط
+            if (groupByEmployee) {
+              // groupedData[empKey] = Array
+              for (let empKey in groupedData) {
+                const arr2 = groupedData[empKey];
+                const mapDay = groupBy(arr2, extractDay);
+                groupedData[empKey] = mapDay;
+              }
+            } else if (groupByDevice) {
+              // groupedData[devKey] = Array
+              for (let devKey in groupedData) {
+                const arr2 = groupedData[devKey];
+                const mapDay = groupBy(arr2, extractDay);
+                groupedData[devKey] = mapDay;
+              }
+            }
+          }
+        } else {
+          // لا يوجد موظف ولا جهاز مفعل قبله, فقط يوم
+          const mapDay = groupBy(groupedData, extractDay);
+          groupedData = mapDay;
+        }
+      }
 
-        tr.innerHTML = `
-          <td>${index + 1}</td>
-          <td>${item.enrollid || ''}</td>
-          <td>${item.name || ''}</td>
-          <td>${eventText}</td>
-          <td>${timeVal}</td>
-          <td>${createdAt}</td>
-          <td>${item.device_name || ''}</td>
-          <td>
-            <img 
-                src="${imageSrc}" onclick='previewImage("${imageSrc}")'
-                alt="${getTranslate('image')}"
-                class="tableRecordImage"
-                onerror="this.onerror=null;this.src='./images/no_image.png';" />
-          </td>
-          <td>
-            <i class="bi bi-pencil-square actionIcon iconEdit" data-lng-hover-title='edit'
-                title=${getTranslate('edit')}
-                onclick="openModalForEdit('${item._id}')"></i>
-            <i class="bi bi-trash actionIcon iconDelete" data-lng-hover-title='delete'
-                title=${getTranslate('delete')}
-                onclick="deleteFingerprint('${item._id}')"></i>
-          </td>
-        `;
-        tb.appendChild(tr);
-      });
+      // الآن نرسم الـHTML بناءً على التركيبة
+      // استخدام دالة recursive أو شبيهة لمعالجة التجميع
+      function renderGrouped(obj, depth) {
+        // obj قد يكون مصفوفة إن لم يكن هناك تجميع جديد
+        // أو كائن من المصفوفات إن كان هناك تجميع
+        if (Array.isArray(obj)) {
+          // يعني وصلنا لأصغر مستوى، هو مصفوفة من السجلات
+          obj.forEach((item, idx) => {
+            const tr = createFingerprintRow(item, idx, depth);
+            tb.appendChild(tr);
+          });
+        } else {
+          // كائن مفاتيح => مجموعات
+          let i = 0;
+          for (let groupKey in obj) {
+            // عمل صف عنوان المجموعة
+            const groupTr = document.createElement('tr');
+            groupTr.classList.add('groupHeader');
+            const groupTd = document.createElement('td');
+            groupTd.colSpan = 10; // كل أعمدة الجدول
+            groupTd.style.textAlign = 'left';
+            groupTd.textContent = groupKey ? groupKey : 'غير محدد';
+            groupTr.appendChild(groupTd);
+            tb.appendChild(groupTr);
+
+            // استدعاء نفسه
+            renderGrouped(obj[groupKey], depth + 1);
+            i++;
+          }
+        }
+      }
+
+      renderGrouped(groupedData, 0);
     }
 
+    function createFingerprintRow(item, index, depth = 0) {
+      // عمود "اﻷحداث" كنص
+      let eventText = '';
+      switch (item.event) {
+        case 0: eventText = getStringByKey("attend_filter_event_label_attendance") || "حضور"; break;
+        case 1: eventText = getStringByKey("attend_filter_event_label_enter") || "دخول"; break;
+        case 2: eventText = getStringByKey("attend_filter_event_label_exit") || "خروج"; break;
+        case 3: eventText = getStringByKey("attend_filter_event_label_vacation_enter") || "دخول إجازة"; break;
+        case 4: eventText = getStringByKey("attend_filter_event_label_vacation_exit") || "خروج إجازة"; break;
+        default: eventText = getStringByKey("not_none") || "غير معروف";
+      }
+
+      let timeVal = item.time ? new Date(item.time).toLocaleString() : '';
+      let createdAt = item.createdAt
+        ? new Date(item.createdAt).toISOString().split('T')[0]
+        : '';
+
+      let imageSrc = item.image
+        ? 'data:image/png;base64,' + item.image
+        : './images/no_image.png';
+
+      const tr = document.createElement('tr');
+      if (item.modified_time) {
+        tr.classList.add('modifiedRow');
+      }
+
+      // index + 1 (لو أردنا رقم تتابعي)
+      const rowIndex = index + 1;
+
+      tr.innerHTML = `
+        <td>
+          <input type="checkbox" class="selectRowChk" data-id="${item._id}" />
+        </td>
+        <td>${rowIndex}</td>
+        <td>${item.enrollid || ''}</td>
+        <td>${item.name || ''}</td>
+        <td>${eventText}</td>
+        <td>${timeVal}</td>
+        <td>${createdAt}</td>
+        <td>${item.device_name || ''}</td>
+        <td>
+          <img 
+            src="${imageSrc}" onclick='previewImage("${imageSrc}")'
+            alt="image"
+            class="tableRecordImage"
+            onerror="this.onerror=null;this.src='./images/no_image.png';" />
+        </td>
+        <td>
+          <i class="bi bi-pencil-square actionIcon iconEdit" data-lng-hover-title='edit'
+              title="${getTranslate('edit')}"
+              onclick="openModalForEdit('${item._id}')"></i>
+          <i class="bi bi-trash actionIcon iconDelete" data-lng-hover-title='delete'
+              title="${getTranslate('delete')}"
+              onclick="deleteSingleFingerprint('${item._id}')"></i>
+        </td>
+      `;
+      return tr;
+    }
+
+    // تحميل قائمة الموظفين
     async function loadEmployees() {
       showLoader(true);
       try {
         const resp = await fetch('/api/employees?page=1&limit=9999', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error(getStringByKey("attend_msg_error_fetch_employees"));
+        if (!resp.ok) throw new Error(getStringByKey("attend_msg_error_fetch_employees") || "خطأ في جلب الموظفين");
 
         const data = await resp.json();
         employees = data.data || [];
 
+        // تعبئة select employeeSelect (في المودال)
         const sel = document.getElementById('employeeSelect');
         sel.innerHTML = '';
 
         const defaultOpt = document.createElement('option');
         defaultOpt.value = '';
-        defaultOpt.textContent = getStringByKey("select_employee"),
-
-          sel.appendChild(defaultOpt);
+        defaultOpt.textContent = getStringByKey("select_employee") || "اختر الموظف";
+        sel.appendChild(defaultOpt);
 
         employees.forEach(e => {
           const opt = document.createElement('option');
           opt.value = e._id;
-          opt.textContent = e.name || (`${getStringByKey("employee")} ` + e.enroll_id);
+          opt.textContent = e.name || (`موظف ${e.enroll_id}`);
           sel.appendChild(opt);
         });
+
+        // تعبئة select transferFromEmployeeSelect و transferToEmployeeSelect
+        const fromSel = document.getElementById('transferFromEmployeeSelect');
+        const toSel = document.getElementById('transferToEmployeeSelect');
+        fromSel.innerHTML = '';
+        toSel.innerHTML = '';
+
+        const defaultFrom = document.createElement('option');
+        defaultFrom.value = '';
+        defaultFrom.textContent = "اختر الموظف";
+        fromSel.appendChild(defaultFrom);
+
+        const defaultTo = document.createElement('option');
+        defaultTo.value = '';
+        defaultTo.textContent = "اختر الموظف الجديد";
+        toSel.appendChild(defaultTo);
+
+        employees.forEach(e => {
+          const optFrom = document.createElement('option');
+          optFrom.value = e._id;
+          optFrom.textContent = e.name || `موظف ${e.enroll_id}`;
+          fromSel.appendChild(optFrom);
+
+          const optTo = document.createElement('option');
+          optTo.value = e._id;
+          optTo.textContent = e.name || `موظف ${e.enroll_id}`;
+          toSel.appendChild(optTo);
+        });
+
+        // تعبئة select (اسم الموظف) في خانة البحث searchEmployeeDropdown
+        const searchEmpDropdown = document.getElementById('searchEmployeeDropdown');
+        searchEmpDropdown.innerHTML = '<option value=""></option>'; // لإتاحة allowClear
+        employees.forEach(e => {
+          const opt = document.createElement('option');
+          opt.value = e._id;
+          opt.textContent = e.name || (`موظف ${e.enroll_id}`);
+          searchEmpDropdown.appendChild(opt);
+        });
+
       } catch (err) {
         console.error(err);
       } finally {
@@ -1072,8 +1366,12 @@
       }
     }
 
+    // ========================================================================
+    // ============= جزء إضافة/تعديل بصمة واحدة ===============================
+    // ========================================================================
     function openModalForAdd() {
-      // document.getElementById('modalTitle').textContent = 'إضافة سجل بصمة';
+      document.getElementById('modalTitle').textContent =
+        getStringByKey("attend_button_add_fingerprint") || "إضافة سجل بصمة";
       document.getElementById('fingerprintId').value = '';
 
       document.getElementById('employeeSelect').value = '';
@@ -1101,16 +1399,17 @@
         const resp = await fetch(`/api/fingerprints/${id}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error(getStringByKey("attend_msg_error_fetch_one"));
+        if (!resp.ok) throw new Error(getStringByKey("attend_msg_error_fetch_one") || "تعذر جلب السجل");
         const item = await resp.json();
 
         if (item.modified_time) {
           showLoader(false);
-          alert(getStringByKey("attend_msg_already_modified"));
+          alert(getStringByKey("attend_msg_already_modified") || "تم التعديل على هذا السجل مسبقًا");
           return;
         }
 
-        document.getElementById('modalTitle').textContent = getStringByKey("attend_modal_edit_title");
+        document.getElementById('modalTitle').textContent =
+          getStringByKey("attend_modal_edit_title") || "تعديل سجل بصمة";
         document.getElementById('fingerprintId').value = item._id || '';
 
         let emp = employees.find(e => e.enroll_id == item.enrollid);
@@ -1126,14 +1425,9 @@
 
         if (item.time) {
           let dt = new Date(item.time);
-          // let localVal = dt.toISOString().slice(0, 16);
-          // document.getElementById('timeInput').value = localVal;
-
-          let offset = dt.getTimezoneOffset() * 60000; // Convert minutes to milliseconds
+          let offset = dt.getTimezoneOffset() * 60000; // Convert minutes to ms
           let localTime = new Date(dt.getTime() - offset).toISOString().slice(0, 16);
-
           document.getElementById('timeInput').value = localTime;
-
         } else {
           document.getElementById('timeInput').value = '';
         }
@@ -1173,7 +1467,6 @@
         event: eventVal,
         time: isoTime
       };
-
       if (fingerprintId) {
         bodyObj.modification_reason = reasonVal || '';
       }
@@ -1197,41 +1490,15 @@
         });
         if (!resp.ok) {
           const errorData = await resp.json().catch(() => ({ message: 'حدث خطأ' }));
-          const text = getStringByKey('operation_failed');
+          const text = getStringByKey('operation_failed') || 'فشل العملية';
           throw new Error(errorData.message || text);
         }
 
         successMsg.textContent = fingerprintId
-          ? getStringByKey("attend_msg_success_edit")
-          : getStringByKey("attend_msg_success_add");
+          ? getStringByKey("attend_msg_success_edit") || "تم تعديل السجل بنجاح"
+          : getStringByKey("attend_msg_success_add") || "تمت الإضافة بنجاح";
 
         showFingerprintModal(false);
-        loadFingerprints(currentPage);
-      } catch (err) {
-        errorMsg.textContent = err.message;
-        console.error(err);
-      } finally {
-        showLoader(false);
-      }
-    }
-
-    async function deleteFingerprint(id) {
-      const errorMsg = document.getElementById('errorMsg');
-      const successMsg = document.getElementById('successMsg');
-      errorMsg.textContent = '';
-      successMsg.textContent = '';
-
-      if (!confirm(getStringByKey("attend_msg_confirm_delete"))) return;
-
-      showLoader(true);
-      try {
-        const resp = await fetch(`/api/fingerprints/${id}`, {
-          method: 'DELETE',
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getStringByKey("record_deletion_failed"));
-
-        successMsg.textContent = getStringByKey("attend_msg_success_delete");
         loadFingerprints(currentPage);
       } catch (err) {
         errorMsg.textContent = err.message;
@@ -1247,7 +1514,8 @@
 
       if (!show) {
         document.getElementById('fingerprintId').value = '';
-        // document.getElementById('modalTitle').textContent = 'إضافة سجل بصمة';
+        document.getElementById('modalTitle').textContent =
+          getStringByKey("attend_button_add_fingerprint") || "إضافة سجل بصمة";
         document.getElementById('employeeSelect').value = '';
         $('#employeeSelect').trigger('change.select2');
         document.getElementById('enrollIdInput').value = '';
@@ -1262,14 +1530,261 @@
     function closeModal() {
       showFingerprintModal(false);
     }
+
+    // ========================================================================
+    // ============= جزء الحذف المفرد أو الجماعي ===============================
+    // ========================================================================
+    async function deleteSingleFingerprint(id) {
+      if (!confirm(getStringByKey("attend_msg_confirm_delete") || "هل أنت متأكد من الحذف؟")) return;
+      await deleteFingerprintsByIds([id]);
+    }
+
+    function toggleSelectAllMain(chk) {
+      const checkboxes = document.querySelectorAll('.selectRowChk');
+      checkboxes.forEach(cb => {
+        cb.checked = chk.checked;
+      });
+    }
+
+    async function deleteSelectedFingerprints() {
+      const checkedBoxes = document.querySelectorAll('.selectRowChk:checked');
+      if (!checkedBoxes.length) {
+        alert("لم يتم اختيار أي سجل.");
+        return;
+      }
+      if (!confirm("هل أنت متأكد من حذف السجلات المحددة؟")) return;
+
+      const ids = Array.from(checkedBoxes).map(cb => cb.getAttribute('data-id'));
+      await deleteFingerprintsByIds(ids);
+    }
+
+    async function deleteAllFingerprints() {
+      if (!lastFingerprintsData.length) {
+        alert("لا توجد سجلات لحذفها");
+        return;
+      }
+      if (!confirm("هل أنت متأكد من حذف **جميع** السجلات المعروضة؟")) return;
+
+      const allIds = lastFingerprintsData.map(x => x._id);
+      await deleteFingerprintsByIds(allIds);
+    }
+
+    async function deleteFingerprintsByIds(ids) {
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+
+      showLoader(true);
+      try {
+        const resp = await fetch('/api/fingerprints/bulk-delete', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ ids })
+        });
+        if (!resp.ok) {
+          throw new Error("فشل حذف السجلات المحددة");
+        }
+        successMsg.textContent = "تم حذف السجلات المحددة بنجاح";
+        // إعادة التحميل
+        loadFingerprints(currentPage);
+      } catch (err) {
+        errorMsg.textContent = err.message;
+        console.error(err);
+      } finally {
+        showLoader(false);
+      }
+    }
+
+    // ========================================================================
+    // ============= جزء مودال "تحويل البصمات" ================================
+    // ========================================================================
+    function openTransferFingerprintsModal() {
+      const modal = document.getElementById('transferFingerprintsModal');
+      modal.style.display = 'flex';
+
+      // تفريغ الحقول
+      document.getElementById('transferFromEmployeeSelect').value = '';
+      document.getElementById('transferFromDate').value = '';
+      document.getElementById('transferToDate').value = '';
+      $('#transferFromEmployeeSelect').trigger('change.select2');
+
+      const tblBody = document.querySelector('#transferFingerprintsTable tbody');
+      tblBody.innerHTML = '';
+      document.getElementById('selectAllTransfer').checked = false;
+
+      document.getElementById('transferActions').style.display = 'none';
+      document.getElementById('transferToEmployeeSelect').value = '';
+      $('#transferToEmployeeSelect').trigger('change.select2');
+      document.getElementById('transferReason').value = '';
+    }
+
+    function closeTransferFingerprintsModal() {
+      const modal = document.getElementById('transferFingerprintsModal');
+      modal.style.display = 'none';
+    }
+
+    async function searchFingerprintsForTransfer() {
+      const fromEmployeeId = document.getElementById('transferFromEmployeeSelect').value;
+      const fromDate = document.getElementById('transferFromDate').value;
+      const toDate = document.getElementById('transferToDate').value;
+
+      if (!fromEmployeeId) {
+        alert("اختر الموظف أولاً");
+        return;
+      }
+      // إيجاد الموظف والحصول على enroll_id
+      const emp = employees.find(e => e._id === fromEmployeeId);
+      if (!emp) {
+        alert("الموظف غير موجود في القائمة");
+        return;
+      }
+
+      const queryParams = [];
+      if (fromDate) queryParams.push(`from=${fromDate}`);
+      if (toDate) queryParams.push(`to=${toDate}`);
+      if (emp.enroll_id) queryParams.push(`enrollid=${emp.enroll_id}`);
+
+      const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
+
+      showLoader(true);
+      try {
+        const resp = await fetch('/api/fingerprints' + queryString, {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!resp.ok) {
+          throw new Error("خطأ في جلب البصمات");
+        }
+        const data = await resp.json();
+        const fingerprints = data.logs || data.data || [];
+
+        renderFingerprintsForTransfer(fingerprints);
+      } catch (error) {
+        console.error(error);
+        alert(error.message);
+      } finally {
+        showLoader(false);
+      }
+    }
+
+    function renderFingerprintsForTransfer(fingerprints) {
+      const tblBody = document.querySelector('#transferFingerprintsTable tbody');
+      tblBody.innerHTML = '';
+      document.getElementById('transferActions').style.display = 'none'; // إخفاء زر التحويل لحين اختيار سجلات
+
+      fingerprints.forEach(fp => {
+        let eventText = '';
+        switch (fp.event) {
+          case 0: eventText = 'حضور (0)'; break;
+          case 1: eventText = 'دخول (1)'; break;
+          case 2: eventText = 'خروج (2)'; break;
+          case 3: eventText = 'دخول اجازة (3)'; break;
+          case 4: eventText = 'خروج اجازة (4)'; break;
+          default: eventText = 'غير معروف';
+        }
+
+        let timeVal = fp.time ? new Date(fp.time).toLocaleString() : '';
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><input type="checkbox" class="transferCheckbox" value="${fp._id}" onclick="onCheckboxChangeTransfer()" /></td>
+          <td>${fp.enrollid || ''}</td>
+          <td>${fp.name || ''}</td>
+          <td>${eventText}</td>
+          <td>${timeVal}</td>
+        `;
+        tblBody.appendChild(tr);
+      });
+    }
+
+    function toggleSelectAllTransfer(chk) {
+      const checkboxes = document.querySelectorAll('.transferCheckbox');
+      checkboxes.forEach(cb => {
+        cb.checked = chk.checked;
+      });
+      onCheckboxChangeTransfer();
+    }
+
+    function onCheckboxChangeTransfer() {
+      const checkboxes = document.querySelectorAll('.transferCheckbox');
+      let anyChecked = false;
+      for (let cb of checkboxes) {
+        if (cb.checked) {
+          anyChecked = true;
+          break;
+        }
+      }
+      document.getElementById('transferActions').style.display = anyChecked ? 'block' : 'none';
+    }
+
+    async function transferSelectedFingerprints() {
+      const checkboxes = document.querySelectorAll('.transferCheckbox:checked');
+      if (checkboxes.length === 0) {
+        alert("لم يتم اختيار أي بصمات");
+        return;
+      }
+
+      const toEmployeeId = document.getElementById('transferToEmployeeSelect').value;
+      if (!toEmployeeId) {
+        alert("اختر الموظف الذي ستحول إليه البصمات");
+        return;
+      }
+
+      const reason = document.getElementById('transferReason').value.trim();
+      if (!reason) {
+        alert("يرجى كتابة سبب التحويل");
+        return;
+      }
+
+      const newEmp = employees.find(e => e._id === toEmployeeId);
+      if (!newEmp) {
+        alert("الموظف الجديد غير موجود في القائمة");
+        return;
+      }
+
+      const fingerprintIds = Array.from(checkboxes).map(cb => cb.value);
+
+      const bodyObj = {
+        fingerprintIds,
+        newEnrollId: +newEmp.enroll_id,
+        newName: newEmp.name,
+        modificationReason: reason
+      };
+
+      showLoader(true);
+      try {
+        // استدعاء API التحويل
+        const resp = await fetch('/api/fingerprints/transfer', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(bodyObj)
+        });
+        if (!resp.ok) {
+          throw new Error("فشل تحويل البصمات");
+        }
+        alert("تم تحويل البصمات بنجاح");
+        closeTransferFingerprintsModal();
+        // إعادة التحميل
+        loadFingerprints(currentPage);
+      } catch (error) {
+        console.error(error);
+        alert(error.message);
+      } finally {
+        showLoader(false);
+      }
+    }
   </script>
 
-  <!-- سكربت الترجمة -->
+  <!-- سكربت الترجمة (الكود الأصلي) -->
   <script>
-    // const ATTEND_LANG_KEY = 'attendance_lang'; // نفس المفتاح المستخدم في بقية الصفحات
     const ATTEND_LANG_KEY = 'lng'; // نفس المفتاح المستخدم في بقية الصفحات
-
-    const ATTEND_LANG_PATH = './lang';         // ضع فيه ar_attend.json و en_attend.json
+    const ATTEND_LANG_PATH = './lang';
 
     async function loadAttendLangFile(lang) {
       try {
@@ -1283,18 +1798,14 @@
       }
     }
 
-
     window.addEventListener('DOMContentLoaded', async () => {
       let storedLang = localStorage.getItem(ATTEND_LANG_KEY);
-
       if (!storedLang) {
-        // لو أردت الإنجليزية افتراضية، استبدل بـ 'en'
         storedLang = 'ar';
       }
       await loadAttendLangFile(storedLang);
-      // applyAttendTranslations(storedLang);
+      // هنا يمكن تطبيق الترجمة الإضافية إن لزم
     });
   </script>
 </body>
-
 </html>

@@ -4,6 +4,8 @@ const router = express.Router();
 const { authMiddleware } = require('../auth');
 const ctrl = require('../controllers/attendReportController');
 
+
+// تعريف باقي المسارات الديناميكية
 router.post('/', authMiddleware, ctrl.createReport);
 router.get('/', authMiddleware, ctrl.getAllReports);
 router.get('/:id', authMiddleware, ctrl.getReportById);

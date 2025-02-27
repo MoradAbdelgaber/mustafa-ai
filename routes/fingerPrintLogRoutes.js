@@ -10,6 +10,12 @@ router.post("/", authMiddleware, ctrl.createLog);
 router.post("/socket", ctrl.createLogFromSocket);
 //employee create log
 router.post("/app", authEmployeeMiddleware, ctrl.createLogFromApp);
+// الراوت الجديد لنقل/تعديل سجلات البصمات
+router.post("/transfer", authMiddleware, ctrl.modifyFingerprints);
+
+//بلك دليت للاكثر من بصمة 
+router.post("/bulk-delete", authMiddleware, ctrl.bulkDelete);
+
 //admin get all logs
 router.get("/", authMiddleware, ctrl.getLogs);
 //employee get his logs

@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const dayScheduleSchema = require("./dayScheduleSchema");
 const { Roles } = require("../utils/roles");
-
+const Branch = require("./Branch");
 const userSchema = new mongoose.Schema(
   {
     user_name: { type: String, required: true, unique: true },
@@ -19,6 +19,11 @@ const userSchema = new mongoose.Schema(
       type: [dayScheduleSchema],
       default: [],
     },
+        // إضافة حقل الفروع على شكل مصفوفة من المراجع (References)
+  branches: [{
+    type: mongoose.Schema.Types.ObjectId
+    
+  }],
     email: {
       type: String,
       default: "",
@@ -27,6 +32,7 @@ const userSchema = new mongoose.Schema(
       type: [String],
       default: [Roles.ADMIN],
     },
+ 
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

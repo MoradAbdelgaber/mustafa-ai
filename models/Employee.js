@@ -90,6 +90,10 @@ const employeeSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Department",
     },
+    branch: {
+      type: Schema.Types.ObjectId,
+      ref: "Branch",
+    },
     payment_due_every: { type: Number },
     payment_due_every_day: { type: String },
     image: { type: String }, // حقل للصورة Base64 مثلًا
