@@ -1483,10 +1483,13 @@
         return /^\d+$/.test(str); // Checks if the string consists only of digits
       }
 
-      async function saveCommand(bodybodyObj = {}) {
+      async function saveCommand(bodyObj = {}) {
         const resp = await fetch('/api/requests', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + authToken
+          },
           body: JSON.stringify(bodyObj)
         });
         if (!resp.ok) {
@@ -1497,134 +1500,134 @@
 
 
       // دالة إرسال معلومات الوجه (مع backupnum=50)
-      async function sendUserToDevices(indexInFiltered) {
-        const errorMsg = document.getElementById('errorMsg');
-        const successMsg = document.getElementById('successMsg');
-        errorMsg.textContent = '';
-        successMsg.textContent = '';
-        showLoader();
-        try {
-          const emp = filteredEmployees[indexInFiltered];
-          if (!emp.devices || emp.devices.length === 0) {
-            throw new Error('No assigned devices for this employee.');
-          }
-          const recordBase64 = emp.image || '';
-          const userInfoTemplate = {
-            enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : '',
-            name: emp.name || '',
-            backupnum: 50,
-            admin: 0,
-            record: recordBase64.replace(/^data:image\/[a-zA-Z]+;base64,/, ''),
-            zoneid: emp.week_zone || 0,
-            departmant: emp.department || '',
-            card: emp.card || ''
-          };
+      // async function sendUserToDevices(indexInFiltered) {
+      //   const errorMsg = document.getElementById('errorMsg');
+      //   const successMsg = document.getElementById('successMsg');
+      //   errorMsg.textContent = '';
+      //   successMsg.textContent = '';
+      //   // showLoader();
+      //   try {
+      //     const emp = filteredEmployees[indexInFiltered];
+      //     if (!emp.devices || emp.devices.length === 0) {
+      //       throw new Error('No assigned devices for this employee.');
+      //     }
+      //     const recordBase64 = emp.image || '';
+      //     const userInfoTemplate = {
+      //       enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : '',
+      //       name: emp.name || '',
+      //       backupnum: 50,
+      //       admin: 0,
+      //       record: recordBase64.replace(/^data:image\/[a-zA-Z]+;base64,/, ''),
+      //       zoneid: emp.week_zone || 0,
+      //       departmant: emp.department || '',
+      //       card: emp.card || ''
+      //     };
 
-          for (const devId of emp.devices) {
-            const dev = allDevices.find(d => d._id === devId);
-            if (!dev) {
-              console.warn(`No device data found ID=${devId}`);
-              continue;
-            }
-            const sn = dev.serial;
-            const serverIp = dev.serverip;
-            const bodyObj = { sn: sn, userInfo: userInfoTemplate };
-            const url = `${serverIp}/api/setuserinfo`;
-            const resp = await fetch(url, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(bodyObj)
-            });
-            if (!resp.ok) {
-              // const errText = await resp.text();
-              // throw new Error(`Fail to send data to device: ${dev.name || dev._id} | ${errText}`);
+      //     for (const devId of emp.devices) {
+      //       const dev = allDevices.find(d => d._id === devId);
+      //       if (!dev) {
+      //         console.warn(`No device data found ID=${devId}`);
+      //         continue;
+      //       }
+      //       const sn = dev.serial;
+      //       const serverIp = dev.serverip;
+      //       const bodyObj = { sn: sn, userInfo: userInfoTemplate };
+      //       const url = `${serverIp}/api/setuserinfo`;
+      //       const resp = await fetch(url, {
+      //         method: 'POST',
+      //         headers: { 'Content-Type': 'application/json' },
+      //         body: JSON.stringify(bodyObj)
+      //       });
+      //       if (!resp.ok) {
+      //         // const errText = await resp.text();
+      //         // throw new Error(`Fail to send data to device: ${dev.name || dev._id} | ${errText}`);
 
-              //save command
-              const commandBody = {
-                url: url,
-                body: bodyObj,
-                ActionType: "FaceId",
-                device_name: dev.name || sn,
-                operation_type: "setUserInfo"
-              };
+      //         //save command
+      //         const commandBody = {
+      //           url: url,
+      //           body: bodyObj,
+      //           ActionType: "FaceId",
+      //           device_name: dev.name || sn,
+      //           operation_type: "setUserInfo"
+      //         };
 
-              await saveCommand(commandBody);
-            }
-          }
-          successMsg.textContent = getTranslate("success_msg");
-        } catch (err) {
-          errorMsg.textContent = err.message;
-        } finally {
-          hideLoader();
-        }
-      }
+      //         await saveCommand(commandBody);
+      //       }
+      //     }
+      //     successMsg.textContent = getTranslate("success_msg");
+      //   } catch (err) {
+      //     errorMsg.textContent = err.message;
+      //   } finally {
+      //     hideLoader();
+      //   }
+      // }
 
       // الدالة الجديدة لإرسال بصمة اليد (مع backupnum=0) باستخدام قيمة fingerprint من بروفايل الموظف
-      async function sendFingerprintToDevices(indexInFiltered) {
-        const errorMsg = document.getElementById('errorMsg');
-        const successMsg = document.getElementById('successMsg');
-        errorMsg.textContent = '';
-        successMsg.textContent = '';
-        showLoader();
-        try {
-          const emp = filteredEmployees[indexInFiltered];
-          if (!emp.devices || emp.devices.length === 0) {
-            throw new Error('No assigned devices for this employee.');
-          }
-          const fingerprintData = emp.fingerprint || '';
-          if (!fingerprintData) {
-            throw new Error('No fingerprint data available for this employee.');
-          }
-          const userInfoTemplate = {
-            enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : '',
-            name: emp.name || '',
-            backupnum: 0,
-            admin: 0,
-            record: fingerprintData,
-            zoneid: emp.week_zone || 0,
-            departmant: emp.department || '',
-            card: emp.card || ''
-          };
+      // async function sendFingerprintToDevices(indexInFiltered) {
+      //   const errorMsg = document.getElementById('errorMsg');
+      //   const successMsg = document.getElementById('successMsg');
+      //   errorMsg.textContent = '';
+      //   successMsg.textContent = '';
+      //   showLoader();
+      //   try {
+      //     const emp = filteredEmployees[indexInFiltered];
+      //     if (!emp.devices || emp.devices.length === 0) {
+      //       throw new Error('No assigned devices for this employee.');
+      //     }
+      //     const fingerprintData = emp.fingerprint || '';
+      //     if (!fingerprintData) {
+      //       throw new Error('No fingerprint data available for this employee.');
+      //     }
+      //     const userInfoTemplate = {
+      //       enrollid: isNumber(emp.enroll_id) ? +emp.enroll_id : '',
+      //       name: emp.name || '',
+      //       backupnum: 0,
+      //       admin: 0,
+      //       record: fingerprintData,
+      //       zoneid: emp.week_zone || 0,
+      //       departmant: emp.department || '',
+      //       card: emp.card || ''
+      //     };
 
-          for (const devId of emp.devices) {
-            const dev = allDevices.find(d => d._id === devId);
-            if (!dev) {
-              console.warn(`No device data found ID=${devId}`);
-              continue;
-            }
-            const sn = dev.serial;
-            const serverIp = dev.serverip;
-            const bodyObj = { sn: sn, userInfo: userInfoTemplate };
-            const url = `${serverIp}/api/setuserinfo`;
-            const resp = await fetch(url, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(bodyObj)
-            });
-            if (!resp.ok) {
-              // const errText = await resp.text();
-              // throw new Error(`${getTranslate('err_send_fingerPrint')} ${dev.name || dev._id} | ${errText}`);
+      //     for (const devId of emp.devices) {
+      //       const dev = allDevices.find(d => d._id === devId);
+      //       if (!dev) {
+      //         console.warn(`No device data found ID=${devId}`);
+      //         continue;
+      //       }
+      //       const sn = dev.serial;
+      //       const serverIp = dev.serverip;
+      //       const bodyObj = { sn: sn, userInfo: userInfoTemplate };
+      //       const url = `${serverIp}/api/setuserinfo`;
+      //       const resp = await fetch(url, {
+      //         method: 'POST',
+      //         headers: { 'Content-Type': 'application/json' },
+      //         body: JSON.stringify(bodyObj)
+      //       });
+      //       if (!resp.ok) {
+      //         // const errText = await resp.text();
+      //         // throw new Error(`${getTranslate('err_send_fingerPrint')} ${dev.name || dev._id} | ${errText}`);
 
-              //save command
-              const commandBody = {
-                url: url,
-                body: bodyObj,
-                ActionType: "Fingerprint",
-                device_name: dev.name || sn,
-                operation_type: "setUserInfo"
-              };
+      //         //save command
+      //         const commandBody = {
+      //           url: url,
+      //           body: bodyObj,
+      //           ActionType: "Fingerprint",
+      //           device_name: dev.name || sn,
+      //           operation_type: "setUserInfo"
+      //         };
 
-              await saveCommand(commandBody);
+      //         await saveCommand(commandBody);
 
-            }
-          }
-          successMsg.textContent = getTranslate("success_msg");
-        } catch (err) {
-          errorMsg.textContent = err.message;
-        } finally {
-          hideLoader();
-        }
-      }
+      //       }
+      //     }
+      //     successMsg.textContent = getTranslate("success_msg");
+      //   } catch (err) {
+      //     errorMsg.textContent = err.message;
+      //   } finally {
+      //     hideLoader();
+      //   }
+      // }
 
       function renderPaginationControls() {
         const paginationDiv = document.getElementById('paginationControls');
@@ -2478,8 +2481,18 @@
               body: JSON.stringify(bodyObj)
             });
             if (!resp.ok) {
-              const errText = await resp.text();
-              throw new Error(`Fail to send data to device: ${dev.name || dev._id} | ${errText}`);
+              // const errText = await resp.text();
+              // throw new Error(`Fail to send data to device: ${dev.name || dev._id} | ${errText}`);
+              //save command
+              const commandBody = {
+                url: url,
+                body: bodyObj,
+                ActionType: "FaceId",
+                device_name: dev.name || sn,
+                operation_type: "setUserInfo"
+              };
+
+              await saveCommand(commandBody);
             }
           }
           successMsg.textContent = getTranslate("success_msg");
@@ -2533,8 +2546,19 @@
               body: JSON.stringify(bodyObj)
             });
             if (!resp.ok) {
-              const errText = await resp.text();
-              throw new Error(`${getTranslate('err_send_fingerPrint')} ${dev.name || dev._id} | ${errText}`);
+              // const errText = await resp.text();
+              // throw new Error(`${getTranslate('err_send_fingerPrint')} ${dev.name || dev._id} | ${errText}`);
+
+              //save command
+              const commandBody = {
+                url: url,
+                body: bodyObj,
+                ActionType: "Fingerprint",
+                device_name: dev.name || sn,
+                operation_type: "setUserInfo"
+              };
+
+              await saveCommand(commandBody);
             }
           }
           successMsg.textContent = getTranslate("success_msg");
