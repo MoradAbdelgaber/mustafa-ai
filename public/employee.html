@@ -19,7 +19,8 @@
   <!-- 4) خطوط (تاجوال للعربية، وأوبن سانس للإنجليزية) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+    rel="stylesheet">
 
   <!-- 5) مكتبة XLSX لتصدير/استيراد إكسل -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
@@ -33,6 +34,7 @@
       from {
         opacity: 0;
       }
+
       to {
         opacity: 1;
       }
@@ -371,6 +373,7 @@
         transform: scale(0.9);
         opacity: 0;
       }
+
       to {
         transform: scale(1);
         opacity: 1;
@@ -535,6 +538,7 @@
       0% {
         transform: rotate(0deg);
       }
+
       100% {
         transform: rotate(360deg);
       }
@@ -871,7 +875,8 @@
       <!-- حاوية البحث أعلى الجدول -->
       <div class="searchFilters">
         <label data-lng="searchNameLabel" for="searchName"></label>
-        <input type="text" id="searchName" oninput="filterEmployeesLocally()" data-lng-placeholder="searchNamePlaceholder" />
+        <input type="text" id="searchName" oninput="filterEmployeesLocally()"
+          data-lng-placeholder="searchNamePlaceholder" />
 
         <label data-lng="searchDeptLabel" for="searchDept"></label>
         <select id="searchDept" onchange="filterEmployeesLocally()">
@@ -883,28 +888,31 @@
       <div class="btns">
         <div style="display: flex; gap: 8px;">
           <button class="addEmployeeBtn" data-lng="addEmployeeBtn" onclick="openModalForAdd()"></button>
-          <button class="addEmployeeBtn" id="exportExcelBtn" style="background:#6f42c1;" onclick="exportEmployeesToExcel()" data-lng="exportexcel">
+          <button class="addEmployeeBtn" id="exportExcelBtn" style="background:#6f42c1;"
+            onclick="exportEmployeesToExcel()" data-lng="exportexcel">
             Export Excel
           </button>
 
-          <label for="importExcelInput" class="addEmployeeBtn" style="background:#fd7e14; cursor:pointer;" data-lng="importexcel">
+          <label for="importExcelInput" class="addEmployeeBtn" style="background:#fd7e14; cursor:pointer;"
+            data-lng="importexcel">
             Import Excel
           </label>
-          <input type="file" id="importExcelInput" accept=".xlsx,.xls" style="display:none" onchange="importEmployeesFromExcel(event)"
-          />
+          <input type="file" id="importExcelInput" accept=".xlsx,.xls" style="display:none"
+            onchange="importEmployeesFromExcel(event)" />
         </div>
 
         <div style="display: flex; gap: 8px;">
           <button class="selectedBtn" id="selectedBtn" data-lng="sellectedSchedule"></button>
           <button class="allSelectedBtn" id="allSelectedBtn" data-lng="allSchedule"></button>
           <!-- زر تعيين الأجهزة للموظفين المحددين -->
-          <button data-lng="lblDevicesModalTitle" class="selectedBtn" id="devicesSelectedBtn" style="background:#6f42c1; display:none;"
-            onclick="openDevicesModalForSelected()"></button>
+          <button data-lng="lblDevicesModalTitle" class="selectedBtn" id="devicesSelectedBtn"
+            style="background:#6f42c1; display:none;" onclick="openDevicesModalForSelected()"></button>
           <!-- زر حذف المحددين -->
-          <button data-lng="deleteSelectedBtn" class="selectedBtn" id="deleteSelectedBtn" style="background:#dc3545; display:none;"
-            onclick="deleteSelectedEmployees()"></button>
+          <button data-lng="deleteSelectedBtn" class="selectedBtn" id="deleteSelectedBtn"
+            style="background:#dc3545; display:none;" onclick="deleteSelectedEmployees()"></button>
           <!-- زر لتحديد كل الموظفين في الصفحة -->
-          <button data-lng="selectAllBtn" class="allSelectedBtn" style="background:#6c757d;" onclick="selectAllInPage()"></button>
+          <button data-lng="selectAllBtn" class="allSelectedBtn" style="background:#6c757d;"
+            onclick="selectAllInPage()"></button>
         </div>
       </div>
 
@@ -968,7 +976,8 @@
         <div class="modalBody">
           <label data-lng="newPassword" for="resetInput"></label>
           <input type="text" id="resetInput" data-lng-placeholder="newPasswordPlac" />
-          <button class="modalSaveBtn" style="margin-top:10px;" data-lng="btnSaveEmployee" onclick="resetPassword()"></button>
+          <button class="modalSaveBtn" style="margin-top:10px;" data-lng="btnSaveEmployee"
+            onclick="resetPassword()"></button>
         </div>
       </div>
     </div>
@@ -1101,8 +1110,8 @@
               </div>
               <label data-lng="lblEmpImage" for="empImage">dfdfdf</label>
 
-              <input style="width:100%;" type="file" id="empImage" accept="image/*" onchange="document.getElementById('previewEmpImage').src = window.URL.createObjectURL(this.files[0])"
-              />
+              <input style="width:100%;" type="file" id="empImage" accept="image/*"
+                onchange="document.getElementById('previewEmpImage').src = window.URL.createObjectURL(this.files[0])" />
             </div>
           </div>
 
@@ -1111,7 +1120,8 @@
             <div class="employeeModalTabs">
 
 
-              <div class="employeeModalTab active" onclick="switchEmployeeModalTab(event, 'devicesTab')" id="devices_tab_item">
+              <div class="employeeModalTab active" onclick="switchEmployeeModalTab(event, 'devicesTab')"
+                id="devices_tab_item">
                 <span data-lng="lb_list_of_devices"></span>
               </div>
 
@@ -1163,9 +1173,11 @@
 
                   <select id="emp_modal_devices_select" multiple></select>
 
-                  <button class="modalSaveBtn" style="background:#fd7e14;" data-lng="btnAllDevices" onclick="selectAllDevicesInEmployeeModal()">All Devices</button>
+                  <button class="modalSaveBtn" style="background:#fd7e14;" data-lng="btnAllDevices"
+                    onclick="selectAllDevicesInEmployeeModal()">All Devices</button>
 
-                  <button class="modalSaveBtn" data-lng="btnSaveDevices" onclick="saveEmployeeDevicesInEmpModal()"></button>
+                  <button class="modalSaveBtn" data-lng="btnSaveDevices"
+                    onclick="saveEmployeeDevicesInEmpModal()"></button>
 
                 </div>
 
@@ -1196,7 +1208,8 @@
                     <button class="modalSaveBtn restBtn" data-lng="btnAddRest" onclick="addScheduleDay(true)"></button>
                     <button class="modalSaveBtn" data-lng="btnAddDay" onclick="addScheduleDay(false)"></button>
                   </div>
-                  <button class="saveScheduleBtn" id="saveScheduleBtn" data-lng="btnSaveEmployee" onclick="saveScheduleToEmployeeModal()"></button>
+                  <button class="saveScheduleBtn" id="saveScheduleBtn" data-lng="btnSaveEmployee"
+                    onclick="saveScheduleToEmployeeModal()"></button>
                 </div>
               </div>
             </div>
@@ -1242,7 +1255,8 @@
           <hr>
           <div id="employeeModalFooter">
 
-            <button class="modalSaveBtn" id="saveEmployeeBtn" data-lng="btnSaveEmployee" onclick="saveEmployee()"></button>
+            <button class="modalSaveBtn" id="saveEmployeeBtn" data-lng="btnSaveEmployee"
+              onclick="saveEmployee()"></button>
             <!-- يمكن إضافة زر إلغاء إن أردت -->
             <!-- <button class="modalSaveBtn" style="background:#dc3545;" onclick="closeEmployeeModal()">Cancel</button> -->
           </div>
@@ -1283,7 +1297,8 @@
               <button class="modalSaveBtn restBtn" data-lng="btnAddRest" onclick="addScheduleDay(true)"></button>
               <button class="modalSaveBtn" data-lng="btnAddDay" onclick="addScheduleDay(false)"></button>
             </div>
-            <button class="saveScheduleBtn" id="saveScheduleBtn" data-lng="btnSaveEmployee" onclick="saveScheduleToEmployee()"></button>
+            <button class="saveScheduleBtn" id="saveScheduleBtn" data-lng="btnSaveEmployee"
+              onclick="saveScheduleToEmployee()"></button>
           </div>
         </div>
       </div>
@@ -1616,7 +1631,8 @@
           <label data-lng="lblChooseDevices" for="devicesSelect"></label>
           <select id="devicesSelect" multiple></select>
 
-          <button class="modalSaveBtn" style="background:#fd7e14;" data-lng="btnAllDevices" onclick="selectAllDevicesInModal()">All Devices</button>
+          <button class="modalSaveBtn" style="background:#fd7e14;" data-lng="btnAllDevices"
+            onclick="selectAllDevicesInModal()">All Devices</button>
           <button class="modalSaveBtn" data-lng="btnSaveDevices" onclick="saveEmployeeDevices()"></button>
         </div>
       </div>
@@ -2357,7 +2373,7 @@
         successMsg.textContent = '';
 
         const newPass = input.value
-        if (!newPass ?.trim()) return input.value = ''
+        if (!newPass?.trim()) return input.value = ''
 
         const body = {
           employee: currentEmployeeForReset._id,
@@ -3251,7 +3267,7 @@
               admin: faceAdmin ? 1 : 0
             }
           };
-          const resp = await fetch('http://127.0.0.1:3087/api/adduserinfo', {
+          const resp = await fetch(`${dev.serverip}/api/adduserinfo`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bodyObj)
@@ -3264,7 +3280,7 @@
           if (!result.success) {
             throw new Error('Operation failed on device');
           }
-          const recordBase64 = result.data ?.record;
+          const recordBase64 = result.data?.record;
           if (!recordBase64) {
             throw new Error('No face image received from device');
           }
@@ -3333,7 +3349,7 @@
               backupnum: 0
             }
           };
-          const resp = await fetch('http://127.0.0.1:3087/api/adduserinfo', {
+          const resp = await fetch(`${dev.serverip}/api/adduserinfo`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bodyObj)
@@ -3346,7 +3362,7 @@
           if (!result.success) {
             throw new Error('Operation failed on device');
           }
-          const recordData = result.data ?.record;
+          const recordData = result.data?.record;
           if (!recordData) {
             throw new Error('No fingerprint data received from device');
           }
@@ -3412,7 +3428,7 @@
               backupnum: 11
             }
           };
-          const resp = await fetch('http://127.0.0.1:3087/api/adduserinfo', {
+          const resp = await fetch(`${dev.serverip}/api/adduserinfo`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bodyObj)
@@ -3425,7 +3441,7 @@
           if (!result.success) {
             throw new Error('Operation failed on device');
           }
-          const cardNum = result.data ?.record;
+          const cardNum = result.data?.record;
           if (!cardNum) {
             throw new Error('No card number received from device');
           }
@@ -3724,22 +3740,22 @@
         }
       }
 
-      function loadSiebar(){
+      function loadSiebar() {
         fetch('sidebar.html')
-              .then(response => response.text())
-              .then(data => {
-                  document.querySelector('.sidebar').innerHTML = data;
-                    var submenus = document.querySelectorAll('.submenu');
-                    submenus.forEach(function (submenu) {
-                      if (submenu.querySelector('.navItem.active')) {
-                        submenu.style.display = "block";
-                      }
-                    });
-                    addActiveToSubmenuClass(1);
-              })
-              .catch(error => console.error('Error loading sidebar:', error));
+          .then(response => response.text())
+          .then(data => {
+            document.querySelector('.sidebar').innerHTML = data;
+            var submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(function (submenu) {
+              if (submenu.querySelector('.navItem.active')) {
+                submenu.style.display = "block";
+              }
+            });
+            addActiveToSubmenuClass(1);
+          })
+          .catch(error => console.error('Error loading sidebar:', error));
       }
-  
+
       async function loadSidebarLangFile(lang) {
         try {
           const response = await fetch(`${LANG_PATH}/${lang}_sidebar.json`);
@@ -3753,28 +3769,28 @@
         }
       }
 
-      function applySidebarTranslation(){
-          document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
-              const key = el.getAttribute('data-lng');
-              
-              if (sidebarLabels[key]) {
-                el.textContent = sidebarLabels[key];
-              }
-          });
+      function applySidebarTranslation() {
+        document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+          const key = el.getAttribute('data-lng');
+
+          if (sidebarLabels[key]) {
+            el.textContent = sidebarLabels[key];
+          }
+        });
       }
 
       loadSiebar();
 
       function addActiveToSubmenuClass(childIndex) {
-          const submenu = document.getElementById('staffManagementSubmenu');
-          submenu.style.display = "block";
-          const navItems = submenu.getElementsByClassName('navItem');
-          if (childIndex >= 1 && childIndex <= navItems.length) {
-              Array.from(navItems).forEach(item => item.classList.remove('active'));
-              navItems[childIndex - 1].classList.add('active');
-          } else {
-              console.error('Child index out of bounds');
-          }
+        const submenu = document.getElementById('staffManagementSubmenu');
+        submenu.style.display = "block";
+        const navItems = submenu.getElementsByClassName('navItem');
+        if (childIndex >= 1 && childIndex <= navItems.length) {
+          Array.from(navItems).forEach(item => item.classList.remove('active'));
+          navItems[childIndex - 1].classList.add('active');
+        } else {
+          console.error('Child index out of bounds');
+        }
       }
 
     </script>

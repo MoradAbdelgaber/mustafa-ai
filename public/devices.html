@@ -19,7 +19,8 @@
   <!-- خطا Tajawal (للغة العربية) وOpen Sans (للإنجليزية) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+    rel="stylesheet">
 
   <style>
     html {
@@ -608,16 +609,16 @@
       <!-- حاوية البحث أعلى الجدول -->
       <div class="searchFilters">
         <label id="devices_search_name_label" for="searchName" data-lng="devices_search_name_label"></label>
-        <input type="text" id="searchName" oninput="filterDevicesLocally()" data-lng-placeholder="devices_search_name_placeholder"
-          placeholder="">
+        <input type="text" id="searchName" oninput="filterDevicesLocally()"
+          data-lng-placeholder="devices_search_name_placeholder" placeholder="">
 
         <label id="devices_search_serial_label" for="searchSerial" data-lng="devices_search_serial_label"></label>
-        <input type="text" id="searchSerial" oninput="filterDevicesLocally()" data-lng-placeholder="devices_search_serial_placeholder"
-          placeholder="">
+        <input type="text" id="searchSerial" oninput="filterDevicesLocally()"
+          data-lng-placeholder="devices_search_serial_placeholder" placeholder="">
 
         <label id="devices_search_serverip_label" for="searchServerIp" data-lng="devices_search_serverip_label"></label>
-        <input type="text" id="searchServerIp" oninput="filterDevicesLocally()" data-lng-placeholder="devices_search_serverip_placeholder"
-          placeholder="">
+        <input type="text" id="searchServerIp" oninput="filterDevicesLocally()"
+          data-lng-placeholder="devices_search_serverip_placeholder" placeholder="">
 
         <label id="devices_search_status_label" for="searchStatus" data-lng="devices_search_status_label"></label>
         <select id="searchStatus" onchange="filterDevicesLocally()">
@@ -635,7 +636,8 @@
         <button class="addDeviceBtn" id="devices_add_button" onclick="openModalForAdd()" data-lng="devices_add_button">
           Add Device</button>
         <p>IP: 140.82.38.238
-          <span></span>Port: 7716 </p>
+          <span></span>Port: 7716
+        </p>
       </div>
 
       <!-- جدول الأجهزة -->
@@ -701,20 +703,23 @@
           <label id="devices_modal_serial_label" data-lng="deviceSerial" for="deviceSerial">Device Serial:</label>
           <input type="text" id="deviceSerial" placeholder="12345-ABCDE" />
 
-          <label id="devices_modal_serverip_label" data-lng="devices_modal_label_serverip" for="serverIp">ServerIP:</label>
+          <label id="devices_modal_serverip_label" data-lng="devices_modal_label_serverip"
+            for="serverIp">ServerIP:</label>
           <input type="text" id="serverIp" placeholder="192.168.1.50" />
 
           <label data-lng="timeZoneLable" for="deviceTimeZone">timeZone:</label>
           <input list="timezones" id="deviceTimeZone" data-lng-placeholder="timeZone" />
           <datalist id="timezones"></datalist>
 
-          <label id="devices_modal_status_label" data-lng="devices_modal_label_status" for="deviceStatus">Status:</label>
+          <label id="devices_modal_status_label" data-lng="devices_modal_label_status"
+            for="deviceStatus">Status:</label>
           <select id="deviceStatus">
             <option value="true" data-lng-option="devices_modal_status_option_true">Enabled</option>
             <option value="false" data-lng-option="devices_modal_status_option_false">Disabled</option>
           </select>
 
-          <button class="modalSaveBtn" id="devices_modal_save_button" data-lng="devices_modal_button_save" onclick="saveDevice()">Save</button>
+          <button class="modalSaveBtn" id="devices_modal_save_button" data-lng="devices_modal_button_save"
+            onclick="saveDevice()">Save</button>
         </div>
       </div>
     </div>
@@ -1294,7 +1299,8 @@
           </div>
 
           <!-- زر الحفظ -->
-          <button class="modalSaveBtn" id="devices_settings_save_button" data-lng=devices_settings_save_button onclick="saveDevSettings()">Save Settings
+          <button class="modalSaveBtn" id="devices_settings_save_button" data-lng=devices_settings_save_button
+            onclick="saveDevSettings()">Save Settings
           </button>
         </div>
       </div>
@@ -1448,7 +1454,8 @@
             </tbody>
           </table>
 
-          <button class="modalSaveBtn" id="devices_lockmodal_save_button" data-lng="save" onclick="saveDevLock()">Save</button>
+          <button class="modalSaveBtn" id="devices_lockmodal_save_button" data-lng="save"
+            onclick="saveDevLock()">Save</button>
         </div>
       </div>
     </div>
@@ -1564,7 +1571,8 @@
             </table>
           </div>
         </div>
-        <button class="modalSaveBtn" id="devices_questionnaire_send_button" style="margin:10px;" onclick="sendQuestionnaire()">Send</button>
+        <button class="modalSaveBtn" id="devices_questionnaire_send_button" style="margin:10px;"
+          onclick="sendQuestionnaire()">Send</button>
       </div>
     </div>
 
@@ -1874,9 +1882,9 @@
         const creationVal = document.getElementById('searchCreation').value;
 
         let filtered = allDevices.filter(d => {
-          if (nameVal && !d.name ?.toLowerCase().includes(nameVal)) return false;
-          if (serialVal && !d.serial ?.toLowerCase().includes(serialVal)) return false;
-          if (serverIpVal && !d.serverip ?.toLowerCase().includes(serverIpVal)) return false;
+          if (nameVal && !d.name?.toLowerCase().includes(nameVal)) return false;
+          if (serialVal && !d.serial?.toLowerCase().includes(serialVal)) return false;
+          if (serverIpVal && !d.serverip?.toLowerCase().includes(serverIpVal)) return false;
           if (statusVal) {
             const boolStatus = d.status ? 'true' : 'false';
             if (boolStatus !== statusVal) return false;
@@ -2073,9 +2081,9 @@
           }
 
           if (!resp.ok) {
-            throw new Error(result ?.error || result ?.message || 'Action failed');
+            throw new Error(result?.error || result?.message || 'Action failed');
           }
-          showSuccess(result ?.message || 'Action done successfully');
+          showSuccess(result?.message || 'Action done successfully');
 
         } catch (err) {
           showError(err.message);
@@ -2099,7 +2107,7 @@
           }
 
           const data = await resp.json();
-          if (data ?.success && data ?.data ?.online === true) {
+          if (data?.success && data?.data?.online === true) {
             setConnectedCell(cell);
           } else {
             setDisconnectedCell(cell);
@@ -2280,7 +2288,7 @@
         currentDeviceSN = serial;
         showLoading();
         try {
-          const resp = await fetch('http://127.0.0.1:3087/api/getdevinfo', {
+          const resp = await fetch(`${serverip}/api/getdevinfo`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ sn: serial })
@@ -2635,9 +2643,9 @@
           }
 
           if (!resp.ok) {
-            throw new Error(result ?.error || result ?.message || "فشل حفظ الإعدادات");
+            throw new Error(result?.error || result?.message || "فشل حفظ الإعدادات");
           }
-          showSuccess(result ?.message || "تم حفظ الإعدادات بنجاح");
+          showSuccess(result?.message || "تم حفظ الإعدادات بنجاح");
           closeSettingsModal();
         } catch (err) {
           showError(err.message);
@@ -2728,20 +2736,20 @@
         for (let i = 0; i < 8; i++) {
           for (let j = 0; j < 5; j++) {
             const fld = document.getElementById(`dayzone_${i}_${j}`);
-            fld.value = d.dayzone[i] ?.day[j] ?.section || "00:00~00:00";
+            fld.value = d.dayzone[i]?.day[j]?.section || "00:00~00:00";
           }
         }
         for (let i = 0; i < 8; i++) {
           for (let j = 0; j < 7; j++) {
             const fld = document.getElementById(`weekzone_${i}_${j}`);
-            fld.value = d.weekzone[i] ?.week[j] ?.day || 0;
+            fld.value = d.weekzone[i]?.week[j]?.day || 0;
           }
         }
         for (let i = 0; i < 7; i++) {
-          document.getElementById(`nopentime_${i}`).value = d.nopentime[i] ?.day || 0;
+          document.getElementById(`nopentime_${i}`).value = d.nopentime[i]?.day || 0;
         }
         for (let i = 0; i < 7; i++) {
-          document.getElementById(`visitortime_${i}`).value = d.visitortime[i] ?.day || 0;
+          document.getElementById(`visitortime_${i}`).value = d.visitortime[i]?.day || 0;
         }
       }
 
@@ -2816,10 +2824,12 @@
       //  الاستبيان (Questionnaire)
       // --------------------------------------------------------------------------------
       let currentQuestionnaireSN = null;
+      let currentQuestionnaireServerIp = null;
 
       function openQuestionnaireModal(serverip, serial) {
         clearMessages();
         currentQuestionnaireSN = serial;
+        currentQuestionnaireServerIp = serverip
         const modal = document.getElementById('questionnaireModal')
         modal.style.display = 'flex';
         const dir = document.getElementById('langSelector').value == 'ar' ? 'rtl' : 'ltr'
@@ -2829,6 +2839,7 @@
       function closeQuestionnaireModal() {
         document.getElementById('questionnaireModal').style.display = 'none';
         currentQuestionnaireSN = null;
+        currentQuestionnaireServerIp = null
       }
 
       async function sendQuestionnaire() {
@@ -2879,7 +2890,7 @@
             payload
           };
 
-          const resp = await fetch('http://127.0.0.1:3087/api/dynamic', {
+          const resp = await fetch(`${currentQuestionnaireServerIp}/api/dynamic`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -2908,7 +2919,7 @@
         clearMessages();
         showLoading();
         // نأتي بمعلومات الجهاز من السيرفر الوسيط (مثال: /api/getdeviceinfo)
-        fetch('/api/getdeviceinfo', {
+        fetch(`${serverip}/api/getdeviceinfo`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ sn: serial })
@@ -2964,23 +2975,23 @@
       }
 
 
-      function loadSiebar(){
+      function loadSiebar() {
         fetch('sidebar.html')
-              .then(response => response.text())
-              .then(data => {
-                  document.querySelector('.sidebar').innerHTML = data;
-                    var submenus = document.querySelectorAll('.submenu');
-                    submenus.forEach(function (submenu) {
-                      if (submenu.querySelector('.navItem.active')) {
-                        submenu.style.display = "block";
-                      }
-                    });
+          .then(response => response.text())
+          .then(data => {
+            document.querySelector('.sidebar').innerHTML = data;
+            var submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(function (submenu) {
+              if (submenu.querySelector('.navItem.active')) {
+                submenu.style.display = "block";
+              }
+            });
 
-                    addActiveToSubmenuClass(1);
-              })
-              .catch(error => console.error('Error loading sidebar:', error));
+            addActiveToSubmenuClass(1);
+          })
+          .catch(error => console.error('Error loading sidebar:', error));
       }
-  
+
       async function loadSidebarLangFile(lang) {
         try {
           const response = await fetch(`${LANG_PATH}/${lang}_sidebar.json`);
@@ -2994,28 +3005,28 @@
         }
       }
 
-      function applySidebarTranslation(){
-          document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
-              const key = el.getAttribute('data-lng');
-              
-              if (sidebarLabels[key]) {
-                el.textContent = sidebarLabels[key];
-              }
-          });
+      function applySidebarTranslation() {
+        document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+          const key = el.getAttribute('data-lng');
+
+          if (sidebarLabels[key]) {
+            el.textContent = sidebarLabels[key];
+          }
+        });
       }
 
       loadSiebar();
 
       function addActiveToSubmenuClass(childIndex) {
-          const submenu = document.getElementById('deviceManagementSubmenu');
-          submenu.style.display = "block";
-          const navItems = submenu.getElementsByClassName('navItem');
-          if (childIndex >= 1 && childIndex <= navItems.length) {
-              Array.from(navItems).forEach(item => item.classList.remove('active'));
-              navItems[childIndex - 1].classList.add('active');
-          } else {
-              console.error('Child index out of bounds');
-          }
+        const submenu = document.getElementById('deviceManagementSubmenu');
+        submenu.style.display = "block";
+        const navItems = submenu.getElementsByClassName('navItem');
+        if (childIndex >= 1 && childIndex <= navItems.length) {
+          Array.from(navItems).forEach(item => item.classList.remove('active'));
+          navItems[childIndex - 1].classList.add('active');
+        } else {
+          console.error('Child index out of bounds');
+        }
       }
 
     </script>

@@ -90,8 +90,9 @@
     header button:hover {
       background: #c82333;
     }
-        /* تنسيق للقوائم الفرعية لتظهر كفرع */
-        .submenu {
+
+    /* تنسيق للقوائم الفرعية لتظهر كفرع */
+    .submenu {
       border-left: 2px solid #dee2e6;
       margin-left: 15px;
       padding-left: 10px;
@@ -356,364 +357,365 @@
 
     <!-- الشريط الجانبي -->
     <div class="sidebar"></div>
-      
-          <script>
-            // دالة لتبديل عرض وإخفاء القائمة الفرعية
-            function toggleSubMenu(id) {
-              var submenu = document.getElementById(id);
-              if (submenu.style.display === "none" || submenu.style.display === "") {
-                submenu.style.display = "block";
-              } else {
-                submenu.style.display = "none";
-              }
-            }
-      
-            // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
-            // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
-            // document.addEventListener("DOMContentLoaded", function () {
-            //   var submenus = document.querySelectorAll('.submenu');
-            //   submenus.forEach(function (submenu) {
-            //     if (submenu.querySelector('.navItem.active')) {
-            //       submenu.style.display = "block";
-            //     }
-            //   });
-            // });
-          </script>
-   
 
-  <script>
-
-    function isNumber(str) {
-      return /^\d+$/.test(str); // Checks if the string consists only of digits
-    }
-
-    // إزالة أي محرف خارج نطاق ASCII
-    function removeNonASCII(str) {
-      return str.replace(/[^\x00-\x7F]/g, '');
-    }
-
-    let authToken = null;
-    let allLocalEmployees = [];  // قائمة الموظفين من الـ DB
-    let unregisteredList = [];   // الموظفون غير المسجلين
-    let devicesList = [];        // قائمة الأجهزة
-    const LANG_PATH = "./lang";  // مجلد ملفات JSON
-    const LANG_KEY = 'import_employee';
-
-    // لتخزين الترجمات بعد التحميل
-    let translations = {};
-
-    async function initPage() {
-      authToken = localStorage.getItem('authToken');
-      if (!authToken) {
-        window.location.href = 'login.html';
-        return;
-      }
-
-      let storedLang = localStorage.getItem("lng");
-      if (!storedLang) storedLang = 'en'; // افتراضي إنجليزي
-      document.getElementById('langSelector').value = storedLang;
-      setLanguage(storedLang);
-
-      // البدء في جلب البيانات
-      await loadUnregisteredEmployees();
-    }
-
-    // _____________ 1) إعداد الترجمة
-    async function loadLanguageFile(lang) {
-      try {
-        const response = await fetch(`${LANG_PATH}/${lang}_${LANG_KEY}.json`);
-        if (!response.ok) {
-          throw new Error(`Error loading ${lang}.json`);
+    <script>
+      // دالة لتبديل عرض وإخفاء القائمة الفرعية
+      function toggleSubMenu(id) {
+        var submenu = document.getElementById(id);
+        if (submenu.style.display === "none" || submenu.style.display === "") {
+          submenu.style.display = "block";
+        } else {
+          submenu.style.display = "none";
         }
-        translations = await response.json();
-      } catch (error) {
-        console.error("Error loading translation file:", error);
       }
-    }
-    async function setLanguage(lang) {
-      await loadLanguageFile(lang);
-      localStorage.setItem("lng", lang);
-      applyTranslations(lang);
 
-      await loadSidebarLangFile(lang);
+      // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
+      // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
+      // document.addEventListener("DOMContentLoaded", function () {
+      //   var submenus = document.querySelectorAll('.submenu');
+      //   submenus.forEach(function (submenu) {
+      //     if (submenu.querySelector('.navItem.active')) {
+      //       submenu.style.display = "block";
+      //     }
+      //   });
+      // });
+    </script>
+
+
+    <script>
+
+      function isNumber(str) {
+        return /^\d+$/.test(str); // Checks if the string consists only of digits
+      }
+
+      // إزالة أي محرف خارج نطاق ASCII
+      function removeNonASCII(str) {
+        return str.replace(/[^\x00-\x7F]/g, '');
+      }
+
+      let authToken = null;
+      let allLocalEmployees = [];  // قائمة الموظفين من الـ DB
+      let unregisteredList = [];   // الموظفون غير المسجلين
+      let devicesList = [];        // قائمة الأجهزة
+      const LANG_PATH = "./lang";  // مجلد ملفات JSON
+      const LANG_KEY = 'import_employee';
+
+      // لتخزين الترجمات بعد التحميل
+      let translations = {};
+
+      async function initPage() {
+        authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+          window.location.href = 'login.html';
+          return;
+        }
+
+        let storedLang = localStorage.getItem("lng");
+        if (!storedLang) storedLang = 'en'; // افتراضي إنجليزي
+        document.getElementById('langSelector').value = storedLang;
+        setLanguage(storedLang);
+
+        // البدء في جلب البيانات
+        await loadUnregisteredEmployees();
+      }
+
+      // _____________ 1) إعداد الترجمة
+      async function loadLanguageFile(lang) {
+        try {
+          const response = await fetch(`${LANG_PATH}/${lang}_${LANG_KEY}.json`);
+          if (!response.ok) {
+            throw new Error(`Error loading ${lang}.json`);
+          }
+          translations = await response.json();
+        } catch (error) {
+          console.error("Error loading translation file:", error);
+        }
+      }
+      async function setLanguage(lang) {
+        await loadLanguageFile(lang);
+        localStorage.setItem("lng", lang);
+        applyTranslations(lang);
+
+        await loadSidebarLangFile(lang);
         applySidebarTranslation();
 
-    }
-    function getTranslate(key) {
-      return translations[key] || key;
-    }
-    function applyTranslations(lang) {
-      document.documentElement.lang = lang;
-      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+      }
+      function getTranslate(key) {
+        return translations[key] || key;
+      }
+      function applyTranslations(lang) {
+        document.documentElement.lang = lang;
+        document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
 
-      document.querySelectorAll('[data-lng]').forEach(el => {
-        const key = el.getAttribute('data-lng');
-        if (translations[key]) el.textContent = translations[key];
-      });
-      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-lng-placeholder');
-        if (translations[key]) el.placeholder = translations[key];
-      });
-      document.querySelectorAll('[data-lng-option]').forEach(el => {
-        const key = el.getAttribute('data-lng-option');
-        if (translations[key]) el.textContent = translations[key];
-      });
-      document.querySelectorAll('[data-lng-title]').forEach(el => {
-        const key = el.getAttribute('data-lng-title');
-        if (translations[key]) el.textContent = translations[key];
-      });
-      document.querySelectorAll('[data-lng-hover-title]').forEach(el => {
-        const key = el.getAttribute('data-lng-hover-title');
-        if (translations[key]) el.setAttribute('title', translations[key]);
-      });
-    }
-    document.getElementById('langSelector').addEventListener('change', async function () {
-      await setLanguage(this.value);
-      localStorage.setItem("lng", this.value);
-      clearMessages();
-    });
-
-    // _____________ 2) الدوال العامة
-    function logout() {
-      localStorage.removeItem('authToken');
-      window.location.href = 'login.html';
-    }
-    function showLoading() { document.getElementById('loadingOverlay').style.display = 'flex'; }
-    function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
-    function showError(msg) {
-      document.getElementById('errorMsg').textContent = msg;
-      document.getElementById('errorMsg').style.display = 'block';
-      document.getElementById('successMsg').style.display = 'none';
-    }
-    function showSuccess(msg) {
-      document.getElementById('successMsg').textContent = msg;
-      document.getElementById('successMsg').style.display = 'block';
-      document.getElementById('errorMsg').style.display = 'none';
-    }
-    function clearMessages() {
-      document.getElementById('errorMsg').style.display = 'none';
-      document.getElementById('successMsg').style.display = 'none';
-    }
-
-    // _____________ 3) تحميل بيانات "الموظفون غير المسجلين"
-    async function loadUnregisteredEmployees() {
-      clearMessages();
-      showLoading();
-
-      try {
-        // 1) جلب قائمة الأجهزة
-        devicesList = await fetchDevices();
-
-        // 2) جلب جميع الموظفين المسجلين في الـ DB
-        allLocalEmployees = await fetchLocalEmployees();
-
-        // 3) جلب الموظفين من كل جهاز
-        let allDeviceUsers = [];
-        let notActiveDevices = [];
-
-        for (const dev of devicesList) {
-          const deviceName = dev.name || getTranslate("Device without name");
-          const serverIp = dev.serverip;
-          const serial = dev.serial;
-
-          // جلب المستخدمين من هذا الجهاز
-          const deviceUsers = await fetchDeviceUsers(serverIp, serial);
-
-          // إذا لم نتمكن من جلب أي بيانات (أو حصل خطأ في الاستجابة)
-          if (typeof deviceUsers === 'string') {
-            notActiveDevices.push(deviceName);
-          } else {
-            // إضافة معلومات الجهاز لكل مستخدم (اختياري)
-            deviceUsers.forEach(u => {
-              u.device_name = deviceName;
-              u.device_sn = serial;
-            });
-            // دمج في مصفوفة واحدة
-            allDeviceUsers = allDeviceUsers.concat(deviceUsers);
-          }
-        }
-
-        // 4) تصفية من هم غير موجودين في الـ DB
-        unregisteredList = allDeviceUsers.filter(du => {
-          return !allLocalEmployees.some(le => le.enroll_id == du.enrollid);
+        document.querySelectorAll('[data-lng]').forEach(el => {
+          const key = el.getAttribute('data-lng');
+          if (translations[key]) el.textContent = translations[key];
         });
-
-        // 5) عرض الجدول
-        await renderUnregistered(unregisteredList);
-
-        showSuccess(getTranslate("The list of unregistered employees has been successfully fetched."));
-        if (notActiveDevices.length) {
-          showError(getTranslate("Failed to fetch device users") + ' ' + notActiveDevices.join(' , '));
-        }
-
-      } catch (err) {
-        showError(getTranslate("An error occurred: ") + err.message);
-      } finally {
-        hideLoading();
+        document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+          const key = el.getAttribute('data-lng-placeholder');
+          if (translations[key]) el.placeholder = translations[key];
+        });
+        document.querySelectorAll('[data-lng-option]').forEach(el => {
+          const key = el.getAttribute('data-lng-option');
+          if (translations[key]) el.textContent = translations[key];
+        });
+        document.querySelectorAll('[data-lng-title]').forEach(el => {
+          const key = el.getAttribute('data-lng-title');
+          if (translations[key]) el.textContent = translations[key];
+        });
+        document.querySelectorAll('[data-lng-hover-title]').forEach(el => {
+          const key = el.getAttribute('data-lng-hover-title');
+          if (translations[key]) el.setAttribute('title', translations[key]);
+        });
       }
-    }
-
-    // جلب قائمة الأجهزة من الـ API
-    async function fetchDevices() {
-      const safeToken = removeNonASCII(authToken);
-      const myHeaders = new Headers();
-      myHeaders.append('Authorization', 'Bearer ' + safeToken);
-
-      const resp = await fetch('/api/devices', {
-        method: 'GET',
-        headers: myHeaders
+      document.getElementById('langSelector').addEventListener('change', async function () {
+        await setLanguage(this.value);
+        localStorage.setItem("lng", this.value);
+        clearMessages();
       });
 
-      if (!resp.ok) {
-        throw new Error(getTranslate("Failed to fetch devices"));
+      // _____________ 2) الدوال العامة
+      function logout() {
+        localStorage.removeItem('authToken');
+        window.location.href = 'login.html';
       }
-      return await resp.json();
-    }
-
-    // جلب جميع الموظفين المحليين (من الـ DB)
-    async function fetchLocalEmployees() {
-      const safeToken = removeNonASCII(authToken);
-      const myHeaders = new Headers();
-      myHeaders.append('Authorization', 'Bearer ' + safeToken);
-
-      const resp = await fetch('/api/employees?page=1&limit=9999', {
-        method: 'GET',
-        headers: myHeaders
-      });
-
-      if (!resp.ok) {
-        throw new Error(getTranslate("Failed to fetch local employees"));
+      function showLoading() { document.getElementById('loadingOverlay').style.display = 'flex'; }
+      function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
+      function showError(msg) {
+        document.getElementById('errorMsg').textContent = msg;
+        document.getElementById('errorMsg').style.display = 'block';
+        document.getElementById('successMsg').style.display = 'none';
       }
-
-      const responseData = await resp.json();
-      return responseData.data; // مصفوفة الموظفين
-    }
-
-    // جلب مستخدمي جهاز معيّن
-    async function fetchDeviceUsers(serverIp, serial) {
-      const deviceToken = getTranslate("<Put device token here>");
-      const safeDeviceToken = removeNonASCII(deviceToken);
-
-      const myHeaders = new Headers();
-      myHeaders.append('Authorization', 'Bearer ' + safeDeviceToken);
-      myHeaders.append('Content-Type', 'application/json');
-
-      const url = `${serverIp}/api/getuserlist`;
-      const bodyObj = { sn: serial, from: 0, to: 10000 };
-
-      const resp = await fetch(url, {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(bodyObj)
-      });
-
-      if (!resp.ok) {
-        // نعيد serial للدلالة على تعذر الاتصال
-        return serial;
-      } else {
-        const result = await resp.json();
-        if (!result.data || !result.data.record) {
-          return [];
-        }
-        return result.data.record;
+      function showSuccess(msg) {
+        document.getElementById('successMsg').textContent = msg;
+        document.getElementById('successMsg').style.display = 'block';
+        document.getElementById('errorMsg').style.display = 'none';
       }
-    }
-
-    // دالة لجلب المعلومات التفصيلية لمستخدم واحد عبر الـAPI الديناميكي
-    async function fetchDynamicUserInfo(sn, enrollid, backupnum) {
-      // اكتب هنا التوكن المناسب لجهازك
-      const devToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.---';
-      const safeDevToken = removeNonASCII(devToken);
-
-      const myHeaders = new Headers();
-      myHeaders.append('Content-Type', 'application/json');
-      myHeaders.append('Authorization', 'Bearer ' + safeDevToken);
-
-      const bodyObj = {
-        sn,
-        payload: {
-          password: "aa",
-          cmd: "getuserinfo",
-          enrollid: isNumber(enrollid) ? +enrollid : enrollid,
-          backupnum: Number(backupnum)
-        }
-      };
-
-      const resp = await fetch('http://127.0.0.1:3087/api/dynamic', {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify(bodyObj)
-      });
-
-      if (!resp.ok) {
-        throw new Error(getTranslate("Failed to fetch user information from") + ' /api/dynamic.');
+      function clearMessages() {
+        document.getElementById('errorMsg').style.display = 'none';
+        document.getElementById('successMsg').style.display = 'none';
       }
 
-      const result = await resp.json();
-      if (!result.data) return {};
-
-      // الحقول المهمة
-      return {
-        userName: result.data.name || '',
-        department: result.data.departmant || '',
-        weekzone: result.data.zoneid || '',
-        base64Data: result.data.record || '',
-        card: result.data.card || '',
-        starttime: result.data.starttime || ''
-      };
-    }
-
-    // _____________ 4) عرض جدول الموظفين غير المسجلين
-    async function renderUnregistered(list) {
-      const tb = document.querySelector('#unregisteredTable tbody');
-      tb.innerHTML = '';
-
-      for (let i = 0; i < list.length; i++) {
-        const item = list[i];
-
-        let backupType = getTranslate("Not none");
-        if (item.backupnum == 0) {
-          backupType = getTranslate("Fingerprint");
-        } else if (item.backupnum == 11) {
-          backupType = getTranslate("Card");
-        } else if (item.backupnum == 50) {
-          backupType = getTranslate("Face");
-        }
-
-        // نجلب بعض التفاصيل لعرضها في الجدول (اختياري)
-        let deviceNameFromApi = '-';
-        let department = '-';
-        let weekzone = '-';
-        let faceImgHtml = '-';
-        let otherDataHtml = '-';
+      // _____________ 3) تحميل بيانات "الموظفون غير المسجلين"
+      async function loadUnregisteredEmployees() {
+        clearMessages();
+        showLoading();
 
         try {
-          const info = await fetchDynamicUserInfo(item.device_sn, item.enrollid, item.backupnum);
+          // 1) جلب قائمة الأجهزة
+          devicesList = await fetchDevices();
 
-          deviceNameFromApi = info.userName || '-';
-          department = info.department || '-';
-          weekzone = info.weekzone || '-';
+          // 2) جلب جميع الموظفين المسجلين في الـ DB
+          allLocalEmployees = await fetchLocalEmployees();
 
-          // إن كانت بصمة وجه نعرض الصورة
-          if (item.backupnum == 50 && info.base64Data) {
-            faceImgHtml = `
+          // 3) جلب الموظفين من كل جهاز
+          let allDeviceUsers = [];
+          let notActiveDevices = [];
+
+          for (const dev of devicesList) {
+            const deviceName = dev.name || getTranslate("Device without name");
+            const serverIp = dev.serverip;
+            const serial = dev.serial;
+
+            // جلب المستخدمين من هذا الجهاز
+            const deviceUsers = await fetchDeviceUsers(serverIp, serial);
+
+            // إذا لم نتمكن من جلب أي بيانات (أو حصل خطأ في الاستجابة)
+            if (typeof deviceUsers === 'string') {
+              notActiveDevices.push(deviceName);
+            } else {
+              // إضافة معلومات الجهاز لكل مستخدم (اختياري)
+              deviceUsers.forEach(u => {
+                u.device_name = deviceName;
+                u.device_sn = serial;
+                u.server_ip = serverIp;
+              });
+              // دمج في مصفوفة واحدة
+              allDeviceUsers = allDeviceUsers.concat(deviceUsers);
+            }
+          }
+
+          // 4) تصفية من هم غير موجودين في الـ DB
+          unregisteredList = allDeviceUsers.filter(du => {
+            return !allLocalEmployees.some(le => le.enroll_id == du.enrollid);
+          });
+
+          // 5) عرض الجدول
+          await renderUnregistered(unregisteredList);
+
+          showSuccess(getTranslate("The list of unregistered employees has been successfully fetched."));
+          if (notActiveDevices.length) {
+            showError(getTranslate("Failed to fetch device users") + ' ' + notActiveDevices.join(' , '));
+          }
+
+        } catch (err) {
+          showError(getTranslate("An error occurred: ") + err.message);
+        } finally {
+          hideLoading();
+        }
+      }
+
+      // جلب قائمة الأجهزة من الـ API
+      async function fetchDevices() {
+        const safeToken = removeNonASCII(authToken);
+        const myHeaders = new Headers();
+        myHeaders.append('Authorization', 'Bearer ' + safeToken);
+
+        const resp = await fetch('/api/devices', {
+          method: 'GET',
+          headers: myHeaders
+        });
+
+        if (!resp.ok) {
+          throw new Error(getTranslate("Failed to fetch devices"));
+        }
+        return await resp.json();
+      }
+
+      // جلب جميع الموظفين المحليين (من الـ DB)
+      async function fetchLocalEmployees() {
+        const safeToken = removeNonASCII(authToken);
+        const myHeaders = new Headers();
+        myHeaders.append('Authorization', 'Bearer ' + safeToken);
+
+        const resp = await fetch('/api/employees?page=1&limit=9999', {
+          method: 'GET',
+          headers: myHeaders
+        });
+
+        if (!resp.ok) {
+          throw new Error(getTranslate("Failed to fetch local employees"));
+        }
+
+        const responseData = await resp.json();
+        return responseData.data; // مصفوفة الموظفين
+      }
+
+      // جلب مستخدمي جهاز معيّن
+      async function fetchDeviceUsers(serverIp, serial) {
+        const deviceToken = getTranslate("<Put device token here>");
+        const safeDeviceToken = removeNonASCII(deviceToken);
+
+        const myHeaders = new Headers();
+        myHeaders.append('Authorization', 'Bearer ' + safeDeviceToken);
+        myHeaders.append('Content-Type', 'application/json');
+
+        const url = `${serverIp}/api/getuserlist`;
+        const bodyObj = { sn: serial, from: 0, to: 10000 };
+
+        const resp = await fetch(url, {
+          method: 'POST',
+          headers: myHeaders,
+          body: JSON.stringify(bodyObj)
+        });
+
+        if (!resp.ok) {
+          // نعيد serial للدلالة على تعذر الاتصال
+          return serial;
+        } else {
+          const result = await resp.json();
+          if (!result.data || !result.data.record) {
+            return [];
+          }
+          return result.data.record;
+        }
+      }
+
+      // دالة لجلب المعلومات التفصيلية لمستخدم واحد عبر الـAPI الديناميكي
+      async function fetchDynamicUserInfo(serverIp, sn, enrollid, backupnum) {
+        // اكتب هنا التوكن المناسب لجهازك
+        const devToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.---';
+        const safeDevToken = removeNonASCII(devToken);
+
+        const myHeaders = new Headers();
+        myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('Authorization', 'Bearer ' + safeDevToken);
+
+        const bodyObj = {
+          sn,
+          payload: {
+            password: "aa",
+            cmd: "getuserinfo",
+            enrollid: isNumber(enrollid) ? +enrollid : enrollid,
+            backupnum: Number(backupnum)
+          }
+        };
+
+        const resp = await fetch(`${serverIp}/api/dynamic`, {
+          method: 'POST',
+          headers: myHeaders,
+          body: JSON.stringify(bodyObj)
+        });
+
+        if (!resp.ok) {
+          throw new Error(getTranslate("Failed to fetch user information from") + ' /api/dynamic.');
+        }
+
+        const result = await resp.json();
+        if (!result.data) return {};
+
+        // الحقول المهمة
+        return {
+          userName: result.data.name || '',
+          department: result.data.departmant || '',
+          weekzone: result.data.zoneid || '',
+          base64Data: result.data.record || '',
+          card: result.data.card || '',
+          starttime: result.data.starttime || ''
+        };
+      }
+
+      // _____________ 4) عرض جدول الموظفين غير المسجلين
+      async function renderUnregistered(list) {
+        const tb = document.querySelector('#unregisteredTable tbody');
+        tb.innerHTML = '';
+
+        for (let i = 0; i < list.length; i++) {
+          const item = list[i];
+
+          let backupType = getTranslate("Not none");
+          if (item.backupnum == 0) {
+            backupType = getTranslate("Fingerprint");
+          } else if (item.backupnum == 11) {
+            backupType = getTranslate("Card");
+          } else if (item.backupnum == 50) {
+            backupType = getTranslate("Face");
+          }
+
+          // نجلب بعض التفاصيل لعرضها في الجدول (اختياري)
+          let deviceNameFromApi = '-';
+          let department = '-';
+          let weekzone = '-';
+          let faceImgHtml = '-';
+          let otherDataHtml = '-';
+
+          try {
+            const info = await fetchDynamicUserInfo(item.server_ip, item.device_sn, item.enrollid, item.backupnum);
+
+            deviceNameFromApi = info.userName || '-';
+            department = info.department || '-';
+            weekzone = info.weekzone || '-';
+
+            // إن كانت بصمة وجه نعرض الصورة
+            if (item.backupnum == 50 && info.base64Data) {
+              faceImgHtml = `
               <img
                 src="data:image/jpeg;base64,${info.base64Data}"
                 alt="${getTranslate("Face")}"
                 style="width: 70px; border-radius: 6px;">
             `;
+            }
+            // وإلا نعرض القيم في خانة "بيانات أخرى"
+            else if (item.backupnum != 50 && info.base64Data) {
+              otherDataHtml = `<div style="max-width:300px;overflow-wrap:break-word;">${info.base64Data}</div>`;
+            }
+          } catch (e) {
+            console.warn("fetchDynamicUserInfo error:", e);
           }
-          // وإلا نعرض القيم في خانة "بيانات أخرى"
-          else if (item.backupnum != 50 && info.base64Data) {
-            otherDataHtml = `<div style="max-width:300px;overflow-wrap:break-word;">${info.base64Data}</div>`;
-          }
-        } catch (e) {
-          console.warn("fetchDynamicUserInfo error:", e);
-        }
 
-        const tr = document.createElement('tr');
-        tr.id = `${item.device_sn}__${item.enrollid}__${item.backupnum}`;
-        tr.innerHTML = `
+          const tr = document.createElement('tr');
+          tr.id = `${item.device_sn}__${item.enrollid}__${item.backupnum}`;
+          tr.innerHTML = `
           <td>${i + 1}</td>
           <td>${item.device_sn || ''}</td>
           <td>${item.enrollid || ''}</td>
@@ -733,166 +735,166 @@
             <input type="checkbox" class="em_checkbox" value="${item.enrollid}">
           </td>
         `;
-        tb.appendChild(tr);
-      }
+          tb.appendChild(tr);
+        }
 
-      // تحكّم في عرض زر (سحب المحدد) حسب عدد الاختيارات
-      const checkboxes = Array.from(document.querySelectorAll('.em_checkbox'));
-      checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', () => {
-          sellectedEmployees = checkboxes.filter(item => item.checked).map(item => item.value);
-          selectedBtn.style.display = sellectedEmployees.length ? 'block' : 'none';
+        // تحكّم في عرض زر (سحب المحدد) حسب عدد الاختيارات
+        const checkboxes = Array.from(document.querySelectorAll('.em_checkbox'));
+        checkboxes.forEach(checkbox => {
+          checkbox.addEventListener('change', () => {
+            sellectedEmployees = checkboxes.filter(item => item.checked).map(item => item.value);
+            selectedBtn.style.display = sellectedEmployees.length ? 'block' : 'none';
+          });
         });
-      });
-    }
-
-    let sellectedEmployees = [];
-    const selectedBtn = document.getElementById('selectedBtn');
-    const selectedAllBtn = document.getElementById('selectedAllBtn');
-
-    // سحب بيانات لعدة موظفين (محددين أو الجميع)
-    async function pullMany(all = false) {
-      if (!unregisteredList.length) {
-        return alert(getTranslate('no_items'));
       }
-      clearMessages();
-      showLoading();
 
-      // لو زر "الجميع" => خذ كل الـ enrollid من القائمة
-      let targetEnrollIDs = all
-        ? unregisteredList.map(item => item.enrollid)
-        : sellectedEmployees;
+      let sellectedEmployees = [];
+      const selectedBtn = document.getElementById('selectedBtn');
+      const selectedAllBtn = document.getElementById('selectedAllBtn');
 
-      // إزالة التكرار
-      targetEnrollIDs = [...new Set(targetEnrollIDs)];
-
-      // نفذ السحب لكل EnrollID
-      for (let i = 0; i < targetEnrollIDs.length; i++) {
-        const eID = targetEnrollIDs[i];
-        await pullEmployee(eID, i + 1, targetEnrollIDs.length);
-      }
-      hideLoading();
-      selectedBtn.style.display = 'none';
-    }
-
-    /**
-     * دالة "سحب بيانات" موظف واحد بالاعتماد على enrollid
-     *  - نجمع كل backupnums التي تخص هذا الـenrollid من unregisteredList
-     *  - نجلب المعلومات التفصيلية لكل backupnum
-     *  - نحفظ في حقل image إذا كانت backupnum=50، وفي fingerprint إذا backupnum=0، وفي card إذا backupnum=11
-     */
-    async function pullEmployee(enrollid, index = null, totalCount = 1) {
-      // إظهار شاشة التحميل لو لم يكن استدعاء ضمن مجموعة
-      if (!index) {
+      // سحب بيانات لعدة موظفين (محددين أو الجميع)
+      async function pullMany(all = false) {
+        if (!unregisteredList.length) {
+          return alert(getTranslate('no_items'));
+        }
         clearMessages();
         showLoading();
+
+        // لو زر "الجميع" => خذ كل الـ enrollid من القائمة
+        let targetEnrollIDs = all
+          ? unregisteredList.map(item => item.enrollid)
+          : sellectedEmployees;
+
+        // إزالة التكرار
+        targetEnrollIDs = [...new Set(targetEnrollIDs)];
+
+        // نفذ السحب لكل EnrollID
+        for (let i = 0; i < targetEnrollIDs.length; i++) {
+          const eID = targetEnrollIDs[i];
+          await pullEmployee(eID, i + 1, targetEnrollIDs.length);
+        }
+        hideLoading();
+        selectedBtn.style.display = 'none';
       }
 
-      try {
-        // نجمع كل الأسطر التي لها نفس enrollid
-        const sameEnrollItems = unregisteredList.filter(u => u.enrollid == enrollid);
+      /**
+       * دالة "سحب بيانات" موظف واحد بالاعتماد على enrollid
+       *  - نجمع كل backupnums التي تخص هذا الـenrollid من unregisteredList
+       *  - نجلب المعلومات التفصيلية لكل backupnum
+       *  - نحفظ في حقل image إذا كانت backupnum=50، وفي fingerprint إذا backupnum=0، وفي card إذا backupnum=11
+       */
+      async function pullEmployee(enrollid, index = null, totalCount = 1) {
+        // إظهار شاشة التحميل لو لم يكن استدعاء ضمن مجموعة
+        if (!index) {
+          clearMessages();
+          showLoading();
+        }
 
-        // حقول سيتم تعبئتها
-        let userName = '';
-        let department = '';
-        let weekzone = 0;
-        let starttime = '2025-01-01';
-        let faceVal = ''; // للـimage
-        let fingerprintVal = ''; // للـfingerprint
-        let cardVal = ''; // للـcard
+        try {
+          // نجمع كل الأسطر التي لها نفس enrollid
+          const sameEnrollItems = unregisteredList.filter(u => u.enrollid == enrollid);
 
-        // نجلب معلومات كل backupnum ونخزّن القيم المناسبة
-        for (const item of sameEnrollItems) {
-          const info = await fetchDynamicUserInfo(item.device_sn, item.enrollid, item.backupnum);
+          // حقول سيتم تعبئتها
+          let userName = '';
+          let department = '';
+          let weekzone = 0;
+          let starttime = '2025-01-01';
+          let faceVal = ''; // للـimage
+          let fingerprintVal = ''; // للـfingerprint
+          let cardVal = ''; // للـcard
 
-          if (info.userName && !userName) userName = info.userName;
-          if (info.department && !department) department = info.department;
-          if (info.weekzone && !weekzone) weekzone = Number(info.weekzone);
-          if (info.starttime && starttime === '2025-01-01') starttime = info.starttime;
+          // نجلب معلومات كل backupnum ونخزّن القيم المناسبة
+          for (const item of sameEnrollItems) {
+            const info = await fetchDynamicUserInfo(item.server_ip, item.device_sn, item.enrollid, item.backupnum);
 
-          const bn = Number(item.backupnum);
-          if (bn === 50) {
-            // بصمة وجه => نخزّن في image
-            faceVal = info.base64Data;
-          } else if (bn === 0) {
-            // بصمة إصبع => نخزّن في fingerprint كما هي
-            fingerprintVal = info.base64Data;
-          } else if (bn === 11) {
-            // بطاقة => نخزّن رقم البطاقة في card
-            cardVal = info.card || '';
+            if (info.userName && !userName) userName = info.userName;
+            if (info.department && !department) department = info.department;
+            if (info.weekzone && !weekzone) weekzone = Number(info.weekzone);
+            if (info.starttime && starttime === '2025-01-01') starttime = info.starttime;
+
+            const bn = Number(item.backupnum);
+            if (bn === 50) {
+              // بصمة وجه => نخزّن في image
+              faceVal = info.base64Data;
+            } else if (bn === 0) {
+              // بصمة إصبع => نخزّن في fingerprint كما هي
+              fingerprintVal = info.base64Data;
+            } else if (bn === 11) {
+              // بطاقة => نخزّن رقم البطاقة في card
+              cardVal = info.card || '';
+            }
           }
+
+          // بناء جسم الطلب
+          const safeToken = removeNonASCII(authToken);
+          const myHeaders = new Headers();
+          myHeaders.append('Authorization', 'Bearer ' + safeToken);
+          myHeaders.append('Content-Type', 'application/json');
+
+          const bodyObj = {
+            enroll_id: Number(enrollid),
+            name: userName || 'NoName',
+            department: department,
+            joining_date: starttime,
+            leave_date: null,
+            week_zone: weekzone,
+            card: cardVal,
+            fingerprint: fingerprintVal,
+            // إن كان لدينا بصمة وجه => نخزّن الصورة بصيغة data:image
+            image: faceVal ? `data:image/jpg;base64,${faceVal}` : ""
+          };
+
+          // استدعاء API الحفظ في قاعدة البيانات
+          const resp = await fetch('/api/employees', {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify(bodyObj)
+          });
+
+          if (!resp.ok) {
+            const errData = await resp.json();
+            throw new Error(errData.message || getTranslate("Failed to add employee."));
+          }
+
+          // نجاح
+          const doneMsg = index
+            ? `${getTranslate('done_extracted')} ${index} ${getTranslate('from')} ${totalCount}`
+            : `${getTranslate("success_msg")} (EnrollID = ${enrollid}).`;
+          showSuccess(doneMsg);
+
+          // إزالة الأسطر المتعلقة بهذا الموظف من الجدول
+          sameEnrollItems.forEach(item => {
+            const rowId = `${item.device_sn}__${item.enrollid}__${item.backupnum}`;
+            document.getElementById(rowId)?.remove();
+          });
+
+          // إزالته من مصفوفة unregisteredList
+          unregisteredList = unregisteredList.filter(x => x.enrollid != enrollid);
+
+        } catch (error) {
+          showError(getTranslate("Error while retrieving employee data:") + error.message);
+        } finally {
+          if (!index) hideLoading();
         }
-
-        // بناء جسم الطلب
-        const safeToken = removeNonASCII(authToken);
-        const myHeaders = new Headers();
-        myHeaders.append('Authorization', 'Bearer ' + safeToken);
-        myHeaders.append('Content-Type', 'application/json');
-
-        const bodyObj = {
-          enroll_id: Number(enrollid),
-          name: userName || 'NoName',
-          department: department,
-          joining_date: starttime,
-          leave_date: null,
-          week_zone: weekzone,
-          card: cardVal,
-          fingerprint: fingerprintVal,
-          // إن كان لدينا بصمة وجه => نخزّن الصورة بصيغة data:image
-          image: faceVal ? `data:image/jpg;base64,${faceVal}` : ""
-        };
-
-        // استدعاء API الحفظ في قاعدة البيانات
-        const resp = await fetch('/api/employees', {
-          method: 'POST',
-          headers: myHeaders,
-          body: JSON.stringify(bodyObj)
-        });
-
-        if (!resp.ok) {
-          const errData = await resp.json();
-          throw new Error(errData.message || getTranslate("Failed to add employee."));
-        }
-
-        // نجاح
-        const doneMsg = index
-          ? `${getTranslate('done_extracted')} ${index} ${getTranslate('from')} ${totalCount}`
-          : `${getTranslate("success_msg")} (EnrollID = ${enrollid}).`;
-        showSuccess(doneMsg);
-
-        // إزالة الأسطر المتعلقة بهذا الموظف من الجدول
-        sameEnrollItems.forEach(item => {
-          const rowId = `${item.device_sn}__${item.enrollid}__${item.backupnum}`;
-          document.getElementById(rowId)?.remove();
-        });
-
-        // إزالته من مصفوفة unregisteredList
-        unregisteredList = unregisteredList.filter(x => x.enrollid != enrollid);
-
-      } catch (error) {
-        showError(getTranslate("Error while retrieving employee data:") + error.message);
-      } finally {
-        if (!index) hideLoading();
       }
-    }
 
-    function loadSiebar(){
+      function loadSiebar() {
         fetch('sidebar.html')
-              .then(response => response.text())
-              .then(data => {
-                  document.querySelector('.sidebar').innerHTML = data;
-                    var submenus = document.querySelectorAll('.submenu');
-                    submenus.forEach(function (submenu) {
-                      if (submenu.querySelector('.navItem.active')) {
-                        submenu.style.display = "block";
-                      }
-                    });
+          .then(response => response.text())
+          .then(data => {
+            document.querySelector('.sidebar').innerHTML = data;
+            var submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(function (submenu) {
+              if (submenu.querySelector('.navItem.active')) {
+                submenu.style.display = "block";
+              }
+            });
 
-                    addActiveToSubmenuClass(3);
-              })
-              .catch(error => console.error('Error loading sidebar:', error));
+            addActiveToSubmenuClass(3);
+          })
+          .catch(error => console.error('Error loading sidebar:', error));
       }
-  
+
       async function loadSidebarLangFile(lang) {
         try {
           const response = await fetch(`${LANG_PATH}/${lang}_sidebar.json`);
@@ -906,31 +908,31 @@
         }
       }
 
-      function applySidebarTranslation(){
-          document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
-              const key = el.getAttribute('data-lng');
-              
-              if (sidebarLabels[key]) {
-                el.textContent = sidebarLabels[key];
-              }
-          });
+      function applySidebarTranslation() {
+        document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+          const key = el.getAttribute('data-lng');
+
+          if (sidebarLabels[key]) {
+            el.textContent = sidebarLabels[key];
+          }
+        });
       }
 
       loadSiebar();
 
       function addActiveToSubmenuClass(childIndex) {
-          const submenu = document.getElementById('deviceManagementSubmenu');
-          submenu.style.display = "block";
-          const navItems = submenu.getElementsByClassName('navItem');
-          if (childIndex >= 1 && childIndex <= navItems.length) {
-              Array.from(navItems).forEach(item => item.classList.remove('active'));
-              navItems[childIndex - 1].classList.add('active');
-          } else {
-              console.error('Child index out of bounds');
-          }
+        const submenu = document.getElementById('deviceManagementSubmenu');
+        submenu.style.display = "block";
+        const navItems = submenu.getElementsByClassName('navItem');
+        if (childIndex >= 1 && childIndex <= navItems.length) {
+          Array.from(navItems).forEach(item => item.classList.remove('active'));
+          navItems[childIndex - 1].classList.add('active');
+        } else {
+          console.error('Child index out of bounds');
+        }
       }
 
-  </script>
+    </script>
 </body>
 
 </html>

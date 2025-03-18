@@ -969,7 +969,7 @@
 
         showLoading()
 
-        const resp = await fetch('https://timeattendhr.com/api/users/profile', {
+        const resp = await fetch('/api/users/profile', {
           headers: {
             'Authorization': 'Bearer ' + authToken,
             'Content-Type': 'application/json'
