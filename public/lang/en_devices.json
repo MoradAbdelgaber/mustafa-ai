@@ -5,6 +5,8 @@
   "sidebar_attendance_report": "Attendance Report",
   "leaves_sidebar_time_leaves":"Partial Time Request",
   "sidebar_shifts": "Shifts",
+  "leaves_type":"Leaves Type",
+  "navBranch": "Branches",  
   "sidebar_timeslots": "Time Slots",
   "sidebarTitle": "Attend System",
   "navOverview": "Overview",

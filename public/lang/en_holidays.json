@@ -3,6 +3,8 @@
   "sidebar_title": "Menu",
   "sidebar_dashboard": "Dashboard",
   "sidebar_employees": "Employees",
+  "leaves_type":"Leaves Type",
+  "navBranch": "Branches",  
   "sidebar_attendance_report": "Attendance Report",
   "leaves_sidebar_time_leaves":"Partial Time Request",
   "sidebar_shifts": "Shifts",
@@ -68,7 +70,8 @@
     "holidays_modal_description_label": "Description:",
     "holidays_modal_note_label": "Note:",
     "holidays_modal_save_button": "Save",
-  
+    "holidays_modal_start_label": "Holiday Start",
+    "holidays_modal_end_label": "Holiday End",
     "holidays_msg_confirm_delete": "Are you sure you want to delete this holiday?",
     "holidays_msg_error_fetch": "Failed to fetch official holidays",
     "holidays_msg_error_fetch_one": "Failed to fetch holiday data",

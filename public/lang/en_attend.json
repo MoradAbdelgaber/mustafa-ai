@@ -3,6 +3,8 @@
   "attend_groupby_employee": "Group by employee",
   "attend_groupby_device": "Group by device",
   "attend_groupby_day": "Group by day",
+  "leaves_type":"Leaves Type",
+  "navBranch": "Branches",  
   "attend_button_delete_selected": "Delete selected",
   "attend_button_delete_all": "Delete all",
   "attend_button_transfer_modal": "Edit / Transfer Fingerprints",

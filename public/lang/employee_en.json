@@ -5,6 +5,7 @@
     "leaves_sidebar_time_leaves":"Partial Time Request",
     "sidebar_attendance_report": "Attendance Report",
     "sidebar_shifts": "Shifts",
+    "navBranch": "Branches",  
     "sidebar_timeslots": "Time Slots",
     "sidebarTitle": "Attend System",
     "navOverview": "Overview",
@@ -47,6 +48,12 @@
   "searchDeptAllOption": "All Departments",
   "addEmployeeBtn": "Add Employee",
   "tableHead1": "#",
+  "exportexcel":"Export Excel",
+  "importexcel":"Import Excel",
+  "schedule_mode_label":"Type Work",
+  "schedule_mode_shift":"Fixed Schedule",
+  "schedule_mode_fixed" :"Dynmic Schedule",
+  "select_shift_label":"Select Shift",
   "tableHead2": "Photo",
   "tableHead3": "ENROLL ID",
   "tableHead11": "username",
@@ -159,5 +166,8 @@
   "choose_template": "Choose Template",
   "err_send_fingerPrint": "Fail to send fingerprint to device:",
   "noAssignedD_err": "No assigned devices for this employee.",
-  "no_fingerprint_data": "No fingerprint data available for this employee."
+  "no_fingerprint_data": "No fingerprint data available for this employee.",
+  "lb_schedules": "Schedules",
+  "lb_list_of_devices": "List of Devices",
+  "lb_work_segment_time": "Works for Segmented Time"
 }

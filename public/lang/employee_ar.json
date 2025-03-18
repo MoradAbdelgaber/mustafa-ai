@@ -4,6 +4,7 @@
   "sidebar_employees": "الموظفين",
   "sidebar_attendance_report": "تقرير الحضور",
   "sidebar_shifts": "النوبات",
+  "navBranch": "الفروع",
   "leaves_sidebar_time_leaves":"طلبات الاجازات الزمنية",
   "sidebar_timeslots": "الفترات الزمنية",
   "navOverview": "نظرة عامة",
@@ -46,6 +47,12 @@
   "searchDeptAllOption": "جميع الأقسام",
   "addEmployeeBtn": "إضافة موظف",
   "tableHead1": "#",
+  "exportexcel":"استخراج أكسيل",
+  "importexcel":"أستيراد أكسيل",
+  "schedule_mode_label":"نوع الدوام",
+  "schedule_mode_shift":"دوام ثابت",
+  "schedule_mode_fixed" :"شفت متغير",
+  "select_shift_label":"أختر الشفت",
   "tableHead2": "الصورة",
   "tableHead3": "ENROLL ID",
   "tableHead11": "اسم المستخدم",
@@ -158,5 +165,8 @@
   "choose_template": "حدد نموذج",
   "err_send_fingerPrint": "خطأ في ارسال بصمة الاصبع الى الجهاز:",
   "noAssignedD_err": "لا توجد أجهزة مخصصة لهذا الموظف.",
-  "no_fingerprint_data": "لا توجد بيانات بصمة متاحة لهذا الموظف."
+  "no_fingerprint_data": "لا توجد بيانات بصمة متاحة لهذا الموظف.",
+  "lb_schedules": "الجداول الزمنية",
+  "lb_list_of_devices": "قائمة الأجهزة",
+  "lb_work_segment_time": "أعمال لوقت مجزأ"
 }

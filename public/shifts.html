@@ -85,6 +85,21 @@
       margin-bottom: 5px;
     }
 
+    html[lang="ar"] .submenu{
+      border-right: 2px solid #8ebcea;
+      border-left: none;
+      margin-right: 15px;
+      padding-right: 10px;
+      margin-bottom: 5px;
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    html[lang="ar"] button,
+    html[lang="ar"] select{
+      font-family: Tajawal;
+    }
+
     .menu-group-header {
       font-weight: bold;
       background: #dee2e6;
@@ -303,6 +318,7 @@
       align-items: center;
       width: 100%;
       font-size: 1rem;
+      box-sizing: border-box;
     }
 
     html[lang="ar"] .modalHeader {
@@ -491,9 +507,10 @@
     /* نموذج تنسيب الشفت للموظفين */
     .assignForm {
       display: flex;
-      flex-direction: column;
-      gap: 10px;
-      width: 100%;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    padding: 15px;
     }
 
     #departmentsSelect {
@@ -516,6 +533,63 @@
       border-bottom: 1px dashed #ccc;
       padding: 4px;
     }
+
+
+    .form-inner-row{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+
+    .form-inner-row .form-row{
+      flex-basis: 50%;
+      max-width: 50%;
+      box-sizing: border-box;
+      padding: 0 10px;
+      margin-bottom:10px;
+      box-sizing: border-box;
+      gap: 0;
+    }
+    .form-inner-row .form-row input, 
+    .form-inner-row .form-row select {
+    width: 100%;
+    box-sizing: border-box;
+    height: 40px;
+    background-color: #cccccc2b;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 0 6px;
+  }
+
+  .btnClearAll{
+    background: #d30d0d;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .btnSaveShift{
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  button[data-lng="assign_modal_button_fetch_employees"]{
+    margin-top: 10px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+
   </style>
 </head>
 
@@ -523,7 +597,7 @@
   <header>
     <h1 data-lng="shifts_header_title">إدارة الشفتات</h1>
     <div>
-      <button onclick="logout()" data-lng="shifts_logout">خروج</button>
+      <button onclick="logout()" data-lng="shifts_logout">Logout</button>
       <select id="langSelector">
         <option value="en">English</option>
         <option value="ar" selected>العربية</option>
@@ -563,124 +637,7 @@
     </div>
 
     <!-- الشريط الجانبي -->
-    <div class="sidebar">
-      
-          
-            <!-- الرئيسية -->
-            <div class="navItem menu-group-header" onclick="location.href='dashboard.html'">
-              <i class="bi bi-house-fill"></i>
-              <span data-lng="navOverview">الرئيسية</span>
-            </div>
-      
-            <!-- ادارة الموظفين -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('staffManagementSubmenu')">
-              <i class="bi bi-people-fill"></i>
-              <span data-lng="staffManagement">ادارة الموظفين</span>
-            </div>
-            <div id="staffManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='employee.html'">
-                <i class="bi bi-person-lines-fill"></i>
-                <span data-lng="navEmployees">الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='department.html'">
-                <i class="bi bi-building"></i>
-                <span data-lng="navDepartment">الأقسام</span>
-              </div>
-            </div>
-      
-            <!-- التقارير -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('reportsSubmenu')">
-              <i class="bi bi-bar-chart-line-fill"></i>
-              <span data-lng="reports">التقارير</span>
-            </div>
-      
-            <div id="reportsSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='report.html'">
-                <i class="bi bi-bar-chart-line-fill"></i>
-                <span data-lng="navReport"></span>
-              </div>
-      
-              <div class="navItem" onclick="location.href='attend.html'">
-                <i class="bi bi-journal-check"></i>
-                <span data-lng="navAttend">تقرير الحضور</span>
-              </div>
-      
-      
-              <div class="navItem" onclick="location.href='employee-summary-report.html'">
-                <i class="bi bi-people-fill"></i>
-                <span data-lng="employee_summary_report">تقرير ملخص الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='rule.html'">
-                <i class="bi bi-braces"></i>
-                <span data-lng="navRules">القواعد (Rules)</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاجهزة -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('deviceManagementSubmenu')">
-              <i class="bi bi-device-hdd-fill"></i>
-              <span data-lng="deviceManagement">ادارة الاجهزة</span>
-            </div>
-            <div id="deviceManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='devices.html'">
-                <i class="bi bi-laptop"></i>
-                <span data-lng="navDevices">الأجهزة</span>
-              </div>
-              <div class="navItem" onclick="location.href='requests.html'">
-                <i class="bi bi-list-check"></i>
-                <span data-lng="navOrders">الأوامر</span>
-              </div>
-              <div class="navItem" onclick="location.href='importemployee.html'">
-                <i class="bi bi-person-exclamation"></i>
-                <span data-lng="unregistered">الموظفين غير المسجلين</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الدوام -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('workManagementSubmenu')">
-              <i class="bi bi-calendar-event-fill"></i>
-              <span data-lng="workManagement">ادارة الدوام</span>
-            </div>
-            <div id="workManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='leaves.html'">
-                <i class="bi bi-calendar3"></i>
-                <span data-lng="navLeaves">الإجازات</span>
-              </div>
-              <div class="navItem" onclick="location.href='rewards.html'">
-                <i class="bi bi-gift-fill"></i>
-                <span data-lng="navRewards">المكافئات</span>
-              </div>
-              <div class="navItem" onclick="location.href='time-based-leaves.html'">
-                <i class="bi bi-clock-fill"></i>
-                <span data-lng="leaves_sidebar_time_leaves">إجازات زمنية</span>
-              </div>
-              
-              <div class="navItem" onclick="location.href='holidays.html'">
-                <i class="bi bi-calendar-event"></i>
-                <span data-lng="navHolidays">العطل الرسمية</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاوقات -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('timeManagementSubmenu')">
-              <i class="bi bi-clock-fill"></i>
-              <span data-lng="timeManagement">ادارة الاوقات</span>
-            </div>
-            <div id="timeManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem active" onclick="location.href='shifts.html'">
-                <i class="bi bi-hourglass-split"></i>
-                <span data-lng="navshift">الشفتات</span>
-              </div>
-              <div class="navItem" onclick="location.href='TimeSlot.html'">
-                <i class="bi bi-watch"></i>
-                <span data-lng="navSlot">الأوقات</span>
-              </div>
-              <div class="navItem" onclick="location.href='public-settings.html'">
-                <i class="bi bi-gear"></i>
-                <span data-lng="public_settings">الإعدادات</span>
-              </div>
-            </div>
-          </div>
+    <div class="sidebar"></div>
       
           <script>
    
@@ -697,14 +654,14 @@
       
             // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
             // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
-            document.addEventListener("DOMContentLoaded", function () {
-              var submenus = document.querySelectorAll('.submenu');
-              submenus.forEach(function (submenu) {
-                if (submenu.querySelector('.navItem.active')) {
-                  submenu.style.display = "block";
-                }
-              });
-            });
+            // document.addEventListener("DOMContentLoaded", function () {
+            //   var submenus = document.querySelectorAll('.submenu');
+            //   submenus.forEach(function (submenu) {
+            //     if (submenu.querySelector('.navItem.active')) {
+            //       submenu.style.display = "block";
+            //     }
+            //   });
+            // });
           </script>
    
 
@@ -813,27 +770,32 @@
         <!-- الجزء الأيمن: نموذج الشفت + شبكة الأيام -->
         <div style="flex:1; display:flex; flex-direction:column; padding:20px;">
           <div class="shiftForm">
-            <div class="shiftFormRow">
-              <div class="formGroup">
+            <div class="shiftFormRow form-inner-row">
+
+              <div class="formGroup form-row">
                 <label data-lng="modal_label_shiftName">اسم الشفت:</label>
                 <input type="text" id="shiftNameInput" data-lng-placeholder="modal_placeholder_shiftName"
                   placeholder="مثال: Morning Shift" />
               </div>
-              <div class="formGroup">
+
+              <div class="formGroup form-row">
                 <label data-lng="modal_label_cycleUnit">نوع الدورة (Week/Month):</label>
                 <select id="cycleUnitInput">
-                  <option value="Week">أسبوع</option>
-                  <option value="Month">شهر</option>
+                  <option value="Week">week</option>
+                  <option value="Month">Month</option>
                 </select>
               </div>
-              <div class="formGroup">
+
+              <div class="formGroup form-row">
                 <label data-lng="modal_label_cycleLength">طول الدورة (رقم):</label>
                 <input type="number" id="cycleLengthInput" value="7" min="1" />
               </div>
-              <div class="formGroup">
+
+              <div class="formGroup form-row">
                 <label data-lng="modal_label_cycleStartDate">بداية الدورة (تاريخ):</label>
                 <input type="date" id="cycleStartDateInput" />
               </div>
+
             </div>
             <!-- حقل مخفي للاحتفاظ بـ _id -->
             <input type="hidden" id="shiftDbId" />
@@ -931,12 +893,20 @@
       await loadLanguageFile(lang);
       localStorage.setItem(LANG_KEY, lang);
       applyTranslations(lang);
+
+      await loadSidebarLangFile(lang);
+        applySidebarTranslation();
+
     }
 
     window.addEventListener('DOMContentLoaded', async () => {
       let storedLang = localStorage.getItem(LANG_KEY) || 'ar';
       await loadLanguageFile(storedLang);
       applyTranslations(storedLang);
+
+      await loadSidebarLangFile(storedLang);
+      applySidebarTranslation();
+      
     });
 
     document.getElementById('langSelector').addEventListener('change', async function () {
@@ -956,7 +926,7 @@
     let assignShiftId = null;
     let departmentsData = [];
     let employeesData = [];
-    const dayNames = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
     function initPage() {
       loadAllShifts();
@@ -1256,10 +1226,15 @@
         opt.textContent = dep.department_name;
         sel.appendChild(opt);
       });
+
+      // $('#departmentsSelect').select2();
+      
     }
     async function fetchEmployeesForSelectedDepartments() {
       const sel = document.getElementById('departmentsSelect');
+      
       const selectedVals = Array.from(sel.selectedOptions).map(o => o.value);
+  
       document.getElementById('employeesContainer').innerHTML = '';
       employeesData = [];
       showLoading();
@@ -1294,28 +1269,53 @@
         hideLoading();
       }
     }
+
     function renderEmployeesList() {
       const cont = document.getElementById('employeesContainer');
       cont.innerHTML = '';
       employeesData.forEach(emp => {
         let d = document.createElement('div');
+
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';  // Set input type to checkbox
+        checkbox.className = 'emp';   // Set class
+        checkbox.value = emp._id;         // Set value
+
         d.className = 'empItem';
-        d.textContent = `ID:${emp._id} - ${emp.name} (${emp.department || ''})`;
+        // d.textContent = `ID:${emp._id} - ${emp.name} (${emp.department || ''})`;
+        d.textContent = `${emp.name} (${emp.department || ''})`;
+        d.prepend(checkbox);
         cont.appendChild(d);
       });
     }
     async function assignShiftToEmployees() {
+      
       if (!assignShiftId) {
         alert(getTranslate("assign_alert_no_shift"));
         return;
       }
-      if (!employeesData || employeesData.length === 0) {
+
+      let checked_employees = [];
+
+
+      // if (!employeesData || employeesData.length === 0) {
+      //   alert(getTranslate("assign_alert_no_employees"));
+      //   return;
+      // }
+      
+      
+      checked_employees = getCheckedEmployee();
+
+      if (!checked_employees || checked_employees.length === 0) {
         alert(getTranslate("assign_alert_no_employees"));
         return;
       }
+
       showLoading();
+
       try {
-        for (let emp of employeesData) {
+        // for (let emp of employeesData) {
+        for (let emp of checked_employees) {
           let bodyObj = {
             card: emp.card || "",
             department: emp.department || "",
@@ -1329,6 +1329,7 @@
             shift_id: assignShiftId,
             week_zone: 0
           };
+          
           let url = `${baseUrl}/api/employees/${emp._id}`;
           const resp = await fetch(url, {
             method: 'PUT',
@@ -1351,6 +1352,7 @@
         hideLoading();
       }
     }
+
     function fixToPreviousSunday(dateObj) {
       const day = dateObj.getDay();
       if (day !== 0) {
@@ -1366,11 +1368,7 @@
     }
     function getArabicOrdinal(n) {
       const ordinals = [
-        "الأول", "الثاني", "الثالث", "الرابع", "الخامس", "السادس", "السابع", "الثامن", "التاسع", "العاشر",
-        "الحادي عشر", "الثاني عشر", "الثالث عشر", "الرابع عشر", "الخامس عشر", "السادس عشر", "السابع عشر",
-        "الثامن عشر", "التاسع عشر", "العشرون", "الحادي والعشرون", "الثاني والعشرون", "الثالث والعشرون",
-        "الرابع والعشرون", "الخامس والعشرون", "السادس والعشرون", "السابع والعشرون", "الثامن والعشرون",
-        "التاسع والعشرون", "الثلاثون"
+      "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"
       ];
       return (n <= ordinals.length) ? ordinals[n - 1] : n;
     }
@@ -1396,6 +1394,95 @@
       document.getElementById('errorMsg').style.display = 'none';
       document.getElementById('successMsg').style.display = 'none';
     }
+
+    function getCheckedEmployee() {
+          // Select all checkboxes with the class 'emp'
+          const checkboxes = document.querySelectorAll('.emp');
+          const checkedValues = [];
+
+          // Loop through the checkboxes and collect the values of checked ones
+          checkboxes.forEach(checkbox => {
+              if (checkbox.checked) {
+                  checkedValues.push(checkbox.value);
+              }
+          });
+  
+          filtered_employees = [];
+    
+          if (employeesData.length > 0) {
+
+            let emp_counter = 0;
+
+            for(let i=0; i<checkedValues.length; i++){
+              const employee = employeesData.find((item) => {
+                if(item._id == checkedValues[i]){
+                  filtered_employees[emp_counter] = item;
+                  console.log(checkedValues[i]);
+                  emp_counter++;
+                }
+              });
+
+            }
+          }
+
+          return filtered_employees;
+         
+    }
+
+    function loadSiebar(){
+        fetch('sidebar.html')
+              .then(response => response.text())
+              .then(data => {
+                  document.querySelector('.sidebar').innerHTML = data;
+                    var submenus = document.querySelectorAll('.submenu');
+                    submenus.forEach(function (submenu) {
+                      if (submenu.querySelector('.navItem.active')) {
+                        submenu.style.display = "block";
+                      }
+                    });
+
+                    addActiveToSubmenuClass(1);
+              })
+              .catch(error => console.error('Error loading sidebar:', error));
+      }
+  
+      async function loadSidebarLangFile(lang) {
+        try {
+          const response = await fetch(`./lang/${lang}_sidebar.json`);
+          if (!response.ok) {
+            throw new Error(`Error loading ${lang}_sidebar.json`);
+          }
+          sidebarLabels = await response.json();
+
+        } catch (error) {
+          console.error("Report translation file error:", error);
+        }
+      }
+
+      function applySidebarTranslation(){
+          document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+              const key = el.getAttribute('data-lng');
+              
+              if (sidebarLabels[key]) {
+                el.textContent = sidebarLabels[key];
+              }
+          });
+      }
+
+      loadSiebar();
+
+      function addActiveToSubmenuClass(childIndex) {
+          const submenu = document.getElementById('timeManagementSubmenu');
+          submenu.style.display = "block";
+          const navItems = submenu.getElementsByClassName('navItem');
+          if (childIndex >= 1 && childIndex <= navItems.length) {
+              Array.from(navItems).forEach(item => item.classList.remove('active'));
+              navItems[childIndex - 1].classList.add('active');
+          } else {
+              console.error('Child index out of bounds');
+          }
+      }
+
   </script>
 </body>
 

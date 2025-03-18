@@ -1,29 +1,40 @@
 {
   "name": "timeattendhr",
   "version": "1.0.0",
-  "description": "",
+  "description": "مشروع Node.js لتطبيق الحضور والغياب",
   "main": "server.js",
   "bin": "server.js",
   "pkg": {
     "assets": [
+      "controllers/*.jsc",
       "public/**/*",
-      ".env"
+      ".env",
+      "node_modules/axios/dist/**/*"
     ],
     "targets": [
+      "node16-win-x64",
       "node16-macos-arm64",
       "node16-linux-x64"
     ],
     "outputPath": "pkg"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "build": "pkg --no-bytecode ."
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "attendance",
+    "nodejs",
+    "pkg",
+    "exe"
+  ],
+  "author": "اسمك",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.8.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
+    "bytenode": "^1.5.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
@@ -32,6 +43,8 @@
     "moment-timezone": "^0.5.46",
     "mongoose": "^5.9.13",
     "morgan": "^1.10.0",
+    "node-jose": "^2.2.0",
+    "node-machine-id": "^1.1.12",
     "nodemailer": "^6.10.0"
   }
 }

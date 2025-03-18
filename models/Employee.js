@@ -83,6 +83,11 @@ const employeeSchema = new Schema(
       type: [String],
       default: [],
     },
+    tagemployee: {
+      type: [Schema.Types.ObjectId],
+      ref: "tagemployee",
+      default: []
+    },
     works_past_midnight: { type: Boolean, default: false },
     work_registration_end_time: { type: String },
     checkout_grace_period: { type: String },

@@ -17,7 +17,8 @@
   <!-- استيراد خطّي Tajawal (للعربية) وOpen Sans (للإنجليزية) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+  <link
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
     rel="stylesheet">
 
   <style>
@@ -29,7 +30,6 @@
       from {
         opacity: 0;
       }
-
       to {
         opacity: 1;
       }
@@ -110,8 +110,9 @@
       border-radius: 4px;
       border: 1px solid #ccc;
     }
-/* تنسيق للقوائم الفرعية لتظهر كفرع */
-.submenu {
+
+    /* تنسيق للقوائم الفرعية لتظهر كفرع */
+    .submenu {
       border-left: 2px solid #dee2e6;
       margin-left: 15px;
       padding-left: 10px;
@@ -122,12 +123,12 @@
       font-weight: bold;
       background: #dee2e6;
     }
+
     .container {
       display: flex;
       flex-direction: row-reverse;
       /* في العربية يظهر الـsidebar يميناً */
       min-height: calc(100vh - 60px);
-      /* لملء الشاشة تقريبياً */
     }
 
     .mainContent {
@@ -203,7 +204,8 @@
     }
 
     .filters input[type="month"],
-    .filters input[type="date"] {
+    .filters input[type="date"],
+    .filters input[type="week"] /* -- أضيف لدعم الأسبوع -- */ {
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 4px;
@@ -278,43 +280,35 @@
 
     .statsCards .card:nth-child(1) {
       background-color: #007bff;
-      /* أزرق */
     }
 
     .statsCards .card:nth-child(2) {
       background-color: #28a745;
-      /* أخضر */
     }
 
     .statsCards .card:nth-child(3) {
       background-color: #dc3545;
-      /* أحمر */
     }
 
     .statsCards .card:nth-child(4) {
       background-color: #ffc107;
-      /* أصفر */
       color: #fff;
     }
 
     .statsCards .card:nth-child(5) {
       background-color: #17a2b8;
-      /* سماوي */
     }
 
     .statsCards .card:nth-child(6) {
       background-color: #6f42c1;
-      /* بنفسجي */
     }
 
     .statsCards .card:nth-child(7) {
       background-color: #20c997;
-      /* أخضر فاتح */
     }
 
     .statsCards .card:nth-child(8) {
       background-color: #343a40;
-      /* رمادي داكن */
     }
 
     .charts {
@@ -366,7 +360,6 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       overflow: hidden;
     }
-   
 
     .tableCard h4 {
       background: #007bff;
@@ -409,7 +402,6 @@
       text-align: center;
     }
 
-    /* =========== Media Queries لجعل التصميم متجاوباً =========== */
     @media (max-width: 768px) {
       header {
         flex-direction: column;
@@ -424,7 +416,6 @@
         flex-direction: column;
       }
 
-      /* نجعل الـsidebar يأخذ العرض كامل ويظهر أولاً، والمحتوى أسفله */
       .sidebar {
         width: 100%;
         order: 1;
@@ -436,7 +427,6 @@
         padding: 10px;
       }
 
-      /* تضييق المسافات في الفلاتر */
       .filters {
         flex-direction: column;
         align-items: flex-start;
@@ -451,22 +441,16 @@
         align-self: flex-start;
       }
 
-      /* بطاقات الإحصائيات */
       .statsCards {
         grid-template-columns: 1fr 1fr;
-        /* عمودين على الشاشات الصغيرة إذا توفر عرض كافٍ */
       }
 
-      /* المخططات */
       .charts {
         grid-template-columns: 1fr;
-        /* عمود واحد */
       }
 
-      /* الجداول المصغرة */
       .miniTables {
         grid-template-columns: 1fr;
-        /* عمود واحد */
       }
     }
   </style>
@@ -481,7 +465,7 @@
     <div class="dateTimeContainer">
       <div id="currentDate"></div>
       <div class="digitalClock" id="digitalClock"></div>
-      <button onclick="logout()">خروج</button>
+      <button onclick="logout()">Logout</button>
       <select id="langSelector">
         <option value="en">English</option>
         <option value="ar">العربية</option>
@@ -494,17 +478,31 @@
     <!-- المحتوى الرئيسي -->
     <div class="mainContent">
       <!-- فلاتر لتحديد الشهر/اليوم المطلوب -->
+      
       <div class="filters">
-        <label for="monthPicker">اختر الشهر:</label>
+        <label for="monthPicker" data-lng="dash_filter_month">اختر الشهر:</label>
         <input type="month" id="monthPicker" />
-
-        <label for="dayPicker">اختر يوم محدد:</label>
+      
+        <label for="dayPicker" data-lng="dash_filter_day">اختر يوم محدد:</label>
         <input type="date" id="dayPicker" />
+        
+        <!-- -- أضيف: اختيار الأسبوع -- -->
+        <label for="weekPicker" data-lng="dash_filter_week">Week2</label>        
+        <input type="week" id="weekPicker" />  <!-- نوع week متوفر HTML5 -->
 
-        <button onclick="loadDashboardData()">جلب الإحصائيات</button>
+        <!-- -- أضيف: من تاريخ إلى تاريخ -- -->
+        <label for="fromDate" data-lng="dash_filter_from_date">From Date</label>
+        <input type="date" id="fromDate" />
+
+        <label for="toDate" data-lng="dash_filter_to_date">To date</label>
+        <input type="date" id="toDate" />
+
+        <button onclick="loadDashboardData()">Go</button>
+        <!-- -- أضيف: زر إعادة الضبط -- -->
+        <button style="background: #6c757d;" onclick="resetFilters()">Rest</button>
       </div>
 
-      <!-- بطاقات الإحصائيات (كل واحدة بلون مختلف) -->
+      <!-- بطاقات الإحصائيات -->
       <div class="statsCards">
         <div class="card">
           <i class="bi bi-people icon"></i>
@@ -550,19 +548,14 @@
 
       <!-- المخططات -->
       <div class="charts">
-        <!-- المخطط الأول: توزيع حالات الحضور (Pie) -->
         <div class="chartContainer smallPieChart">
           <h3>توزيع حالات الحضور</h3>
           <canvas id="attendanceChart"></canvas>
         </div>
-
-        <!-- المخطط الثاني: إحصائيات الفترة المحددة (Line) -->
         <div class="chartContainer">
           <h3>إحصائيات الفترة المحددة</h3>
           <canvas id="monthlyChart"></canvas>
         </div>
-
-        <!-- المخطط الثالث: التأخير - الأوفر تايم - الخروج المبكر (Bar) -->
         <div class="chartContainer">
           <h3>التأخير - الأوفر تايم - الخروج المبكر</h3>
           <canvas id="lateOvertimeEarlyChart"></canvas>
@@ -571,19 +564,19 @@
 
       <!-- الجداول المصغرة -->
       <div class="miniTables">
-        <!-- أحدث 5 عطل رسمية -->
+        <!-- أحدث العطل الرسمية -->
         <div class="tableCard">
-          <h4>أحدث 5 عطل رسمية</h4>
+          <h4>أحدث العطل الرسمية</h4>
           <table>
             <thead>
               <tr>
-                <th data-lng="dash_table_name">الاسم</th>
-                <th data-lng="dash_table_start_date">تاريخ البداية</th>
+                <th data-lng="dash_table_name">الوصف</th>
+                <th data-lng="dash_table_start_date">تاريخ العطلة</th>
               </tr>
             </thead>
             <tbody id="latestHolidaysBody">
               <tr>
-                <td colspan="3" data-lng="dash_table_loading">جاري التحميل...</td>
+                <td colspan="2" data-lng="dash_table_loading">جاري التحميل...</td>
               </tr>
             </tbody>
           </table>
@@ -595,10 +588,10 @@
           <table>
             <thead>
               <tr>
-                <th data-lng="dash_table_employee"></th>
-                <th data-lng="dash_table_start_date"></th>
-                <th data-lng="dash_table_end_date"></th>
-                <th data-lng="dash_table_leave_type"></th>
+                <th data-lng="dash_table_employee">الموظف</th>
+                <th data-lng="dash_table_start_date">بداية الإجازة</th>
+                <th data-lng="dash_table_end_date">نهاية الإجازة</th>
+                <th data-lng="dash_table_leave_type">السبب</th>
               </tr>
             </thead>
             <tbody id="pendingVacationsBody">
@@ -615,14 +608,14 @@
           <table>
             <thead>
               <tr>
-                <th data-lng="dash_table_name"></th>
-                <th data-lng="date"></th>
+                <th data-lng="dash_table_name">الاسم</th>
+                <th data-lng="date">التاريخ</th>
                 <th data-lng="dash_table_status">الحالة</th>
               </tr>
             </thead>
             <tbody id="latestFingerprintsBody">
               <tr>
-                <td colspan="3" data-lng="dash_table_pending_vacations">جاري التحميل...</td>
+                <td colspan="3" data-lng="dash_table_loading">جاري التحميل...</td>
               </tr>
             </tbody>
           </table>
@@ -634,814 +627,470 @@
     </div>
 
     <!-- الشريط الجانبي -->
-    <div class="sidebar">
-      
-          
-            <!-- الرئيسية -->
-            <div class="navItem menu-group-header active" onclick="location.href='dashboard.html'">
-              <i class="bi bi-house-fill"></i>
-              <span data-lng="navOverview">الرئيسية</span>
-            </div>
-      
-            <!-- ادارة الموظفين -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('staffManagementSubmenu')">
-              <i class="bi bi-people-fill"></i>
-              <span data-lng="staffManagement">ادارة الموظفين</span>
-            </div>
-            <div id="staffManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='employee.html'">
-                <i class="bi bi-person-lines-fill"></i>
-                <span data-lng="navEmployees">الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='department.html'">
-                <i class="bi bi-building"></i>
-                <span data-lng="navDepartment">الأقسام</span>
-              </div>
-            </div>
-      
-            <!-- التقارير -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('reportsSubmenu')">
-              <i class="bi bi-bar-chart-line-fill"></i>
-              <span data-lng="reports">التقارير</span>
-            </div>
-      
-            <div id="reportsSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='report.html'">
-                <i class="bi bi-bar-chart-line-fill"></i>
-                <span data-lng="navReport"></span>
-              </div>
-      
-              <div class="navItem" onclick="location.href='attend.html'">
-                <i class="bi bi-journal-check"></i>
-                <span data-lng="navAttend">تقرير الحضور</span>
-              </div>
-      
-      
-              <div class="navItem" onclick="location.href='employee-summary-report.html'">
-                <i class="bi bi-people-fill"></i>
-                <span data-lng="employee_summary_report">تقرير ملخص الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='rule.html'">
-                <i class="bi bi-braces"></i>
-                <span data-lng="navRules">القواعد (Rules)</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاجهزة -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('deviceManagementSubmenu')">
-              <i class="bi bi-device-hdd-fill"></i>
-              <span data-lng="deviceManagement">ادارة الاجهزة</span>
-            </div>
-            <div id="deviceManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='devices.html'">
-                <i class="bi bi-laptop"></i>
-                <span data-lng="navDevices">الأجهزة</span>
-              </div>
-              <div class="navItem" onclick="location.href='requests.html'">
-                <i class="bi bi-list-check"></i>
-                <span data-lng="navOrders">الأوامر</span>
-              </div>
-              <div class="navItem" onclick="location.href='importemployee.html'">
-                <i class="bi bi-person-exclamation"></i>
-                <span data-lng="unregistered">الموظفين غير المسجلين</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الدوام -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('workManagementSubmenu')">
-              <i class="bi bi-calendar-event-fill"></i>
-              <span data-lng="workManagement">ادارة الدوام</span>
-            </div>
-            <div id="workManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='leaves.html'">
-                <i class="bi bi-calendar3"></i>
-                <span data-lng="navLeaves">الإجازات</span>
-              </div>
-              <div class="navItem" onclick="location.href='rewards.html'">
-                <i class="bi bi-gift-fill"></i>
-                <span data-lng="navRewards">المكافئات</span>
-              </div>
-              <div class="navItem" onclick="location.href='time-based-leaves.html'">
-                <i class="bi bi-clock-fill"></i>
-                <span data-lng="leaves_sidebar_time_leaves">إجازات زمنية</span>
-              </div>
-              
-              <div class="navItem" onclick="location.href='holidays.html'">
-                <i class="bi bi-calendar-event"></i>
-                <span data-lng="navHolidays">العطل الرسمية</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاوقات -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('timeManagementSubmenu')">
-              <i class="bi bi-clock-fill"></i>
-              <span data-lng="timeManagement">ادارة الاوقات</span>
-            </div>
-            <div id="timeManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='shifts.html'">
-                <i class="bi bi-hourglass-split"></i>
-                <span data-lng="navshift">الشفتات</span>
-              </div>
-              <div class="navItem" onclick="location.href='TimeSlot.html'">
-                <i class="bi bi-watch"></i>
-                <span data-lng="navSlot">الأوقات</span>
-              </div>
-              <div class="navItem" onclick="location.href='public-settings.html'">
-                <i class="bi bi-gear"></i>
-                <span data-lng="public_settings">الإعدادات</span>
-              </div>
-            </div>
-          </div>
-      
-          <script>
-            // دالة لتبديل عرض وإخفاء القائمة الفرعية
-            function toggleSubMenu(id) {
-              var submenu = document.getElementById(id);
-              if (submenu.style.display === "none" || submenu.style.display === "") {
-                submenu.style.display = "block";
-              } else {
-                submenu.style.display = "none";
+    <div class="sidebar"></div>
+
+    <script>
+      // دالة لتبديل عرض وإخفاء القائمة الفرعية
+      function toggleSubMenu(id) {
+        var submenu = document.getElementById(id);
+        submenu.style.display = (submenu.style.display === "none" || submenu.style.display === "") ? "block" : "none";
+      }
+
+      // document.addEventListener("DOMContentLoaded", function () {
+      //   var submenus = document.querySelectorAll('.submenu');
+      //   submenus.forEach(function (submenu) {
+      //     if (submenu.querySelector('.navItem.active')) {
+      //       submenu.style.display = "block";
+      //     }
+      //   });
+      // });
+
+    </script>
+
+    <script>
+      let authToken = null;
+
+      function initDashboard() {
+        authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+          window.location.href = 'login.html';
+          return;
+        }
+        startClock();
+        showCurrentDate();
+
+        /* -- أضيف: تعيين اليوم الحالي تلقائياً في dayPicker عند التحميل -- */
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('dayPicker').value = today;
+
+        loadDashboardData();
+
+        let storedLang = localStorage.getItem("lng") || 'en';
+        document.getElementById('langSelector').value = storedLang;
+        document.getElementById('langSelector').addEventListener('change', async function () {
+          localStorage.setItem("lng", this.value)
+          setDashboardLanguage(this.value);
+          loadDashboardData();
+
+          callSidebarTranslation(this.value)
+
+        });
+
+        callSidebarTranslation(storedLang);
+      }
+
+      async function callSidebarTranslation(storedLang){
+        await loadSidebarLangFile(storedLang);
+        applySidebarTranslation();
+      }
+
+      function showCurrentDate() {
+        const dateEle = document.getElementById('currentDate');
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        dateEle.textContent = now.toLocaleDateString('en-US', options);
+      }
+
+      function startClock() {
+        const clockEle = document.getElementById('digitalClock');
+        function updateClock() {
+          const now = new Date();
+          const h = String(now.getHours()).padStart(2, '0');
+          const m = String(now.getMinutes()).padStart(2, '0');
+          const s = String(now.getSeconds()).padStart(2, '0');
+          clockEle.textContent = `${h}:${m}:${s}`;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+      }
+
+      // دالة تنسيق التاريخ
+      function formatDate(dateString) {
+        if (!dateString) return '-';
+        const dateObj = new Date(dateString);
+        const day = String(dateObj.getDate()).padStart(2, '0');
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const year = dateObj.getFullYear();
+        return `${day}-${month}-${year}`;
+      }
+
+      /* -- أضيف: دالة مساعدة لحساب بداية ونهاية الأسبوع من قيمة input[type=week] -- */
+      function getStartEndOfWeek(year, week) {
+        // يتم احتساب اليوم الأول من الأسبوع (الاثنين) وفق المعايير ISO-8601
+        // الأسبوع الأول في السنة قد يبدأ قبل اليوم الأول الفعلي للسنة، لذا يجب التحايل قليلاً
+        // هذه طريقة تقريبية بسيطة:
+        const simple = new Date(year, 0, 1 + (week - 1) * 7);
+        const dayOfWeek = simple.getDay(); // الأحد=0, الاثنين=1, ...
+        // في ISO 8601: يبدأ الأسبوع الاثنين، فنضبط الفرق
+        const diff = (dayOfWeek <= 0) ? 6 : (dayOfWeek - 1); 
+        // نحصل على بداية الأسبوع (الاثنين)
+        const start = new Date(simple);
+        start.setDate(simple.getDate() - diff);
+
+        // نهاية الأسبوع = بداية + 6 أيام
+        const end = new Date(start);
+        end.setDate(start.getDate() + 6);
+        return { start, end };
+      }
+
+      /* -- أضيف: دالة لتنسيق التاريخ (yyyy-mm-dd) لإعادة استخدامه في الاستدعاء -- */
+      function formatISODate(d) {
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+
+      // استدعاء API الموحد وتحديث كافة البيانات بما في ذلك الجداول
+      function loadDashboardData() {
+        const monthVal = document.getElementById('monthPicker').value;
+        const dayVal = document.getElementById('dayPicker').value;
+
+        /* -- أضيف -- */
+        const weekVal = document.getElementById('weekPicker').value;
+        const fromVal = document.getElementById('fromDate').value;
+        const toVal = document.getElementById('toDate').value;
+
+        let startDate = '', endDate = '';
+        
+        if (weekVal) {
+          // إذا تم تحديد أسبوع، استخدمه
+          [startDate, endDate] = getWeekRange(weekVal);
+        } else if (fromVal && toVal) {
+          // إذا تم تحديد فترة من تاريخ إلى تاريخ، استخدمها
+          startDate = fromVal;
+          endDate = toVal;
+        } else if (monthVal) {
+          // إذا تم تحديد شهر، استخدمه
+          const [year, month] = monthVal.split('-');
+          startDate = `${year}-${month}-01`;
+          const lastDay = new Date(year, month, 0).getDate();
+          endDate = `${year}-${month}-${lastDay}`;
+        } else if (dayVal) {
+          // إذا لم يكن هناك أي من الحقول السابقة، استخدم اليوم المحدد
+          startDate = dayVal;
+          endDate = dayVal;
+        } else {
+          // القيمة الافتراضية: استخدام شهر اليوم الحالي
+          const now = new Date();
+          const year = now.getFullYear();
+          let m = now.getMonth() + 1;
+          if (m < 10) m = '0' + m;
+          startDate = `${year}-${m}-01`;
+          let lastDay = new Date(year, m, 0).getDate();
+          endDate = `${year}-${m}-${lastDay}`;
+        }
+        fetch(`/api/reports/dashboard-metrics?start_date=${startDate}&end_date=${endDate}`, {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        })
+          .then(resp => {
+            if (!resp.ok) throw new Error("فشل جلب بيانات الداشبورد");
+            return resp.json();
+          })
+          .then(data => {
+            // تحديث بطاقات الإحصائيات
+            document.getElementById('totalEmployees').textContent = data.totalEmployees || 0;
+            document.getElementById('totalDepartments').textContent = data.totalDepartments || 0;
+            document.getElementById('totalHolidays').textContent = data.totalHolidays || 0;
+            document.getElementById('pendingLeaves').textContent = data.pendingLeaves || 0;
+            document.getElementById('totalLate').textContent = data.totalLate || 0;
+            document.getElementById('totalAbsent').textContent = data.totalAbsent || 0;
+            document.getElementById('totalOvertime').textContent = data.totalOvertime || 0;
+            document.getElementById('totalLeaves').textContent = data.totalLeaves || 0;
+
+            // تحديث مخطط توزيع حالات الحضور (Pie)
+            const ctx1 = document.getElementById('attendanceChart').getContext('2d');
+            if (window.attendanceChartInstance) window.attendanceChartInstance.destroy();
+            const labels1 = [
+              dashTranslations["attendence_chart"] || "حضور",
+              dashTranslations["absence_chart"] || "غياب",
+              dashTranslations["late_chart"] || "تأخير",
+              dashTranslations["early_chatr"] || "خروج مبكر",
+              dashTranslations["ocer_chart"] || "أوفر تايم",
+              dashTranslations["other_chat"] || "أخرى"
+            ];
+            window.attendanceChartInstance = new Chart(ctx1, {
+              type: 'pie',
+              data: {
+                labels: labels1,
+                datasets: [{
+                  data: [
+                    data.attendanceDistribution.present,
+                    data.attendanceDistribution.absent,
+                    data.attendanceDistribution.late,
+                    data.attendanceDistribution.early_exit,
+                    data.attendanceDistribution.overtime,
+                    data.attendanceDistribution.other
+                  ],
+                  backgroundColor: ['#28a745', '#dc3545', '#ffc107', '#17a2b8', '#6f42c1', '#6c757d']
+                }]
+              },
+              options: {
+                responsive: true,
+                plugins: { legend: { position: 'bottom' } }
               }
-            }
-      
-            // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
-            // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
-            document.addEventListener("DOMContentLoaded", function () {
-              var submenus = document.querySelectorAll('.submenu');
-              submenus.forEach(function (submenu) {
-                if (submenu.querySelector('.navItem.active')) {
-                  submenu.style.display = "block";
-                }
-              });
             });
-          </script>
-   
 
-  <script>
-    let authToken = null;
+            // تحديث مخطط إحصائيات الفترة (Line)
+            const ctx2 = document.getElementById('monthlyChart').getContext('2d');
+            if (window.monthlyChartInstance) window.monthlyChartInstance.destroy();
+            let labels2 = [], values2 = [];
+            if (Array.isArray(data.monthlyStats)) {
+              data.monthlyStats.forEach(item => {
+                labels2.push(item.date);
+                values2.push(item.attendanceCount);
+              });
+            }
+            window.monthlyChartInstance = new Chart(ctx2, {
+              type: 'line',
+              data: {
+                labels: labels2,
+                datasets: [{
+                  label: dashTranslations['chart_2'] || "إحصائيات الفترة",
+                  data: values2,
+                  backgroundColor: 'rgba(0,123,255,0.2)',
+                  borderColor: '#007bff',
+                  fill: true
+                }]
+              },
+              options: {
+                responsive: true,
+                scales: { y: { beginAtZero: true, stepSize: 1 } },
+                plugins: { legend: { display: true } }
+              }
+            });
 
-    function initDashboard() {
-      authToken = localStorage.getItem('authToken');
-      if (!authToken) {
+            // تحديث مخطط التأخير - الأوفر تايم - الخروج المبكر (Bar)
+            const ctx3 = document.getElementById('lateOvertimeEarlyChart').getContext('2d');
+            if (window.lateOvertimeEarlyChartInstance) window.lateOvertimeEarlyChartInstance.destroy();
+            const labels3 = [
+              dashTranslations["chart_31"] || "تأخير",
+              dashTranslations["chart_32"] || "أوفر تايم",
+              dashTranslations["chart_33"] || "خروج مبكر"
+            ];
+            window.lateOvertimeEarlyChartInstance = new Chart(ctx3, {
+              type: 'bar',
+              data: {
+                labels: labels3,
+                datasets: [{
+                  label: 'العدد',
+                  data: [
+                    data.lateOvertimeEarly.late,
+                    data.lateOvertimeEarly.overtime,
+                    data.lateOvertimeEarly.earlyExit
+                  ],
+                  backgroundColor: ['#dc3545', '#6f42c1', '#17a2b8']
+                }]
+              },
+              options: {
+                responsive: true,
+                scales: { y: { beginAtZero: true, stepSize: 1 } },
+                plugins: { legend: { display: false } }
+              }
+            });
+
+            // تحديث جدول أحدث العطل الرسمية باستخدام data.upcomingHolidays
+            const upcomingHolidaysBody = document.getElementById('latestHolidaysBody');
+            if (Array.isArray(data.upcomingHolidays) && data.upcomingHolidays.length > 0) {
+              upcomingHolidaysBody.innerHTML = '';
+              data.upcomingHolidays.forEach(holiday => {
+                const tr = document.createElement('tr');
+                const tdDesc = document.createElement('td');
+                const tdDate = document.createElement('td');
+                tdDesc.textContent = holiday.description || "بدون وصف";
+                tdDate.textContent = formatDate(holiday.holiday_date);
+                tr.appendChild(tdDesc);
+                tr.appendChild(tdDate);
+                upcomingHolidaysBody.appendChild(tr);
+              });
+            } else {
+              upcomingHolidaysBody.innerHTML = '<tr><td colspan="2" data-lng="dash_filter_to_date" >No data</td></tr>';
+            }
+
+            // تحديث جدول الإجازات بالانتظار باستخدام data.latestPendingLeaves
+            const pendingVacationsBody = document.getElementById('pendingVacationsBody');
+            if (Array.isArray(data.latestPendingLeaves) && data.latestPendingLeaves.length > 0) {
+              pendingVacationsBody.innerHTML = '';
+              data.latestPendingLeaves.forEach(leave => {
+                const tr = document.createElement('tr');
+                const tdEmployee = document.createElement('td');
+                const tdStart = document.createElement('td');
+                const tdEnd = document.createElement('td');
+                const tdReason = document.createElement('td');
+                tdEmployee.textContent = leave.employee_name || "No Name";
+                tdStart.textContent = formatDate(leave.vacation_start_date);
+                tdEnd.textContent = formatDate(leave.vacation_end_date);
+                tdReason.textContent = leave.reason || "No reason";
+                tr.appendChild(tdEmployee);
+                tr.appendChild(tdStart);
+                tr.appendChild(tdEnd);
+                tr.appendChild(tdReason);
+                pendingVacationsBody.appendChild(tr);
+              });
+            } else {
+              pendingVacationsBody.innerHTML = '<tr><td colspan="4">No Data</td></tr>';
+            }
+
+            // تحديث جدول أحدث 5 بصمات دخول باستخدام data.latestFingerLogs
+            const latestFingerprintsBody = document.getElementById('latestFingerprintsBody');
+            if (Array.isArray(data.latestFingerLogs) && data.latestFingerLogs.length > 0) {
+              latestFingerprintsBody.innerHTML = '';
+              data.latestFingerLogs.forEach(log => {
+                const tr = document.createElement('tr');
+                const tdName = document.createElement('td');
+                const tdTime = document.createElement('td');
+                const tdStatus = document.createElement('td');
+                tdName.textContent = log.name || "No Name";
+                tdTime.textContent = new Date(log.time).toLocaleString();
+                let statusText = "";
+                switch(log.event) {
+                  case 1: statusText = "Check IN"; break;
+                  case 2: statusText = "Check Out"; break;
+                  case 3: statusText = "Enter Break"; break;
+                  case 4: statusText = "Exit Break"; break;
+                  case 5: statusText = "Special"; break;
+                  default: statusText = "No Event";
+                }
+                tdStatus.textContent = statusText;
+                tr.appendChild(tdName);
+                tr.appendChild(tdTime);
+                tr.appendChild(tdStatus);
+                latestFingerprintsBody.appendChild(tr);
+              });
+            } else {
+              latestFingerprintsBody.innerHTML = '<tr><td colspan="3">No Data</td></tr>';
+            }
+          })
+          .catch(err => {
+            console.error(err);
+            document.getElementById('errorMsg').textContent = err.message;
+          });
+      }
+
+      /* -- أضيف: دالة لإعادة ضبط الفلاتر (مسح القيم وإعادة اليوم الحالي) -- */
+      function resetFilters() {
+        document.getElementById('monthPicker').value = '';
+        document.getElementById('dayPicker').value = '';
+        document.getElementById('weekPicker').value = '';
+        document.getElementById('fromDate').value = '';
+        document.getElementById('toDate').value = '';
+
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('dayPicker').value = today; // افتراضياً نعيد اليوم الحالي
+        loadDashboardData();
+      }
+
+      function logout() {
+        localStorage.removeItem('authToken');
         window.location.href = 'login.html';
-        return;
       }
-      // تشغيل الساعة والتاريخ
-      startClock();
-      showCurrentDate();
+    </script>
 
-      // تحميل بيانات أولية عند فتح الصفحة
-      loadDashboardData();
-      // let storedLang = localStorage.getItem(LANG_KEY);
-      let storedLang = localStorage.getItem("lng");
+    <!-- سكربت الترجمة -->
+    <script>
+      const LANG_KEY = 'attendance_lang';
+      const DASHBOARD_LANG_PATH = './lang';
+      let dashTranslations = {};
 
-      if (!storedLang) {
-        storedLang = 'en'; // افتراضي إنجليزي
+      async function loadDashboardLangFile(lang) {
+        try {
+          const response = await fetch(`${DASHBOARD_LANG_PATH}/${lang}_dashboard.json`);
+          if (!response.ok) throw new Error(`Error loading ${lang}_dashboard.json`);
+          dashTranslations = await response.json();
+        } catch (error) {
+          console.error("Dashboard translation file error:", error);
+        }
       }
-      document.getElementById('langSelector').value = storedLang;
-      document.getElementById('langSelector').addEventListener('change', async function () {
-        localStorage.setItem("lng", this.value)
-        setDashboardLanguage(this.value);
-        loadDashboardData()
-        // applyAttendTranslations(this.value);
+
+      function applyDashboardTranslations(lang) {
+        document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+        document.documentElement.lang = lang;
+        document.querySelectorAll('[data-lng]').forEach(el => {
+          const key = el.getAttribute('data-lng');
+          if (dashTranslations[key]) el.textContent = dashTranslations[key];
+        });
+        if (dashTranslations['dash_head_title']) document.title = dashTranslations['dash_head_title'];
+        if (dashTranslations['dash_system_name']) document.querySelector('.systemName').textContent = dashTranslations['dash_system_name'];
+        if (dashTranslations['dash_logout']) document.querySelector('header button').textContent = dashTranslations['dash_logout'];
+        if (dashTranslations['dash_filter_month']) document.querySelector('label[for="monthPicker"]').textContent = dashTranslations['dash_filter_month'];
+        if (dashTranslations['dash_filter_day']) document.querySelector('label[for="dayPicker"]').textContent = dashTranslations['dash_filter_day'];
+        if (dashTranslations['dash_filter_button']) document.querySelector('.filters button').textContent = dashTranslations['dash_filter_button'];
+        const statTitles = document.querySelectorAll('.statsCards .card h3');
+        if (statTitles.length === 8) {
+          if (dashTranslations['dash_card_total_employees']) statTitles[0].textContent = dashTranslations['dash_card_total_employees'];
+          if (dashTranslations['dash_card_total_departments']) statTitles[1].textContent = dashTranslations['dash_card_total_departments'];
+          if (dashTranslations['dash_card_total_holidays']) statTitles[2].textContent = dashTranslations['dash_card_total_holidays'];
+          if (dashTranslations['dash_card_pending_leaves']) statTitles[3].textContent = dashTranslations['dash_card_pending_leaves'];
+          if (dashTranslations['dash_card_total_late']) statTitles[4].textContent = dashTranslations['dash_card_total_late'];
+          if (dashTranslations['dash_card_total_absent']) statTitles[5].textContent = dashTranslations['dash_card_total_absent'];
+          if (dashTranslations['dash_card_overtime']) statTitles[6].textContent = dashTranslations['dash_card_overtime'];
+          if (dashTranslations['dash_card_total_leaves']) statTitles[7].textContent = dashTranslations['dash_card_total_leaves'];
+        }
+        const chartTitles = document.querySelectorAll('.chartContainer h3');
+        if (chartTitles.length === 3) {
+          if (dashTranslations['dash_chart_attendance_distribution']) chartTitles[0].textContent = dashTranslations['dash_chart_attendance_distribution'];
+          if (dashTranslations['dash_chart_period_stats']) chartTitles[1].textContent = dashTranslations['dash_chart_period_stats'];
+          if (dashTranslations['dash_chart_late_overtime_early']) chartTitles[2].textContent = dashTranslations['dash_chart_late_overtime_early'];
+        }
+        const tableHeads = document.querySelectorAll('.tableCard h4');
+        if (tableHeads.length === 3) {
+          if (dashTranslations['dash_table_latest_holidays']) tableHeads[0].textContent = dashTranslations['dash_table_latest_holidays'];
+          if (dashTranslations['dash_table_pending_vacations']) tableHeads[1].textContent = dashTranslations['dash_table_pending_vacations'];
+          if (dashTranslations['dash_table_latest_fingerprints']) tableHeads[2].textContent = dashTranslations['dash_table_latest_fingerprints'];
+        }
+      }
+
+      async function setDashboardLanguage(lang) {
+        await loadDashboardLangFile(lang);
+        applyDashboardTranslations(lang);
+      }
+
+      window.addEventListener('DOMContentLoaded', async () => {
+        let storedLang = localStorage.getItem("lng") || 'en';
+        await setDashboardLanguage(storedLang);
       });
 
-
-    }
-
-    function getTranslate(key) { return dashTranslations[key] || "" }
-
-    // جلب البيانات وعرضها
-    function loadDashboardData() {
-      const monthVal = document.getElementById('monthPicker').value;
-      const dayVal = document.getElementById('dayPicker').value;
-
-      let startDate = '';
-      let endDate = '';
-
-      // تحديد الفترة بناء على اختيار المستخدم
-      if (dayVal) {
-        startDate = dayVal;
-        endDate = dayVal;
-      } else if (monthVal) {
-        const [year, month] = monthVal.split('-');
-        startDate = `${year}-${month}-01`;
-        let lastDay = new Date(year, month, 0).getDate();
-        endDate = `${year}-${month}-${lastDay}`;
-      } else {
-        // إذا لم يحدد شيء، نأخذ الشهر الحالي
-        const now = new Date();
-        const year = now.getFullYear();
-        let m = now.getMonth() + 1;
-        if (m < 10) m = '0' + m;
-        startDate = `${year}-${m}-01`;
-        let lastDay = new Date(year, m, 0).getDate();
-        endDate = `${year}-${m}-${lastDay}`;
+      function loadSiebar(){
+        fetch('sidebar.html')
+              .then(response => response.text())
+              .then(data => {
+                  document.querySelector('.sidebar').innerHTML = data;
+                    var submenus = document.querySelectorAll('.submenu');
+                    submenus.forEach(function (submenu) {
+                      if (submenu.querySelector('.navItem.active')) {
+                        submenu.style.display = "block";
+                      }
+                    });
+              })
+              .catch(error => console.error('Error loading sidebar:', error));
       }
-
-      // استدعاء الدوال
-      loadBasicStats(startDate, endDate);
-      loadAttendanceDistribution(startDate, endDate);
-      loadMonthlyStats(startDate, endDate);
-      loadLateOvertimeEarlyChart(startDate, endDate);
-
-      // جلب بيانات الجداول
-      loadLatestHolidays();
-      loadPendingVacations();
-      loadLatestFingerprints();
-    }
-
-    // عرض التاريخ الحالي في الهيدر
-    function showCurrentDate() {
-      const dateEle = document.getElementById('currentDate');
-      const now = new Date();
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      dateEle.textContent = now.toLocaleDateString('en-US', options);
-    }
-
-    // ساعة رقمية
-    function startClock() {
-      const clockEle = document.getElementById('digitalClock');
-      function updateClock() {
-        const now = new Date();
-        const hh = String(now.getHours()).padStart(2, '0');
-        const mm = String(now.getMinutes()).padStart(2, '0');
-        const ss = String(now.getSeconds()).padStart(2, '0');
-        clockEle.textContent = `${hh}:${mm}:${ss}`;
-      }
-      updateClock();
-      setInterval(updateClock, 1000);
-    }
-
-    // الإحصائيات الأساسية
-    async function loadBasicStats(startDate, endDate) {
-      const errorEle = document.getElementById('errorMsg');
-      errorEle.textContent = '';
-      try {
-        // مثال لجلب إجمالي الموظفين
-        let resp = await fetch(`/api/employees?limit=1`, {
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("err_1"));
-        let data = await resp.json();
-        document.getElementById('totalEmployees').textContent = data.totalCount || data.data_count || 0;
-
-        // مثال لجلب الأقسام
-        resp = await fetch(`/api/departments`, {
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("err_2"));
-        let depts = await resp.json();
-        document.getElementById('totalDepartments').textContent = depts.length || 0;
-
-        // مثال لجلب العطل الرسمية
-        resp = await fetch(`/api/official-holidays`, {
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("err_3"));
-        let hols = await resp.json();
-        document.getElementById('totalHolidays').textContent = hols.length || 0;
-
-        // مثال لجلب الإجازات بالانتظار
-        resp = await fetch(`/api/vacations?status=Pending`, {
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("err_4"));
-        let leavesPending = await resp.json();
-        document.getElementById('pendingLeaves').textContent = leavesPending.length || 0;
-
-        // مثال لجلب الأشخاص المتأخرين
-        resp = await fetch(`/api/reports/attendance?start_date=${startDate}&end_date=${endDate}&status_code=late`, {
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("err_5"));
-        let lateData = await resp.json();
-        document.getElementById('totalLate').textContent = lateData.length || 0;
-
-        // مثال لجلب الغائبين
-        resp = await fetch(`/api/reports/attendance?start_date=${startDate}&end_date=${endDate}&status_code=absent`, {
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("err_6"));
-        let absentData = await resp.json();
-        document.getElementById('totalAbsent').textContent = absentData.length || 0;
-
-        // مثال لجلب الأوفر تايم
-        resp = await fetch(`/api/reports/attendance?start_date=${startDate}&end_date=${endDate}&status_code=overtime`, {
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("err_7"));
-        let overData = await resp.json();
-        document.getElementById('totalOvertime').textContent = overData.length || 0;
-
-        // مثال لجلب عدد الإجازات خلال الفترة
-        resp = await fetch(`/api/vacations?start_date=${startDate}&end_date=${endDate}`, {
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("err_8"));
-        let allLeavesData = await resp.json();
-        document.getElementById('totalLeaves').textContent = allLeavesData.length || 0;
-
-      } catch (err) {
-        console.error(err);
-        errorEle.textContent = err.message;
-      }
-    }
-
-    // مخطط توزيع حالات الحضور (Pie)
-    async function loadAttendanceDistribution(startDate, endDate) {
-      const errorEle = document.getElementById('errorMsg');
-      errorEle.textContent = '';
-      try {
-        const url = `/api/reports/attendance?start_date=${startDate}&end_date=${endDate}`;
-        const resp = await fetch(url, {
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("err_9"));
-        const data = await resp.json();
-
-        let presentCount = 0, absentCount = 0,
-          lateCount = 0, earlyCount = 0,
-          overtimeCount = 0, otherCount = 0;
-
-        data.forEach(row => {
-          switch (row.status_code) {
-            case 'present': presentCount++; break;
-            case 'absent': absentCount++; break;
-            case 'late': lateCount++; break;
-            case 'early_exit': earlyCount++; break;
-            case 'overtime': overtimeCount++; break;
-            default: otherCount++;
+  
+      async function loadSidebarLangFile(lang) {
+        try {
+          const response = await fetch(`${DASHBOARD_LANG_PATH}/${lang}_sidebar.json`);
+          if (!response.ok) {
+            throw new Error(`Error loading ${lang}_sidebar.json`);
           }
-        });
+          sidebarLabels = await response.json();
 
-        const ctx = document.getElementById('attendanceChart').getContext('2d');
-        if (window.attendanceChartInstance) {
-          window.attendanceChartInstance.destroy();
+        } catch (error) {
+          console.error("Report translation file error:", error);
         }
-        const labels = ["attendence_chart", "absence_chart", "late_chart","early_chatr","ocer_chart","other_chat"].map(str => dashTranslations[str])
-        window.attendanceChartInstance = new Chart(ctx, {
-          type: 'pie',
-          data: {
-            labels: labels,
-            datasets: [{
-              data: [presentCount, absentCount, lateCount, earlyCount, overtimeCount, otherCount],
-              backgroundColor: ['#28a745', '#dc3545', '#ffc107', '#17a2b8', '#6f42c1', '#6c757d']
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: {
-                position: 'bottom'
+      }
+
+      function applySidebarTranslation(){
+          document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+              const key = el.getAttribute('data-lng');
+              
+              if (sidebarLabels[key]) {
+                el.textContent = sidebarLabels[key];
               }
-            }
-          }
-        });
-      } catch (err) {
-        console.error(err);
-        errorEle.textContent = err.message;
-      }
-    }
-
-    // مخطط إحصائيات الفترة (Line)
-    async function loadMonthlyStats(startDate, endDate) {
-      const errorEle = document.getElementById('errorMsg');
-      errorEle.textContent = '';
-      try {
-        const url = `/api/reports/attendance?start_date=${startDate}&end_date=${endDate}`;
-        const resp = await fetch(url, {
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("err_10"));
-        const data = await resp.json();
-
-        // بناء كائن الأيام
-        const startD = new Date(startDate);
-        const endD = new Date(endDate);
-        let dayStats = {};
-        let loopDate = new Date(startD);
-        while (loopDate <= endD) {
-          const dStr = loopDate.toISOString().split('T')[0];
-          dayStats[dStr] = 0;
-          loopDate.setDate(loopDate.getDate() + 1);
-        }
-
-        // (present + late) = حضور (كمثال)
-        data.forEach(row => {
-          if (row.attendance_date) {
-            const dStr = row.attendance_date.split('T')[0];
-            if (dayStats.hasOwnProperty(dStr)) {
-              if (row.status_code === 'present' || row.status_code === 'late') {
-                dayStats[dStr]++;
-              }
-            }
-          }
-        });
-
-        let labels = [];
-        let values = [];
-        Object.keys(dayStats).sort().forEach(dateKey => {
-          labels.push(dateKey);
-          values.push(dayStats[dateKey]);
-        });
-
-        const ctx = document.getElementById('monthlyChart').getContext('2d');
-        if (window.monthlyChartInstance) {
-          window.monthlyChartInstance.destroy();
-        }
-        window.monthlyChartInstance = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: labels,
-            datasets: [{
-              label: dashTranslations['chart_2'],
-              data: values,
-              backgroundColor: 'rgba(0,123,255,0.2)',
-              borderColor: '#007bff',
-              fill: true
-            }]
-          },
-          options: {
-            responsive: true,
-            scales: {
-              y: {
-                beginAtZero: true,
-                stepSize: 1
-              }
-            },
-            plugins: {
-              legend: {
-                display: true
-              }
-            }
-          }
-        });
-      } catch (err) {
-        console.error(err);
-        errorEle.textContent = err.message;
-      }
-    }
-
-    // مخطط التأخير - الأوفر تايم - الخروج المبكر (Bar)
-    async function loadLateOvertimeEarlyChart(startDate, endDate) {
-      const errorEle = document.getElementById('errorMsg');
-      errorEle.textContent = '';
-      try {
-        const url = `/api/reports/attendance?start_date=${startDate}&end_date=${endDate}`;
-        const resp = await fetch(url, {
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("failed_to_fetch_third_chart_data"));
-        const data = await resp.json();
-
-        let lateCount = 0, overtimeCount = 0, earlyExitCount = 0;
-
-        data.forEach(row => {
-          switch (row.status_code) {
-            case 'late': lateCount++; break;
-            case 'overtime': overtimeCount++; break;
-            case 'early_exit': earlyExitCount++; break;
-            default: break;
-          }
-        });
-
-        const ctx = document.getElementById('lateOvertimeEarlyChart').getContext('2d');
-        if (window.lateOvertimeEarlyChartInstance) {
-          window.lateOvertimeEarlyChartInstance.destroy();
-        }
-        const labels = ["chart_31", "chart_32", "chart_33",].map(str => dashTranslations[str])
-        window.lateOvertimeEarlyChartInstance = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: labels,
-            datasets: [{
-              label: 'العدد',
-              data: [lateCount, overtimeCount, earlyExitCount],
-              backgroundColor: ['#dc3545', '#6f42c1', '#17a2b8']
-            }]
-          },
-          options: {
-            responsive: true,
-            scales: {
-              y: {
-                beginAtZero: true,
-                stepSize: 1
-              }
-            },
-            plugins: {
-              legend: {
-                display: false
-              }
-            }
-          }
-        });
-      } catch (err) {
-        console.error(err);
-        errorEle.textContent = err.message;
-      }
-    }
-
-    /****************************************
-     *   الجداول المصغّرة في الأسفل         *
-     ****************************************/
-    // أحدث 5 عطل رسمية
-    async function loadLatestHolidays() {
-      const tbody = document.getElementById('latestHolidaysBody');
-      tbody.innerHTML = '<tr><td colspan="2">' + getTranslate("dash_table_loading") + '</td></tr>';
-      try {
-        let resp = await fetch('/api/official-holidays', {
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("failed_to_official_holidays"));
-        let data = await resp.json();
-
-        // آخر 5 فقط
-        data = data.slice(-5).reverse();
-        if (data.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="2">' + getTranslate("dash_table_no_data") + '</td></tr>';
-          return;
-        }
-        tbody.innerHTML = '';
-
-        // دالة لتنسيق التاريخ
-        const formatDate = (dateString) => {
-          if (!dateString) return '-';
-          const dateObj = new Date(dateString);
-          const day = String(dateObj.getDate()).padStart(2, '0');
-          const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // الأشهر تبدأ من 0
-          const year = dateObj.getFullYear();
-          return `${day}-${month}-${year}`;
-        };
-
-        data.forEach(item => {
-          const tr = document.createElement('tr');
-          const tdName = document.createElement('td');
-          const tdStart = document.createElement('td');
-
-          tdName.textContent = item.description || getTranslate("not_none");
-          tdStart.textContent = formatDate(item.holiday_date);
-
-          tr.appendChild(tdName);
-          tr.appendChild(tdStart);
-          tbody.appendChild(tr);
-        });
-      } catch (err) {
-        console.error(err);
-        tbody.innerHTML = `<tr><td colspan="2">${err.message}</td></tr>`;
-      }
-    }
-
-
-
-    // الإجازات بالانتظار
-    async function loadPendingVacations() {
-      const tbody = document.getElementById('pendingVacationsBody');
-      tbody.innerHTML = '<tr><td colspan="4">' + getTranslate("dash_table_loading") + '</td></tr>';
-      try {
-        let resp = await fetch('/api/vacations?status=Pending', {
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("failed_to_bring_pending_leave"));
-        let data = await resp.json();
-
-        if (data.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="4">` + getTranslate("no_holidays_waiting") + `</td></tr>`;
-          return;
-        }
-        tbody.innerHTML = '';
-        data.forEach(vac => {
-          const tr = document.createElement('tr');
-          const tdEmployee = document.createElement('td');
-          const tdStart = document.createElement('td');
-          const tdEnd = document.createElement('td');
-          const tdType = document.createElement('td');
-
-          // تنسيق التاريخ
-          const formatDate = (dateString) => {
-            const dateObj = new Date(dateString);
-            const day = String(dateObj.getDate()).padStart(2, '0');
-            const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // الأشهر تبدأ من 0
-            const year = dateObj.getFullYear();
-            return `${day}-${month}-${year}`;
-          };
-
-          tdEmployee.textContent = vac.employee_name || getTranslate("not_none");
-          tdType.textContent = vac.reason || getTranslate("undefined");
-          tdStart.textContent = formatDate(vac.vacation_start_date);
-          tdEnd.textContent = formatDate(vac.vacation_end_date);
-
-          tr.appendChild(tdEmployee);
-          tr.appendChild(tdStart);
-          tr.appendChild(tdEnd);
-          tr.appendChild(tdType);
-          tbody.appendChild(tr);
-        });
-      } catch (err) {
-        console.error(err);
-        tbody.innerHTML = `<tr><td colspan="4">${err.message}</td></tr>`;
-      }
-    }
-
-
-    async function loadLatestFingerprints() {
-      const tbody = document.getElementById('latestFingerprintsBody');
-      const text = getTranslate("dash_table_loading")
-
-      tbody.innerHTML = '<tr><td colspan="3">' + text + '</td></tr>';
-      try {
-        let resp = await fetch('/api/fingerprints', {
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("failed_to_fetch_fingerprint_records"));
-        let data = await resp.json();
-
-        // Check if logs property exists
-        if (!data.logs || !Array.isArray(data.logs)) {
-          throw new Error(getTranslate("invalid_data_received_or_missing_fingerprint_logs"));
-        }
-
-        // Get the latest 5 logs
-        let logs = data.logs.slice(-5).reverse();
-        if (logs.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="3">' + getTranslate("no_fingerprint_logs_available") + '</td></tr>';
-          return;
-        }
-
-        tbody.innerHTML = '';
-        logs.forEach(fp => {
-          const tr = document.createElement('tr');
-          const tdEmployee = document.createElement('td');
-          const tdDate = document.createElement('td');
-          const tdStatus = document.createElement('td');
-
-          tdEmployee.textContent = fp.name || 'Unknown';
-          if (fp.time) {
-            const dateObj = new Date(fp.time);
-            const day = String(dateObj.getDate()).padStart(2, '0');
-            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-            const year = dateObj.getFullYear();
-            tdDate.textContent = `${day}-${month}-${year}`; // Date format
-          } else {
-            tdDate.textContent = '-';
-          }
-
-          // Determine text and background color based on the status
-          const statusText = (() => {
-            switch (fp.event) {
-              case 1:
-                tdStatus.style.backgroundColor = 'lightgray'; // Light Gray
-                return dashTranslations['No Event'];
-              case 2:
-                tdStatus.style.backgroundColor = 'lightgreen'; // Light Green
-                return dashTranslations['Check IN'];
-              case 3:
-                tdStatus.style.backgroundColor = 'lightcoral'; // Light Red
-                return dashTranslations['Check Out'];
-              case 4:
-                tdStatus.style.backgroundColor = 'lightblue'; // Light Blue
-                return dashTranslations['Enter Break'];
-              case 5:
-                tdStatus.style.backgroundColor = 'lightgoldenrodyellow'; // Light Orange
-                return dashTranslations['Exit Break'];
-              default:
-                tdStatus.style.backgroundColor = 'white'; // Default White
-                return dashTranslations['Unknown'];
-            }
-          })();
-          tdStatus.textContent = statusText;
-
-          tr.appendChild(tdEmployee);
-          tr.appendChild(tdDate);
-          tr.appendChild(tdStatus);
-          tbody.appendChild(tr);
-        });
-      } catch (err) {
-        console.error(err);
-        tbody.innerHTML = `<tr><td colspan="3">${err.message}</td></tr>`;
-      }
-    }
-
-
-    // زر الخروج
-    function logout() {
-      localStorage.removeItem('authToken');
-      window.location.href = 'login.html';
-    }
-  </script>
-
-  <!-- سكربت الترجمة (يقرأ اللغة من Local Storage ويطبّقها) -->
-  <script>
-    // المفتاح نفسه المستخدم في صفحة تسجيل الدخول
-    const LANG_KEY = 'attendance_lang';
-    const DASHBOARD_LANG_PATH = './lang'; // أين تخزن ar_dashboard.json و en_dashboard.json
-    let dashTranslations = {};
-
-    /**
-     * جلب ملف الترجمة (ar_dashboard.json أو en_dashboard.json)
-     */
-    async function loadDashboardLangFile(lang) {
-      try {
-        const response = await fetch(`${DASHBOARD_LANG_PATH}/${lang}_dashboard.json`);
-        if (!response.ok) {
-          throw new Error(`Error loading ${lang}_dashboard.json`);
-        }
-        dashTranslations = await response.json();
-      } catch (error) {
-        console.error("Dashboard translation file error:", error);
-      }
-    }
-
-    /**
-     * تطبيق الترجمة على عناصر الصفحة
-     */
-    function applyDashboardTranslations(lang) {
-      // ضبط اتجاه الصفحة ولغتها
-      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-      document.documentElement.lang = lang;
-
-      document.querySelectorAll('[data-lng]').forEach(el => {
-        const key = el.getAttribute('data-lng');
-        if (dashTranslations[key]) {
-          el.textContent = dashTranslations[key];
-        }
-      });
-
-
-      // تغيير <title> مثلاً
-      if (dashTranslations['dash_head_title']) {
-        document.title = dashTranslations['dash_head_title'];
+          });
       }
 
-      // اسم النظام وزر الخروج
-      if (dashTranslations['dash_system_name']) {
-        document.querySelector('.systemName').textContent = dashTranslations['dash_system_name'];
-      }
-      if (dashTranslations['dash_logout']) {
-        document.querySelector('header button').textContent = dashTranslations['dash_logout'];
-      }
+      loadSiebar();
 
-      // الفلاتر
-      if (dashTranslations['dash_filter_month']) {
-        document.querySelector('label[for="monthPicker"]').textContent = dashTranslations['dash_filter_month'];
-      }
-      if (dashTranslations['dash_filter_day']) {
-        document.querySelector('label[for="dayPicker"]').textContent = dashTranslations['dash_filter_day'];
-      }
-      if (dashTranslations['dash_filter_button']) {
-        document.querySelector('.filters button').textContent = dashTranslations['dash_filter_button'];
-      }
-
-      // بطاقات الإحصائيات (حسب الترتيب)
-      const statTitles = document.querySelectorAll('.statsCards .card h3');
-      if (statTitles.length === 8) {
-        if (dashTranslations['dash_card_total_employees']) statTitles[0].textContent = dashTranslations['dash_card_total_employees'];
-        if (dashTranslations['dash_card_total_departments']) statTitles[1].textContent = dashTranslations['dash_card_total_departments'];
-        if (dashTranslations['dash_card_total_holidays']) statTitles[2].textContent = dashTranslations['dash_card_total_holidays'];
-        if (dashTranslations['dash_card_pending_leaves']) statTitles[3].textContent = dashTranslations['dash_card_pending_leaves'];
-        if (dashTranslations['dash_card_total_late']) statTitles[4].textContent = dashTranslations['dash_card_total_late'];
-        if (dashTranslations['dash_card_total_absent']) statTitles[5].textContent = dashTranslations['dash_card_total_absent'];
-        if (dashTranslations['dash_card_overtime']) statTitles[6].textContent = dashTranslations['dash_card_overtime'];
-        if (dashTranslations['dash_card_total_leaves']) statTitles[7].textContent = dashTranslations['dash_card_total_leaves'];
-      }
-
-      // عناوين المخططات (حسب الترتيب)
-      const chartTitles = document.querySelectorAll('.chartContainer h3');
-      if (chartTitles.length === 3) {
-        if (dashTranslations['dash_chart_attendance_distribution']) chartTitles[0].textContent = dashTranslations['dash_chart_attendance_distribution'];
-        if (dashTranslations['dash_chart_period_stats']) chartTitles[1].textContent = dashTranslations['dash_chart_period_stats'];
-        if (dashTranslations['dash_chart_late_overtime_early']) chartTitles[2].textContent = dashTranslations['dash_chart_late_overtime_early'];
-      }
-
-      // الجداول المصغّرة
-      const tableHeads = document.querySelectorAll('.tableCard h4');
-      if (tableHeads.length === 3) {
-        if (dashTranslations['dash_table_latest_holidays']) tableHeads[0].textContent = dashTranslations['dash_table_latest_holidays'];
-        if (dashTranslations['dash_table_pending_vacations']) tableHeads[1].textContent = dashTranslations['dash_table_pending_vacations'];
-        if (dashTranslations['dash_table_latest_fingerprints']) tableHeads[2].textContent = dashTranslations['dash_table_latest_fingerprints'];
-      }
-
-    }
-
-    /**
-     * تحديد اللغة وتطبيقها
-     */
-    async function setDashboardLanguage(lang) {
-      await loadDashboardLangFile(lang);
-      applyDashboardTranslations(lang);
-    }
-
-    /**
-     * عند تحميل الصفحة، اجلب اللغة من Local Storage وطبّقها
-     */
-    window.addEventListener('DOMContentLoaded', async () => {
-      let storedLang = localStorage.getItem("lng");
-      if (!storedLang) {
-        storedLang = 'en'; // افتراضيًا إنجليزية
-      }
-      await setDashboardLanguage(storedLang);
-    });
-  </script>
+    </script>
 </body>
 
 </html>

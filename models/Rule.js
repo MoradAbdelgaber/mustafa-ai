@@ -1,44 +1,43 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
 
-/**
- * RuleSchema:
- * - owner: معرف مالك الحساب (User) حتى تكون لكل مالك قواعده الخاصة.
- * - name: اسم وصفي للقاعــدة (مثلاً: "Late Very Condition").
- * - priority: أولوية التنفيذ (يتم فرز القواعد حسب هذه الأولوية تصاعديًا).
- * - stopOnMatch: إذا تحققت هذه القاعدة، نتوقف عن فحص بقية القواعد (true) أو نستمر (false).
- * - conditions: مصفوفة شروط (AND). كل شرط فيه:
- *     field: حقل من حقول سجل الحضور (مثل "event" أو "checkInTime")
- *     operator: مثل eq, ne, gt, lt, gtTime...إلخ
- *     value: القيمة المطلوب مقارنتها
- * - actions: الأفعال التي تطبَّق على السجل عند تحقق كل الشروط. كل فعل فيه:
- *     field: اسم الحقل المراد تعديله
- *     type: نوع التعديل ("set", "increment", "multiply" ...)
- *     value: القيمة المضافة/المعيّنة
- * - validFrom: تاريخ بدء صلاحية القاعدة (يمكن أن يكون null)
- * - validTo: تاريخ انتهاء صلاحية القاعدة (يمكن أن يكون null)
- */
-const RuleSchema = new Schema({
-  owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  name: { type: String, required: true },
+// تعريف مخطط الإجراء
+const ActionSchema = new mongoose.Schema({
+  field: { type: String },   // اسم الحقل الذي ستطبّق عليه الإجراء
+  type: { type: String },    // نوع الإجراء (set, increment, multiply, time_adjust, ...)
+  value: { type: String } ,   // القيمة المراد استخدامها في الإجراء
+  valueType: { type: String },
+}, { _id: false });
+
+// تعريف مخطط الشرط البسيط
+const ConditionSchema = new mongoose.Schema({
+  field: { type: String },
+  operator: { type: String },
+  valueType: { type: String },
+  value: { type: String }
+}, { _id: false });
+
+// تعريف مخطط الكتلة الشرطية (conditionsBlock)
+// نبدأ بتعريف subConditions كمصفوفة فارغة ثم نضيفها تكرارياً لاحقاً
+const ConditionsBlockSchema = new mongoose.Schema({
+  operator: { type: String, default: 'AND' },  // يمكن أن تكون "AND" أو "OR"
+  conditions: [ConditionSchema],               // مصفوفة من الشروط البسيطة
+  subConditions: []                            // سيتم تحديثها لاحقاً لتعكس نفس البنية
+}, { _id: false });
+
+// إضافة الحقل التكراري باستخدام add()
+// هذا يضمن أن subConditions تحتوي على كائنات بنفس بنية ConditionsBlockSchema
+ConditionsBlockSchema.add({ subConditions: [ConditionsBlockSchema] });
+
+// تعريف مخطط القاعدة (Rule)
+const RuleSchema = new mongoose.Schema({
+  name: { type: String },
   priority: { type: Number, default: 0 },
   stopOnMatch: { type: Boolean, default: false },
-  conditions: [
-    {
-      field: { type: String, required: true },
-      operator: { type: String, required: true },
-      value: { type: String }  // يمكنك استخدام Mixed لو أردت المرونة
-    }
-  ],
-  actions: [
-    {
-      field: { type: String, required: true },
-      type: { type: String, required: true },
-      value: { type: String } // نفس الملاحظة أعلاه
-    }
-  ],
-  validFrom: { type: Date, default: null },
-  validTo: { type: Date, default: null }
-});
+  validFrom: { type: Date },
+  validTo: { type: Date },
+  conditionsBlock: ConditionsBlockSchema, // البنية المركبة للشروط
+  actions: [ActionSchema],                // مصفوفة من الإجراءات
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } // ربط بمالك القاعدة
+}, { timestamps: true });
 
 module.exports = mongoose.model('Rule', RuleSchema);

@@ -2,9 +2,10 @@
   "sidebar_title": "القائمة",
   "sidebar_dashboard": "لوحة التحكم",
   "sidebar_employees": "الموظفين",
+  "navBranch": "الفروع",
   "sidebar_attendance_report": "تقرير الحضور",
   "sidebar_shifts": "النوبات",
-  "leaves_sidebar_time_leaves":"طلبات الاجازات الزمنية",
+  "leaves_sidebar_time_leaves": "طلبات الاجازات الزمنية",
   "sidebar_timeslots": "الفترات الزمنية",
   "navOverview": "نظرة عامة",
   "staffManagement": "ادارة الموظفين",
@@ -34,14 +35,25 @@
   "navTimeLeaves": "إجازات زمنية",
   "navSettings": "الإعدادات",
   "leaves_type": "أنواع الإجازات",
-  "users_tab": "المستخدمين", 
+  "users_tab": "المستخدمين",
   "dash_head_title": "نظام إدارة الحضور والانصراف - اللوحة الرئيسية",
-    "dash_system_name": "نظام إدارة الحضور والانصراف",
-    "dash_logout": "خروج",
-    "dash_filter_month": "اختر الشهر:",
-    "dash_filter_day": "اختر يوم محدد:",
-    "dash_filter_button": "جلب الإحصائيات",
-  
+  "dash_system_name": "نظام إدارة الحضور والانصراف",
+  "dash_logout": "خروج",
+  "dash_filter_from_date": "من:",
+  "dash_filter_to_date": "الى:",
+  "dash_filter_reset_button": "Rest",
+  "buttons.resetFilters": "Rest",
+  "dash_filter_week": "اختر الأسبوع:",  
+  "dash_filter_month": "اختر الشهر:",
+  "dash_filter_day": "اختر يوم محدد:",
+  "dash_filter_button": "جلب الإحصائيات",
+  "monthPickerLabel": "اختر الشهر:",
+  "dayPickerLabel": "اختر يوم محدد:",
+  "fromDateLabel": "من تاريخ:",
+  "toDateLabel": "إلى تاريخ:",
+  "buttons": {
+    "loadDashboardData": "جلب الإحصائيات",
+    "resetFilters": "إعادة الضبط",
     "dash_card_total_employees": "إجمالي الموظفين",
     "dash_card_total_departments": "عدد الأقسام",
     "dash_card_total_holidays": "عدد العُطل الرسمية",
@@ -50,49 +62,36 @@
     "dash_card_total_absent": "عدد الغائبين",
     "dash_card_overtime": "عدد مَن قام بأوفر تايم",
     "dash_card_total_leaves": "إجمالي الإجازات",
-  
     "dash_chart_attendance_distribution": "توزيع حالات الحضور",
     "dash_chart_period_stats": "إحصائيات الفترة المحددة",
     "dash_chart_late_overtime_early": "التأخير - الأوفر تايم - الخروج المبكر",
-  
-
-
-    "attendence_chart":"حضور",
-    "absence_chart":"غياب",
-    "late_chart":"متأخر",
-    "early_chatr":"خروج مبكر",
-    "ocer_chart":"أوفر تايم",
-    "other_chat":"أخرى",
-
+    "attendence_chart": "حضور",
+    "absence_chart": "غياب",
+    "late_chart": "متأخر",
+    "early_chatr": "خروج مبكر",
+    "ocer_chart": "أوفر تايم",
+    "other_chat": "أخرى",
     "chart_2": "عدد الحضور (حضور + تأخير) لكل يوم",
-
     "chart_31": "متاخر",
     "chart_32": "أوفر تايم",
     "chart_33": "خروج مبكر",
-
-
-
     "dash_table_latest_holidays": "أحدث 5 عطل رسمية",
     "dash_table_name": "الاسم",
     "dash_table_start_date": "تاريخ البداية",
     "dash_table_end_date": "تاريخ النهاية",
     "dash_table_loading": "جاري التحميل...",
     "dash_table_no_data": "لا توجد بيانات",
-  
     "dash_table_pending_vacations": "الإجازات بالانتظار",
     "dash_table_employee": "الموظف",
-    "dash_table_leave_type": "نوع الإجازة",
-  
+    "dash_table_leave_type": "سبب الاجازة",
     "dash_table_latest_fingerprints": "أحدث 5 بصمات دخول",
     "dash_table_status": "الحالة",
-
     "No Event": "لا يوجد حدث",
     "Check IN": "تسجيل الدخول",
     "Check Out": "تسجيل الخروج",
     "Enter Break": "بدء الاستراحة",
     "Exit Break": "إنهاء الاستراحة",
     "Unknown": "غير معروف",
-  
     "attend_sidebar_title": "القائمة",
     "attend_sidebar_overview": "نظرة عامة",
     "attend_sidebar_employees": "الموظفين",
@@ -106,19 +105,19 @@
     "attend_sidebar_requests": "الأوامر",
     "attend_sidebar_departments": "الأقسام",
     "attend_sidebar_settings": "الإعدادات",
-
-    "date":"التاريخ",
-    "failed_to_bring_pending_leave":"فشل جلب الإجازات بالانتظار",
-    "no_holidays_waiting":"لا توجد إجازات بالانتظار",
-    "not_none":"غير معروف",
-    "undefined":"غير محدد",
-    "failed_to_fetch_fingerprint_records":"فشل جلب بصمات دخول",
-    "invalid_data_received_or_missing_fingerprint_logs":"بيانات غير صحيحة أو لا يوجد سجلات بصمات دخول",
-    "no_fingerprint_logs_available":"لا توجد سجلات بصمات دخول",
-
-    "failed_to_official_holidays":"فشل جلب العطل الرسمية",
-    "failed_to_fetch_third_chart_data":"فشل جلب بيانات المخطط الثالث",
-
+    "date": "التاريخ",
+    "failed_to_bring_pending_leave": "فشل جلب الإجازات بالانتظار",
+    "no_holidays_waiting": "لا توجد إجازات بالانتظار",
+    "not_none": "غير معروف",
+    "undefined": "غير محدد",
+    "dash_filter_from_date": "من تاريخ:",
+    "dash_filter_to_date": "إلى تاريخ:",
+    "dash_filter_reset_button": "إعادة تعيين الفلاتر",
+    "failed_to_fetch_fingerprint_records": "فشل جلب بصمات دخول",
+    "invalid_data_received_or_missing_fingerprint_logs": "بيانات غير صحيحة أو لا يوجد سجلات بصمات دخول",
+    "no_fingerprint_logs_available": "لا توجد سجلات بصمات دخول",
+    "failed_to_official_holidays": "فشل جلب العطل الرسمية",
+    "failed_to_fetch_third_chart_data": "فشل جلب بيانات المخطط الثالث",
     "err_1": "فشل جلب إجمالي الموظفين",
     "err_2": "فشل جلب الأقسام",
     "err_3": "فشل جلب العطل الرسمية",
@@ -129,6 +128,5 @@
     "err_8": "فشل جلب الإجازات",
     "err_9": "فشل جلب بيانات الحضور للمخطط",
     "err_10": "فشل جلب بيانات الفترة المحددة"
-
   }
-  
+}

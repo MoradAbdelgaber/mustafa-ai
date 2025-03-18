@@ -1,0 +1,14 @@
+{
+    "extra_minutes": "Extra Minutes",
+    "employee_name": "Employee Name",
+    "bonus_date": "Bonus Date",
+    "minutes": "Minutes",
+    "save": "Save",
+    "add_extra_minute": "Add Extra Minute",
+    "date_of_transaction": "Date of Transaction",
+    "number_of_minutes": "Number of Minutes",
+    "delete": "Delete",
+    "edit": "Edit",
+    "sys_title": "Attendance Management System - Extra Minutes",
+    "logout": "Logout"
+}

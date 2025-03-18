@@ -17,6 +17,14 @@ const dayScheduleSchema = new mongoose.Schema({
   endTime: { type: String, default: '17:00:00' },
   overtimeStart: { type: String, default: '17:30:00' },
   endDayOffset: { type: Number, default: 0 },
+  startTime_Offset: { type: Number, default: 0 },
+  endTime_Offset: { type: Number, default: 0 },
+  work_registration_start_time_Offset: { type: Number, default: 0 },
+  last_entry_prevention_time_Offset: { type: Number, default: 0 },
+  overtimeStart_Offset: { type: Number, default: 0 },
+  first_exit_allowed_time_Offset: { type: Number, default: 0 },
+  last_exit_allowed_time_Offset: { type: Number, default: 0 },
+  
 
   // سعر الساعة العادي + الأوفر تايم
   hourPrice: { type: Number, default: 0 },

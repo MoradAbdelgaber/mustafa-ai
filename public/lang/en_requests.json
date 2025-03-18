@@ -5,6 +5,8 @@
   "sidebar_attendance_report": "Attendance Report",
   "leaves_sidebar_time_leaves":"Partial Time Request",
   "sidebar_shifts": "Shifts",
+  "leaves_type":"Leaves Type",
+  "navBranch": "Branches",  
   "sidebar_timeslots": "Time Slots",
   "sidebarTitle": "Attend System",
   "navOverview": "Overview",
@@ -135,7 +137,26 @@
 
     "wait": "Waiting",
     "finished": "Completed",
-    "canceled": "Rejected"
+    "canceled": "Rejected",
+    "colIndex": "#",
+    "colID": "_id",
+    "colDeviceName": "Device Name",
+    "colActionType": "Action Type",
+    "colSN": "Serial Number (SN)",
+    "colEnrollID": "Enroll ID",
+    "colUserName": "Employee Name",
+    "colOperationType": "Operation Type",
+    "colOwner": "Owner",
+    "colRepeat": "Repeat",
+    "colRunningTimes": "Running Times",
+    "colStatus": "Status",
+    "colResult": "Result",
+    "colURL": "URL",
+    "colCreatedAt": "Created At",
+    "colDateInsert": "Insert Date",
+    "colDateDone": "Done Date",
+    "colUpdatedAt": "Updated At",
+    "colVersion": "__v"
 
   }
   

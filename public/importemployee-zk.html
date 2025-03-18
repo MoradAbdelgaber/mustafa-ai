@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title data-lng="Unregistered employees"></title>
+
+  <!-- مكتبة jQuery (اختيارية) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- مكتبة Select2 (اختيارية) -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <!-- أيقونات Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- خطوط (Tajawal للعربية، Open Sans للإنجليزية) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    html {
+      animation: fadeIn .3s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* عند العربية: استخدم Tajawal مع اتجاه RTL */
+    html[lang="ar"] body {
+      font-family: 'Tajawal', sans-serif;
+      direction: rtl;
+    }
+
+    /* عند الإنجليزية: استخدم Open Sans مع اتجاه LTR */
+    html[lang="en"] body {
+      font-family: 'Open Sans', sans-serif;
+      direction: ltr;
+    }
+
+    #langSelector {
+      margin: 10px;
+      padding: 6px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
+    }
+
+    header {
+      background: linear-gradient(45deg, #0062cc, #004085);
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    header button {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+
+    header button:hover {
+      background: #c82333;
+    }
+
+    /* تنسيق للقوائم الفرعية لتظهر كفرع */
+    .submenu {
+      border-left: 2px solid #dee2e6;
+      margin-left: 15px;
+      padding-left: 10px;
+      margin-bottom: 5px;
+    }
+
+    .menu-group-header {
+      font-weight: bold;
+      background: #dee2e6;
+      cursor: pointer;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row-reverse;
+      /* لأن اللغة عربية */
+    }
+
+    .mainContent {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .sidebar {
+      width: 240px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      min-height: 100vh;
+      padding: 20px 10px;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 15px;
+      font-size: 1rem;
+      text-align: center;
+      color: #444;
+    }
+
+    .navItem {
+      padding: 12px 10px;
+      margin: 6px 0;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #333;
+      font-weight: 500;
+      transition: background 0.3s, color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .navItem i {
+      font-size: 1.1rem;
+      color: #666;
+      transition: color 0.3s;
+    }
+
+    .navItem:hover {
+      background: #f0f0f0;
+    }
+
+    .navItem.active {
+      background: #007bff;
+      color: #fff;
+    }
+
+    .navItem.active i {
+      color: #fff;
+    }
+
+    .errorMsg,
+    .successMsg {
+      margin: 10px 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    .errorMsg {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+      display: none;
+    }
+
+    .successMsg {
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+      display: none;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    table thead {
+      background: #007bff;
+      color: #fff;
+    }
+
+    table th,
+    table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .actionIcon {
+      color: #007bff;
+      cursor: pointer;
+      font-size: 1.1rem;
+      margin: 0 6px;
+      transition: color 0.3s;
+    }
+
+    .actionIcon:hover {
+      color: #0056b3;
+    }
+
+    .btns {
+      display: flex;
+      margin-block: 12px 8px;
+    }
+
+    .btns div {
+      margin-inline-start: auto;
+      display: flex;
+      gap: 6px;
+    }
+
+    .selectedBtn,
+    .selectedAllBtn {
+      background: #17a2b8;
+      display: none;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      transition: background 0.3s;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .selectedBtn:hover {
+      background: #167c8b;
+    }
+
+    .selectedAllBtn {
+      background: #007bff;
+      display: block;
+    }
+
+    .selectedAllBtn:hover {
+      background: #0851a0;
+    }
+
+    input[type="checkbox"] {
+      margin: 0;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .loadingOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+    }
+
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body onload="initPage()">
+  <header>
+    <h1 data-lng="Unregistered employees"></h1>
+    <div>
+      <button onclick="logout()" data-lng="Logout"></button>
+      <select id="langSelector" class="lang-select">
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- شاشة التحميل -->
+  <div class="loadingOverlay" id="loadingOverlay">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="container">
+    <!-- المحتوى الرئيسي -->
+    <div class="mainContent">
+      <div class="errorMsg" id="errorMsg"></div>
+      <div class="successMsg" id="successMsg"></div>
+
+      <!-- أزرار التحكم في السحب (اختر المحدد فقط / الجميع) -->
+      <div class="btns">
+        <div>
+          <button class="selectedBtn" id="selectedBtn" data-lng="extract_selected" onclick="pullMany(false)"></button>
+          <button class="selectedAllBtn" id="selectedAllBtn" data-lng="extract_all_selected" onclick="pullMany(true)">
+          </button>
+        </div>
+      </div>
+
+      <!-- الجدول: الموظفون غير المسجلين -->
+      <table id="unregisteredTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th data-lng="Pin"></th>
+            <th data-lng="Employee name"></th>
+            <th data-lng="Fingerprint type"></th>
+            <th data-lng="Image"></th>
+            <th data-lng="Card number"></th>
+            <th data-lng="Start time"></th>
+            <th data-lng="Other data"></th>
+            <th data-lng="Control"></th>
+            <th data-lng="select"></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- الشريط الجانبي -->
+    <div class="sidebar"></div>
+
+    <script>
+      // دالة لتبديل عرض وإخفاء القائمة الفرعية
+      function toggleSubMenu(id) {
+        var submenu = document.getElementById(id);
+        if (submenu.style.display === "none" || submenu.style.display === "") {
+          submenu.style.display = "block";
+        } else {
+          submenu.style.display = "none";
+        }
+      }
+
+      // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
+      // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
+      // document.addEventListener("DOMContentLoaded", function () {
+      //   var submenus = document.querySelectorAll('.submenu');
+      //   submenus.forEach(function (submenu) {
+      //     if (submenu.querySelector('.navItem.active')) {
+      //       submenu.style.display = "block";
+      //     }
+      //   });
+      // });
+    </script>
+
+  </div>
+
+  <script>
+    // ============ إعداد الترجمة ============
+    const LANG_PATH = "./lang";  // مجلد ملفات JSON
+    const LANG_KEY = 'import_employee'; // الملف: ar_import_employee.json أو en_import_employee.json
+    let translations = {};
+    let authToken = null;
+
+    async function loadLanguageFile(lang) {
+      try {
+        const response = await fetch(`${LANG_PATH}/${lang}_${LANG_KEY}.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}.json`);
+        }
+        translations = await response.json();
+      } catch (error) {
+        console.error("Error loading translation file:", error);
+      }
+    }
+
+    async function setLanguage(lang) {
+      await loadLanguageFile(lang);
+      localStorage.setItem("lng", lang);
+      applyTranslations(lang);
+
+      await loadSidebarLangFile(lang);
+      applySidebarTranslation();
+
+    }
+
+    function applyTranslations(lang) {
+      document.documentElement.lang = lang;
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+      document.querySelectorAll('[data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+        if (translations[key]) el.textContent = translations[key];
+      });
+    }
+
+    // ============ دوال عامة ============
+    function logout() {
+      localStorage.removeItem('authToken');
+      window.location.href = 'login.html';
+    }
+
+    function showLoading() {
+      document.getElementById('loadingOverlay').style.display = 'flex';
+    }
+
+    function hideLoading() {
+      document.getElementById('loadingOverlay').style.display = 'none';
+    }
+
+    function showError(msg) {
+      const eDiv = document.getElementById('errorMsg');
+      const sDiv = document.getElementById('successMsg');
+      eDiv.textContent = msg;
+      eDiv.style.display = 'block';
+      sDiv.style.display = 'none';
+    }
+
+    function showSuccess(msg) {
+      const eDiv = document.getElementById('errorMsg');
+      const sDiv = document.getElementById('successMsg');
+      sDiv.textContent = msg;
+      sDiv.style.display = 'block';
+      eDiv.style.display = 'none';
+    }
+
+    function clearMessages() {
+      document.getElementById('errorMsg').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'none';
+    }
+
+    document.getElementById('langSelector').addEventListener('change', async function () {
+      await setLanguage(this.value);
+      clearMessages();
+    });
+
+    // ============ متغيرات واستخدامات ============
+    let unregisteredList = [];   // الموظفون غير المسجلين
+    let selectedPins = [];       // للاختيار من الـcheckbox
+    const selectedBtn = document.getElementById('selectedBtn');
+    const selectedAllBtn = document.getElementById('selectedAllBtn');
+
+    // ============ دالة التهيئة ============
+    async function initPage() {
+      // إن كان لديك توكن حفظته أثناء تسجيل الدخول (إن وجد)، استعده:
+      authToken = localStorage.getItem('authToken');
+
+      // اختيار اللغة
+      let storedLang = localStorage.getItem("lng");
+      if (!storedLang) storedLang = 'en'; // افتراضي
+      document.getElementById('langSelector').value = storedLang;
+      await setLanguage(storedLang);
+
+      // بدء جلب الموظفين
+      await loadUnregisteredEmployees();
+    }
+
+    // ============ جلب قائمة الموظفين من API الجديد ============
+    async function loadUnregisteredEmployees() {
+        clearMessages();
+        showLoading();
+      
+        try {
+          // 1) جلب الموظفين من الجهاز
+          const resp = await fetch('http://localhost:8040/api/user/0', {
+            method: 'GET'
+          });
+      
+          if (!resp.ok) {
+            throw new Error("Failed to fetch employees from device.");
+          }
+      
+          const data = await resp.json(); // بيانات الموظفين من الجهاز
+      
+          // 2) جلب الموظفين المحليين من قاعدة البيانات
+          const localResp = await fetch('/api/employees?page=1&limit=9999', {
+            method: 'GET',
+            headers: { 'Authorization': 'Bearer ' + authToken }
+          });
+          if (!localResp.ok) {
+            throw new Error("Failed to fetch local employees");
+          }
+          const localData = await localResp.json();
+          const localEmployees = localData.data;
+      
+          // 3) تصفية الموظفين بحيث لا يتم عرض أولئك المسجلين محلياً
+          unregisteredList = data.filter(emp =>
+            !localEmployees.some(local => local.enroll_id == emp.pin)
+          );
+      
+          // 4) عرض القائمة المصفاة
+          renderUnregistered(unregisteredList);
+          showSuccess("Fetched unregistered employees successfully.");
+        } catch (err) {
+          showError("An error occurred: " + err.message);
+        } finally {
+          hideLoading();
+        }
+      }
+
+    // ============ عرض البيانات في الجدول ============
+    function renderUnregistered(list) {
+      const tb = document.querySelector('#unregisteredTable tbody');
+      tb.innerHTML = '';
+
+      for (let i = 0; i < list.length; i++) {
+        const item = list[i];
+        const pin = item.pin || '';  // رقم الموظف
+        const userName = item.user?.Name || ''; // الاسم
+        const cardNumber = item.user?.Card || '';
+        const startTime = item.user?.StartDatetime || '';
+        let typeLabel = '-';
+        let faceImgHtml = '-';
+        let otherData = '-';
+
+        // إذا كان هناك بيانات بايومترية
+        if (item.biodata && item.biodata.length > 0) {
+          // خذ أول سجل مثلًا
+          const bType = item.biodata[0].Type; // مثال: "1" للبصمة، "8" للوجه، "9" للكارت...
+          typeLabel = getTypeLabel(bType);
+
+          // استخراج بيانات Tmp
+          const tmpStr = item.biodata[0].Tmp || '';
+          // إذا كان نوع البيانات هو بصمة الاصبع، اقتطع العرض إلى 20 حرف
+          let displayData = tmpStr;
+          if (bType === '1') {
+            displayData = tmpStr.substring(0, 20);
+          }
+          otherData = `<div style="max-width:250px;overflow-wrap:break-word;">${displayData}</div>`;
+
+          // لو يوجد صورة في biophoto.Content => نعرضها كصورة
+          if (item.biophoto && item.biophoto.Content) {
+            // نفترض أنها base64 لصورة وجه، ونعتبرها ضمن النوع (8 أو 9)
+            faceImgHtml = `
+              <img
+                src="data:image/jpeg;base64,${item.biophoto.Content}"
+                alt="Face"
+                style="width:70px; border-radius:6px;"
+              />
+            `;
+          } else {
+            // لو لم توجد صورة => عرض نص فقط
+            faceImgHtml = '(No face image)';
+          }
+
+        } else {
+          // لا يوجد biodata
+          typeLabel = 'None';
+          faceImgHtml = '(No data)';
+          otherData = '-';
+        }
+
+        const tr = document.createElement('tr');
+        tr.id = `row_${pin}`;
+
+        tr.innerHTML = `
+          <td>${i + 1}</td>
+          <td>${pin}</td>
+          <td>${userName}</td>
+          <td>${typeLabel}</td>
+          <td>${faceImgHtml}</td>
+          <td>${cardNumber}</td>
+          <td>${startTime}</td>
+          <td>${otherData}</td>
+          <td>
+            <i class="bi bi-arrow-down-circle-fill actionIcon"
+               title="Extract employee data"
+               onclick="pullEmployee('${pin}')"></i>
+          </td>
+          <td>
+            <input type="checkbox" class="em_checkbox" value="${pin}">
+          </td>
+        `;
+
+        tb.appendChild(tr);
+      }
+
+      // التعامل مع الـ checkbox
+      const checkboxes = Array.from(document.querySelectorAll('.em_checkbox'));
+      checkboxes.forEach(chk => {
+        chk.addEventListener('change', () => {
+          selectedPins = checkboxes
+            .filter(c => c.checked)
+            .map(c => c.value);
+
+          selectedBtn.style.display = selectedPins.length ? 'block' : 'none';
+        });
+      });
+    }
+
+    // Helper لعنوان النوع
+    function getTypeLabel(typeValue) {
+      switch (typeValue) {
+        case '1':
+          return "Fingerprint";
+        case '8':
+          return "Face";
+        case '9':
+          return "Card / Face data";
+        default:
+          return "Unknown";
+      }
+    }
+
+    // ============ سحب بيانات لمجموعة موظفين ============
+    async function pullMany(all = false) {
+      if (!unregisteredList.length) {
+        return alert("No items found");
+      }
+      clearMessages();
+      showLoading();
+
+      let targetPins = all
+        ? unregisteredList.map(e => e.pin)
+        : selectedPins;
+
+      // إزالة التكرار
+      targetPins = [...new Set(targetPins)];
+
+      for (let i = 0; i < targetPins.length; i++) {
+        const p = targetPins[i];
+        await pullEmployee(p, i + 1, targetPins.length);
+      }
+      hideLoading();
+      selectedBtn.style.display = 'none';
+    }
+
+    // ============ سحب بيانات موظف واحد ============
+    async function pullEmployee(pin, index = null, totalCount = 1) {
+      // إن لم يكن ضمن استدعاء جماعي:
+      if (!index) {
+        clearMessages();
+        showLoading();
+      }
+
+      try {
+        // ابحث عن سجل الموظف في unregisteredList
+        const found = unregisteredList.find(e => e.pin == pin);
+        if (!found) {
+          throw new Error("Employee not found in the list.");
+        }
+
+        // حضّر الداتا لإرسالها إلى الـ DB (مثال)
+        const bodyObj = {
+          enroll_id: Number(pin),
+          name: found.user?.Name || 'NoName',
+          card: found.user?.Card || '',
+          starttime: found.user?.StartDatetime || '2025-01-01',
+          // الخ ...
+          // يمكنك تخزين fingerprint / face / إلخ
+          fingerprint: (found.biodata && found.biodata[0]) ? found.biodata[0].Tmp : '',
+          image: found.biophoto?.Content
+            ? `data:image/jpg;base64,${found.biophoto.Content}`
+            : ''
+        };
+
+        // نرسلها إلى API قاعدة البيانات المحلّي
+        const myHeaders = new Headers();
+        myHeaders.append('Authorization', 'Bearer ' + authToken); // لو عندك توكن
+        myHeaders.append('Content-Type', 'application/json');
+
+        const resp = await fetch('/api/employees', {
+          method: 'POST',
+          headers: myHeaders,
+          body: JSON.stringify(bodyObj)
+        });
+
+        if (!resp.ok) {
+          const errData = await resp.json();
+          throw new Error(errData.message || "Failed to add employee locally.");
+        }
+
+        const doneMsg = index
+          ? `Extracted ${index} of ${totalCount}`
+          : `Employee with pin=${pin} added successfully.`;
+        showSuccess(doneMsg);
+
+        // إزالة السطر من الجدول
+        document.getElementById(`row_${pin}`)?.remove();
+        // إزالة من مصفوفة unregisteredList
+        unregisteredList = unregisteredList.filter(x => x.pin != pin);
+
+      } catch (error) {
+        showError("Error: " + error.message);
+      } finally {
+        if (!index) hideLoading();
+      }
+    }
+
+    function loadSiebar(){
+        fetch('sidebar.html')
+              .then(response => response.text())
+              .then(data => {
+                  document.querySelector('.sidebar').innerHTML = data;
+                    var submenus = document.querySelectorAll('.submenu');
+                    submenus.forEach(function (submenu) {
+                      if (submenu.querySelector('.navItem.active')) {
+                        submenu.style.display = "block";
+                      }
+                    });
+
+                    addActiveToSubmenuClass(4);
+              })
+              .catch(error => console.error('Error loading sidebar:', error));
+      }
+  
+      async function loadSidebarLangFile(lang) {
+        try {
+          const response = await fetch(`${LANG_PATH}/${lang}_sidebar.json`);
+          if (!response.ok) {
+            throw new Error(`Error loading ${lang}_sidebar.json`);
+          }
+          sidebarLabels = await response.json();
+
+        } catch (error) {
+          console.error("Report translation file error:", error);
+        }
+      }
+
+      function applySidebarTranslation(){
+          document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+              const key = el.getAttribute('data-lng');
+              
+              if (sidebarLabels[key]) {
+                el.textContent = sidebarLabels[key];
+              }
+          });
+      }
+
+      loadSiebar();
+
+      function addActiveToSubmenuClass(childIndex) {
+          const submenu = document.getElementById('deviceManagementSubmenu');
+          submenu.style.display = "block";
+          const navItems = submenu.getElementsByClassName('navItem');
+          if (childIndex >= 1 && childIndex <= navItems.length) {
+              Array.from(navItems).forEach(item => item.classList.remove('active'));
+              navItems[childIndex - 1].classList.add('active');
+          } else {
+              console.error('Child index out of bounds');
+          }
+      }
+
+  </script>
+
+</body>
+
+</html>

@@ -30,6 +30,14 @@ const timeSlotSchema = new Schema(
     startTime: { type: String, default: "08:00:00" },
     endTime: { type: String, default: "17:00:00" },
     offset: { type: Number, default: 0 }, // 0 => نفس اليوم, 1 => ينتهي في اليوم التالي
+    startTime_Offset: { type: Number, default: 0 },
+    endTime_Offset: { type: Number, default: 0 },
+    work_registration_start_time_Offset: { type: Number, default: 0 },
+    last_entry_prevention_time_Offset: { type: Number, default: 0 },
+    overtimeStart_Offset: { type: Number, default: 0 },
+    first_exit_allowed_time_Offset: { type: Number, default: 0 },
+    last_exit_allowed_time_Offset: { type: Number, default: 0 },
+    
 
     // حدود تسجيل الحضور
     workRegistrationStartTime: { type: String, default: "06:00:00" },

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>برنامج إدارة الحضور والانصراف</title>
+  <!-- استيراد خط Tajawal -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Tajawal', sans-serif;
+      background-color: #f0f2f5;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 50px auto;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #333;
+    }
+
+    .info {
+      margin-bottom: 20px;
+    }
+
+    .info p {
+      margin: 5px 0;
+      font-size: 18px;
+      color: #555;
+    }
+
+    .machine-code {
+      background-color: #f7f7f7;
+      padding: 10px;
+      border-radius: 5px;
+      font-family: monospace;
+      word-wrap: break-word;
+      direction: ltr; /* لإظهار الرموز بشكل أفضل */
+      text-align: left;
+    }
+
+    .input-section {
+      margin: 20px 0;
+    }
+
+    .input-section input {
+      width: 80%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .btn {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    /* تنسيق النافذة المنبثقة */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none; /* مخفي افتراضياً */
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .popup-content {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      text-align: center;
+      max-width: 300px;
+      width: 90%;
+    }
+
+    .popup-content p {
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    .popup-content .btn-home {
+      background-color: #28a745;
+    }
+
+    .popup-content .btn-home:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>برنامج إدارة الحضور والانصراف</h1>
+
+    <div class="info">
+      <p>رمز التفعيل الحالي: <span id="current-activation">جاري التحميل...</span></p>
+      <p>رمز الجهاز:</p>
+      <div class="machine-code" id="machine-code">جاري التحميل...</div>
+    </div>
+
+    <div class="input-section">
+      <input
+        type="text"
+        id="new-activation-code"
+        placeholder="أدخل رمز التفعيل الجديد"
+      />
+      <br />
+      <button class="btn" id="update-btn">تعديل</button>
+    </div>
+  </div>
+
+  <!-- النافذة المنبثقة -->
+  <div class="popup-overlay" id="popup-overlay">
+    <div class="popup-content">
+      <p>تمت عملية التعديل بنجاح</p>
+      <button class="btn btn-home" id="home-btn">الصفحة الرئيسية</button>
+    </div>
+  </div>
+
+  <script>
+    // التحقق من وجود authToken
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      // في حال عدم وجود توكن يتم التوجيه لصفحة الدخول
+      window.location.href = 'login.html';
+    }
+
+    // عناصر DOM
+    const currentActivationSpan = document.getElementById('current-activation');
+    const machineCodeDiv = document.getElementById('machine-code');
+    const newActivationInput = document.getElementById('new-activation-code');
+    const updateBtn = document.getElementById('update-btn');
+    const popupOverlay = document.getElementById('popup-overlay');
+    const homeBtn = document.getElementById('home-btn');
+
+    // دالة إظهار النافذة المنبثقة
+    function showPopup() {
+      popupOverlay.style.display = 'flex';
+    }
+
+    // إخفاء النافذة المنبثقة
+    function hidePopup() {
+      popupOverlay.style.display = 'none';
+    }
+
+    // عند الضغط على زر الصفحة الرئيسية في النافذة المنبثقة
+    homeBtn.addEventListener('click', () => {
+      window.location.href = '/dashboard.html';
+    });
+
+    // جلب رمز التفعيل الحالي
+    fetch('/api/activition', {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('فشل في جلب رمز التفعيل الحالي');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // عرض رمز التفعيل
+        if (data && data.activition && data.activition.name) {
+          currentActivationSpan.textContent = data.activition.name;
+        } else {
+          currentActivationSpan.textContent = 'غير متوفر';
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        currentActivationSpan.textContent = 'خطأ في جلب رمز التفعيل';
+      });
+
+    // جلب رمز الجهاز
+    fetch('/api/machine-id', {
+      headers: {
+        Authorization: 'Bearer ' + token
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('فشل في جلب رمز الجهاز');
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data && data.machineId) {
+          machineCodeDiv.textContent = data.machineId;
+        } else {
+          machineCodeDiv.textContent = 'غير متوفر';
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        machineCodeDiv.textContent = 'خطأ في جلب رمز الجهاز';
+      });
+
+    // عند الضغط على زر "تعديل"
+    updateBtn.addEventListener('click', () => {
+      const newCode = newActivationInput.value.trim();
+      if (!newCode) {
+        alert('يرجى إدخال رمز التفعيل الجديد');
+        return;
+      }
+
+      // إرسال الطلب إلى API للتعديل (PUT)
+      fetch('/api/activition', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token
+        },
+        body: JSON.stringify({ name: newCode })
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('فشل في تعديل رمز التفعيل');
+          }
+          return response.json();
+        })
+        .then(data => {
+          // نجاح العملية
+          showPopup();
+        })
+        .catch(error => {
+          console.error(error);
+          alert('حدث خطأ أثناء التعديل');
+        });
+    });
+  </script>
+</body>
+</html>

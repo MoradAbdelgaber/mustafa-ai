@@ -573,113 +573,8 @@
     </div>
 
     <!-- الشريط الجانبي -->
-    <div class="sidebar">
-      <!-- الرئيسية -->
-      <div class="navItem menu-group-header" onclick="location.href='dashboard.html'">
-        <i class="bi bi-house-fill"></i>
-        <span data-lng="navOverview">الرئيسية</span>
-      </div>
-      <!-- ادارة الموظفين -->
-      <div class="navItem menu-group-header" onclick="toggleSubMenu('staffManagementSubmenu')">
-        <i class="bi bi-people-fill"></i>
-        <span data-lng="staffManagement">ادارة الموظفين</span>
-      </div>
-      <div id="staffManagementSubmenu" class="submenu" style="display: none;">
-        <div class="navItem" onclick="location.href='employee.html'">
-          <i class="bi bi-person-lines-fill"></i>
-          <span data-lng="navEmployees">الموظفين</span>
-        </div>
-        <div class="navItem" onclick="location.href='department.html'">
-          <i class="bi bi-building"></i>
-          <span data-lng="navDepartment">الأقسام</span>
-        </div>
-      </div>
-      <!-- التقارير -->
-      <div class="navItem menu-group-header" onclick="toggleSubMenu('reportsSubmenu')">
-        <i class="bi bi-bar-chart-line-fill"></i>
-        <span data-lng="reports">التقارير</span>
-      </div>
-      <div id="reportsSubmenu" class="submenu" style="display: none;">
-        <div class="navItem" onclick="location.href='report.html'">
-          <i class="bi bi-bar-chart-line-fill"></i>
-          <span data-lng="navReport"></span>
-        </div>
-        <div class="navItem active" onclick="location.href='attend.html'">
-          <i class="bi bi-journal-check"></i>
-          <span data-lng="navAttend">تقرير الحضور</span>
-        </div>
-        <div class="navItem" onclick="location.href='employee-summary-report.html'">
-          <i class="bi bi-people-fill"></i>
-          <span data-lng="employee_summary_report">تقرير ملخص الموظفين</span>
-        </div>
-        <div class="navItem" onclick="location.href='rule.html'">
-          <i class="bi bi-braces"></i>
-          <span data-lng="navRules">القواعد (Rules)</span>
-        </div>
-      </div>
-      <!-- ادارة الاجهزة -->
-      <div class="navItem menu-group-header" onclick="toggleSubMenu('deviceManagementSubmenu')">
-        <i class="bi bi-device-hdd-fill"></i>
-        <span data-lng="deviceManagement">ادارة الاجهزة</span>
-      </div>
-      <div id="deviceManagementSubmenu" class="submenu" style="display: none;">
-        <div class="navItem" onclick="location.href='devices.html'">
-          <i class="bi bi-laptop"></i>
-          <span data-lng="navDevices">الأجهزة</span>
-        </div>
-        <div class="navItem" onclick="location.href='requests.html'">
-          <i class="bi bi-list-check"></i>
-          <span data-lng="navOrders">الأوامر</span>
-        </div>
-        <div class="navItem" onclick="location.href='importemployee.html'">
-          <i class="bi bi-person-exclamation"></i>
-          <span data-lng="unregistered">الموظفين غير المسجلين</span>
-        </div>
-      </div>
-      <!-- ادارة الدوام -->
-      <div class="navItem menu-group-header" onclick="toggleSubMenu('workManagementSubmenu')">
-        <i class="bi bi-calendar-event-fill"></i>
-        <span data-lng="workManagement">ادارة الدوام</span>
-      </div>
-      <div id="workManagementSubmenu" class="submenu" style="display: none;">
-        <div class="navItem" onclick="location.href='leaves.html'">
-          <i class="bi bi-calendar3"></i>
-          <span data-lng="navLeaves">الإجازات</span>
-        </div>
-        <div class="navItem" onclick="location.href='rewards.html'">
-          <i class="bi bi-gift-fill"></i>
-          <span data-lng="navRewards">المكافئات</span>
-        </div>
-        <div class="navItem" onclick="location.href='time-based-leaves.html'">
-          <i class="bi bi-clock-fill"></i>
-          <span data-lng="leaves_sidebar_time_leaves">إجازات زمنية</span>
-        </div>
-        <div class="navItem" onclick="location.href='holidays.html'">
-          <i class="bi bi-calendar-event"></i>
-          <span data-lng="navHolidays">العطل الرسمية</span>
-        </div>
-      </div>
-      <!-- ادارة الاوقات -->
-      <div class="navItem menu-group-header" onclick="toggleSubMenu('timeManagementSubmenu')">
-        <i class="bi bi-clock-fill"></i>
-        <span data-lng="timeManagement">ادارة الاوقات</span>
-      </div>
-      <div id="timeManagementSubmenu" class="submenu" style="display: none;">
-        <div class="navItem" onclick="location.href='shifts.html'">
-          <i class="bi bi-hourglass-split"></i>
-          <span data-lng="navshift">الشفتات</span>
-        </div>
-        <div class="navItem" onclick="location.href='TimeSlot.html'">
-          <i class="bi bi-watch"></i>
-          <span data-lng="navSlot">الأوقات</span>
-        </div>
-        <div class="navItem" onclick="location.href='public-settings.html'">
-          <i class="bi bi-gear"></i>
-          <span data-lng="public_settings">الإعدادات</span>
-        </div>
-      </div>
-    </div>
-  </div>
+    <div class="sidebar"></div>
+
   <script>
     // دالة لتبديل عرض وإخفاء القائمة الفرعية
     function toggleSubMenu(id) {
@@ -693,14 +588,14 @@
 
     // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
     // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
-    document.addEventListener("DOMContentLoaded", function () {
-      var submenus = document.querySelectorAll('.submenu');
-      submenus.forEach(function (submenu) {
-        if (submenu.querySelector('.navItem.active')) {
-          submenu.style.display = "block";
-        }
-      });
-    });
+    // document.addEventListener("DOMContentLoaded", function () {
+    //   var submenus = document.querySelectorAll('.submenu');
+    //   submenus.forEach(function (submenu) {
+    //     if (submenu.querySelector('.navItem.active')) {
+    //       submenu.style.display = "block";
+    //     }
+    //   });
+    // });
   </script>
 
   <!-- مودال "إضافة/تعديل سجل بصمة" -->
@@ -881,6 +776,10 @@
       await loadLanguageFile(lang);
       localStorage.setItem("lng", lang);
       applyTranslations(lang);
+
+      await loadSidebarLangFile(lang);
+      applySidebarTranslation();
+
     }
 
     async function initPage() {
@@ -915,7 +814,7 @@
 
     // تفعيل Select2
     function setupSelect2() {
-      const text = getStringByKey("select_employee") || "اختر موظف";
+      const text = getStringByKey("select_employee") || "Select";
       $(document).ready(function () {
         $('#employeeSelect').select2({
           width: '100%',
@@ -927,19 +826,19 @@
         // مخصص لمودال تحويل البصمات
         $('#transferFromEmployeeSelect').select2({
           width: '100%',
-          placeholder: 'اختر موظف',
+          placeholder: 'Select',
           dropdownParent: $('#transferFingerprintsModal .modalBody')
         });
         $('#transferToEmployeeSelect').select2({
           width: '100%',
-          placeholder: 'اختر موظف جديد',
+          placeholder: 'Select New Employee',
           dropdownParent: $('#transferFingerprintsModal .modalBody')
         });
 
         // البحث بالسيلكت الجديد (في البحث)
         $('#searchEmployeeDropdown').select2({
           width: '200px',
-          placeholder: 'اختر موظف للبحث',
+          placeholder: 'Select',
           allowClear: true
         }).on('change', onSearchEmployeeDropdownChange);
       });
@@ -1316,12 +1215,12 @@
 
         const defaultFrom = document.createElement('option');
         defaultFrom.value = '';
-        defaultFrom.textContent = "اختر الموظف";
+        defaultFrom.textContent = "Select";
         fromSel.appendChild(defaultFrom);
 
         const defaultTo = document.createElement('option');
         defaultTo.value = '';
-        defaultTo.textContent = "اختر الموظف الجديد";
+        defaultTo.textContent = "Select New";
         toSel.appendChild(defaultTo);
 
         employees.forEach(e => {
@@ -1633,7 +1532,7 @@
       const toDate = document.getElementById('transferToDate').value;
 
       if (!fromEmployeeId) {
-        alert("اختر الموظف أولاً");
+        alert("Select Employee First");
         return;
       }
       // إيجاد الموظف والحصول على enroll_id
@@ -1806,6 +1705,61 @@
       await loadAttendLangFile(storedLang);
       // هنا يمكن تطبيق الترجمة الإضافية إن لزم
     });
+
+    function loadSiebar(){
+        fetch('sidebar.html')
+              .then(response => response.text())
+              .then(data => {
+                  document.querySelector('.sidebar').innerHTML = data;
+                    var submenus = document.querySelectorAll('.submenu');
+                    submenus.forEach(function (submenu) {
+                      if (submenu.querySelector('.navItem.active')) {
+                        submenu.style.display = "block";
+                      }
+                    });
+
+                    addActiveToSubmenuClass(2);
+              })
+              .catch(error => console.error('Error loading sidebar:', error));
+      }
+  
+      async function loadSidebarLangFile(lang) {
+        try {
+          const response = await fetch(`${LANG_PATH}/${lang}_sidebar.json`);
+          if (!response.ok) {
+            throw new Error(`Error loading ${lang}_sidebar.json`);
+          }
+          sidebarLabels = await response.json();
+
+        } catch (error) {
+          console.error("Report translation file error:", error);
+        }
+      }
+
+      function applySidebarTranslation(){
+          document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+              const key = el.getAttribute('data-lng');
+              
+              if (sidebarLabels[key]) {
+                el.textContent = sidebarLabels[key];
+              }
+          });
+      }
+
+      loadSiebar();
+
+      function addActiveToSubmenuClass(childIndex) {
+          const submenu = document.getElementById('reportsSubmenu');
+          submenu.style.display = "block";
+          const navItems = submenu.getElementsByClassName('navItem');
+          if (childIndex >= 1 && childIndex <= navItems.length) {
+              Array.from(navItems).forEach(item => item.classList.remove('active'));
+              navItems[childIndex - 1].classList.add('active');
+          } else {
+              console.error('Child index out of bounds');
+          }
+      }
+
   </script>
 </body>
 </html>

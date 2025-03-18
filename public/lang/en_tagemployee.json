@@ -1,0 +1,31 @@
+{
+    "tagemployee_head_title": "Attendance Management System - TagEmployee",
+    "tagemployee_header_title": "Attendance Management System - TagEmployee",
+    "tagemployee_logout": "Logout",
+  
+    "tagemployee_table_header_index": "#",
+    "tagemployee_table_header_name": "TagEmployee Name",
+    "tagemployee_table_header_note": "Notes",
+    "tagemployee_table_header_created": "Created On",
+    "tagemployee_table_header_edit": "Edit",
+    "tagemployee_table_header_delete": "Delete",
+  
+    "tagemployee_button_add_tagemployee": "Add TagEmployee",
+  
+    "tagemployee_modal_title_add": "Add TagEmployee",
+    "tagemployee_modal_title_edit": "Edit TagEmployee",
+    "tagemployee_modal_name_label": "TagEmployee Name:",
+    "tagemployee_modal_note_label": "Notes:",
+    "tagemployee_modal_save_button": "Save",
+  
+    "tagemployee_placeholder_search_name": "Search by name...",
+  
+    "tagemployee_msg_confirm_delete": "Are you sure you want to delete this TagEmployee?",
+    "tagemployee_msg_success_delete": "TagEmployee has been deleted successfully.",
+    "tagemployee_msg_fail_delete": "Failed to delete TagEmployee.",
+    "tagemployee_msg_success_add": "TagEmployee has been added successfully.",
+    "tagemployee_msg_fail_add": "Failed to add TagEmployee.",
+    "tagemployee_msg_success_edit": "TagEmployee has been updated successfully.",
+    "tagemployee_msg_fail_edit": "Failed to edit TagEmployee."
+  }
+  

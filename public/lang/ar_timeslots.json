@@ -28,6 +28,8 @@
     "modal_label_startTime": "وقت البداية",
     "modal_label_endTime": "وقت النهاية",
     "modal_label_offset": "الإزاحة (أيام إضافية لوقت النهاية)",
+    "modal_label_daily_work":"يعمل بنظام يومي",
+    "modal_label_overtime":"مؤهل للأوفر تايم ؟",
     "modal_label_workRegStartTime": "وقت بدء تسجيل العمل",
     "modal_label_lastEntryPreventionTime": "وقت منع الدخول النهائي",
     "modal_label_firstExitAllowedTime": "أول وقت مسموح فيه بالخروج",

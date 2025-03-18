@@ -12,7 +12,6 @@
   <!-- xlsx -->
   <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 
-
   <!-- خط Tajawal من Google Fonts (مثال) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,25 +26,29 @@
       from {
         opacity: 0;
       }
-
       to {
         opacity: 1;
       }
     }
 
     /* عند العربية: الخط Tajawal + RTL */
+
     html[lang="ar"] body {
       font-family: 'Tajawal', sans-serif;
       direction: rtl;
+      overflow-x: hidden;
     }
 
     /* عند الإنجليزية: الخط Open Sans + LTR */
+
     html[lang="en"] body {
       font-family: 'Open Sans', sans-serif;
       direction: ltr;
+      overflow-x: hidden;
     }
 
     /* قلب ترتيب العنصرين (sidebar, mainContent) */
+
     html[lang="ar"] .container {
       display: flex;
       flex-direction: row-reverse;
@@ -90,6 +93,7 @@
     }
 
     /* رأس الصفحة */
+
     header {
       background: linear-gradient(45deg, #0062cc, #004085);
       color: #fff;
@@ -120,20 +124,23 @@
     }
 
     /* الحاوية العامة بعكس الاتجاه لعرض الـSidebar يمينًا */
+
     .container {
       display: flex;
       flex-direction: row-reverse;
     }
 
     /* المحتوى الرئيسي */
+
     .mainContent {
       flex: 1;
       padding: 20px;
     }
 
     /* الشريط الجانبي (Sidebar) */
+
     .sidebar {
-      width: 240px;
+      width: 280px;
       background: #fff;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       min-height: 100vh;
@@ -167,6 +174,7 @@
     }
 
     /* صناديق الفلاتر */
+
     .filters {
       background: #fff;
       padding: 15px;
@@ -206,11 +214,17 @@
       transition: background 0.3s;
     }
 
+    html[lang="ar"] .filters button,
+    html[lang="ar"] .exportPrintButtons button {
+      font-family: "Tajawal";
+    }
+
     .filters button:hover {
       background: #0056b3;
     }
 
     /* بطاقات الملخص الإحصائي */
+
     .cards {
       display: flex;
       flex-wrap: wrap;
@@ -242,6 +256,7 @@
     }
 
     /* جدول الواجهة */
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -260,9 +275,10 @@
     table th,
     table td {
       border: 1px solid #ddd;
-      padding: 8px;
+      padding: 13px 8px;
       text-align: center;
       font-size: 0.9rem;
+      vertical-align: middle;
     }
 
     table tbody tr:hover {
@@ -275,12 +291,28 @@
       font-size: 0.95rem;
       font-weight: 600;
     }
+
     /* تنسيق للقوائم الفرعية لتظهر كفرع */
+
     .submenu {
       border-left: 2px solid #dee2e6;
       margin-left: 15px;
       padding-left: 10px;
       margin-bottom: 5px;
+    }
+
+    html[lang="ar"] .submenu {
+      border-right: 2px solid #dee2e6;
+      border-left: none;
+      margin-left: 0;
+      padding-left: 0;
+      margin-right: 15px;
+      padding-right: 10px;
+      margin-bottom: 5px;
+    }
+
+    #reportTable {
+      overflow: visible;
     }
 
     .menu-group-header {
@@ -294,6 +326,7 @@
     }
 
     /* أزرار التصدير والطباعة */
+
     .exportPrintButtons {
       display: flex;
       gap: 10px;
@@ -316,6 +349,7 @@
     }
 
     /* زر الطباعة بلون آخر */
+
     #customPrintBtn {
       background: #6f42c1;
     }
@@ -325,6 +359,7 @@
     }
 
     /* ====== تنسيقات المودال ====== */
+
     .modal {
       display: none;
       position: fixed;
@@ -338,6 +373,7 @@
     }
 
     /* زر اختيار اللغة */
+
     #langSelector {
       margin: 10px;
       padding: 6px;
@@ -349,12 +385,11 @@
     .modal-content {
       background-color: #fff;
       margin: 50px auto;
-      padding: 20px;
+      padding: 0;
       border-radius: 8px;
       width: 80%;
       max-width: 1000px;
       position: relative;
-      /* direction: rtl; */
     }
 
     .modal-header,
@@ -366,6 +401,9 @@
 
     .modal-header {
       border-bottom: 1px solid #ccc;
+      color: #fff;
+      padding: 15px;
+      background: #007bff;
     }
 
     .modal-header h2 {
@@ -375,14 +413,14 @@
 
     .closeBtn {
       position: absolute;
-      top: 15px;
-      background: #dc3545;
+      top: 4px;
+      background: #007bff;
       color: #fff;
       border: none;
       border-radius: 4px;
       padding: 5px 10px;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 2rem;
     }
 
     .modal-body {
@@ -435,6 +473,7 @@
     }
 
     /* ألوان خاصة لصفوف التجميع */
+
     .deptHeaderRow {
       background-color: #cce5ff !important;
     }
@@ -444,6 +483,7 @@
     }
 
     /* ===== قسم الملخص الإضافي من الـ API ===== */
+
     .apiSummaryContainer {
       display: none;
       background-color: #fefefe;
@@ -611,13 +651,172 @@
     }
 
     .modalBody input,
-    .modalBody select {
+    .modalBody select,
+    .modalBody textarea {
       width: 100%;
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 4px;
       margin-bottom: 10px;
       font-size: 0.9rem;
+    }
+
+    /* القائمة المنسدلة الصغيرة عند الضغط على التاريخ */
+
+    .dateContainer {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dateMenuIcon {
+      cursor: pointer;
+      margin-left: 4px;
+      color: #007bff;
+      font-size: 0.9rem;
+    }
+
+    .dateMenuDropdown {
+      display: none;
+      position: absolute;
+      top: 20px;
+      right: auto;
+      left: 0;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      min-width: 130px;
+      z-index: 9999;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    html[lang="ar"] .dateMenuDropdown {
+      right: 0;
+      left: auto;
+    }
+
+    .dateMenuDropdown .dropdownItem {
+      padding: 8px 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .dateMenuDropdown .dropdownItem:hover {
+      background: #f0f0f0;
+    }
+
+    /* ==== مودال مصمم بشكل أنيق لإضافة الإجازة ==== */
+
+    .vacationModalBody {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .vacationModalBody label {
+      font-weight: 600;
+    }
+
+    .vacationModalBody select,
+    .vacationModalBody textarea {
+      font-size: 0.9rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      padding: 6px;
+    }
+
+    .vacationModalBody textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .vacationModalBody .row-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* ==== مودال مصمم لإضافة عقوبة/مكافأة (مع تنسيق أنيق مشابه) ==== */
+
+    .penaltyRewardModalBody {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .form-inner-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 !important;
+      flex-direction: row !important;
+    }
+
+    .form-inner-row .form-row {
+      flex-basis: 50%;
+      max-width: 50%;
+      box-sizing: border-box;
+      padding: 0 10px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    .form-inner-row .form-row input,
+    .form-inner-row .form-row select,
+    .form-inner-row .form-row textarea {
+      width: 100%;
+      box-sizing: border-box;
+      height: 40px;
+      background-color: #cccccc2b;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 11px 18px;
+    }
+
+    .penaltyRewardModalBody label {
+      font-weight: 600;
+    }
+
+    .penaltyRewardModalBody input,
+    .penaltyRewardModalBody textarea {
+      font-size: 0.9rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      padding: 6px;
+    }
+
+    .penaltyRewardModalBody textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    /* ==== مودال مصمم لإضافة إجازة زمنية (Time-based) ==== */
+
+    .timeBasedLeaveModalBody {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .timeBasedLeaveModalBody label {
+      font-weight: 600;
+    }
+
+    .timeBasedLeaveModalBody input,
+    .timeBasedLeaveModalBody select,
+    .timeBasedLeaveModalBody textarea {
+      font-size: 0.9rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      padding: 6px;
+    }
+
+    .timeBasedLeaveModalBody textarea {
+      resize: vertical;
+      min-height: 60px;
     }
   </style>
 </head>
@@ -626,7 +825,7 @@
   <header>
     <h1>لوحة التحكم - تقرير الحضور</h1>
     <div>
-      <button onclick="logout()">خروج</button>
+      <button onclick="logout()">Logout</button>
       <!-- اختيار اللغة (مثل صفحة اللوجن) -->
       <select id="langSelector" id="langSelector">
         <option value="en">English</option>
@@ -672,13 +871,17 @@
         <input type="date" id="endDate" value="2024-12-31" />
 
         <label for="employeeSelect" data-lng="employee:">الموظف:</label>
-        <select id="employeeSelect">
+        <select id="employeeSelect" multiple>
           <option value="0" data-lng="all_employees">جميع الموظفين</option>
         </select>
 
         <label for="departmentSelect">القسم:</label>
         <select id="departmentSelect">
           <option value="0" data-lng="all_departments">جميع الأقسام</option>
+        </select>
+        <label for="tagEmployeeSelect">بحث حسب التاك:</label>
+        <select id="tagEmployeeSelect" multiple>
+          <option value="0">جميع التاكات</option>
         </select>
 
         <label for="statusSelect" data-lng="status:">الحالة:</label>
@@ -704,8 +907,7 @@
 
         <!-- Checkbox إظهار الملخص الإضافي -->
         <label>
-          <input type="checkbox" id="showApiSummaryCheckbox" data-lng="show_api_summary"
-            onchange="toggleApiSummaryVisibility()">
+          <input type="checkbox" id="showApiSummaryCheckbox" data-lng="show_api_summary" onchange="toggleApiSummaryVisibility()">
           <span>إظهار ملخص الـ API الإضافي</span>
         </label>
         <button onclick="loadReport()">جلب التقرير</button>
@@ -738,168 +940,66 @@
       </div>
 
       <div class="errorMsg" id="errorMsg"></div>
+      <div class="tbl_wrapper">
+        <!-- جدول العرض في الواجهة -->
+        <table id="reportTable">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
 
-      <!-- جدول العرض في الواجهة -->
-      <table id="reportTable">
-        <thead></thead>
-        <tbody></tbody>
-      </table>
     </div>
 
     <!-- القائمة الجانبية -->
-    <div class="sidebar">
-      
-          
-            <!-- الرئيسية -->
-            <div class="navItem menu-group-header" onclick="location.href='dashboard.html'">
-              <i class="bi bi-house-fill"></i>
-              <span data-lng="navOverview">الرئيسية</span>
-            </div>
-      
-            <!-- ادارة الموظفين -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('staffManagementSubmenu')">
-              <i class="bi bi-people-fill"></i>
-              <span data-lng="staffManagement">ادارة الموظفين</span>
-            </div>
-            <div id="staffManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='employee.html'">
-                <i class="bi bi-person-lines-fill"></i>
-                <span data-lng="navEmployees">الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='department.html'">
-                <i class="bi bi-building"></i>
-                <span data-lng="navDepartment">الأقسام</span>
-              </div>
-            </div>
-      
-            <!-- التقارير -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('reportsSubmenu')">
-              <i class="bi bi-bar-chart-line-fill"></i>
-              <span data-lng="reports">التقارير</span>
-            </div>
-      
-            <div id="reportsSubmenu" class="submenu" style="display: none;">
-              <div class="navItem active" onclick="location.href='report.html'">
-                <i class="bi bi-bar-chart-line-fill"></i>
-                <span data-lng="navReport"></span>
-              </div>
-      
-              <div class="navItem" onclick="location.href='attend.html'">
-                <i class="bi bi-journal-check"></i>
-                <span data-lng="navAttend">تقرير الحضور</span>
-              </div>
-      
-      
-              <div class="navItem" onclick="location.href='employee-summary-report.html'">
-                <i class="bi bi-people-fill"></i>
-                <span data-lng="employee_summary_report">تقرير ملخص الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='rule.html'">
-                <i class="bi bi-braces"></i>
-                <span data-lng="navRules">القواعد (Rules)</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاجهزة -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('deviceManagementSubmenu')">
-              <i class="bi bi-device-hdd-fill"></i>
-              <span data-lng="deviceManagement">ادارة الاجهزة</span>
-            </div>
-            <div id="deviceManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='devices.html'">
-                <i class="bi bi-laptop"></i>
-                <span data-lng="navDevices">الأجهزة</span>
-              </div>
-              <div class="navItem" onclick="location.href='requests.html'">
-                <i class="bi bi-list-check"></i>
-                <span data-lng="navOrders">الأوامر</span>
-              </div>
-              <div class="navItem" onclick="location.href='importemployee.html'">
-                <i class="bi bi-person-exclamation"></i>
-                <span data-lng="unregistered">الموظفين غير المسجلين</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الدوام -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('workManagementSubmenu')">
-              <i class="bi bi-calendar-event-fill"></i>
-              <span data-lng="workManagement">ادارة الدوام</span>
-            </div>
-            <div id="workManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='leaves.html'">
-                <i class="bi bi-calendar3"></i>
-                <span data-lng="navLeaves">الإجازات</span>
-              </div>
-              <div class="navItem" onclick="location.href='rewards.html'">
-                <i class="bi bi-gift-fill"></i>
-                <span data-lng="navRewards">المكافئات</span>
-              </div>
-              <div class="navItem" onclick="location.href='time-based-leaves.html'">
-                <i class="bi bi-clock-fill"></i>
-                <span data-lng="leaves_sidebar_time_leaves">إجازات زمنية</span>
-              </div>
-              
-              <div class="navItem" onclick="location.href='holidays.html'">
-                <i class="bi bi-calendar-event"></i>
-                <span data-lng="navHolidays">العطل الرسمية</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاوقات -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('timeManagementSubmenu')">
-              <i class="bi bi-clock-fill"></i>
-              <span data-lng="timeManagement">ادارة الاوقات</span>
-            </div>
-            <div id="timeManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='shifts.html'">
-                <i class="bi bi-hourglass-split"></i>
-                <span data-lng="navshift">الشفتات</span>
-              </div>
-              <div class="navItem" onclick="location.href='TimeSlot.html'">
-                <i class="bi bi-watch"></i>
-                <span data-lng="navSlot">الأوقات</span>
-              </div>
-              <div class="navItem" onclick="location.href='public-settings.html'">
-                <i class="bi bi-gear"></i>
-                <span data-lng="public_settings">الإعدادات</span>
-              </div>
-            </div>
-          </div>
-      
-          <script>
-            // دالة لتبديل عرض وإخفاء القائمة الفرعية
-            function toggleSubMenu(id) {
-              var submenu = document.getElementById(id);
-              if (submenu.style.display === "none" || submenu.style.display === "") {
-                submenu.style.display = "block";
-              } else {
-                submenu.style.display = "none";
-              }
-            }
-      
-            // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
-            // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
-            document.addEventListener("DOMContentLoaded", function () {
-              var submenus = document.querySelectorAll('.submenu');
-              submenus.forEach(function (submenu) {
-                if (submenu.querySelector('.navItem.active')) {
-                  submenu.style.display = "block";
-                }
-              });
-            });
-          </script>
-   
+    <div class="sidebar"></div>
+
+    <script>
+      // دالة لتبديل عرض وإخفاء القائمة الفرعية
+      function toggleSubMenu(id) {
+        var submenu = document.getElementById(id);
+        if (submenu.style.display === "none" || submenu.style.display === "") {
+          submenu.style.display = "block";
+        } else {
+          submenu.style.display = "none";
+        }
+      }
+
+      // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
+      // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
+      // document.addEventListener("DOMContentLoaded", function () {
+      //   var submenus = document.querySelectorAll('.submenu');
+      //   submenus.forEach(function (submenu) {
+      //     if (submenu.querySelector('.navItem.active')) {
+      //       submenu.style.display = "block";
+      //     }
+      //   });
+      // });
+    </script>
+  </div>
   <!-- /container -->
 
   <!-- ===== مودال تخصيص الأعمدة ===== -->
   <div id="columnModal" class="modal">
     <div class="modal-content">
-      <button class="closeBtn" onclick="closeColumnModal()">&times; إغلاق</button>
+      <button class="closeBtn" onclick="closeColumnModal()">&times;</button>
       <div class="modal-header">
-        <h2>تخصيص الأعمدة</h2>
+        <h2 data-lng="report_customize_columns">تخصيص الأعمدة</h2>
+        <!-- الإضافات الجديدة في الهيدر -->
+        <div style="margin-top:10px;">
+          <label>
+            <input type="checkbox" id="useDynamicHourPrice" data-lng="active-dynmic-prices" />
+            <span data-lng="active_dynmic_hour_prices"></span>
+          </label>
+          <br/>
+          <br/>
+          <label>
+            <span data-lng="round_to"></span>
+            <input type="number" id="roundValue" placeholder="like 1or 5$" />
+          </label>
+        </div>
       </div>
       <div class="modal-body" id="modalColumnToggles">
-        <!-- سيتم تعبئته ديناميكيًا بـ buildColumnToggles() -->
+        <!-- سيتم تعبئته ديناميكيًا بواسطة buildColumnToggles() -->
       </div>
       <div class="modal-footer">
         <button onclick="saveAndCloseModal()">حفظ وإغلاق</button>
@@ -907,7 +1007,11 @@
     </div>
   </div>
   <!-- /مودال -->
-
+  <!-- 
+      =========================
+      ========== الأكواد ========== 
+      =========================
+  -->
   <script>
     let authToken = null;         // سيُؤخذ من localStorage
     let originalReportData = [];  // بيانات الجدول
@@ -921,17 +1025,19 @@
       setLanguage(storedLang).then(() => {
         authToken = localStorage.getItem('authToken');
         if (!authToken) {
-          window.location.href = 'login.html';
-          return;
+          // في حال عدم وجود توكن، افترض أنها صفحة مستقلة
+          // window.location.href = 'login.html';
         }
         setTodayAsDefaultDate();
         loadEmployees();
         loadDepartments();
+        loadTagEmployees();
+
+
+        makeTableScrollable();
 
       });
-
     }
-
 
     // الحقول التي نريد إظهارها بشكل افتراضي في الجدول
     const defaultVisibleFields = new Set([
@@ -947,7 +1053,7 @@
     const LOCAL_STORAGE_KEY = 'attendanceReportColumns';
     const LEAVES_LANG_KEY = 'language'; // Make sure the key is consistent across pages
     const LEAVES_LANG_PATH = './lang'; // Path to ar_leaves.json and en_leaves.json
-    // دالة لتحويل العدد العشري لساعات ودقائق (مثال)
+
     function formatWorkHours(value) {
       if (!value) return '';
       const hoursDecimal = parseFloat(value);
@@ -998,7 +1104,11 @@
       localStorage.setItem(LANG_KEY, lang);
       applyTranslations(lang);
       applyReportTranslations(lang);
-      if (isTableLoaded) loadReport()
+      if (isTableLoaded) loadReport();
+
+      await loadSidebarLangFile(lang);
+      applySidebarTranslation();
+
     }
     // Function to apply general translations
     function applyTranslations(lang) {
@@ -1010,9 +1120,9 @@
         const key = el.getAttribute('data-lng');
         if (translations[key]) {
           if (el.tagName === 'OPTION') {
-            el.textContent = translations[key]; // Apply translation to <option> text
+            el.textContent = translations[key];
           } else {
-            el.textContent = translations[key]; // Apply translation to other elements
+            el.textContent = translations[key];
           }
         }
       });
@@ -1029,27 +1139,39 @@
         }
       });
 
-      // Apply translations to options
-      document.querySelectorAll('[data-lng-option]').forEach(el => {
-        const key = el.getAttribute('data-lng-option');
-        if (translations[key]) {
-          el.textContent = translations[key];
-        }
-      });
-
-
       // تفعيل البحث في الـselect
       $(document).ready(function () {
-        $('#employeeSelect').select2({ width: '150px' });
+        $('#employeeSelect').select2({ width: '600px' });
         $('#departmentSelect').select2({ width: '150px' });
-        $('#statusSelect').select2({ width: '130px' });
+        $('#tagEmployeeSelect').select2({ width: '600px' });
+        $('#statusSelect').select2({
+          width: '130px',
+          matcher: function (params, data) {
+            if ($.trim(params.term) === '') {
+              // إن لم يُدخل المستخدم أي نص، نعيد العنصر كما هو
+              return data;
+            }
+            // البحث في النص الظاهر (text)
+            if (data.text.toLowerCase().includes(params.term.toLowerCase())) {
+              return data;
+            }
+            // البحث في القيمة (value) 
+            // (وهي غالبًا الـstatus_code في الـoption.value)
+            const val = $(data.element).val().toLowerCase();
+            if (val.includes(params.term.toLowerCase())) {
+              return data;
+            }
+            // لا يوجد تطابق
+            return null;
+          }
+        });
       });
 
     }
     // Function to load the general language file
     async function loadLanguageFile(lang) {
       try {
-        const response = await fetch(`${LEAVES_LANG_PATH}/${lang}_report.json`); // General lang file (e.g., en.json or ar.json)
+        const response = await fetch(`${LEAVES_LANG_PATH}/${lang}_report.json`);
         if (!response.ok) {
           throw new Error(`Error loading ${lang}.json`);
         }
@@ -1059,10 +1181,10 @@
       }
     }
 
-    // Function to load the leaves language file
+    // Function to load the leaves language file (لو كنت تحتاجه، لكنه غير مستخدم هنا بشكل مباشر)
     async function loadLeavesLangFile(lang) {
       try {
-        const response = await fetch(`${LEAVES_LANG_PATH}/${lang}_leaves.json`); // Specific leaves lang file (e.g., en_leaves.json or ar_leaves.json)
+        const response = await fetch(`${LEAVES_LANG_PATH}/${lang}_leaves.json`);
         if (!response.ok) {
           throw new Error(`Error loading ${lang}_leaves.json`);
         }
@@ -1117,7 +1239,41 @@
       return ISOweekStart;
     }
 
-    employees = []
+    //جلب التاكات
+    let tagEmployees = []; // مصفوفة نخزن فيها التاكات
+
+    async function loadTagEmployees() {
+      const sel = document.getElementById('tagEmployeeSelect');
+      try {
+        // استدعاء API التاكات
+        const url = '/api/tagemployee';
+        const resp = await fetch(url, {
+          headers: {
+            'Authorization': 'Bearer ' + authToken
+          }
+        });
+        if (!resp.ok) throw new Error('فشل جلب قائمة التاكات');
+        const data = await resp.json();
+
+        // بافتراض أن الـ API يعيد مصفوفة كائنات ، كل كائن يحوي _id أو id واسم التاك:
+        // مثل [{ _id: "5f8d0...", tag_name: "Tag1" }, ...]
+        tagEmployees = data;
+
+        // تعبئة الـ select
+        data.forEach(tag => {
+          const opt = document.createElement('option');
+          opt.value = tag._id;               // ID التاك
+          opt.textContent = tag.name;    // الاسم
+          sel.appendChild(opt);
+        });
+
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+
+    let employees = [];
     async function loadEmployees() {
       const sel = document.getElementById('employeeSelect');
       try {
@@ -1140,6 +1296,7 @@
     async function loadDepartments() {
       const sel = document.getElementById('departmentSelect');
       try {
+        // مثال فقط: يمكن تغيير الرابط أو التعامل حسب نظامك
         const url = '/api/departments';
         const resp = await fetch(url, { headers: { 'Authorization': 'Bearer ' + authToken } });
         if (!resp.ok) throw new Error('فشل جلب قائمة الأقسام');
@@ -1155,11 +1312,40 @@
       }
     }
 
-    isTableLoaded = false
+    let isTableLoaded = false;
+
+    function updateStatusSelectOptions(data) {
+      const statusSelect = document.getElementById('statusSelect');
+      // مسح الخيارات السابقة
+      statusSelect.innerHTML = '';
+
+      // إضافة خيار "جميع الحالات"
+      const allOption = document.createElement('option');
+      allOption.value = '';
+      allOption.textContent = reportTranslations['all_statuses'] || 'جميع الحالات';
+      statusSelect.appendChild(allOption);
+
+      // استخراج القيم الفريدة من حقل status_code
+      const statusSet = new Set();
+      data.forEach(row => {
+        if (row.status_code) {
+          statusSet.add(row.status_code);
+        }
+      });
+
+      // إضافة كل حالة كخيار في القائمة
+      statusSet.forEach(status => {
+        const option = document.createElement('option');
+        option.value = status;
+        // استخدام الترجمة إن كانت متوفرة:
+        option.textContent = getTranslate(status);
+        statusSelect.appendChild(option);
+      });
+    }
+
 
     async function loadReport() {
-      isTableLoaded = true
-
+      isTableLoaded = true;
       const errorMsg = document.getElementById('errorMsg');
       errorMsg.textContent = '';
 
@@ -1167,19 +1353,39 @@
       summaryRowData = null;
       document.getElementById('apiSummaryContainer').style.display = 'none';
 
+      // قراءة الإعدادات المحفوظة
+      const savedConfig = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) || '{}');
+      const additionalSettings = savedConfig.additionalSettings || {};
+      console.log("Additional Settings:", additionalSettings);
+
       const startD = document.getElementById('startDate').value || '2024-12-01';
       const endD = document.getElementById('endDate').value || '2024-12-31';
-      const empId = document.getElementById('employeeSelect').value || '0';
+      const employeeSelect = document.getElementById('employeeSelect');
+      const empIds = Array.from(employeeSelect.selectedOptions).map(option => option.value);
+      const empIdParam = empIds.length > 0 ? empIds.join(',') : '0';
       const deptId = document.getElementById('departmentSelect').value || '0';
+
+      // ** جديد: قراءة التاكات المختارة **
+      const tagEmployeeSelect = document.getElementById('tagEmployeeSelect');
+      const selectedTags = Array.from(tagEmployeeSelect.selectedOptions).map(option => option.value);
+      // إن أحببت تجاهل القيمة "0" (جميع التاكات) يمكنك تصفيتها 
+      const filteredTags = selectedTags.filter(tagId => tagId !== '0');
+      // تحويلها لسلسلة مفصولة بفواصل
+      const tagEmployeeHeaderValue = filteredTags.join(',');
 
       let url = '/api/reports/attendance';
       url += `?start_date=${startD}&end_date=${endD}`;
-      url += `&employee_id=${empId}`;
+      url += `&employee_id=${empIdParam}`;
       url += `&department_id=${deptId}`;
       url += '&show_official_holidays=1&show_weekly_off_days=1';
+      url += `&use_dynamic_hour_price=${additionalSettings.use_dynamic_hour_price || 0}`;
+      url += `&roundvalue=${additionalSettings.roundvalue || ''}`;
 
       try {
-        const resp = await fetch(url, { headers: { 'Authorization': 'Bearer ' + authToken } });
+        const resp = await fetch(url, 
+        { headers: { 'Authorization': 'Bearer ' + authToken,
+        'tagemployee': tagEmployeeHeaderValue
+      } });
         if (!resp.ok) throw new Error('فشل جلب التقرير: ' + resp.status);
 
         const data = await resp.json();
@@ -1194,12 +1400,14 @@
           originalReportData.splice(summaryIndex, 1);
         }
 
-        // بناء الأعمدة
+        // تحديث خيارات حقل الحالة بناءً على البيانات الجديدة
+        updateStatusSelectOptions(originalReportData);
+
+        // بناء الأعمدة وإعدادات الجدول
         buildAllColumnsFromData();
         loadColumnConfigFromLocalStorage();
         renderReport();
 
-        // لو وجدنا ملخص
         if (summaryRowData && Object.keys(summaryRowData).length > 0) {
           buildApiSummarySection(summaryRowData);
           toggleApiSummaryVisibility(); // تحترم حالة الـ checkbox
@@ -1209,10 +1417,7 @@
       }
     }
 
-
     function buildAllColumnsFromData() {
-
-
       // هنا لو لديك تسميات بالعربية لبعض الحقول.
       const knownLabels = {
         attendance_date: reportTranslations['attendance_date'],
@@ -1226,42 +1431,41 @@
         status_code: reportTranslations['status_code'],
         employee_name: reportTranslations['employee_name'],
         department_name: reportTranslations['department_name'],
-        // إن لديك حقل endDayOffset ضمن البيانات، تستطيع تسميته هنا:
         endDayOffset: reportTranslations['endDayOffset'],
-
         enroll_id: reportTranslations['enroll_id'],
+        dynamic_hour_price: reportTranslations['dynamic_hour_price'],
+        extra_minutes: reportTranslations['extra_minutes'],
+        scheduled_start_time: reportTranslations['scheduled_start_time'],
+        scheduled_end_time: reportTranslations['scheduled_end_time'],
         department_id: reportTranslations['department_id'],
         rest_breaks: reportTranslations['rest_breaks'],
         total_rest_duration: reportTranslations['total_rest_duration'],
         overtime_minutes: reportTranslations['overtime_minutes'],
-
         daily_salary: reportTranslations['daily_salary'],
         hour_price: reportTranslations['hour_price'],
+        day: reportTranslations['day'],
         overtime_price: reportTranslations['overtime_price'],
         works_for_daily_wage: reportTranslations['works_for_daily_wage'],
         official_working_hours: reportTranslations['official_working_hours'],
         minimum_working_hours_overtime: reportTranslations['minimum_working_hours_overtime'],
         salary_earned_for_work: reportTranslations['salary_earned_for_work'],
         overtime_entitlement: reportTranslations['overtime_entitlement'],
-
         late_cutting_by_count: reportTranslations['late_cutting_by_count'],
         early_cutting_by_count: reportTranslations['early_cutting_by_count'],
         absent_cutting: reportTranslations['absent_cutting'],
         late_arrival_deduction: reportTranslations['late_arrival_deduction'],
         early_exit_deduction: reportTranslations['early_exit_deduction'],
-
         rewards_penalties_amount: reportTranslations['rewards_penalties_amount'],
         net_salary_before_rounding: reportTranslations['net_salary_before_rounding'],
         base_work_hours: reportTranslations['base_work_hours'],
         is_vacation_day: reportTranslations['is_vacation_day'],
         is_paid_vacation: reportTranslations['is_paid_vacation'],
-
         vacation_status: reportTranslations['vacation_status'],
         leave_duration_for_entry: reportTranslations['leave_duration_for_entry'],
         leave_duration_for_exit: reportTranslations['leave_duration_for_exit'],
         total_rest_minutes: reportTranslations['total_rest_minutes'],
         rest_cutting: reportTranslations['rest_cutting'],
-
+        work_intervals: "فترات العمل" // مثال لو لديك هذا الحقل
       };
 
       const fields = new Set();
@@ -1296,15 +1500,15 @@
         const bv = b.checked ? 0 : 1;
         return av - bv;
       });
-
-
     }
 
     function loadColumnConfigFromLocalStorage() {
       const savedConfig = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (!savedConfig) return;
       try {
-        const configArr = JSON.parse(savedConfig);
+        const configParsed = JSON.parse(savedConfig);
+        // إذا كان الكائن يحتوي على خاصية columns، نستخدمها، وإلا نستخدم الكائن نفسه
+        const configArr = configParsed.columns ? configParsed.columns : configParsed;
         configArr.forEach(cfg => {
           const colObj = allColumns.find(c => c.field === cfg.field);
           if (colObj) {
@@ -1316,6 +1520,7 @@
         console.warn('فشل قراءة إعدادات الأعمدة من localStorage', e);
       }
     }
+
 
     function saveColumnConfigToLocalStorage() {
       const configToSave = allColumns.map(c => ({
@@ -1346,16 +1551,28 @@
 
     function openColumnModal() {
       buildColumnToggles();
+
+      // احضر الإعدادات من localStorage
+      const rawConfig = localStorage.getItem(LOCAL_STORAGE_KEY);
+      const savedConfig = JSON.parse(rawConfig || '{}');
+      const additionalSettings = savedConfig.additionalSettings || {};
+
+      // تعبئة الـ checkbox وحقل التقريب
+      document.getElementById('useDynamicHourPrice').checked = !!additionalSettings.use_dynamic_hour_price;
+      document.getElementById('roundValue').value = additionalSettings.roundvalue || '';
+
+      // ... ثم افتح المودال
       const modal = document.getElementById('columnModal');
       modal.style.display = 'block';
-      const dir = localStorage.getItem(LANG_KEY) == 'ar' ? 'rtl' : 'ltr'
+
+      const dir = localStorage.getItem(LANG_KEY) === 'ar' ? 'rtl' : 'ltr';
       modal.style.direction = dir;
-      if (dir == 'ltr') {
-        document.getElementsByClassName('closeBtn')[0].style.right = '15px'
-        document.getElementsByClassName('closeBtn')[0].style.left = 'initial'
+      if (dir === 'ltr') {
+        document.getElementsByClassName('closeBtn')[0].style.right = '15px';
+        document.getElementsByClassName('closeBtn')[0].style.left = 'initial';
       } else {
-        document.getElementsByClassName('closeBtn')[0].style.left = '15px'
-        document.getElementsByClassName('closeBtn')[0].style.right = 'initial'
+        document.getElementsByClassName('closeBtn')[0].style.left = '15px';
+        document.getElementsByClassName('closeBtn')[0].style.right = 'initial';
       }
     }
 
@@ -1382,10 +1599,31 @@
           col.width = inp.value;
         }
       });
+      // قراءة قيم الحقول الجديدة
+      const useDynamicHourPrice = document.getElementById('useDynamicHourPrice').checked ? 1 : 0;
+      const roundValue = document.getElementById('roundValue').value;
 
-      saveColumnConfigToLocalStorage();
-      renderReport();
+      // 1) جمع بيانات الأعمدة
+      const columnConfig = allColumns.map(c => ({
+        field: c.field,
+        checked: c.checked,
+        width: c.width
+      }));
+      // 2) جمع بيانات الإعدادات الإضافية
+      const additionalSettings = {
+        use_dynamic_hour_price: document.getElementById('useDynamicHourPrice').checked ? 1 : 0,
+        roundvalue: document.getElementById('roundValue').value
+      };
+      // 3) التخزين الموحد
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({
+        columns: columnConfig,
+        additionalSettings: additionalSettings
+      }));
+
+      // ستتم إعادة الجلب من الـ API لتمرير الإعدادات الجديدة
+      loadReport();
       closeColumnModal();
+
     }
 
     function groupRows(data, groupByDept, groupByEmp) {
@@ -1436,9 +1674,584 @@
       `;
     }
 
+    function addDateCellDropdown(dateStr, enrollId, endDayOffset, employeeName) {
+      return `
+      <div class="dateContainer">
+        <span class="dateClickable"
+          style="cursor: pointer; color:#333; font-weight:bold;"
+          onclick="openAttendanceLogsModal('${dateStr}','${endDayOffset}','${enrollId}')"
+          title="انقر لعرض سجلات الحضور">
+          ${dateStr}
+        </span>
+        
+        <span class="dateMenuIcon" onclick="toggleDateMenu(event, this)" title="خيارات إضافية">
+          <i class="bi bi-three-dots-vertical"></i>
+        </span>
+
+        <div class="dateMenuDropdown">
+          <div class="dropdownItem" onclick="openPenaltyRewardModal('${enrollId}','${employeeName}','${dateStr}')">
+            <i class="bi bi-exclamation-triangle"></i> ${getTranslate('penalty_reward')}
+          </div>
+          <div class="dropdownItem" onclick="openAddActionModal('absence','${enrollId}','${dateStr}','${employeeName}')">
+            <i class="bi bi-person-x"></i> ${getTranslate('make-absent')}
+          </div>
+          <div class="dropdownItem" onclick="openAddActionModal('presence','${enrollId}','${dateStr}','${employeeName}')">
+            <i class="bi bi-person-check"></i> ${getTranslate('make-presant')}
+          </div>
+          <div class="dropdownItem" onclick="openAddActionModal('leave','${enrollId}','${dateStr}','${employeeName}')">
+            <i class="bi bi-calendar-x"></i> ${getTranslate('add_leave_report')}
+          </div>
+          <!-- === إضافة جديدة: إجازة زمنية === -->
+          <div class="dropdownItem" onclick="openAddActionModal('time_leave','${enrollId}','${dateStr}','${employeeName}')">
+            <i class="bi bi-clock-fill"></i> ${getTranslate('add_prtial_leave_report')}
+          </div>
+
+          <!-- === إضافة جديدة: زيادة/نقصان وقت === -->
+          <div class="dropdownItem" onclick="openAddActionModal('adjust_time','${enrollId}','${dateStr}','${employeeName}')">
+            <i class="bi bi-clock-history"></i> ${getTranslate('add_rudec_time')}
+          </div>
+        </div>
+      </div>`;
+    }
+
+    function toggleDateMenu(event, iconElem) {
+      event.stopPropagation();
+      const dropdown = iconElem.parentElement.querySelector('.dateMenuDropdown');
+      dropdown.style.display = (dropdown.style.display === 'block') ? 'none' : 'block';
+    }
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.dateMenuDropdown').forEach(dd => {
+        dd.style.display = 'none';
+      });
+    });
+
+    // =====================================================================
+    //         دوال خاصة بإضافة عقوبة/مكافأة بمودال منفصل (بتصميم أنيق)
+    // =====================================================================
+    let penaltyRewardModalAction = {
+      enroll_id: null,
+      employee_name: null,
+      dateStr: null
+    };
+
+    function openPenaltyRewardModal(enrollId, employeeName, dateStr) {
+      penaltyRewardModalAction.enroll_id = enrollId;
+      penaltyRewardModalAction.employee_name = employeeName;
+      penaltyRewardModalAction.dateStr = dateStr;
+
+      // اظهر المودال
+      const modal = document.getElementById('penaltyRewardModal');
+      modal.style.display = 'block';
+      const dir = localStorage.getItem(LANG_KEY) == 'ar' ? 'rtl' : 'ltr';
+      modal.style.direction = dir;
+      if (dir === 'ltr') {
+        modal.querySelector('.closeBtn').style.right = '15px';
+        modal.querySelector('.closeBtn').style.left = 'initial';
+      } else {
+        modal.querySelector('.closeBtn').style.left = '15px';
+        modal.querySelector('.closeBtn').style.right = 'initial';
+      }
+    }
+
+    function closePenaltyRewardModal() {
+      document.getElementById('rewardPenaltyAmount').value = '';
+      document.getElementById('rewardPenaltyReason').value = '';
+      document.getElementById('penaltyRewardModal').style.display = 'none';
+    }
+
+    async function savePenaltyReward() {
+      const amountInput = document.getElementById('rewardPenaltyAmount').value.trim();
+      const reasonInput = document.getElementById('rewardPenaltyReason').value.trim();
+
+      if (!amountInput) {
+        alert('يجب إدخال قيمة المبلغ');
+        return;
+      }
+
+      const amountVal = parseFloat(amountInput) || 0;
+      const dateSelected = penaltyRewardModalAction.dateStr; // نفس اليوم المختار
+      const enrollId = parseInt(penaltyRewardModalAction.enroll_id);
+      const empName = penaltyRewardModalAction.employee_name || '';
+      const performedBy = localStorage.getItem('username') || 'testuser';
+
+      // تاريخ اليوم (لـ added_date) بصيغة yyyy-MM-dd
+      const today = new Date();
+      const y = today.getFullYear();
+      const m = String(today.getMonth() + 1).padStart(2, '0');
+      const d = String(today.getDate()).padStart(2, '0');
+      const addedDateStr = `${y}-${m}-${d}`;
+
+      const bodyData = {
+        enroll_id: enrollId,
+        employee_name: empName,
+        date: dateSelected,       // تاريخ اليوم المختار
+        amount: amountVal,
+        reason: reasonInput,
+        performed_by: performedBy,
+        added_date: addedDateStr  // تاريخ اليوم الحالي
+      };
+
+      try {
+        const resp = await fetch('/api/rewards-penalties', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(bodyData)
+        });
+        if (!resp.ok) {
+          const errTxt = await resp.text();
+          throw new Error(`فشل في إضافة العقوبة/المكافأة. التفاصيل: ${errTxt}`);
+        }
+        alert('تم إضافة العقوبة/المكافأة بنجاح');
+        closePenaltyRewardModal();
+      } catch (err) {
+        alert(err.message);
+        console.error(err);
+      }
+    }
+
+    // =====================================================================
+    //            مودال إضافة أكشن (غياب / حضور / ... / إجازة زمنية/ زيادة/نقصان وقت)
+    // =====================================================================
+    let currentActionType = null;
+    let currentActionDate = null;
+    let currentActionEnrollId = null;
+    let currentActionEmployeeName = '';
+
+    function openAddActionModal(actionType, enrollId, dateStr, employeeName = '') {
+      currentActionType = actionType;
+      currentActionEnrollId = enrollId;
+      currentActionDate = dateStr;
+      currentActionEmployeeName = employeeName;
+
+      if (actionType === 'presence') {
+        const confirmed = confirm('هل أنت متأكد من إضافة حضور لهذا التاريخ؟');
+        if (confirmed) {
+          // نبحث عن السطر المناسب من originalReportData
+          let row = originalReportData.find(r =>
+            r.enroll_id == enrollId &&
+            r.attendance_date == dateStr
+          );
+          if (!row) {
+            alert("لا يوجد سطر بهذه البيانات لإضافة الحضور.");
+            return;
+          }
+          // نستخدم الدالة الجديدة
+          addPresenceForSelectedRow(row);
+        }
+        return;
+      }
+      if (actionType === 'time_leave') {
+        // === إضافة جديدة: إجازة زمنية ===
+        openTimeBasedLeaveModal(enrollId, employeeName, dateStr);
+        return;
+      }
+
+      if (actionType === 'absence') {
+        // استدعاء دالة إضافة الغياب عبر الـ API
+        addAbsenceToServer(enrollId, employeeName, dateStr);
+        return;
+      }
+
+      if (actionType === 'adjust_time') {
+        // فتح مودال زيادة/نقصان الوقت
+        openAdjustTimeModal(enrollId, employeeName, dateStr);
+        return;
+      }
+    }
+
+    // إضافة حضور
+    async function addPresenceForSelectedRow(selectedRow) {
+      try {
+
+        // تحقق من وجود القيم اللازمة
+        if (!selectedRow.scheduled_start_time || !selectedRow.scheduled_end_time) {
+        }
+
+        // إنشاء كائنات التاريخ من القيم الموجودة في السطر
+        const checkInDateTime = new Date(selectedRow.scheduled_start_time);
+        const checkOutDateTime = new Date(selectedRow.scheduled_end_time);
+
+
+        // تحويل التاريخ والوقت إلى صيغة ISO (UTC)
+        const checkInUTC = checkInDateTime.toISOString();
+        const checkOutUTC = checkOutDateTime.toISOString();
+
+        // تجهيز الطلب الخاص بالدخول
+        const body1 = {
+          enrollid: parseInt(selectedRow.enroll_id),
+          name: selectedRow.employee_name,
+          event: 1,
+          time: checkInUTC
+        };
+
+        // تجهيز الطلب الخاص بالخروج
+        const body2 = {
+          enrollid: parseInt(selectedRow.enroll_id),
+          name: selectedRow.employee_name,
+          event: 2,
+          time: checkOutUTC
+        };
+        console.log("طلب الخروج:", body2);
+        let resp1 = await fetch('/api/fingerprints', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body1)
+        });
+        if (!resp1.ok) {
+          throw new Error('فشل تسجيل وقت الدخول للموظف');
+        }
+
+        let resp2 = await fetch('/api/fingerprints', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body2)
+        });
+        if (!resp2.ok) {
+          throw new Error('فشل تسجيل وقت الخروج للموظف');
+        }
+
+        alert('تم إضافة الحضور بنجاح');
+      } catch (e) {
+        console.error(e);
+        alert('حدث خطأ أثناء إضافة الحضور: ' + e.message);
+      }
+    }
+
+    // إضافة غياب عبر /api/extra-minutes
+    async function addAbsenceToServer(enrollId, employeeName, dateStr) {
+      try {
+        const performedBy = localStorage.getItem('username') || 'admin';
+        // تاريخ اليوم (added_date) بصيغة yyyy-MM-dd
+        const today = new Date();
+        const y = today.getFullYear();
+        const m = String(today.getMonth() + 1).padStart(2, '0');
+        const d = String(today.getDate()).padStart(2, '0');
+        const addedDateStr = `${y}-${m}-${d}`;
+
+        // الحصول على official_working_hours من بيانات التقرير، إذا كانت متاحة
+        let officialWorkingHours = 8; // قيمة افتراضية إذا لم يتم العثور على قيمة
+        if (originalReportData && Array.isArray(originalReportData)) {
+          const matchingRow = originalReportData.find(r => r.enroll_id == enrollId && r.attendance_date === dateStr);
+          if (matchingRow && matchingRow.official_working_hours) {
+            officialWorkingHours = parseFloat(matchingRow.official_working_hours) || 8;
+          }
+        }
+
+        const minutesToDeduct = officialWorkingHours * 60 * -1;
+
+        const body = {
+          enroll_id: parseInt(enrollId),
+          employee_name: employeeName,
+          bonus_date: dateStr,    // تاريخ الغياب
+          minutes: minutesToDeduct,
+          added_by: performedBy,
+          added_date: addedDateStr
+        };
+
+        const resp = await fetch('/api/extra-minutes', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+
+        if (!resp.ok) {
+          const errTxt = await resp.text();
+          throw new Error(`فشل في إضافة الغياب. التفاصيل: ${errTxt}`);
+        }
+
+        alert('تمت إضافة الغياب بنجاح');
+      } catch (error) {
+        alert(error.message);
+        console.error(error);
+      }
+    }
+
+
+    // مودال زيادة/نقصان الوقت
+    function openAdjustTimeModal(enrollId, employeeName, dateStr) {
+      // املأ الحقول المخفية
+      document.getElementById('adjustTimeEnrollId').value = enrollId;
+      document.getElementById('adjustTimeEmployeeName').value = employeeName;
+      document.getElementById('adjustTimeDate').value = dateStr;
+
+      const modal = document.getElementById('adjustTimeModal');
+      modal.style.display = 'block';
+
+      const dir = localStorage.getItem(LANG_KEY) == 'ar' ? 'rtl' : 'ltr';
+      modal.style.direction = dir;
+      if (dir === 'ltr') {
+        modal.querySelector('.closeBtn').style.right = '15px';
+        modal.querySelector('.closeBtn').style.left = 'initial';
+      } else {
+        modal.querySelector('.closeBtn').style.left = '15px';
+        modal.querySelector('.closeBtn').style.right = 'initial';
+      }
+    }
+
+    function closeAdjustTimeModal() {
+      document.getElementById('adjustTimeMinutes').value = '';
+      document.getElementById('adjustTimeModal').style.display = 'none';
+    }
+
+    async function submitAdjustTimeForm() {
+      try {
+        const enrollId = parseInt(document.getElementById('adjustTimeEnrollId').value);
+        const employeeName = document.getElementById('adjustTimeEmployeeName').value;
+        const dateStr = document.getElementById('adjustTimeDate').value;
+        const minutesInput = document.getElementById('adjustTimeMinutes').value.trim();
+        const performedBy = localStorage.getItem('username') || 'admin';
+
+        if (!minutesInput) {
+          alert('يجب إدخال عدد الدقائق');
+          return;
+        }
+
+        const minutesVal = parseInt(minutesInput); // يمكن أن يكون موجب أو سالب
+
+        // تاريخ اليوم (added_date) بصيغة yyyy-MM-dd
+        const today = new Date();
+        const y = today.getFullYear();
+        const m = String(today.getMonth() + 1).padStart(2, '0');
+        const d = String(today.getDate()).padStart(2, '0');
+        const addedDateStr = `${y}-${m}-${d}`;
+
+        const body = {
+          enroll_id: enrollId,
+          employee_name: employeeName,
+          bonus_date: dateStr,
+          minutes: minutesVal,  // يمكن أن يكون + أو -
+          added_by: performedBy,
+          added_date: addedDateStr
+        };
+
+        const resp = await fetch('/api/extra-minutes', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+
+        if (!resp.ok) {
+          const errTxt = await resp.text();
+          throw new Error('فشل في زيادة/نقصان الوقت. التفاصيل: ' + errTxt);
+        }
+
+        alert('تمت العملية بنجاح');
+        closeAdjustTimeModal();
+      } catch (error) {
+        alert(error.message);
+        console.error(error);
+      }
+    }
+
+    // =====================================================================
+    //          مودال "إجازة" بتصميم أنيق
+    // =====================================================================
+    let vacationTypesData = [];
+
+    async function openVacationModal(enrollId, employeeName, dateStr) {
+      // املأ الحقول
+      document.getElementById('vacationEnrollId').value = enrollId;
+      document.getElementById('vacationEmployeeName').value = employeeName;
+      document.getElementById('vacationDate').value = dateStr;
+
+      if (vacationTypesData.length === 0) {
+        await fetchVacationTypes();
+      }
+      buildVacationTypesDropdown();
+
+      const modal = document.getElementById('vacationModal');
+      modal.style.display = 'block';
+      const dir = localStorage.getItem(LANG_KEY) == 'ar' ? 'rtl' : 'ltr'
+      modal.style.direction = dir;
+      if (dir == 'ltr') {
+        modal.querySelector('.closeBtn').style.right = '15px';
+        modal.querySelector('.closeBtn').style.left = 'initial';
+      } else {
+        modal.querySelector('.closeBtn').style.left = '15px';
+        modal.querySelector('.closeBtn').style.right = 'initial';
+      }
+    }
+
+    function closeVacationModal() {
+      document.getElementById('vacationReason').value = '';
+      document.getElementById('vacationIsPaidSelect').value = 'true';
+      document.getElementById('vacationModal').style.display = 'none';
+    }
+
+    async function fetchVacationTypes() {
+      try {
+        const resp = await fetch('/api/vacation-types', {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!resp.ok) throw new Error('فشل جلب أنواع الإجازات');
+        vacationTypesData = await resp.json();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    function buildVacationTypesDropdown() {
+      const select = document.getElementById('vacationTypeSelect');
+      select.innerHTML = '';
+      vacationTypesData.forEach(vt => {
+        const opt = document.createElement('option');
+        opt.value = vt._id;
+        opt.textContent = vt.vacation_name;
+        select.appendChild(opt);
+      });
+    }
+
+    async function submitVacationForm() {
+      const enroll_id = document.getElementById('vacationEnrollId').value;
+      const employee_name = document.getElementById('vacationEmployeeName').value;
+      const dateStr = document.getElementById('vacationDate').value;
+      const vacation_type_id = document.getElementById('vacationTypeSelect').value;
+      const reason = document.getElementById('vacationReason').value.trim();
+      const isPaidVal = document.getElementById('vacationIsPaidSelect').value;
+      const is_paid = (isPaidVal === 'true');
+
+      const payload = {
+        enroll_id: +enroll_id,
+        employee_name,
+        vacation_start_date: dateStr,
+        vacation_end_date: dateStr,
+        vacation_type_id,
+        reason,
+        is_paid,
+        status: 'Approved'
+      };
+
+      try {
+        const resp = await fetch('/api/vacations', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+        if (!resp.ok) {
+          const errTxt = await resp.text();
+          throw new Error('خطأ في إضافة الإجازة: ' + errTxt);
+        }
+        alert('تم تسجيل الإجازة بنجاح');
+        closeVacationModal();
+      } catch (error) {
+        alert(error.message);
+        console.error(error);
+      }
+    }
+
+    // =====================================================================
+    //          مودال "إجازة زمنية" (Time-based) بتصميم أنيق
+    // =====================================================================
+    // === إضافة جديدة: إنشاء مودال الإجازة الزمنية similar to VacationModal ===
+    function openTimeBasedLeaveModal(enrollId, employeeName, dateStr) {
+      // املأ الحقول المخفية
+      document.getElementById('timeLeaveEnrollId').value = enrollId;
+      document.getElementById('timeLeaveEmployeeName').value = employeeName;
+      document.getElementById('timeLeaveDate').value = dateStr;
+
+      // افتح المودال
+      const modal = document.getElementById('timeBasedLeaveModal');
+      modal.style.display = 'block';
+
+      const dir = localStorage.getItem(LANG_KEY) == 'ar' ? 'rtl' : 'ltr';
+      modal.style.direction = dir;
+      if (dir === 'ltr') {
+        modal.querySelector('.closeBtn').style.right = '15px';
+        modal.querySelector('.closeBtn').style.left = 'initial';
+      } else {
+        modal.querySelector('.closeBtn').style.left = '15px';
+        modal.querySelector('.closeBtn').style.right = 'initial';
+      }
+    }
+
+    function closeTimeBasedLeaveModal() {
+      document.getElementById('timeLeaveFromTime').value = '';
+      document.getElementById('timeLeaveToTime').value = '';
+      document.getElementById('timeLeaveDurationEntry').value = '';
+      document.getElementById('timeLeaveDurationExit').value = '';
+      document.getElementById('timeLeavePaidOrUnpaid').value = 'Paid';
+      document.getElementById('timeLeaveReason').value = '';
+      document.getElementById('timeBasedLeaveModal').style.display = 'none';
+    }
+
+    async function submitTimeBasedLeaveForm() {
+      const enroll_id = document.getElementById('timeLeaveEnrollId').value;
+      const employee_name = document.getElementById('timeLeaveEmployeeName').value;
+      const leave_date = document.getElementById('timeLeaveDate').value;
+      const from_time = document.getElementById('timeLeaveFromTime').value;
+      const to_time = document.getElementById('timeLeaveToTime').value;
+      const leave_duration_for_entry = document.getElementById('timeLeaveDurationEntry').value;
+      const leave_duration_for_exit = document.getElementById('timeLeaveDurationExit').value;
+      const paid_or_unpaid = document.getElementById('timeLeavePaidOrUnpaid').value;
+      const leave_reason = document.getElementById('timeLeaveReason').value.trim();
+      const added_by = localStorage.getItem('username') || 'admin';
+
+      // added_date = تاريخ اليوم
+      const today = new Date();
+      const y = today.getFullYear();
+      const m = String(today.getMonth() + 1).padStart(2, '0');
+      const d = String(today.getDate()).padStart(2, '0');
+      const added_date = `${y}-${m}-${d}`;
+
+      const payload = {
+        enroll_id: +enroll_id,
+        employee_name,
+        leave_date,
+        from_time,
+        to_time,
+        leave_duration_for_entry: +leave_duration_for_entry || 0,
+        leave_duration_for_exit: +leave_duration_for_exit || 0,
+        paid_or_unpaid,
+        leave_reason,
+        added_by,
+        added_date,
+        status: 'Pending'
+      };
+
+      try {
+        const resp = await fetch('/api/time-based-leaves', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+        if (!resp.ok) {
+          const errTxt = await resp.text();
+          throw new Error('خطأ في إضافة الإجازة الزمنية: ' + errTxt);
+        }
+        alert('تم تسجيل الإجازة الزمنية بنجاح');
+        closeTimeBasedLeaveModal();
+      } catch (error) {
+        alert(error.message);
+        console.error(error);
+      }
+    }
+
+    // =====================================================================
+    //             عرض التقرير في الجدول
+    // =====================================================================
     function renderReport() {
       try {
-        // Check if required data is available
         if (!allColumns || !originalReportData) {
           console.error('Missing necessary data: allColumns or originalReportData is undefined.');
           return;
@@ -1448,13 +2261,10 @@
         const tableHead = document.querySelector('#reportTable thead');
         const tableBody = document.querySelector('#reportTable tbody');
 
-        // Clear existing table data
         tableHead.innerHTML = '';
         tableBody.innerHTML = '';
 
         const displayedColumns = allColumns.filter(c => c.checked);
-
-        // Ensure displayedColumns has valid columns
         if (displayedColumns.length === 0) {
           console.error('No columns are selected for display.');
           return;
@@ -1468,29 +2278,15 @@
         theadHtml += '</tr>';
         tableHead.innerHTML = theadHtml;
 
-        // Filter data based on selected status
+        // Filter data by status
         let filteredData = originalReportData.filter(row => {
           if (!statusVal) return true;
           return row.status_code === statusVal;
         });
 
-        // Ensure filteredData is not empty
-        if (filteredData.length === 0) {
-          console.warn('No data matches the selected status.');
-        }
-
-        // Get grouping options
         const groupByDept = document.getElementById('groupByDeptCheckbox').checked;
         const groupByEmp = document.getElementById('groupByEmpCheckbox').checked;
-
-        // Group data
         const groupedData = groupRows(filteredData, groupByDept, groupByEmp);
-
-        // Ensure groupRows returns a valid object
-        if (!groupedData || typeof groupedData !== 'object') {
-          console.error('groupRows() did not return valid data.');
-          return;
-        }
 
         let count = 0;
         let sumDelay = 0;
@@ -1498,27 +2294,26 @@
         let sumNet = 0;
         let rowsHtml = '';
 
-        // Generate table rows
         Object.keys(groupedData).forEach(deptKey => {
           if (groupByDept && deptKey !== 'All Departments') {
             rowsHtml += `
-          <tr class="deptHeaderRow">
-            <td colspan="${displayedColumns.length}" style="text-align:right; font-weight:bold;">
-              ${reportTranslations['department']}: ${deptKey}
-            </td>
-          </tr>
-        `;
+              <tr class="deptHeaderRow">
+                <td colspan="${displayedColumns.length}" style="text-align:right; font-weight:bold;">
+                  ${reportTranslations['department']}: ${deptKey}
+                </td>
+              </tr>
+            `;
           }
 
           Object.keys(groupedData[deptKey]).forEach(empKey => {
             if (groupByEmp && empKey !== 'All Employees') {
               rowsHtml += `
-            <tr class="empHeaderRow">
-              <td colspan="${displayedColumns.length}" style="text-align:right; font-weight:bold;">
-              ${reportTranslations['employee']}: ${empKey}
-              </td>
-            </tr>
-          `;
+                <tr class="empHeaderRow">
+                  <td colspan="${displayedColumns.length}" style="text-align:right; font-weight:bold;">
+                  ${reportTranslations['employee']}: ${empKey}
+                  </td>
+                </tr>
+              `;
             }
 
             groupedData[deptKey][empKey].forEach(row => {
@@ -1527,44 +2322,37 @@
               sumEarly += (row.early_exit_minutes || 0);
               sumNet += (row.net_salary || 0);
 
-              // console.log(row)
               let trHtml = `<tr id=${row.enroll_id}>`;
               displayedColumns.forEach(col => {
                 let cellVal = row[col.field] || '';
-
                 let cellStyle = `width:${col.width};`;
 
-                if (col.field == 'rest_breaks') {
+                if (col.field == 'rest_breaks' && Array.isArray(cellVal)) {
                   let val = ''
                   cellVal.forEach(item => {
                     val += `${getTranslate('in')}: ${item.rest_in.split(' ')[1]} \n
-                    ${getTranslate('out')}: ${item.rest_out.split(' ')[1]} \n
-                    ${getTranslate('duration')}: ${formatWorkHours(item.duration)} \n`
+${getTranslate('out')}: ${item.rest_out.split(' ')[1]} \n
+${getTranslate('duration')}: ${formatWorkHours(item.duration)} \n\n`
                   })
                   cellVal = val
-                  cellStyle += 'white-space: pre-line;line-height: 0.8;'
+                  cellStyle += 'white-space: pre-line;line-height: 1.2;'
                 }
+
                 if (col.field === 'work_intervals' && Array.isArray(cellVal)) {
-                 let val = '';
+                  let val = '';
                   cellVal.forEach((interval, idx) => {
-                       // هنا تحدد كيف تريد عرض كل فترة، مثلاً:
-                        // نفترض أن الكائن فيه in_time, out_time, duration
-                  
-                        val += `${getTranslate('in')}: ${interval.inTime.split(' ')[1]}\n`;
-                        val += `${getTranslate('out')}: ${interval.outTime.split(' ')[1]}\n`;
-                        val += `${getTranslate('duration')}: ${interval.duration}\n\n`;
-                              });
-                   cellVal = val;
-         cellStyle += 'white-space: pre-line; line-height:1.2;';
-}
+                    val += `${getTranslate('in')}: ${interval.inTime.split(' ')[1]}\n`;
+                    val += `${getTranslate('out')}: ${interval.outTime.split(' ')[1]}\n`;
+                    val += `${getTranslate('duration')}: ${interval.duration}\n\n`;
+                  });
+                  cellVal = val;
+                  cellStyle += 'white-space: pre-line; line-height:1.2;';
+                }
 
-
-                // Format check_in/check_out times if needed
                 if ((col.field === 'check_in' || col.field === 'check_out') && cellVal.includes(' ')) {
                   cellVal = cellVal.split(' ')[1];
                 }
 
-                // Additional formatting for work_hours and net_salary
                 if (col.field === 'work_hours' && cellVal) {
                   cellVal = formatWorkHours(cellVal);
                 }
@@ -1575,6 +2363,7 @@
                 if (col.field === 'attendance_status') {
                   switch (row.status_code) {
                     case 'absent': cellStyle += 'background-color:#ffd4d4;'; break;
+                    case 'half_day': cellStyle += 'background-color:#ce78f0;'; break;
                     case 'late': cellStyle += 'background-color:#fff5d4;'; break;
                     case 'early_exit': cellStyle += 'background-color:#ffe9d4;'; break;
                     case 'present': cellStyle += 'background-color:#d4ffd4;'; break;
@@ -1584,6 +2373,11 @@
                   }
                   cellVal = getTranslate(cellVal)
                 }
+
+                if (col.field === 'attendance_date') {
+                  cellVal = addDateCellDropdown(cellVal, row.enroll_id, row.endDayOffset || 0, row.employee_name || '');
+                }
+
                 trHtml += `<td style="${cellStyle}">${cellVal}</td>`;
               });
               trHtml += '</tr>';
@@ -1592,23 +2386,18 @@
           });
         });
 
-        // Append rows to the table body
         tableBody.innerHTML = rowsHtml;
 
-
-        // Update summary information
         document.getElementById('recordsCount').textContent = count;
         document.getElementById('delaySum').textContent = sumDelay;
         document.getElementById('earlySum').textContent = sumEarly;
         const sumNetFormatted = formatNetSalary(sumNet);
         document.getElementById('netSum').textContent = sumNetFormatted;
 
-        // Add summary row if data exists
         if (count > 0) {
           const summaryRowHtml = getSummaryRowHtml(count, sumDelay, sumEarly, sumNetFormatted, displayedColumns.length);
           tableBody.innerHTML += summaryRowHtml;
         }
-
       } catch (error) {
         console.error('Error in renderReport():', error);
       }
@@ -1625,10 +2414,12 @@
           val = num.toLocaleString('en-US', { maximumFractionDigits: 2 });
         }
 
+        let label = reportTranslations[key] || key;
+
         const divField = document.createElement('div');
         divField.className = 'apiSummaryField';
         divField.innerHTML = `
-          <div class="apiSummaryLabel">${reportTranslations[key]}</div>
+          <div class="apiSummaryLabel">${label}</div>
           <div class="apiSummaryValue">${val}</div>
         `;
         gridContainer.appendChild(divField);
@@ -1649,16 +2440,13 @@
       let table = document.getElementById(tableID);
       if (!table) return;
 
-      let wb = XLSX.utils.book_new(); // Create a new workbook
-      let ws = XLSX.utils.table_to_sheet(table); // Convert table to sheet
-      XLSX.utils.book_append_sheet(wb, ws, "Sheet1"); // Append sheet to workbook
+      let wb = XLSX.utils.book_new();
+      let ws = XLSX.utils.table_to_sheet(table);
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
 
-      // Save the file
       filename = filename || 'excel_data';
       XLSX.writeFile(wb, filename + ".xlsx");
-
     }
-
 
     function chunkArray(array, chunkSize) {
       const results = [];
@@ -1702,8 +2490,7 @@
       const displayedColumns = allColumns.filter(c => c.checked);
 
       const printWindow = window.open('', '', 'width=1200,height=700');
-
-      const dir = localStorage.getItem(LANG_KEY) == 'ar' ? 'rtl' : 'ltr'
+      const dir = localStorage.getItem(LANG_KEY) == 'ar' ? 'rtl' : 'ltr';
 
       printWindow.document.write(`
         <!DOCTYPE html>
@@ -1899,7 +2686,7 @@
                 case 'late_and_early_exit': cellStyle += 'background-color:#ffe6ff;'; break;
                 case 'overtime': cellStyle += 'background-color:#e6ffe6;'; break;
               }
-              cellVal = getTranslate(cellVal)
+              cellVal = getTranslate(cellVal);
             }
             printWindow.document.write(`<td style="${cellStyle}">${cellVal}</td>`);
           });
@@ -1981,21 +2768,17 @@
   </script>
 
   <!-- 
-    ========== المودال الجديد والوظائف الجديدة لعرض سجلات الحضور للفترة المحددة ==========
-    دون تعديل أكواد الدوال الأصلية، إنما أضفنا فقط ما يلزم للمودال والارتباط بالنقر.
+    ========== المودال الخاص بعرض سجلات الحضور للفترة المحددة ========== 
   -->
-  <!-- مودال لعرض سجلات الحضور (fingerprints logs) -->
   <div id="attendanceLogsModal" class="modal" dir="">
     <div class="modal-content">
-      <button class="closeBtn" onclick="closeAttendanceLogsModal()">&times; إغلاق</button>
+      <button class="closeBtn" onclick="closeAttendanceLogsModal()">&times; dfdfd</button>
       <div class="modal-header">
         <h2>سجل الحضور</h2>
       </div>
       <div class="modal-body" style="display:block;">
-        <!-- عرض الفترة -->
         <p id="logsDateRange" style="font-weight: bold; margin-bottom: 15px;"></p>
 
-        <!-- فلاتر بسيطة داخل المودال للبحث -->
         <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:15px;">
           <label for="logsFromDate">من تاريخ:</label>
           <input type="date" id="logsFromDate" />
@@ -2025,7 +2808,6 @@
           <tbody></tbody>
         </table>
 
-        <!-- حاوية الجدول -->
         <div style="max-height: 400px; overflow:auto;">
           <table id="logsTable" style="width:100%; border-collapse:collapse;">
             <thead>
@@ -2041,6 +2823,7 @@
         </div>
 
       </div>
+
       <div class="modal-footer">
         <button onclick="closeAttendanceLogsModal()">إغلاق</button>
       </div>
@@ -2054,7 +2837,7 @@
         <button class="modalCloseBtn" onclick="closeDayModal()">×</button>
       </div>
       <div class="modalBody" style="pointer-events: none;">
-
+        <!-- محتوى تفاصيل الشفت -->
         <label data-lng="lblDaySelect" for="daySelect"></label>
         <select id="daySelect">
           <option value="Sun">Sun</option>
@@ -2147,65 +2930,58 @@
     </div>
   </div>
 
-
   <script>
-    // دوال للمودال وسحب البيانات
-
-    // دالة مساعدة لتحويل "yyyy-mm-dd" إلى كائن Date
-    function parseDateString(dateStr) {
-      const [y, m, d] = dateStr.split('-');
-      return new Date(+y, +m - 1, +d);
+    function closeAttendanceLogsModal() {
+      document.getElementById('attendanceLogsModal').style.display = 'none';
+      document.getElementById('scheduleTable').style.display = 'none'
+      currentScheduleDay = null
     }
 
-    // دالة لتنسيق كائن Date إلى "yyyy-mm-dd"
-    function formatDateYMD(dt) {
-      const y = dt.getFullYear();
-      const m = String(dt.getMonth() + 1).padStart(2, '0');
-      const d = String(dt.getDate()).padStart(2, '0');
-      return `${y}-${m}-${d}`;
+    function closeDayModal() {
+      document.getElementById('dayModal').style.display = 'none';
     }
 
-    // إضافة عدد أيام لـ Date
-    function addDaysToDate(baseDate, days) {
-      const newDate = new Date(baseDate.valueOf());
-      newDate.setDate(newDate.getDate() + days);
-      return newDate;
-    }
-
-    // فتح المودال مع حساب الفترة من attendance_date + "T00:00:00"
-    // ولغاية attendance_date + endDayOffset + "T23:59:59"
     let currentScheduleDay = null
     function openAttendanceLogsModal(attDateStr, endDayOffset, enroll_id) {
+      function parseDateString(dateStr) {
+        const [y, m, d] = dateStr.split('-');
+        return new Date(+y, +m - 1, +d);
+      }
+      function formatDateYMD(dt) {
+        const y = dt.getFullYear();
+        const m = String(dt.getMonth() + 1).padStart(2, '0');
+        const d = String(dt.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+      }
+      function addDaysToDate(baseDate, days) {
+        const newDate = new Date(baseDate.valueOf());
+        newDate.setDate(newDate.getDate() + days);
+        return newDate;
+      }
 
-      // parse attDateStr إلى Date
       const baseDate = parseDateString(attDateStr);
-      // تاريخ النهاية
       const endDateObj = addDaysToDate(baseDate, endDayOffset || 0);
 
-      // صيغة العرض والفلترة
       const startDateFormatted = formatDateYMD(baseDate);
       const endDateFormatted = formatDateYMD(endDateObj);
 
-      // تعبئة حقول التاريخ في المودال (date inputs)
       document.getElementById('logsFromDate').value = startDateFormatted;
       document.getElementById('logsToDate').value = endDateFormatted;
-      // تعبئة EnrollID (إن وجد)
       document.getElementById('logsEnrollId').value = enroll_id || '';
 
-      const weekSchedules = employees.filter(em => em.enroll_id == enroll_id)[0].weekSchedules
+      const weekSchedules = employees.filter(em => em.enroll_id == enroll_id)[0] ?.weekSchedules || [];
       const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-      const dayStr = dayOrder[new Date(attDateStr).getDay()]
-      const scheduleDay = weekSchedules.filter(day => day.day == dayStr)[0]
+      const dayStr = dayOrder[new Date(attDateStr).getDay()];
+      const scheduleDay = weekSchedules.filter(day => day.day == dayStr)[0];
+
       if (scheduleDay) {
-        currentScheduleDay = scheduleDay
-        renderSchedule(scheduleDay)
+        currentScheduleDay = scheduleDay;
+        renderSchedule(scheduleDay);
       }
 
-      // كتابة العنوان في أعلى المودال
       document.getElementById('logsDateRange').textContent =
         `${reportTranslations['records_from']} ${startDateFormatted} 00:00 ${reportTranslations['to']} ${endDateFormatted} 23:59`;
 
-      // إظهار المودال
       const modal = document.getElementById('attendanceLogsModal')
       modal.style.display = 'block';
       const dir = localStorage.getItem(LANG_KEY) == 'ar' ? 'rtl' : 'ltr'
@@ -2217,7 +2993,6 @@
         document.getElementsByClassName('closeBtn')[1].style.left = '15px'
         document.getElementsByClassName('closeBtn')[1].style.right = 'initial'
       }
-      // جلب البيانات مباشرة
       fetchAttendanceLogs();
     }
 
@@ -2238,13 +3013,8 @@
       tb.appendChild(row);
     }
 
-    function closeAttendanceLogsModal() {
-      document.getElementById('attendanceLogsModal').style.display = 'none';
-      document.getElementById('scheduleTable').style.display = 'none'
-      currentScheduleDay = null
-    }
-
     function openDayModal() {
+      if (!currentScheduleDay) return;
       document.getElementById('daySelect').value = currentScheduleDay.day || 'Sun';
       document.getElementById('dayStart').value = currentScheduleDay.startTime || '08:00:00';
       document.getElementById('dayEnd').value = currentScheduleDay.endTime || '17:00:00';
@@ -2270,15 +3040,12 @@
       document.getElementById('dayOTEligible').value = currentScheduleDay.overtime_eligible ? 'true' : 'false';
       document.getElementById('dayAllowedMinRest').value = currentScheduleDay.allowed_min_rest || 0;
       document.getElementById('dayRestMinPrice').value = currentScheduleDay.rest_min_prices || 0;
-      showDayModal();
+      document.getElementById('dayModal').style.display = 'flex';
     }
 
-    function showDayModal() { document.getElementById('dayModal').style.display = 'flex'; }
-    function closeDayModal() { document.getElementById('dayModal').style.display = 'none'; }
-
     async function fetchAttendanceLogs() {
-      const fromDate = document.getElementById('logsFromDate').value; // yyyy-mm-dd
-      const toDate = document.getElementById('logsToDate').value;   // yyyy-mm-dd
+      const fromDate = document.getElementById('logsFromDate').value;
+      const toDate = document.getElementById('logsToDate').value;
       const eid = document.getElementById('logsEnrollId').value.trim();
 
       if (!fromDate || !toDate) {
@@ -2286,7 +3053,6 @@
         return;
       }
 
-      // نضمّن التوقيت في الاستعلام: 00:00:00 و 23:59:59
       const fromStr = fromDate + 'T00:00:00';
       const toStr = toDate + 'T23:59:59';
 
@@ -2306,7 +3072,6 @@
         const data = await resp.json();
         const logs = data.logs || [];
 
-        // عرض النتائج في الجدول
         const tbody = document.querySelector('#logsTable tbody');
         tbody.innerHTML = '';
         logs.forEach(log => {
@@ -2324,60 +3089,152 @@
         console.error(err);
       }
     }
-
-    /*
-      نستخدم setInterval لإضافة حدث النقر على الأسطر كل ثانية
-      دون تعديل الدوال الأصلية في renderReport().
-      نفترض أن الحقل الأول (attendance_date) والحقل الثاني (endDayOffset).
-    */
-    setInterval(() => {
-      const tableBodyRows = document.querySelectorAll('#reportTable tbody tr');
-      if (!tableBodyRows.length) return;
-
-      tableBodyRows.forEach((row) => {
-        if (
-          row.classList.contains('deptHeaderRow') ||
-          row.classList.contains('empHeaderRow') ||
-          row.classList.contains('summaryRow')
-        ) {
-          return; // تجاهل صفوف التجميع والملخص
-        }
-
-        const item = originalReportData.filter(item => item.enroll_id == row.id)[0] || {}
-
-        if (!row.dataset.clickBound) {
-
-          row.dataset.clickBound = 'true';
-
-          const dateVal = item.attendance_date?.trim();
-          if (!dateVal) return;
-
-          const offsetVal = item.endDayOffset;
-
-          const enroll_id = item.enroll_id;
-
-          row.addEventListener('click', () => {
-            openAttendanceLogsModal(dateVal, offsetVal, enroll_id);
-          });
-        }
-      });
-    }, 1000);
   </script>
 
+  <!-- ========================= مودال إضافة عقوبة/مكافأة ========================= -->
+  <div id="penaltyRewardModal" class="modal">
+    <div class="modal-content">
+      <button class="closeBtn" onclick="closePenaltyRewardModal()">&times;</button>
+      <div class="modal-header">
+        <h2 data-lng="add_penalty_reward"></h2>
+      </div>
+      <div class="modal-body penaltyRewardModalBody form-inner-row">
+
+        <div class="form-row" style="flex-basis:100%;max-width: 100%;">
+          <label for="rewardPenaltyAmount" data-lng="reward_penalty_amount"></label>
+          <input type="number" id="rewardPenaltyAmount" />
+        </div>
+        <div class="form-row" style="flex-basis:100%;max-width: 100%;">
+          <label for="rewardPenaltyReason" data-lng="rewardPenaltyReason"></label>
+          <textarea id="rewardPenaltyReason"></textarea>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button onclick="savePenaltyReward()" data-lng="save"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================= مودال الإجازة (بتصميم أنيق) ============================= -->
+  <div id="vacationModal" class="modal">
+    <div class="modal-content">
+      <button class="closeBtn" onclick="closeVacationModal()">&times;</button>
+      <div class="modal-header">
+        <h2>إضافة إجازة</h2>
+      </div>
+      <div class="modal-body vacationModalBody">
+        <label for="vacationTypeSelect">نوع الإجازة:</label>
+        <select id="vacationTypeSelect"></select>
+
+        <label for="vacationReason">السبب:</label>
+        <textarea id="vacationReason" rows="3" placeholder="مثال: إجازة سنوية، طارئة.."></textarea>
+
+        <label for="vacationIsPaidSelect">هل هي مدفوعة؟</label>
+        <select id="vacationIsPaidSelect">
+          <option value="true">نعم</option>
+          <option value="false">لا</option>
+        </select>
+
+        <!-- حقول مخفية للاحتفاظ بـ enroll_id و employee_name و التاريخ -->
+        <input type="hidden" id="vacationEnrollId" />
+        <input type="hidden" id="vacationEmployeeName" />
+        <input type="hidden" id="vacationDate" />
+      </div>
+      <div class="modal-footer">
+        <button onclick="submitVacationForm()">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================= مودال الإجازة الزمنية (Time-based) ============================= -->
+  <!-- === إضافة جديدة === -->
+  <div id="timeBasedLeaveModal" class="modal">
+    <div class="modal-content">
+      <button class="closeBtn" onclick="closeTimeBasedLeaveModal()">&times;</button>
+      <div class="modal-header">
+        <h2 data-lng="att_time_off_title"></h2>
+      </div>
+      <div class="modal-body timeBasedLeaveModalBody form-inner-row">
+
+        <div class="form-row">
+          <label for="timeLeaveFromTime" data-lng="timeLeaveFromTime">من وقت:</label>
+          <input type="time" id="timeLeaveFromTime" />
+        </div>
+        <div class="form-row">
+          <label for="timeLeaveToTime" data-lng="timeLeaveToTime">إلى وقت:</label>
+          <input type="time" id="timeLeaveToTime" />
+        </div>
+        <div class="form-row">
+          <label for="timeLeaveDurationEntry" data-lng="timeLeaveDurationEntry">دقائق سماح للدخول:</label>
+          <input type="number" id="timeLeaveDurationEntry" placeholder="مثال: 60" />
+        </div>
+        <div class="form-row">
+          <label for="timeLeaveDurationExit" data-lng="timeLeaveDurationExit">دقائق سماح للخروج:</label>
+          <input type="number" id="timeLeaveDurationExit" placeholder="مثال: 22" />
+        </div>
+        <div class="form-row">
+          <label for="timeLeavePaidOrUnpaid" data-lng="timeLeavePaidOrUnpaid">هل مدفوعة؟</label>
+          <select id="timeLeavePaidOrUnpaid">
+            <option value="Paid" data-lng="paid">مدفوعة</option>
+            <option value="Unpaid" data-lng="unpaid">غير مدفوعة</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="timeLeaveReason" data-lng="timeLeaveReason">السبب:</label>
+          <textarea id="timeLeaveReason" rows="3" placeholder="اكتب السبب هنا"></textarea>
+        </div>
+
+        <!-- حقول مخفية للاحتفاظ بـ enroll_id و employee_name و التاريخ -->
+        <input type="hidden" id="timeLeaveEnrollId" />
+        <input type="hidden" id="timeLeaveEmployeeName" />
+        <input type="hidden" id="timeLeaveDate" />
+
+      </div>
+      <div class="modal-footer">
+        <button onclick="submitTimeBasedLeaveForm()" data-lng="save">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ مودال زيادة/نقصان وقت (adjust_time) ============================ -->
+  <div id="adjustTimeModal" class="modal">
+    <div class="modal-content">
+      <button class="closeBtn" onclick="closeAdjustTimeModal()">&times;</button>
+      <div class="modal-header">
+        <h2 data-lng="increase_or_decrease_time">زيادة/نقصان وقت</h2>
+      </div>
+      <div class="modal-body timeBasedLeaveModalBody form-inner-row">
+
+        <div class="form-row">
+          <label for="adjustTimeMinutes" data-lng="number_of_minutes">عدد الدقائق (+ أو -):</label>
+          <input type="number" id="adjustTimeMinutes" placeholder="مثال: 30 أو -15" />
+        </div>
+
+
+        <!-- حقول مخفية للاحتفاظ بـ enroll_id و employee_name و التاريخ -->
+        <input type="hidden" id="adjustTimeEnrollId" />
+        <input type="hidden" id="adjustTimeEmployeeName" />
+        <input type="hidden" id="adjustTimeDate" />
+      </div>
+      <div class="modal-footer">
+        <button onclick="submitAdjustTimeForm()" data-lng="save">حفظ</button>
+      </div>
+    </div>
+  </div>
   <!-- ================================================================================================== -->
+
   <!-- ===============================  i18n script start  =============================================== -->
-  <!-- ================================================================================================== -->
   <script>
-    // مفتاح اللغة في Local Storage
     const LANG_KEY = 'lng';
-    // مسار ملفات الترجمة
     const REPORT_LANG_PATH = './lang';
-    // كائن سيحمل نصوص الترجمة بعد تحميلها
     let reportTranslations = {};
     let translations = {};
-    function getTranslate(key) { return translations[key] || "" }
 
-    // تحميل ملف الترجمة
+    function getTranslate(key) {
+      return translations.hasOwnProperty(key) ? translations[key] : key;
+    }
+
     async function loadReportLangFile(lang) {
       try {
         const response = await fetch(`${REPORT_LANG_PATH}/${lang}_report.json`);
@@ -2390,23 +3247,19 @@
       }
     }
 
-    // تطبيق الترجمة على عناصر الصفحة
     function applyReportTranslations(lang) {
-      // ضبط اتجاه الصفحة
       document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
       document.documentElement.lang = lang;
       document.querySelectorAll('[data-lng]').forEach(el => {
         const key = el.getAttribute('data-lng');
         if (translations[key]) {
-          el.textContent = translations[key]; // Apply translation
+          el.textContent = translations[key];
         }
       });
-      // العنوان في التبويب
       if (reportTranslations['report_head_title']) {
         document.title = reportTranslations['report_head_title'];
       }
 
-      // الهيدر الرئيسي
       const mainHeaderH1 = document.querySelector('header h1');
       if (mainHeaderH1 && reportTranslations['report_header_title']) {
         mainHeaderH1.textContent = reportTranslations['report_header_title'];
@@ -2420,7 +3273,6 @@
         if (reportTranslations[key]) {
           option.textContent = reportTranslations[key];
         }
-        // Translate the checkbox labels if they have data-lng
         document.querySelectorAll('label').forEach(label => {
           const input = label.querySelector('input');
           if (input && input.getAttribute('data-lng')) {
@@ -2431,7 +3283,6 @@
           }
         });
       });
-      // الفلاتر
       const labelWeek = document.querySelector('label[for="weekSelect"]');
       if (labelWeek && reportTranslations['report_filter_week']) {
         labelWeek.textContent = reportTranslations['report_filter_week'];
@@ -2456,35 +3307,27 @@
       if (labelDept && reportTranslations['report_filter_department']) {
         labelDept.textContent = reportTranslations['report_filter_department'];
       }
+
       const labelStatus = document.querySelector('label[for="statusSelect"]');
       if (labelStatus && reportTranslations['report_filter_status']) {
         labelStatus.textContent = reportTranslations['report_filter_status'];
       }
-
-      // checkbox groupByDept
       const groupByDeptLabel = document.querySelector('label[for="groupByDeptCheckbox"]');
       if (groupByDeptLabel && reportTranslations['report_filter_group_dept']) {
         groupByDeptLabel.lastChild.textContent = reportTranslations['report_filter_group_dept'];
       }
-      // checkbox groupByEmp
       const groupByEmpLabel = document.querySelector('label[for="groupByEmpCheckbox"]');
       if (groupByEmpLabel && reportTranslations['report_filter_group_emp']) {
         groupByEmpLabel.lastChild.textContent = reportTranslations['report_filter_group_emp'];
       }
-      // checkbox showApiSummary
       const showApiSummLabel = document.querySelector('label[for="showApiSummaryCheckbox"]');
       if (showApiSummLabel && reportTranslations['report_filter_api_summary']) {
         showApiSummLabel.lastChild.textContent = reportTranslations['report_filter_api_summary'];
       }
-
-      // زر "جلب التقرير"
       const filterButtons = document.querySelectorAll('.filters button');
       if (filterButtons.length > 0 && reportTranslations['report_filter_load_btn']) {
-        // نفترض أن زر جلب التقرير هو آخر زر
         filterButtons[filterButtons.length - 1].textContent = reportTranslations['report_filter_load_btn'];
       }
-
-      // الأزرار العلوية (تصدير اكسل + طباعة بتصميم + تخصيص الأعمدة)
       const exportExcelBtn = document.getElementById('exportExcelBtn');
       if (exportExcelBtn && reportTranslations['report_export_excel']) {
         exportExcelBtn.innerHTML = `<i class="bi bi-file-earmark-excel"></i> ${reportTranslations['report_export_excel']}`;
@@ -2495,11 +3338,8 @@
       }
       const customizeBtns = document.querySelectorAll('.exportPrintButtons button');
       if (customizeBtns.length >= 3 && reportTranslations['report_customize_columns']) {
-        // نفترض أن زر تخصيص الأعمدة هو الثالث
         customizeBtns[2].innerHTML = `<i class="bi bi-layout-sidebar-inset"></i> ${reportTranslations['report_customize_columns']}`;
       }
-
-      // العناوين في بطاقات الملخص
       const cardHeaders = document.querySelectorAll('.card h3');
       if (cardHeaders.length >= 4) {
         if (reportTranslations['report_cards_record_count']) {
@@ -2515,8 +3355,6 @@
           cardHeaders[3].textContent = reportTranslations['report_cards_net_sum'];
         }
       }
-
-      // الملخص الإضافي
       const apiSummContainer = document.getElementById('apiSummaryContainer');
       if (apiSummContainer) {
         const headerDiv = apiSummContainer.querySelector('.apiSummaryHeader');
@@ -2524,8 +3362,6 @@
           headerDiv.textContent = reportTranslations['report_api_summary_header'];
         }
       }
-
-      // الشريط الجانبي
       const sidebarTitle = document.querySelector('.sidebar h2');
       if (sidebarTitle && reportTranslations['report_sidebar_title']) {
         sidebarTitle.textContent = reportTranslations['report_sidebar_title'];
@@ -2533,76 +3369,69 @@
       const sidebarItems = document.querySelectorAll('.sidebar .navItem');
       if (sidebarItems.length >= 12) {
         if (reportTranslations['report_sidebar_overview']) {
-          sidebarItems[0].innerHTML = `<i class="bi bi-house-fill"></i> ${reportTranslations['report_sidebar_overview']}`;
+          // sidebarItems[0].innerHTML = `<i class="bi bi-house-fill"></i> ${reportTranslations['report_sidebar_overview']}`;
         }
         if (reportTranslations['report_sidebar_employees']) {
-          sidebarItems[1].innerHTML = `<i class="bi bi-people-fill"></i> ${reportTranslations['report_sidebar_employees']}`;
+          // sidebarItems[1].innerHTML = `<i class="bi bi-people-fill"></i> ${reportTranslations['report_sidebar_employees']}`;
         }
         if (reportTranslations['report_sidebar_report']) {
-          sidebarItems[2].innerHTML = `<i class="bi bi-bar-chart-line-fill"></i> ${reportTranslations['report_sidebar_report']}`;
+          // sidebarItems[2].innerHTML = `<i class="bi bi-bar-chart-line-fill"></i> ${reportTranslations['report_sidebar_report']}`;
         }
         if (reportTranslations['report_sidebar_time_leaves']) {
-          sidebarItems[3].innerHTML = `<i class="bi bi-clock-fill"></i> ${reportTranslations['report_sidebar_time_leaves']}`;
+          // sidebarItems[3].innerHTML = `<i class="bi bi-clock-fill"></i> ${reportTranslations['report_sidebar_time_leaves']}`;
         }
         if (reportTranslations['report_sidebar_holidays']) {
-          sidebarItems[4].innerHTML = `<i class="bi bi-calendar-event-fill"></i> ${reportTranslations['report_sidebar_holidays']}`;
+          // sidebarItems[4].innerHTML = `<i class="bi bi-calendar-event-fill"></i> ${reportTranslations['report_sidebar_holidays']}`;
         }
         if (reportTranslations['report_sidebar_leaves']) {
-          sidebarItems[5].innerHTML = `<i class="bi bi-calendar3"></i> ${reportTranslations['report_sidebar_leaves']}`;
+          // sidebarItems[5].innerHTML = `<i class="bi bi-calendar3"></i> ${reportTranslations['report_sidebar_leaves']}`;
         }
         if (reportTranslations['report_sidebar_attend']) {
-          sidebarItems[6].innerHTML = `<i class="bi bi-journal-check"></i> ${reportTranslations['report_sidebar_attend']}`;
+          // sidebarItems[6].innerHTML = `<i class="bi bi-journal-check"></i> ${reportTranslations['report_sidebar_attend']}`;
         }
         if (reportTranslations['report_sidebar_rewards']) {
-          sidebarItems[7].innerHTML = `<i class="bi bi-gift-fill"></i> ${reportTranslations['report_sidebar_rewards']}`;
+          // sidebarItems[7].innerHTML = `<i class="bi bi-gift-fill"></i> ${reportTranslations['report_sidebar_rewards']}`;
         }
         if (reportTranslations['report_sidebar_devices']) {
-          sidebarItems[8].innerHTML = `<i class="bi bi-device-hdd-fill"></i> ${reportTranslations['report_sidebar_devices']}`;
+          // sidebarItems[8].innerHTML = `<i class="bi bi-device-hdd-fill"></i> ${reportTranslations['report_sidebar_devices']}`;
         }
         if (reportTranslations['report_sidebar_requests']) {
-          sidebarItems[9].innerHTML = `<i class="bi bi-list-check"></i> ${reportTranslations['report_sidebar_requests']}`;
+          // sidebarItems[9].innerHTML = `<i class="bi bi-list-check"></i> ${reportTranslations['report_sidebar_requests']}`;
         }
         if (reportTranslations['report_sidebar_departments']) {
-          sidebarItems[10].innerHTML = `<i class="bi bi-building"></i> ${reportTranslations['report_sidebar_departments']}`;
+          // sidebarItems[10].innerHTML = `<i class="bi bi-building"></i> ${reportTranslations['report_sidebar_departments']}`;
         }
-        // if (reportTranslations['report_sidebar_settings']) {
-        //   sidebarItems[11].innerHTML = `<i class="bi bi-gear-fill"></i> ${reportTranslations['report_sidebar_settings']}`;
-        // }
         if (reportTranslations['attend_sidebar_unregistered']) {
-          sidebarItems[11].innerHTML = `<i class="bi bi-person-exclamation"></i> ${reportTranslations['attend_sidebar_unregistered']}`;
+          // sidebarItems[11].innerHTML = `<i class="bi bi-person-exclamation"></i> ${reportTranslations['attend_sidebar_unregistered']}`;
         }
         if (reportTranslations['leaves_type']) {
-          sidebarItems[12].innerHTML = `<i class="bi bi-briefcase-fill"></i> ${reportTranslations['leaves_type']}`;
+          // sidebarItems[12].innerHTML = `<i class="bi bi-briefcase-fill"></i> ${reportTranslations['leaves_type']}`;
         }
-
         if (reportTranslations['employee_summary_report']) {
-          sidebarItems[13].innerHTML = `<i class="bi bi-people-fill"></i> ${reportTranslations['employee_summary_report']}`;
+          // sidebarItems[13].innerHTML = `<i class="bi bi-people-fill"></i> ${reportTranslations['employee_summary_report']}`;
         }
-
       }
-
-      // مودال تخصيص الأعمدة
       const columnModalHeader = document.querySelector('#columnModal .modal-header h2');
       if (columnModalHeader && reportTranslations['report_modal_column_title']) {
         columnModalHeader.textContent = reportTranslations['report_modal_column_title'];
       }
       const columnModalClose = document.querySelector('#columnModal .closeBtn');
       if (columnModalClose && reportTranslations['report_modal_close_btn']) {
-        columnModalClose.innerHTML = `&times; ${reportTranslations['report_modal_close_btn']}`;
+        // columnModalClose.innerHTML = `&times; ${reportTranslations['report_modal_close_btn']}`;
+        columnModalClose.innerHTML = `&times;`;
       }
       const columnModalSaveClose = document.querySelector('#columnModal .modal-footer button');
       if (columnModalSaveClose && reportTranslations['report_modal_save_close_btn']) {
         columnModalSaveClose.textContent = reportTranslations['report_modal_save_close_btn'];
       }
-
-      // مودال سجلات الحضور
       const logsModalHeader = document.querySelector('#attendanceLogsModal .modal-header h2');
       if (logsModalHeader && reportTranslations['report_modal_attend_logs_title']) {
         logsModalHeader.textContent = reportTranslations['report_modal_attend_logs_title'];
       }
       const logsModalClose = document.querySelector('#attendanceLogsModal .closeBtn');
       if (logsModalClose && reportTranslations['report_modal_attend_logs_close']) {
-        logsModalClose.innerHTML = `&times; ${reportTranslations['report_modal_attend_logs_close']}`;
+        // logsModalClose.innerHTML = `&times; ${reportTranslations['report_modal_attend_logs_close']}`;
+        logsModalClose.innerHTML = `&times;`;
       }
       const logsFromLabel = document.querySelector('label[for="logsFromDate"]');
       if (logsFromLabel && reportTranslations['report_modal_attend_logs_from']) {
@@ -2624,8 +3453,6 @@
       if (logsModalFooterBtn && reportTranslations['report_modal_attend_logs_close']) {
         logsModalFooterBtn.textContent = reportTranslations['report_modal_attend_logs_close'];
       }
-
-      // رؤوس جدول المودال #logsTable
       const logsTheadCells = document.querySelectorAll('#logsTable thead tr th');
       if (logsTheadCells.length >= 4) {
         if (reportTranslations['report_table_logs_enrollid']) {
@@ -2643,20 +3470,85 @@
       }
     }
 
-    // عند تحميل الصفحة، نقرأ اللغة من localStorage ونطبّقها
     window.addEventListener('DOMContentLoaded', async () => {
       let storedLang = localStorage.getItem(LANG_KEY);
       if (!storedLang) {
-        storedLang = 'ar'; // اجعل العربية افتراضية أو "en" إن أردت الإنجليزية افتراضية
+        storedLang = 'ar';
       }
       await loadReportLangFile(storedLang);
       applyReportTranslations(storedLang);
     });
-  </script>
-  <!-- ================================================================================================== -->
-  <!-- ===============================  i18n script end  ================================================ -->
-  <!-- ================================================================================================== -->
 
+    window.addEventListener('resize', makeTableScrollable);
+
+    function makeTableScrollable() {
+     
+      const sidebar_element = document.querySelector('.sidebar');
+      const table_element = document.querySelector('.tbl_wrapper');
+      const viewportWidth = window.innerWidth;
+
+      const sidebar_width = sidebar_element.offsetWidth;
+
+      table_element.style.maxWidth = (viewportWidth - sidebar_width) + 'px';
+      table_element.style.overflowX = 'auto';
+    }
+
+    function loadSiebar(){
+        fetch('sidebar.html')
+              .then(response => response.text())
+              .then(data => {
+                  document.querySelector('.sidebar').innerHTML = data;
+                    var submenus = document.querySelectorAll('.submenu');
+                    submenus.forEach(function (submenu) {
+                      if (submenu.querySelector('.navItem.active')) {
+                        submenu.style.display = "block";
+                      }
+                    });
+
+                    addActiveToSubmenuClass(1);
+              })
+              .catch(error => console.error('Error loading sidebar:', error));
+      }
+  
+      async function loadSidebarLangFile(lang) {
+        try {
+          const response = await fetch(`${REPORT_LANG_PATH}/${lang}_sidebar.json`);
+          if (!response.ok) {
+            throw new Error(`Error loading ${lang}_sidebar.json`);
+          }
+          sidebarLabels = await response.json();
+
+        } catch (error) {
+          console.error("Report translation file error:", error);
+        }
+      }
+
+      function applySidebarTranslation(){
+          document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+              const key = el.getAttribute('data-lng');
+              
+              if (sidebarLabels[key]) {
+                el.textContent = sidebarLabels[key];
+              }
+          });
+      }
+
+      loadSiebar();
+
+      function addActiveToSubmenuClass(childIndex) {
+          const submenu = document.getElementById('reportsSubmenu');
+          submenu.style.display = "block";
+          const navItems = submenu.getElementsByClassName('navItem');
+          if (childIndex >= 1 && childIndex <= navItems.length) {
+              Array.from(navItems).forEach(item => item.classList.remove('active'));
+              navItems[childIndex - 1].classList.add('active');
+          } else {
+              console.error('Child index out of bounds');
+          }
+      }
+
+  </script>
+  <!-- ===============================  i18n script end  ================================================ -->
 </body>
 
 </html>

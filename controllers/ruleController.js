@@ -19,28 +19,56 @@ exports.getRules = async (req, res) => {
  * إضافة قاعدة جديدة
  * نتوقع أن يحتوي body على: name, priority, stopOnMatch, conditions, actions, validFrom, validTo
  */
+
+
 exports.createRule = async (req, res) => {
   try {
-    const { name, priority, stopOnMatch, conditions, actions, validFrom, validTo } = req.body;
+    // استخراج البيانات من جسم الطلب
+    const { name, priority, stopOnMatch, conditionsGroups, actions, validFrom, validTo } = req.body;
 
+    // تحقق أساسي من صحة البيانات
+    if (!name) {
+      return res.status(400).json({ error: 'اسم القاعدة مطلوب' });
+    }
+
+    // إعداد البنية المطلوبة لحقل conditionsBlock في المخطط
+    // حيث أن المخطط يتوقع كائن يحتوي على operator, conditions, و subConditions.
+    // هنا نعتبر أن بيانات conditionsGroups المرسلة تمثل subConditions.
+    const conditionsBlock = {
+      operator: "AND", // يمكن تغييرها حسب منطق التطبيق
+      conditions: [],  // إذا كنت تريد شروط على المستوى الرئيسي يمكنك تعبئتها هنا
+      subConditions: Array.isArray(conditionsGroups) ? conditionsGroups : []
+    };
+
+    // إنشاء القاعدة الجديدة
     const newRule = new Rule({
-      owner: req.userId,
+      owner: req.userId,  // تأكد من وجود معرف المستخدم في req.userId
       name,
       priority,
       stopOnMatch,
-      conditions,
-      actions,
       validFrom: validFrom ? new Date(validFrom) : null,
-      validTo: validTo ? new Date(validTo) : null
+      validTo: validTo ? new Date(validTo) : null,
+      conditionsBlock,
+      actions
     });
 
-    await newRule.save();
-    res.json(newRule);
+    // حفظ القاعدة
+    const savedRule = await newRule.save();
+    // تحويل المستند إلى كائن عادي
+    const ruleObj = savedRule.toObject();
+
+    // تحويل الناتج ليظهر نفس شكل البيانات المرسلة:
+    // استبدال conditionsBlock.subConditions بـ conditionsGroups ثم حذف conditionsBlock
+    ruleObj.conditionsGroups = ruleObj.conditionsBlock.subConditions;
+    delete ruleObj.conditionsBlock;
+
+    res.status(201).json(ruleObj);
   } catch (err) {
-    console.error(err);
+    console.error('Error creating rule:', err);
     res.status(500).json({ error: 'Failed to create rule', details: err.message });
   }
 };
+
 
 /**
  * تعديل قاعدة موجودة
@@ -53,22 +81,43 @@ exports.updateRule = async (req, res) => {
       return res.status(404).json({ error: 'Rule not found' });
     }
 
-    // تحديث الحقول من body
+    // تحديث الحقول الأساسية
     rule.name = req.body.name ?? rule.name;
     rule.priority = req.body.priority ?? rule.priority;
     rule.stopOnMatch = req.body.stopOnMatch ?? rule.stopOnMatch;
-    rule.conditions = req.body.conditions ?? rule.conditions;
     rule.actions = req.body.actions ?? rule.actions;
-    rule.validFrom = req.body.validFrom ? new Date(req.body.validFrom) : rule.validFrom;
-    rule.validTo = req.body.validTo ? new Date(req.body.validTo) : rule.validTo;
+    // إذا كانت قيمة validFrom أو validTo فارغة فإننا نخزنها كـ null
+    rule.validFrom = req.body.validFrom ? new Date(req.body.validFrom) : null;
+    rule.validTo = req.body.validTo ? new Date(req.body.validTo) : null;
+
+    // التحقق من وجود conditionsGroups وتحديث conditionsBlock بناءً عليها
+    if (req.body.conditionsGroups && Array.isArray(req.body.conditionsGroups)) {
+      rule.conditionsBlock = {
+        operator: "AND", // يمكن تغيير هذا حسب منطق التطبيق
+        conditions: [],
+        subConditions: req.body.conditionsGroups
+      };
+    } else if (req.body.conditionsBlock) {
+      // في حال تم إرسال conditionsBlock مباشرة بدون conditionsGroups
+      rule.conditionsBlock = req.body.conditionsBlock;
+    }
 
     await rule.save();
-    res.json(rule);
+
+    // تحويل المستند إلى كائن عادي لتعديل البيانات قبل الإرسال
+    const ruleObj = rule.toObject();
+    if (ruleObj.conditionsBlock) {
+      ruleObj.conditionsGroups = ruleObj.conditionsBlock.subConditions;
+      delete ruleObj.conditionsBlock;
+    }
+    res.json(ruleObj);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to update rule', details: err.message });
   }
 };
+
+
 
 exports.getRuleById = async (req, res) => {
   try {
@@ -77,12 +126,20 @@ exports.getRuleById = async (req, res) => {
     if (!rule) {
       return res.status(404).json({ error: 'Rule not found' });
     }
-    res.json(rule);
+    // تحويل المستند إلى كائن عادي لتعديل البيانات
+    const ruleObj = rule.toObject();
+    // إذا كان هناك حقل conditionsBlock نقوم بتحويله ليصبح conditionsGroups بنفس الهيكل المرسل
+    if (ruleObj.conditionsBlock) {
+      ruleObj.conditionsGroups = ruleObj.conditionsBlock.subConditions;
+      delete ruleObj.conditionsBlock;
+    }
+    res.json(ruleObj);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Failed to get rule', details: err.message });
   }
 };
+
 
 /**
  * حذف قاعدة

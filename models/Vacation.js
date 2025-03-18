@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const VacationSchema = new Schema({
   enroll_id: {
-    type: Number,
+    type: String,
     required: true
   },
   employee_name: {

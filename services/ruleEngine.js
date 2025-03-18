@@ -1,113 +1,221 @@
-// services/ruleEngine.js
+/**
+ * services/ruleEngine.js
+ * 
+ * في هذا الملف نقوم بكتابة منطق متقدم لتطبيق الشروط والإجراءات. 
+ * يدعم شروط مركبة (AND / OR) مع إمكانية التعشيق (Nested).
+ */
+
+function evaluateCondition(record, condition) {
+  // مثال مبسّط لدعم operators: eq, ne, gt, lt, gte, lte, gtTime, ltTime
+  const { field, operator, value, valueType } = condition;
+  
+  // إذا كانت قيمة الشرط من نوع متغير (variable)، نأخذها من record[value]
+  // وإلا فهي قيمة ثابتة (constant أو غير محددة)
+  let compareVal;
+  if (valueType === "variable") {
+    compareVal = record[value];
+  } else {
+    compareVal = value;
+  }
+
+  // قيمة الحقل في السجل
+  const recordValue = record[field];
+
+  // تحويلهما إلى أرقام عند الحاجة:
+  let numericRecordVal = parseFloat(recordValue) || 0;
+  let numericVal = parseFloat(compareVal) || 0;
+
+  let result = false;
+  switch (operator) {
+    case "eq":
+      // المقارنة قد تكون نصية أو رقمية، تبعًا لتصميمك
+      result = recordValue == compareVal;
+      break;
+    case "ne":
+      result = recordValue != compareVal;
+      break;
+    case "gt":
+      result = numericRecordVal > numericVal;
+      break;
+    case "lt":
+      result = numericRecordVal < numericVal;
+      break;
+    case "gte":
+      result = numericRecordVal >= numericVal;
+      break;
+    case "lte":
+      result = numericRecordVal <= numericVal;
+      break;
+    case "gtTime":
+      if (!recordValue) result = false;
+      else result = recordValue.localeCompare(compareVal) > 0;
+      break;
+    case "ltTime":
+      if (!recordValue) result = false;
+      else result = recordValue.localeCompare(compareVal) < 0;
+      break;
+    default:
+      result = false;
+  }
+  // رسائل تصحيح للتتبع
+  console.log(`evaluateCondition: field=${field}, operator=${operator}, valueType=${valueType}, compareVal=${compareVal}, recordValue=${recordValue} ==> ${result}`);
+  return result;
+}
 
 /**
- * تطبق القواعد على سجل الحضور.
- * تُطبَّق القاعدة فقط إذا كان تاريخ السجل يقع ضمن الفترة الزمنية المحددة (validFrom - validTo) إن وُجدت.
- *
- * كما تمت إضافة عملية تعديل الوقت على الحقول التي تحتوي على تاريخ/وقت.
- *
- * @param {Object} record - سجل الحضور الذي سيتم تطبيق القواعد عليه.
- * @param {Array} rules - مصفوفة القواعد.
- * @returns {Object} - السجل بعد تعديل القيم بناءً على القواعد.
+ * دالة تتحقق من تحقق كتلة شروط واحدة.
+ * تدعم بنية مركبة سواء باستخدام conditions أو subConditions.
  */
-function applyRulesToRecord(record, rules) {
-  // إنشاء نسخة معدلة من السجل الأصلي
-  let modifiedRecord = { ...record };
+function evaluateConditionsBlock(record, conditionsBlock) {
+  if (!conditionsBlock) return true; // في حال عدم وجود شروط نعيد true
 
-  // تحويل تاريخ الحضور إلى كائن Date (نفترض أن record.attendance_date بصيغة YYYY-MM-DD)
-  const recordDate = record.attendance_date ? new Date(record.attendance_date) : null;
+  const { operator = "AND", conditions = [], subConditions = [] } = conditionsBlock;
 
-  // المرور على جميع القواعد
-  for (const rule of rules) {
-    // فحص الفترة الزمنية للقاعدة (إن كانت محددة)
-    if (recordDate && (rule.validFrom || rule.validTo)) {
-      if (rule.validFrom && recordDate < new Date(rule.validFrom)) {
-        // تاريخ السجل قبل بداية صلاحية القاعدة
-        continue;
-      }
-      if (rule.validTo && recordDate > new Date(rule.validTo)) {
-        // تاريخ السجل بعد انتهاء صلاحية القاعدة
-        continue;
-      }
+  // تقييم الشروط الفرعية (nested)
+  let subResults = subConditions.map((sub) =>
+    evaluateConditionsBlock(record, sub)
+  );
+
+  // تقييم الشروط العادية
+  let results = conditions.map((cond) => evaluateCondition(record, cond));
+
+  // دمج النتائج
+  let allResults = [...subResults, ...results];
+
+  let blockResult;
+  if (operator === "AND") {
+    blockResult = allResults.every((r) => r === true);
+  } else if (operator === "OR") {
+    blockResult = allResults.some((r) => r === true);
+  } else {
+    blockResult = false;
+  }
+  console.log(`evaluateConditionsBlock with operator ${operator} => ${blockResult} (results: ${allResults})`);
+  return blockResult;
+}
+
+/**
+ * دالة جديدة لتقييم مجموعات الشروط (conditionsGroups) باستخدام عامل OR.
+ * ترجع true إذا تحقق أي مجموعة شرطية.
+ */
+function evaluateConditionsGroups(record, groups) {
+  if (!groups || !groups.length) return true;
+  const groupsResults = groups.map(group => evaluateConditionsBlock(record, group));
+  const finalResult = groupsResults.some(result => result === true);
+  console.log(`evaluateConditionsGroups results: ${groupsResults}, finalResult: ${finalResult}`);
+  return finalResult;
+}
+
+/**
+ * تنفيذ الإجراءات (actions) في حال تطابق الشروط.
+ */
+function applyActions(record, actions) {
+  for (let action of actions) {
+    const { field, type, value, valueType } = action;
+    if (!field || !type) continue;
+
+    // إذا كانت قيمة الإجراء من نوع متغير (variable)، نأخذها من record[value]
+    // وإلا فهي قيمة ثابتة.
+    let actionVal;
+    if (valueType === "variable") {
+      actionVal = record[value];
+    } else {
+      actionVal = value;
     }
 
-    // تقييم شروط القاعدة (نفترض أن جميع الشروط يجب أن تتحقق)
-    let conditionsMet = true;
-    if (Array.isArray(rule.conditions)) {
-      conditionsMet = rule.conditions.every(condition => {
-        // مثال على شكل الشرط:
-        // { field: 'status_code', operator: 'eq', value: 'late' }
-        const recordValue = modifiedRecord[condition.field];
-        switch (condition.operator) {
-          case 'eq':
-          case '==':
-            return recordValue == condition.value;
-          case 'ne':
-          case '!=':
-            return recordValue != condition.value;
-          case 'gt':
-          case '>':
-            return recordValue > condition.value;
-          case 'lt':
-          case '<':
-            return recordValue < condition.value;
-          case 'gte':
-          case '>=':
-            return recordValue >= condition.value;
-          case 'lte':
-          case '<=':
-            return recordValue <= condition.value;
-          default:
-            return false;
-        }
-      });
-    }
-
-    if (conditionsMet) {
-      // تطبيق الأفعال (actions) في حال تحقق الشروط
-      if (Array.isArray(rule.actions)) {
-        rule.actions.forEach(action => {
-          const field = action.field;
-          const currentValue = modifiedRecord[field];
-          // يتم استخدام الخاصية "type" من القاعدة لتحديد نوع العملية
-          switch (action.type) {
-            case 'add':
-              modifiedRecord[field] = (Number(currentValue) || 0) + Number(action.value);
-              break;
-            case 'subtract':
-              modifiedRecord[field] = (Number(currentValue) || 0) - Number(action.value);
-              break;
-            case 'set':
-              modifiedRecord[field] = action.value;
-              break;
-            case 'multiply':
-              modifiedRecord[field] = (Number(currentValue) || 0) * Number(action.value);
-              break;
-            case 'time_adjust':
-              // تعديل الوقت في حقل يحتوي على تاريخ/وقت.
-              // نفترض أن القيمة الحالية إما كائن Date أو نص قابل للتحويل إلى Date.
-              let dateObj = new Date(currentValue);
-              if (!isNaN(dateObj.getTime())) {
-                // القيمة action.value تمثل عدد الدقائق التي سيتم إضافتها (يمكن أن تكون سالبة للطرح)
-                dateObj.setMinutes(dateObj.getMinutes() + Number(action.value));
-                // يمكن تخزين النتيجة كنص بصيغة ISO أو ككائن Date حسب الحاجة
-                modifiedRecord[field] = dateObj.toISOString();
-              }
-              break;
-            default:
-              break;
+    switch (type) {
+      case "set":
+        // تعيين قيمة الحقل مباشرة
+        record[field] = parseFloat(actionVal) || actionVal;
+        break;
+      case "increment": {
+        let currentVal = parseFloat(record[field]) || 0;
+        let incVal = parseFloat(actionVal) || 0;
+        record[field] = currentVal + incVal;
+      }
+        break;
+      case "multiply": {
+        let currentVal = parseFloat(record[field]) || 0;
+        let mulVal = parseFloat(actionVal) || 1;
+        record[field] = currentVal * mulVal;
+      }
+        break;
+      case "time_adjust": {
+        let original = record[field];
+        if (original) {
+          let dateObj = new Date(original);
+          if (!isNaN(dateObj.getTime())) {
+            let minutesToAdd = parseInt(actionVal, 10) || 0;
+            dateObj.setMinutes(dateObj.getMinutes() + minutesToAdd);
+            record[field] = dateObj.toISOString();
           }
-        });
+        }
       }
+        break;
+      default:
+        break;
+    }
+    console.log(`applyActions: Applied action ${type} on field ${field} with valueType=${valueType}, actionVal=${actionVal}. New value: ${record[field]}`);
+  }
+  return record;
+}
 
-      // إذا كانت الخاصية stopOnMatch صحيحة، نتوقف عن تطبيق باقي القواعد
+/**
+ * دالة رئيسية لتطبيق القواعد على سجل واحد.
+ * تدعم إما استخدام conditionsGroups أو conditionsBlock.
+ * **تعديل مهم:** إذا كان لدينا conditionsBlock يحتوي على subConditions ونستخدم العامل "AND"
+ * في المستوى الأعلى، نقوم بتغييره إلى "OR" لتطبيق منطق OR بين المجموعات.
+ */
+function applyRulesToRecord(record, rulesList) {
+  if (!rulesList || !rulesList.length) return record;
+
+  // نفرز القواعد حسب الأولوية (من الأصغر للأكبر)
+  rulesList = rulesList.sort((a, b) => (a.priority || 0) - (b.priority || 0));
+
+  for (let rule of rulesList) {
+    console.log(`Evaluating rule: ${rule.name}`);
+    // تحقق من صلاحية تاريخ السجل بالنسبة للقاعدة
+    if (rule.validFrom && new Date(record.attendance_date) < new Date(rule.validFrom)) {
+      console.log(`Rule ${rule.name} skipped due to validFrom`);
+      continue;
+    }
+    if (rule.validTo && new Date(record.attendance_date) > new Date(rule.validTo)) {
+      console.log(`Rule ${rule.name} skipped due to validTo`);
+      continue;
+    }
+
+    let ruleMatch = false;
+    if (rule.conditionsGroups) {
+      // إذا كانت القاعدة تستخدم conditionsGroups فإننا نستخدمها مع OR
+      ruleMatch = evaluateConditionsGroups(record, rule.conditionsGroups);
+    } else if (rule.conditionsBlock) {
+      // **تعديل:** إذا كان لدينا conditionsBlock ونريد دمج subConditions بنظام OR،
+      // فقم بتعديل العامل في المستوى الأعلى إلى OR
+      if (rule.conditionsBlock.subConditions && rule.conditionsBlock.operator === "AND") {
+        console.log(`Overriding top-level operator from AND to OR for rule ${rule.name}`);
+        rule.conditionsBlock.operator = "OR";
+      }
+      ruleMatch = evaluateConditionsBlock(record, rule.conditionsBlock);
+    } else {
+      // في حال عدم وجود شروط، نفترض تطابق القاعدة
+      ruleMatch = true;
+    }
+
+    console.log(`Rule ${rule.name} match result: ${ruleMatch}`);
+
+    if (ruleMatch) {
+      // تنفيذ الإجراءات في حال تطابق القاعدة
+      record = applyActions(record, rule.actions || []);
+      // إذا كان stopOnMatch=true نتوقف عن تقييم بقية القواعد
       if (rule.stopOnMatch) {
+        console.log(`Rule ${rule.name} has stopOnMatch true, stopping further evaluation.`);
         break;
       }
     }
   }
-
-  return modifiedRecord;
+  return record;
 }
 
-module.exports = { applyRulesToRecord };
+module.exports = {
+  applyRulesToRecord,
+};

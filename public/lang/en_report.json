@@ -2,6 +2,7 @@
   "sidebar_title": "Menu",
   "sidebar_dashboard": "Dashboard",
   "sidebar_employees": "Employees",
+  "navBranch": "Branches",
   "sidebar_attendance_report": "Attendance Report",
   "leaves_sidebar_time_leaves":"Partial Time Request",
   "sidebar_shifts": "Shifts",
@@ -42,7 +43,7 @@
   "report_filter_status": "Status:",
   "report_filter_group_dept": "Group by Department",
   "report_filter_group_emp": "Group by Employee",
-  "report_filter_api_summary": "Show Extra API Summary",
+  "report_filter_api_summary": "Show Extra Summary",
   "report_filter_load_btn": "Load Report",
   "all_employees": "All Employees",
   "employee:": "Employee:",
@@ -56,7 +57,7 @@
   "all_departments": "All Departments",
   "group_by_dept": "Group by Department",
   "group_by_emp":"Group by Employee",
-  "show_api_summary": "Show Extra API Summary",
+  "show_api_summary": "Show Extra Summary",
   "present" : "Present",
   "semi_present" : "Half Day",
   "late_and_early_exit" : "Late & Early Exit",
@@ -89,6 +90,10 @@
   "report_table_logs_name": "Name",
   "report_table_logs_time": "Time",
   "report_table_logs_event": "Event",
+  "dynamic_hour_price":"Dynmic Price",
+  "scheduled_end_time":"Official End Time",
+  "scheduled_start_time":"Official Start Time",
+  "extra_minutes":"Addtional Time",
 
   "attendance_date": "Date",
   "check_in": "Check-in Time",
@@ -138,6 +143,7 @@
 
 
   "إجازات انتظار": "Waiting Leaves",
+  "day":"Name Of Day",
   "إجازات زمنية": "Timed Leaves",
   "إجازات غير مدفوعة": "Unpaid Leaves",
   "إجازات مدفوعة": "Paid Leaves",
@@ -148,14 +154,31 @@
   "ايام الاستراحة": "Rest Days",
   "ايام العمل الرسمية": "Official Working Days",
   "ايام عطل اسبوعية": "Weekly Holidays",
+  "leaves_type": "Leaves Type",
   "دقائق اجازات زمنية للخروج": "Timed Leave Minutes (Exit)",
   "دقائق اجازات زمنية للدخول": "Timed Leave Minutes (Entry)",
   "دقائق الأوفر تايم": "Overtime Minutes",
   "دقائق التأخير": "Delay Minutes",
+  "penalty_reward": "Penalty&Reward",
+  "make-absent":"Make Absent",
+  "make-presant":"Make Present",
+  "add_leave_report":"Add Vacation",
+  "add_rudec_time":"+/- Min",
+  "add_prtial_leave_report":"Partial Leave",
   "دقائق الخروج المبكر": "Early Exit Minutes",
   "ساعات العمل الأساسية": "Basic Working Hours",
   "ساعات العمل المطلوبة": "Required Working Hours",
   "صافي": "Net",
+  "أستراحة":"Rest Day",
+  "أجازة انتظار":"Waiting leave",
+
+  "المكافآت":"Rewards",
+  "اجمالي عطل رسمية":"Total Holiday",
+  "المجموع الصافي للمكافآت والعقوبات":"Total Rewar&Penal",
+
+  "أيام الدوام المتوقعة لهذا الشهر":"Est Total Day Work Monthly",
+
+
   "عقوبات": "Penalties",
   "مجموع الاستراحة(ساعة)": "Total Break Time (Hours)",
   "مرات التاخير": "Delay Occurrences",
@@ -191,10 +214,28 @@
 
   "err_1": "Please select a start and end date",
   
-  "week_work_off": "week_work_off",
+  "week_work_off": "Weekly Holiday",
   "in": "In",
   "out": "Out",
-  "duration": "Duration"
+  "duration": "Duration",
+  "reward_penalty_amount": "Amount",
+  "rewardPenaltyReason": "Reason",
+  "add_penalty_reward": "Add penalty/reward",
+  "save": "Save",
+  "timeLeaveFromTime": "From",
+  "timeLeaveToTime": "To",
+  "timeLeaveDurationEntry": "Entry",
+  "timeLeaveDurationExit": "Exit",
+  "timeLeavePaidOrUnpaid": "Paid or Unpaid",
+  "timeLeaveReason": "Reason",
+  "att_time_off_title": "Partial Leave",
+  "unpaid": "Unpaid",
+  "paid": "Paid",
+  "increase_or_decrease_time": "Increase/decrease time",
+  "number_of_minutes": "Number of minutes (+ or -)",
+  "save_and_close": "Save and Close",
+  "active_dynmic_hour_prices": "Active Dynmic Hour Prices",
+  "round_to": "Round To"
   
 }
   

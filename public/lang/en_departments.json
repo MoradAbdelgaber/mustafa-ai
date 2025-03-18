@@ -2,6 +2,7 @@
   "sidebar_title": "Menu",
   "sidebar_dashboard": "Dashboard",
   "sidebar_employees": "Employees",
+  "navBranch": "Branches",
   "sidebar_attendance_report": "Attendance Report",
   "leaves_sidebar_time_leaves":"Partial Time Request",
   "sidebar_shifts": "Shifts",

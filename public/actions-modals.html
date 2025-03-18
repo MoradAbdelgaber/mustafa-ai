@@ -1,0 +1,237 @@
+<!-- ملف منفصل خاص بالمودالات: actions-modals.html -->
+<!-- لن يكون مستند HTML كامل؛ فقط أجزاء HTML/JS يتم إدراجها في الصفحة الرئيسية -->
+
+<style>
+    /* تنسيقات للمودالات */
+    .modalBackdrop {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+    }
+    .modalBox {
+      background: #fff;
+      width: 400px;
+      max-width: 95%;
+      margin: 100px auto;
+      border-radius: 8px;
+      position: relative;
+      padding: 20px;
+    }
+    .modalHeader {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .closeBtn {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      position: absolute;
+      top: 10px; right: 10px;
+    }
+    .closeBtn:hover {
+      background: #c82333;
+    }
+    label {
+      display: block;
+      margin: 6px 0 4px;
+      font-weight: 500;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 6px;
+      margin-bottom: 10px;
+    }
+    button.saveBtn {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    button.saveBtn:hover {
+      background: #218838;
+    }
+  </style>
+  
+  <!-- مودال العقوبة -->
+  <div id="penaltyModal" class="modalBackdrop">
+    <div class="modalBox">
+      <button class="closeBtn" onclick="closePenaltyModal()">&times;</button>
+      <div class="modalHeader">إضافة عقوبة</div>
+      <form id="penaltyForm" onsubmit="penaltyFormSubmit(event)">
+        <label>رقم الموظف:</label>
+        <input type="text" id="penaltyEnrollId" readonly />
+  
+        <label>التاريخ:</label>
+        <input type="text" id="penaltyDate" readonly />
+  
+        <label>سبب العقوبة:</label>
+        <textarea id="penaltyReason" rows="3"></textarea>
+  
+        <button type="submit" class="saveBtn">حفظ العقوبة</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- مودال الغياب -->
+  <div id="absenceModal" class="modalBackdrop">
+    <div class="modalBox">
+      <button class="closeBtn" onclick="closeAbsenceModal()">&times;</button>
+      <div class="modalHeader">إضافة غياب</div>
+      <form id="absenceForm" onsubmit="absenceFormSubmit(event)">
+        <label>رقم الموظف:</label>
+        <input type="text" id="absenceEnrollId" readonly />
+  
+        <label>التاريخ:</label>
+        <input type="text" id="absenceDate" readonly />
+  
+        <label>سبب الغياب (اختياري):</label>
+        <textarea id="absenceReason" rows="3"></textarea>
+  
+        <button type="submit" class="saveBtn">حفظ الغياب</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- مودال الحضور -->
+  <div id="presenceModal" class="modalBackdrop">
+    <div class="modalBox">
+      <button class="closeBtn" onclick="closePresenceModal()">&times;</button>
+      <div class="modalHeader">إضافة حضور</div>
+      <form id="presenceForm" onsubmit="presenceFormSubmit(event)">
+        <label>رقم الموظف:</label>
+        <input type="text" id="presenceEnrollId" readonly />
+  
+        <label>التاريخ:</label>
+        <input type="text" id="presenceDate" readonly />
+  
+        <label>ملاحظات الحضور:</label>
+        <textarea id="presenceNotes" rows="3"></textarea>
+  
+        <button type="submit" class="saveBtn">حفظ الحضور</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- مودال الإجازة -->
+<div id="vacationModal" class="modalBackdrop">
+    <div class="modalBox">
+      <button class="closeBtnModal" onclick="closeVacationModal()">&times;</button>
+      <div class="modalHeader">إضافة إجازة</div>
+      <form id="vacationForm" onsubmit="vacationFormSubmit(event)">
+        <label>رقم الموظف:</label>
+        <input type="text" id="vacationEnrollId" readonly />
+  
+        <label>اسم الموظف:</label>
+        <input type="text" id="vacationEmployeeName" readonly />
+  
+        <label>تاريخ البدء:</label>
+        <input type="text" id="vacationStartDate" readonly />
+  
+        <label>تاريخ الانتهاء:</label>
+        <input type="text" id="vacationEndDate" readonly />
+  
+        <label>نوع الإجازة:</label>
+        <select id="vacationType">
+          <!-- سيتم تحميل الخيارات من API /api/vacation-types -->
+        </select>
+  
+        <label>سبب الإجازة:</label>
+        <textarea id="vacationReason" rows="3"></textarea>
+  
+        <label>هل الإجازة مدفوعة؟</label>
+        <select id="vacationIsPaid">
+          <option value="true">نعم</option>
+          <option value="false">لا</option>
+        </select>
+  
+        <button type="submit" class="saveBtn">حفظ الإجازة</button>
+      </form>
+    </div>
+  </div>
+  
+  <script>
+    // فتح مودال الإجازة مع تمرير بيانات الموظف والتاريخ من السطر المختار
+    function openVacationModal(enrollId, employeeName, startDate, endDate) {
+      document.getElementById('vacationEnrollId').value = enrollId;
+      document.getElementById('vacationEmployeeName').value = employeeName;
+      document.getElementById('vacationStartDate').value = startDate;
+      document.getElementById('vacationEndDate').value = endDate;
+      document.getElementById('vacationModal').style.display = 'block';
+      loadVacationTypes();
+    }
+  
+    // إغلاق مودال الإجازة
+    function closeVacationModal() {
+      document.getElementById('vacationModal').style.display = 'none';
+    }
+  
+    // تحميل أنواع الإجازات من API /api/vacation-types وتعبئة قائمة الدروپ داون
+    function loadVacationTypes() {
+      fetch('/api/vacation-types')
+        .then(response => response.json())
+        .then(data => {
+          const select = document.getElementById('vacationType');
+          select.innerHTML = ''; // مسح الخيارات الحالية
+          data.forEach(type => {
+            // تأكد من أن خصائص الكائن تتطابق مع ما يرجعه API (مثلاً: id و name)
+            const option = document.createElement('option');
+            option.value = type.id;      // أو type.vacation_type_id حسب الاستجابة
+            option.textContent = type.name; // أو type.vacation_type أو أي مفتاح مناسب
+            select.appendChild(option);
+          });
+        })
+        .catch(error => {
+          console.error('خطأ في تحميل أنواع الإجازات:', error);
+        });
+    }
+  
+    // دالة إرسال بيانات الإجازة إلى API /api/vacations
+    function vacationFormSubmit(e) {
+      e.preventDefault();
+      const enrollId = document.getElementById('vacationEnrollId').value;
+      const employeeName = document.getElementById('vacationEmployeeName').value;
+      const startDate = document.getElementById('vacationStartDate').value;
+      const endDate = document.getElementById('vacationEndDate').value;
+      const vacationTypeId = document.getElementById('vacationType').value;
+      const reason = document.getElementById('vacationReason').value.trim();
+      const isPaid = document.getElementById('vacationIsPaid').value === 'true';
+  
+      const payload = {
+        enroll_id: enrollId,
+        employee_name: employeeName,
+        vacation_start_date: startDate,
+        vacation_end_date: endDate,
+        vacation_type_id: vacationTypeId,
+        reason: reason,
+        is_paid: isPaid,
+        status: "Approved"
+      };
+  
+      fetch('/api/vacations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(response => response.json())
+      .then(result => {
+        alert("تم حفظ الإجازة بنجاح");
+        closeVacationModal();
+      })
+      .catch(error => {
+        alert("حدث خطأ أثناء حفظ الإجازة");
+        console.error('Error:', error);
+      });
+    }
+  </script>
+  
