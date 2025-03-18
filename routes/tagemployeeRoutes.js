@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const tagEmployeeController = require("../controllers/tagEmployeeController");
+const tagEmployeeController = require("../controllers/tagemployeeController");
 // ميدلوير للتحقق من المصادقة (مثال)
-const { authMiddleware } = require('../auth');
+const { authMiddleware } = require("../auth");
 
 // إنشاء تاك جديد
 router.post("/", authMiddleware, tagEmployeeController.createTagEmployee);
