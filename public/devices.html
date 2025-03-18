@@ -1808,70 +1808,6 @@
         }
       }
 
-      // عرض الأجهزة في الجدول
-      function renderDevices(devArr) {
-        const tb = document.querySelector('#devicesTable tbody');
-        tb.innerHTML = '';
-
-        devArr.forEach((d, i) => {
-          const creationDate = d.createdAt
-            ? new Date(d.createdAt).toISOString().split('T')[0]
-            : '';
-
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td>${i + 1}</td>
-            <td>${d.name || ''}</td>
-            <td>${d.serial || ''}</td>
-            <td>${d.serverip || ''}</td>
-            <td>${d.timeZone || ''}</td>
-            <td data-lng='${d.status ? 'devices_modal_status_option_true' : 'devices_modal_status_option_false'}'>${getTranslate(d.status ? 'devices_modal_status_option_true' : 'devices_modal_status_option_false')}</td>
-            <td>${creationDate}</td>
-            <td>
-              <i class="bi bi-pencil-fill actionIcon" data-lng-hover-title='devices_table_control_titles_edit'
-                 title=${getTranslate('devices_table_control_titles_edit')}
-                 onclick="openModalForEdit('${d._id}')"></i>
-              <i class="bi bi-trash-fill actionIcon" data-lng-hover-title='devices_table_control_titles_delete'
-                 title=${getTranslate('devices_table_control_titles_delete')}
-                 onclick="deleteDevice('${d._id}')"></i>
-              <i class="bi bi-gear-fill actionIcon" data-lng-hover-title='devices_table_control_titles_settings'
-                 title=${getTranslate('devices_table_control_titles_settings')}
-                 onclick="openDeviceSettings('${d.serverip}', '${d.serial}')"></i>
-              <i class="bi bi-cloud-download actionIcon" data-lng-hover-title='devices_table_control_titles_pulllog'
-                 title=${getTranslate('devices_table_control_titles_pulllog')}
-                 onclick="pullLogsFromDevice('${d.serverip}', '${d.serial}')"></i>
-              <i class="bi bi-clock-fill actionIcon" data-lng-hover-title='devices_table_control_titles_lock'
-                 title=${getTranslate('devices_table_control_titles_lock')}
-                 onclick="openDevLockModal('${d.serverip}', '${d.serial}')"></i>
-              <i class="bi bi-question-circle-fill actionIcon" data-lng-hover-title='devices_table_control_titles_questionnaire'
-                 title=${getTranslate('devices_table_control_titles_questionnaire')}
-                 onclick="openQuestionnaireModal('${d.serverip}', '${d.serial}')"></i>
-  
-              <i class="bi bi-info-circle-fill actionIcon" data-lng-hover-title='devices_table_control_titles_info'
-                 title=${getTranslate('devices_table_control_titles_info')}
-                 onclick="openDeviceInfo('${d.serverip}', '${d.serial}')"></i>
-            </td>
-            <td>
-              <select class="actionSelect" onchange="handleDeviceAction('${d.serverip}', '${d.serial}', this.value)">
-                <option value="">---</option>
-                <option value="settime" data-lng='setTime'>${getTranslate('setTime')}</option>
-                <option value="reboot" data-lng='Reboot'>${getTranslate('Reboot')}</option>
-                <option value="cleanuser" data-lng='Clean_Users'>${getTranslate('Clean_Users')}</option>
-                <option value="cleanlog" data-lng='Clean_Logs'>${getTranslate('Clean_Logs')}</option>
-                <option value="initsys" data-lng='Init_System'>${getTranslate('Init_System')}</option>
-                <option value="cleanadmin" data-lng='Clean_Admin'>${getTranslate('Clean_Admin')}</option>
-                <option value="opendoor" data-lng='Open_Door'>${getTranslate('Open_Door')}</option>
-              </select>
-            </td>
-            <td class="connStatusCell">Checking...</td>
-          `;
-          tb.appendChild(tr);
-
-          // بعد إنشاء الصف نحدث حالة الاتصال
-          const connCell = tr.querySelector('.connStatusCell');
-          updateDeviceConnectionStatus(d.serverip, d.serial, connCell);
-        });
-      }
 
       // فلترة محلية
       function filterDevicesLocally() {
@@ -3033,6 +2969,72 @@
         } else {
           console.error('Child index out of bounds');
         }
+      }
+
+
+      // عرض الأجهزة في الجدول
+      function renderDevices(devArr) {
+        const tb = document.querySelector('#devicesTable tbody');
+        tb.innerHTML = '';
+
+        devArr.forEach((d, i) => {
+          const creationDate = d.createdAt
+            ? new Date(d.createdAt).toISOString().split('T')[0]
+            : '';
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${i + 1}</td>
+            <td>${d.name || ''}</td>
+            <td>${d.serial || ''}</td>
+            <td>${d.serverip || ''}</td>
+            <td>${d.timeZone || ''}</td>
+            <td data-lng='${d.status ? 'devices_modal_status_option_true' : 'devices_modal_status_option_false'}'>${getTranslate(d.status ? 'devices_modal_status_option_true' : 'devices_modal_status_option_false')}</td>
+            <td>${creationDate}</td>
+            <td>
+              <i class="bi bi-pencil-fill actionIcon" data-lng-hover-title='devices_table_control_titles_edit'
+                 title=${getTranslate('devices_table_control_titles_edit')}
+                 onclick="openModalForEdit('${d._id}')"></i>
+              <i class="bi bi-trash-fill actionIcon" data-lng-hover-title='devices_table_control_titles_delete'
+                 title=${getTranslate('devices_table_control_titles_delete')}
+                 onclick="deleteDevice('${d._id}')"></i>
+              <i class="bi bi-gear-fill actionIcon" data-lng-hover-title='devices_table_control_titles_settings'
+                 title=${getTranslate('devices_table_control_titles_settings')}
+                 onclick="openDeviceSettings('${d.serverip}', '${d.serial}')"></i>
+              <i class="bi bi-cloud-download actionIcon" data-lng-hover-title='devices_table_control_titles_pulllog'
+                 title=${getTranslate('devices_table_control_titles_pulllog')}
+                 onclick="pullLogsFromDevice('${d.serverip}', '${d.serial}')"></i>
+              <i class="bi bi-clock-fill actionIcon" data-lng-hover-title='devices_table_control_titles_lock'
+                 title=${getTranslate('devices_table_control_titles_lock')}
+                 onclick="openDevLockModal('${d.serverip}', '${d.serial}')"></i>
+              <i class="bi bi-question-circle-fill actionIcon" data-lng-hover-title='devices_table_control_titles_questionnaire'
+                 title=${getTranslate('devices_table_control_titles_questionnaire')}
+                 onclick="openQuestionnaireModal('${d.serverip}', '${d.serial}')"></i>
+  
+              <i class="bi bi-info-circle-fill actionIcon" data-lng-hover-title='devices_table_control_titles_info'
+                 title=${getTranslate('devices_table_control_titles_info')}
+                 onclick="openDeviceInfo('${d.serverip}', '${d.serial}')"></i>
+            </td>
+            <td>
+              <select class="actionSelect" onchange="handleDeviceAction('${d.serverip}', '${d.serial}', this.value)">
+                <option value="">---</option>
+                <option value="settime" data-lng='setTime'>${getTranslate('setTime')}</option>
+                <option value="reboot" data-lng='Reboot'>${getTranslate('Reboot')}</option>
+                <option value="cleanuser" data-lng='Clean_Users'>${getTranslate('Clean_Users')}</option>
+                <option value="cleanlog" data-lng='Clean_Logs'>${getTranslate('Clean_Logs')}</option>
+                <option value="initsys" data-lng='Init_System'>${getTranslate('Init_System')}</option>
+                <option value="cleanadmin" data-lng='Clean_Admin'>${getTranslate('Clean_Admin')}</option>
+                <option value="opendoor" data-lng='Open_Door'>${getTranslate('Open_Door')}</option>
+              </select>
+            </td>
+            <td class="connStatusCell">Checking...</td>
+          `;
+          tb.appendChild(tr);
+
+          // بعد إنشاء الصف نحدث حالة الاتصال
+          const connCell = tr.querySelector('.connStatusCell');
+          updateDeviceConnectionStatus(d.serverip, d.serial, connCell);
+        });
       }
 
     </script>
