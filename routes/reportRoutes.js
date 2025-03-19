@@ -3,9 +3,9 @@
 const express = require("express");
 const router = express.Router();
 const { authMiddleware, authEmployeeMiddleware } = require("../auth");
-const { getFullAttendanceReport } = require("../controllers/reportController1");
-const { getDashboardMetrics } = require("../controllers/reportController1");
-const { checkEmployeeStatus } = require("../controllers/reportController1");
+const { getFullAttendanceReport } = require("../controllers/reportController");
+const { getDashboardMetrics } = require("../controllers/reportController");
+const { checkEmployeeStatus } = require("../controllers/reportController");
 const {
   getCustomTimeAttendanceReport,
 } = require("../controllers/suddenlycheck");
