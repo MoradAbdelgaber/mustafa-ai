@@ -8,11 +8,9 @@
     "assets": [
       "controllers/*.jsc",
       "public/**/*",
-      ".env",
-      "node_modules/axios/dist/**/*"
+      ".env"
     ],
     "targets": [
-      "node16-win-x64",
       "node16-macos-arm64",
       "node16-linux-x64"
     ],
@@ -31,7 +29,7 @@
   "author": "اسمك",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.8.2",
+    "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "bytenode": "^1.5.7",
