@@ -9,10 +9,8 @@ const connectDB = async () => {
         : process.env.MONGO_URI;
 
     await mongoose.connect(dbPath, {
-      useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useFindAndModify: false,
     });
     console.log("MongoDB connected successfully. : " + dbPath);
   } catch (error) {

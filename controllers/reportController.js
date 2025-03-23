@@ -10,20 +10,19 @@ const Vacation = require("../models/Vacation");
 const VacationType = require("../models/VacationType");
 const TimeBasedLeave = require("../models/TimeBasedLeave");
 const StatusName = require("../models/StatusName");
-const Activition = require("../models/Activition");
+const Activition = require('../models/Activition');
 const { ObjectId } = require("mongoose").Types;
-const axios = require("axios");
+const axios = require('axios');
 const Department = require("../models/Department");
 const jwt = require("jsonwebtoken");
 const jose = require("node-jose");
 const crypto = require("crypto");
 
+
 // ------------- إضافة الاستدعاءات لمحرك القواعد -------------
 const Rule = require("../models/Rule");
 const { applyRulesToRecord } = require("../services/ruleEngine");
-const {
-  applyFlexibleAggregateRules,
-} = require("../services/flexibleAggregateRules");
+const { applyFlexibleAggregateRules } = require("../services/flexibleAggregateRules");
 // -----------------------------------------------------------
 
 // ------------- استدعاء كولكشن الدقائق الإضافية -------------
@@ -36,8 +35,7 @@ const SECRET_KEY = "iraqsoft";
 const RAW_ENCRYPTION_KEY = "ops2020";
 
 // تحويل المفتاح إلى 256-بت باستخدام SHA-256
-const derivedEncryptionKeyBuffer = crypto
-  .createHash("sha256")
+const derivedEncryptionKeyBuffer = crypto.createHash("sha256")
   .update(RAW_ENCRYPTION_KEY)
   .digest();
 
@@ -62,14 +60,10 @@ const verifyLicense = async (activationToken, currentDomain) => {
     // الحصول على مفتاح التشفير
     const key = await encryptionKeyPromise;
     // فك تشفير التوكن باستخدام node‑jose
-    const decryptedResult = await jose.JWE.createDecrypt(key).decrypt(
-      activationToken
-    );
+    const decryptedResult = await jose.JWE.createDecrypt(key).decrypt(activationToken);
     const decryptedToken = decryptedResult.payload.toString();
     // التحقق من صحة توقيع JWT باستخدام المفتاح السري
-    const decodedPayload = jwt.verify(decryptedToken, SECRET_KEY, {
-      algorithms: ["HS256"],
-    });
+    const decodedPayload = jwt.verify(decryptedToken, SECRET_KEY, { algorithms: ["HS256"] });
 
     // التحقق من تطابق الدومين
     if (decodedPayload.domain !== currentDomain) {
@@ -204,26 +198,21 @@ function calculateAttendanceMetrics({
   // ### التعامل مع وقت الخروج ###
   if (actualCheckOut) {
     if (!daySchedule.overtime_eligible && actualCheckOut > dayEndUTC) {
-      console.log(
-        "الموظف غير مؤهل للأوفر تايم، يتم تعيين وقت الخروج إلى نهاية اليوم:",
-        dayEndUTC
-      );
+      ("الموظف غير مؤهل للأوفر تايم، يتم تعيين وقت الخروج إلى نهاية اليوم:", dayEndUTC);
       actualCheckOut = dayEndUTC;
     } else if (daySchedule.overtime_eligible) {
-      console.log(
-        "الموظف مؤهل للأوفر تايم، وقت الخروج يُستخدم كما هو:",
-        actualCheckOut
-      );
+      ("الموظف مؤهل للأوفر تايم، وقت الخروج يُستخدم كما هو:", actualCheckOut);
     }
 
     if (firstExitUTC && actualCheckOut < firstExitUTC) {
-      console.log("وقت الخروج أقل من firstExitUTC، يتم تعيينه إلى null");
+      ("وقت الخروج أقل من firstExitUTC، يتم تعيينه إلى null");
       actualCheckOut = null;
     }
     if (lastExitUTC && actualCheckOut > lastExitUTC) {
-      console.log("وقت الخروج أكبر من lastExitUTC، يتم تعيينه إلى null");
+      ("وقت الخروج أكبر من lastExitUTC، يتم تعيينه إلى null");
       actualCheckOut = null;
     }
+
 
     if (firstExitUTC && actualCheckOut < firstExitUTC) {
       actualCheckOut = null;
@@ -331,8 +320,7 @@ function calculateAttendanceMetrics({
       finalStatus = dmins > 0 ? "late" : "present";
     }
   } else if (
-    finalWorkHours + totalRest <
-    (daySchedule.official_working_hours || 8)
+    finalWorkHours + totalRest < (daySchedule.official_working_hours || 8)
   ) {
     if (dmins > 0 && emins > 0) finalStatus = "late_and_early_exit";
     else if (dmins > 0) finalStatus = "late";
@@ -341,6 +329,9 @@ function calculateAttendanceMetrics({
   } else {
     finalStatus = "present";
   }
+
+
+
 
   return {
     delayMinutes: dmins,
@@ -427,6 +418,7 @@ function buildIntervalsForSegmentedMode(dayFingerLogs, dayEndUTC) {
   }
   return { intervals, restBreaks };
 }
+
 
 /**
  * حساب الـ metrics عند وجود تعدد فترات في نفس اليوم
@@ -577,15 +569,9 @@ function calculateExpectedWorkingDays(monthDate, employee, officialHolidays) {
     }
 
     // إذا كان الموظف يعمل بنظام الشفت
-    if (
-      employee.scheduleMode === "shift" &&
-      employee.shift_id &&
-      employee.shift_id.daysMap
-    ) {
+    if (employee.scheduleMode === "shift" && employee.shift_id && employee.shift_id.daysMap) {
       // حساب الفرق بين اليوم الحالي وتاريخ بدء دورة الشفت
-      const shiftStart = moment(employee.shift_id.cycleStartDate).startOf(
-        "day"
-      );
+      const shiftStart = moment(employee.shift_id.cycleStartDate).startOf("day");
       const diffDays = moment(current).startOf("day").diff(shiftStart, "days");
       const cycleLen = employee.shift_id.cycleLength || 1;
       const cycleDayIndex = ((diffDays % cycleLen) + cycleLen) % cycleLen;
@@ -622,37 +608,37 @@ function calculateExpectedWorkingDays(monthDate, employee, officialHolidays) {
 /** التقرير */
 exports.getFullAttendanceReport = async (req, res) => {
   try {
-    // // جلب أول سجل من مجموعة Activition (يُفترض أن يكون دائماً موجودًا)
-    // const activitionRecord = await Activition.findOne().sort({ createdAt: 1 });
-    // console.log("تم استرجاع سجل التفعيل:", activitionRecord);
-    // if (!activitionRecord) {
-    //   return res.status(404).json({ error: "لم يتم العثور على بيانات التفعيل في قاعدة البيانات" });
-    // }
+    // جلب أول سجل من مجموعة Activition (يُفترض أن يكون دائماً موجودًا)
+    const activitionRecord = await Activition.findOne().sort({ createdAt: 1 });
+    ("تم استرجاع سجل التفعيل:", activitionRecord);
+    if (!activitionRecord) {
+      return res.status(404).json({ error: "لم يتم العثور على بيانات التفعيل في قاعدة البيانات" });
+    }
 
-    // // استخراج الباركود من حقل name
-    // const customerBarcode = activitionRecord.name;
-    // console.log("الباركود الخاص بالعميل:", customerBarcode);
+    // استخراج الباركود من حقل name
+    const customerBarcode = activitionRecord.name;
+    ("الباركود الخاص بالعميل:", customerBarcode);
 
-    // // استدعاء الـ API لجلب التوكن باستخدام الباركود من قاعدة البيانات
-    // const tokenUrl = `http://4.2.2.235:3800/api/client/token/${customerBarcode}`;
-    // console.log("يتم طلب التوكن من العنوان:", tokenUrl);
-    // const tokenResponse = await axios.get(tokenUrl);
-    // console.log("استجابة الـ API للتوكن:", tokenResponse.data);
+    // استدعاء الـ API لجلب التوكن باستخدام الباركود من قاعدة البيانات
+    const tokenUrl = `http://140.82.38.238:3800/api/client/token/${customerBarcode}`;
+    ("يتم طلب التوكن من العنوان:", tokenUrl);
+    const tokenResponse = await axios.get(tokenUrl);
+    ("استجابة الـ API للتوكن:", tokenResponse.data);
 
-    // // استخراج activationToken من استجابة الـ API
-    // const activationToken = tokenResponse.data.activationToken;
-    // console.log("التوكن المستخرج:", activationToken);
-    // if (!activationToken) {
-    //   return res.status(500).json({ error: "فشل في جلب التوكن من الـ API" });
-    // }
+    // استخراج activationToken من استجابة الـ API
+    const activationToken = tokenResponse.data.activationToken;
+    ("التوكن المستخرج:", activationToken);
+    if (!activationToken) {
+      return res.status(500).json({ error: "فشل في جلب التوكن من الـ API" });
+    }
 
-    // // الحصول على الدومين الحالي من رأس الطلب
-    // const currentDomain = req.headers.host;
-    // console.log("الدومين الحالي:", currentDomain);
+    // الحصول على الدومين الحالي من رأس الطلب
+    const currentDomain = req.headers.host;
+    ("الدومين الحالي:", currentDomain);
 
-    // // التحقق من الترخيص باستخدام التوكن المستخرج مع فحص الدومين وعدد الأجهزة والموظفين
-    // const licenseData = await verifyLicense(activationToken, currentDomain);
-    // console.log("بيانات الترخيص المفكوكة:", licenseData);
+    // التحقق من الترخيص باستخدام التوكن المستخرج مع فحص الدومين وعدد الأجهزة والموظفين
+    const licenseData = await verifyLicense(activationToken, currentDomain);
+    ("بيانات الترخيص المفكوكة:", licenseData);
     let {
       start_date = "2025-02-01",
       end_date = "2025-02-05",
@@ -660,9 +646,9 @@ exports.getFullAttendanceReport = async (req, res) => {
       department_id = 0,
       show_official_holidays = 1,
       show_weekly_off_days = 1,
-      timeZone = req.user?.timeZone ||
-        req.employee?.owner?.timeZone ||
-        "Asia/Baghdad",
+      timeZone = req.user ?.timeZone ||
+        req.employee ?.owner ?.timeZone ||
+          "Asia/Baghdad",
       use_dynamic_hour_price = 0,
       roundvalue = 1,
       status_code,
@@ -683,7 +669,7 @@ exports.getFullAttendanceReport = async (req, res) => {
     if (employee_id && employee_id !== "0") {
       // إذا كانت employee_id تحتوي على فاصلة فهذا يعني أكثر من رقم موظف
       if (employee_id.includes(",")) {
-        const employeeIds = employee_id.split(",").map((id) => +id);
+        const employeeIds = employee_id.split(",").map(id => +id);
         empMatch.enroll_id = { $in: employeeIds };
       } else {
         empMatch.enroll_id = +employee_id;
@@ -699,16 +685,15 @@ exports.getFullAttendanceReport = async (req, res) => {
     if (tagemployeeHeader) {
       // تقسيم القيمة المفصولة بفواصل وتحويل كل عنصر إلى ObjectId
       const tagsArray = tagemployeeHeader
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter((tag) => tag !== ""); // إزالة العناصر الفارغة إن وجدت
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag !== ""); // إزالة العناصر الفارغة إن وجدت
 
       if (tagsArray.length > 0) {
-        empMatch.tagemployee = {
-          $in: tagsArray.map((tag) => new ObjectId(tag)),
-        };
+        empMatch.tagemployee = { $in: tagsArray.map(tag => new ObjectId(tag)) };
       }
     }
+
 
     // =============== إضافة populate الشفت + التايم سلات ================
     const employees = await Employee.find({ ...empMatch, owner: req.userId })
@@ -733,7 +718,7 @@ exports.getFullAttendanceReport = async (req, res) => {
     };
     if (employee_id && employee_id !== "0") {
       if (employee_id.includes(",")) {
-        const employeeIds = employee_id.split(",").map((id) => +id);
+        const employeeIds = employee_id.split(",").map(id => +id);
         fingerMatch.enrollid = { $in: employeeIds };
       } else {
         fingerMatch.enrollid = +employee_id;
@@ -772,7 +757,7 @@ exports.getFullAttendanceReport = async (req, res) => {
     };
     if (employee_id && employee_id !== "0") {
       if (employee_id.includes(",")) {
-        const employeeIds = employee_id.split(",").map((id) => +id);
+        const employeeIds = employee_id.split(",").map(id => +id);
         tblMatch.enroll_id = { $in: employeeIds };
       } else {
         tblMatch.enroll_id = +employee_id;
@@ -782,6 +767,7 @@ exports.getFullAttendanceReport = async (req, res) => {
       ...tblMatch,
       owner: req.userId,
     }).lean();
+
 
     // مكافآت وجزاءات
     let rpMatch = {
@@ -828,15 +814,9 @@ exports.getFullAttendanceReport = async (req, res) => {
         let tempSchedule = null;
 
         // ======== نظام الشفت =========
-        if (
-          emp.scheduleMode === "shift" &&
-          emp.shift_id &&
-          emp.shift_id.daysMap
-        ) {
+        if (emp.scheduleMode === "shift" && emp.shift_id && emp.shift_id.daysMap) {
           const shiftStart = moment(emp.shift_id.cycleStartDate).startOf("day");
-          const diffDays = moment(dateObj)
-            .startOf("day")
-            .diff(shiftStart, "days");
+          const diffDays = moment(dateObj).startOf("day").diff(shiftStart, "days");
           const cycleLen = emp.shift_id.cycleLength || 1;
           const cycleDayIndex = ((diffDays % cycleLen) + cycleLen) % cycleLen;
           let dayMapObj = emp.shift_id.daysMap.find(
@@ -887,14 +867,11 @@ exports.getFullAttendanceReport = async (req, res) => {
 
         // إذا لم يكن هناك جدول شفت، نأخذ weekSchedules
         if (!tempSchedule) {
-          tempSchedule = emp.weekSchedules?.find((ws) => ws.day === dayName);
+          tempSchedule = emp.weekSchedules ?.find((ws) => ws.day === dayName);
         }
         if (
           tempSchedule &&
-          !(
-            tempSchedule.startTime === "00:00:00" &&
-            tempSchedule.endTime === "00:00:00"
-          )
+          !(tempSchedule.startTime === "00:00:00" && tempSchedule.endTime === "00:00:00")
         ) {
           empWorkingDays++;
         }
@@ -913,19 +890,13 @@ exports.getFullAttendanceReport = async (req, res) => {
         let daySchedule = null;
 
         // ======== نظام الشفت =========
-        if (
-          emp.scheduleMode === "shift" &&
-          emp.shift_id &&
-          emp.shift_id.daysMap
-        ) {
+        if (emp.scheduleMode === "shift" && emp.shift_id && emp.shift_id.daysMap) {
           const shiftStart = moment(emp.shift_id.cycleStartDate).startOf("day");
-          const diffDays = moment(dateObj)
-            .startOf("day")
-            .diff(shiftStart, "days");
+          const diffDays = moment(dateObj).startOf("day").diff(shiftStart, "days");
           const cycleLen = emp.shift_id.cycleLength || 1;
           const cycleDayIndex = ((diffDays % cycleLen) + cycleLen) % cycleLen;
 
-          console.log(
+          (
             "[DEBUG SHIFT] الموظف:",
             emp.enroll_id,
             ", تاريخ اليوم:",
@@ -943,27 +914,26 @@ exports.getFullAttendanceReport = async (req, res) => {
           );
 
           if (dayMapObj) {
-            console.log(
+            (
               "[DEBUG SHIFT] تم العثور على dayMapObj لـ cycleDayIndex=",
               cycleDayIndex,
               ", timeSlot=",
               dayMapObj.timeSlot
             );
           } else {
-            console.log(
+            (
               "[DEBUG SHIFT] لم يتم العثور على dayMapObj لـ cycleDayIndex=",
               cycleDayIndex
             );
           }
 
-          let ts = dayMapObj?.timeSlot;
+          let ts = dayMapObj ?.timeSlot;
           if (ts) {
             daySchedule = {
               startTime: ts.startTime || "00:00:00",
               endTime: ts.endTime || "00:00:00",
               official_working_hours: ts.officialWorkingHours || 8,
-              minimum_working_hours_overtime:
-                ts.minimumWorkingHoursOvertime || 10,
+              minimum_working_hours_overtime: ts.minimumWorkingHoursOvertime || 10,
               allowed_delay_minutes: ts.allowedDelayMinutes || 0,
               allowed_exit_minutes: ts.allowedExitMinutes || 0,
               works_for_daily_wage: ts.worksForDailyWage || false,
@@ -1007,7 +977,7 @@ exports.getFullAttendanceReport = async (req, res) => {
         // =========================
         // إذا لم يكن هناك شفت، استخدم weekSchedules
         if (!daySchedule) {
-          daySchedule = emp.weekSchedules?.find((ws) => ws.day === dayName);
+          daySchedule = emp.weekSchedules ?.find((ws) => ws.day === dayName);
         }
 
         const reportMonthDate = new Date(start_date);
@@ -1027,12 +997,12 @@ exports.getFullAttendanceReport = async (req, res) => {
           day: dayName,
           dynamic_hour_price:
             emp.main_salary &&
-            expectedWorkDays &&
-            daySchedule &&
-            daySchedule.official_working_hours
+              expectedWorkDays &&
+              daySchedule &&
+              daySchedule.official_working_hours
               ? emp.main_salary /
-                ((expectedWorkDays + holidayDays) *
-                  daySchedule.official_working_hours)
+              ((expectedWorkDays + holidayDays) *
+                daySchedule.official_working_hours)
               : 0,
 
           check_in: null,
@@ -1046,14 +1016,14 @@ exports.getFullAttendanceReport = async (req, res) => {
           status_code: "absent",
           work_hours: 0,
 
-          daily_salary: daySchedule?.daily_salary || 0,
-          hour_price: daySchedule?.hour_price || 0,
-          overtime_price: daySchedule?.overtime_price || 0,
-          works_for_daily_wage: daySchedule?.works_for_daily_wage || false,
-          official_working_hours: daySchedule?.official_working_hours || 8,
+          daily_salary: daySchedule ?.daily_salary || 0,
+          hour_price: daySchedule ?.hour_price || 0,
+          overtime_price: daySchedule ?.overtime_price || 0,
+          works_for_daily_wage: daySchedule ?.works_for_daily_wage || false,
+          official_working_hours: daySchedule ?.official_working_hours || 8,
 
           minimum_working_hours_overtime:
-            daySchedule?.minimum_working_hours_overtime || 10,
+            daySchedule ?.minimum_working_hours_overtime || 10,
 
           salary_earned_for_work: 0,
           overtime_entitlement: 0,
@@ -1072,7 +1042,7 @@ exports.getFullAttendanceReport = async (req, res) => {
         if (!daySchedule) {
           if (+show_weekly_off_days === 1) {
             record.status_code = "week_work_off";
-            console.log(
+            (
               "[DEBUG RESULT - لا يوجد daySchedule => عطلة أسبوعية]",
               record
             );
@@ -1090,24 +1060,20 @@ exports.getFullAttendanceReport = async (req, res) => {
           if (daySchedule.daily_salary > 0) {
             record.salary_earned_for_work = daySchedule.daily_salary;
           }
-          console.log("[DEBUG RESULT - يوم راحة كامل]", record);
+          ("[DEBUG RESULT - يوم راحة كامل]", record);
           finalResults.push(record);
           continue;
         }
 
         // حساب الـ UTC من الحقول العادية
-        let dayStartUTC = localTimeToUTC(
-          dateObj,
-          daySchedule.startTime,
-          timeZone
-        );
+        let dayStartUTC = localTimeToUTC(dateObj, daySchedule.startTime, timeZone);
         let dayEndUTC = localTimeToUTC(dateObj, daySchedule.endTime, timeZone);
 
         // ثم تطبيق الأوفست المخصص لكل وقت:
         if (daySchedule.startTime_Offset) {
           dayStartUTC = new Date(
             dayStartUTC.getTime() +
-              daySchedule.startTime_Offset * 24 * 3600 * 1000
+            daySchedule.startTime_Offset * 24 * 3600 * 1000
           );
         }
         if (daySchedule.endTime_Offset) {
@@ -1128,10 +1094,10 @@ exports.getFullAttendanceReport = async (req, res) => {
           if (daySchedule.work_registration_start_time_Offset) {
             wrStartUTC = new Date(
               wrStartUTC.getTime() +
-                daySchedule.work_registration_start_time_Offset *
-                  24 *
-                  3600 *
-                  1000
+              daySchedule.work_registration_start_time_Offset *
+              24 *
+              3600 *
+              1000
             );
           }
         }
@@ -1146,7 +1112,7 @@ exports.getFullAttendanceReport = async (req, res) => {
           if (daySchedule.overtimeStart_Offset) {
             overtimeStartUTC = new Date(
               overtimeStartUTC.getTime() +
-                daySchedule.overtimeStart_Offset * 24 * 3600 * 1000
+              daySchedule.overtimeStart_Offset * 24 * 3600 * 1000
             );
           }
           daySchedule.overtimeStartUTC = overtimeStartUTC;
@@ -1162,7 +1128,10 @@ exports.getFullAttendanceReport = async (req, res) => {
           if (daySchedule.last_entry_prevention_time_Offset) {
             lastEntryPreventionUTC = new Date(
               lastEntryPreventionUTC.getTime() +
-                daySchedule.last_entry_prevention_time_Offset * 24 * 3600 * 1000
+              daySchedule.last_entry_prevention_time_Offset *
+              24 *
+              3600 *
+              1000
             );
           }
           daySchedule.lastEntryPreventionUTC = lastEntryPreventionUTC;
@@ -1179,7 +1148,10 @@ exports.getFullAttendanceReport = async (req, res) => {
           if (daySchedule.first_exit_allowed_time_Offset) {
             firstExitUTC = new Date(
               firstExitUTC.getTime() +
-                daySchedule.first_exit_allowed_time_Offset * 24 * 3600 * 1000
+              daySchedule.first_exit_allowed_time_Offset *
+              24 *
+              3600 *
+              1000
             );
           }
         }
@@ -1192,7 +1164,10 @@ exports.getFullAttendanceReport = async (req, res) => {
           if (daySchedule.last_exit_allowed_time_Offset) {
             lastExitUTC = new Date(
               lastExitUTC.getTime() +
-                daySchedule.last_exit_allowed_time_Offset * 24 * 3600 * 1000
+              daySchedule.last_exit_allowed_time_Offset *
+              24 *
+              3600 *
+              1000
             );
           }
         }
@@ -1216,12 +1191,8 @@ exports.getFullAttendanceReport = async (req, res) => {
         let segmentedRestBreaks = [];
 
         // إذا كان الموظف أو الجدول يعمل بنظام الدوام المتعدّد
-        if (
-          emp.works_for_segmented_time ||
-          daySchedule.works_for_segmented_time
-        ) {
-          const { intervals, restBreaks: multiBreaks } =
-            buildIntervalsForSegmentedMode(dayFingerLogs, dayEndUTC);
+        if (emp.works_for_segmented_time || daySchedule.works_for_segmented_time) {
+          const { intervals, restBreaks: multiBreaks } = buildIntervalsForSegmentedMode(dayFingerLogs, dayEndUTC);
           segmentedIntervals = intervals;
           segmentedRestBreaks = multiBreaks;
         }
@@ -1245,9 +1216,7 @@ exports.getFullAttendanceReport = async (req, res) => {
         let checkOutUTC = null;
 
         let validEvents = [0, 1, 2, 3, 4, 5];
-        let primaryLogs = dayFingerLogs.filter((x) =>
-          validEvents.includes(x.event)
-        );
+        let primaryLogs = dayFingerLogs.filter((x) => validEvents.includes(x.event));
 
         if (primaryLogs.length > 0) {
           // تحديد بصمة الدخول (event === 1)
@@ -1293,22 +1262,15 @@ exports.getFullAttendanceReport = async (req, res) => {
         // تطبيق الإجازة الجزئية
         if (partial) {
           // النظام القديم
-          if (
-            !emp.works_for_segmented_time &&
-            !daySchedule.works_for_segmented_time
-          ) {
+          if (!emp.works_for_segmented_time && !daySchedule.works_for_segmented_time) {
             if (checkInUTC && partial.leave_duration_for_entry) {
               let cIn = new Date(checkInUTC);
-              cIn.setMinutes(
-                cIn.getMinutes() - partial.leave_duration_for_entry
-              );
+              cIn.setMinutes(cIn.getMinutes() - partial.leave_duration_for_entry);
               checkInUTC = cIn;
             }
             if (checkOutUTC && partial.leave_duration_for_exit) {
               let cOut = new Date(checkOutUTC);
-              cOut.setMinutes(
-                cOut.getMinutes() + partial.leave_duration_for_exit
-              );
+              cOut.setMinutes(cOut.getMinutes() + partial.leave_duration_for_exit);
               checkOutUTC = cOut;
             }
           } else {
@@ -1316,22 +1278,19 @@ exports.getFullAttendanceReport = async (req, res) => {
             if (segmentedIntervals.length > 0) {
               if (partial.leave_duration_for_entry) {
                 segmentedIntervals[0].inTime = new Date(
-                  segmentedIntervals[0].inTime.getTime() -
-                    partial.leave_duration_for_entry * 60000
+                  segmentedIntervals[0].inTime.getTime() - partial.leave_duration_for_entry * 60000
                 );
               }
               if (partial.leave_duration_for_exit) {
                 let lastIdx = segmentedIntervals.length - 1;
                 segmentedIntervals[lastIdx].outTime = new Date(
-                  segmentedIntervals[lastIdx].outTime.getTime() +
-                    partial.leave_duration_for_exit * 60000
+                  segmentedIntervals[lastIdx].outTime.getTime() + partial.leave_duration_for_exit * 60000
                 );
               }
             }
           }
           // **إضافة القيم إلى سجل التقرير**
-          record.leave_duration_for_entry =
-            partial.leave_duration_for_entry || 0;
+          record.leave_duration_for_entry = partial.leave_duration_for_entry || 0;
           record.leave_duration_for_exit = partial.leave_duration_for_exit || 0;
         }
 
@@ -1366,8 +1325,7 @@ exports.getFullAttendanceReport = async (req, res) => {
           foundVacation.is_paid
         ) {
           // إجازة مدفوعة
-          let vacName =
-            foundVacation.vacation_type_id?.vacation_name || "إجازة مدفوعة";
+          let vacName = foundVacation.vacation_type_id ?.vacation_name || "إجازة مدفوعة";
           record.status_code = vacName;
           record.is_vacation_day = true;
           record.is_paid_vacation = true;
@@ -1393,7 +1351,7 @@ exports.getFullAttendanceReport = async (req, res) => {
         } else if (foundVacation) {
           // إجازة غير مدفوعة أو حالة أخرى
           let vacName =
-            foundVacation.vacation_type_id?.vacation_name || "إجازة غير مدفوعة";
+            foundVacation.vacation_type_id ?.vacation_name || "إجازة غير مدفوعة";
           record.status_code = vacName;
           record.is_vacation_day = true;
           record.is_paid_vacation = !!foundVacation.is_paid;
@@ -1404,10 +1362,7 @@ exports.getFullAttendanceReport = async (req, res) => {
           record.vacation_status = null;
         }
         // الآن نحدد نداء الدالة الحسابية
-        if (
-          !daySchedule.works_for_segmented_time &&
-          !emp.works_for_segmented_time
-        ) {
+        if (!daySchedule.works_for_segmented_time && !emp.works_for_segmented_time) {
           let metrics = calculateAttendanceMetrics({
             checkInUTC,
             checkOutUTC,
@@ -1538,8 +1493,7 @@ exports.getFullAttendanceReport = async (req, res) => {
         // ================================================
 
         // أوفر تايم
-        let otRate =
-          daySchedule.overtime_price || daySchedule.overtimePrice || 0;
+        let otRate = daySchedule.overtime_price || daySchedule.overtimePrice || 0;
         let overtimeHours = record.overtime_minutes / 60;
         let overtimeValue = overtimeHours * otRate;
         record.overtime_entitlement = +overtimeValue.toFixed(2);
@@ -1633,11 +1587,12 @@ exports.getFullAttendanceReport = async (req, res) => {
           sumRequiredWorkHours += daySchedule.official_working_hours || 8;
         }
 
-        console.log("[DEBUG RESULT - قبل الدفع في finalResults]", record);
+        ("[DEBUG RESULT - قبل الدفع في finalResults]", record);
 
         finalResults.push(record);
       }
     }
+
 
     // 2) ترتيب النتائج
     finalResults.sort((a, b) => {
@@ -1685,6 +1640,7 @@ exports.getFullAttendanceReport = async (req, res) => {
     if (status_code) {
       finalResults = finalResults.filter((r) => r.status_code === status_code);
     }
+
 
     // 6) حساب الملخص بعد تطبيق القواعد والفلتر
     let sumDelayMinutes = 0,
@@ -1822,6 +1778,7 @@ exports.getFullAttendanceReport = async (req, res) => {
       net_salary: null,
     };
 
+
     finalResults.push(summaryRow);
 
     // بعد بناء finalResults بالكامل
@@ -1829,7 +1786,7 @@ exports.getFullAttendanceReport = async (req, res) => {
       ownerId: req.userId,
       reportStartDate: startDate,
       reportEndDate: endDate,
-      timeZone,
+      timeZone
     });
 
     return res.json(finalResults);
@@ -1839,13 +1796,14 @@ exports.getFullAttendanceReport = async (req, res) => {
   }
 };
 
+
 /**
  * API endpoint للتحقق من حالة بصمة الموظف في وقت محدد (UTC)
- * المدخلات:
+ * المدخلات: 
  *   - employee_id: رقم الموظف
  *   - timestamp: التاريخ والوقت بصيغة ISO (UTC)
- *
- * المخرجات:
+ * 
+ * المخرجات: 
  *   - في حال تحقق شروط الدخول: { success: true, message: "Fingerprint accepted successfully" }
  *   - وإلا: { success: false, message: <سبب الرفض باللغة الإنجليزية> }
  */
@@ -1853,71 +1811,51 @@ exports.checkEmployeeStatus = async (req, res) => {
   try {
     const { employee_id, timestamp } = req.body;
     if (!employee_id || !timestamp) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Missing employee_id or timestamp" });
+      return res.status(400).json({ success: false, message: "Missing employee_id or timestamp" });
     }
 
     // تحويل الـ timestamp إلى كائن Date (نفترض أنه بصيغة UTC)
     const checkTimeUTC = new Date(timestamp);
     if (isNaN(checkTimeUTC.getTime())) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Invalid timestamp" });
+      return res.status(400).json({ success: false, message: "Invalid timestamp" });
     }
 
     // الحصول على المنطقة الزمنية (يمكن استخدام الإعدادات للمستخدم أو القيمة الافتراضية)
-    const timeZone = req.user?.timeZone || "Asia/Baghdad";
+    const timeZone = req.user ?.timeZone || "Asia/Baghdad";
 
     // جلب بيانات الموظف (مع بعض الحقول الضرورية مثل shift أو weekSchedules)
-    const employee = await require("../models/Employee")
-      .findOne({
-        enroll_id: employee_id,
-        owner: req.userId,
-      })
-      .populate("shift_id")
-      .lean();
+    const employee = await require("../models/Employee").findOne({
+      enroll_id: employee_id,
+      owner: req.userId
+    }).populate("shift_id").lean();
     if (!employee) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Employee not found" });
+      return res.status(404).json({ success: false, message: "Employee not found" });
     }
 
     // تحديد بداية اليوم بحسب المنطقة الزمنية
-    const localDate = require("moment")(checkTimeUTC)
-      .tz(timeZone)
-      .startOf("day")
-      .toDate();
+    const localDate = require("moment")(checkTimeUTC).tz(timeZone).startOf("day").toDate();
     const dateStr = localDate.toISOString().split("T")[0];
 
     // تحديد جدول العمل لليوم (Shift mode أو weekSchedules)
     let daySchedule = null;
     const dayName = require("moment")(checkTimeUTC).tz(timeZone).format("ddd"); // مثل "Mon", "Tue", ...
-    if (
-      employee.scheduleMode === "shift" &&
-      employee.shift_id &&
-      employee.shift_id.daysMap
-    ) {
-      const shiftStart = require("moment")(
-        employee.shift_id.cycleStartDate
-      ).startOf("day");
+    if (employee.scheduleMode === "shift" && employee.shift_id && employee.shift_id.daysMap) {
+      const shiftStart = require("moment")(employee.shift_id.cycleStartDate).startOf("day");
       const diffDays = require("moment")(localDate).diff(shiftStart, "days");
       const cycleLen = employee.shift_id.cycleLength || 1;
       const cycleDayIndex = ((diffDays % cycleLen) + cycleLen) % cycleLen;
-      const dayMapObj = employee.shift_id.daysMap.find(
-        (d) => d.dayIndex === cycleDayIndex
-      );
+      const dayMapObj = employee.shift_id.daysMap.find(d => d.dayIndex === cycleDayIndex);
       if (dayMapObj && dayMapObj.timeSlot) {
         const ts = dayMapObj.timeSlot;
         daySchedule = {
           startTime: ts.startTime || "00:00:00",
           endTime: ts.endTime || "00:00:00",
           work_registration_start_time: ts.workRegistrationStartTime, // بداية تسجيل الحضور
-          last_entry_prevention_time: ts.lastEntryPreventionTime, // حد منع الدخول
+          last_entry_prevention_time: ts.lastEntryPreventionTime // حد منع الدخول
         };
       }
     } else if (employee.weekSchedules && employee.weekSchedules.length > 0) {
-      daySchedule = employee.weekSchedules.find((ws) => ws.day === dayName);
+      daySchedule = employee.weekSchedules.find(ws => ws.day === dayName);
     }
 
     // إذا لم يتوفر جدول للعمل، فهذا يعني أن اليوم عطلة أسبوعية
@@ -1926,10 +1864,7 @@ exports.checkEmployeeStatus = async (req, res) => {
     }
 
     // إذا كان جدول اليوم عبارة عن استراحة كاملة (بدء وانتهاء "00:00:00")
-    if (
-      daySchedule.startTime === "00:00:00" &&
-      daySchedule.endTime === "00:00:00"
-    ) {
+    if (daySchedule.startTime === "00:00:00" && daySchedule.endTime === "00:00:00") {
       return res.json({ success: false, message: "Break time" });
     }
 
@@ -1937,7 +1872,7 @@ exports.checkEmployeeStatus = async (req, res) => {
     const OfficialHoliday = require("../models/OfficialHoliday");
     const holiday = await OfficialHoliday.findOne({
       holiday_date: { $eq: localDate },
-      owner: req.userId,
+      owner: req.userId
     }).lean();
     if (holiday) {
       return res.json({ success: false, message: "Official holiday" });
@@ -1949,7 +1884,7 @@ exports.checkEmployeeStatus = async (req, res) => {
       enroll_id: employee_id,
       vacation_start_date: { $lte: localDate },
       vacation_end_date: { $gte: localDate },
-      status: "Approved",
+      status: "Approved"
     }).lean();
     if (vacation) {
       return res.json({ success: false, message: "Vacation day" });
@@ -1957,52 +1892,33 @@ exports.checkEmployeeStatus = async (req, res) => {
 
     // استخدام الدالة الموجودة localTimeToUTC لتحويل أوقات الجدول إلى UTC
     // نفترض أن الدالة localTimeToUTC معرفة في نفس الملف كما في باقي الكود
-    const scheduledStartUTC = localTimeToUTC(
-      localDate,
-      daySchedule.startTime,
-      timeZone
-    );
+    const scheduledStartUTC = localTimeToUTC(localDate, daySchedule.startTime, timeZone);
     let regStartUTC = null;
     if (daySchedule.work_registration_start_time) {
-      regStartUTC = localTimeToUTC(
-        localDate,
-        daySchedule.work_registration_start_time,
-        timeZone
-      );
+      regStartUTC = localTimeToUTC(localDate, daySchedule.work_registration_start_time, timeZone);
     }
     let lastEntryPreventionUTC = null;
     if (daySchedule.last_entry_prevention_time) {
-      lastEntryPreventionUTC = localTimeToUTC(
-        localDate,
-        daySchedule.last_entry_prevention_time,
-        timeZone
-      );
+      lastEntryPreventionUTC = localTimeToUTC(localDate, daySchedule.last_entry_prevention_time, timeZone);
     }
 
     // التحقق من أن الوقت المقدم يقع ضمن فترة الحضور المسموح بها
     if (regStartUTC && checkTimeUTC < regStartUTC) {
-      return res.json({
-        success: false,
-        message: "Time not allowed: too early",
-      });
+      return res.json({ success: false, message: "Time not allowed: too early" });
     }
     if (lastEntryPreventionUTC && checkTimeUTC > lastEntryPreventionUTC) {
-      return res.json({
-        success: false,
-        message: "Time not allowed: too late for entry",
-      });
+      return res.json({ success: false, message: "Time not allowed: too late for entry" });
     }
 
     // إذا تجاوزت جميع الشروط، يتم قبول البصمة
-    return res.json({
-      success: true,
-      message: "Fingerprint accepted successfully",
-    });
+    return res.json({ success: true, message: "Fingerprint accepted successfully" });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ success: false, message: err.message });
   }
 };
+
+
 
 exports.getDashboardMetrics = async (req, res) => {
   try {
@@ -2134,7 +2050,8 @@ exports.getDashboardMetrics = async (req, res) => {
 
         // هل اليوم إجازة معتمدة؟
         const isVacationDay =
-          vacationsMap[emp.enroll_id] && vacationsMap[emp.enroll_id][dateStr];
+          vacationsMap[emp.enroll_id] &&
+          vacationsMap[emp.enroll_id][dateStr];
 
         if (isVacationDay) {
           totalLeavesApproved++;

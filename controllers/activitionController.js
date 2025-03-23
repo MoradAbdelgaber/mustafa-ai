@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 const Activition = require("../models/Activition"); // تأكد من تعديل المسار حسب تنظيم ملفات مشروعك
 
 // تعريف قيمة owner افتراضية كـ ObjectId ثابت
-const DEFAULT_OWNER_ID = mongoose.Types.ObjectId("000000000000000000000001");
+const DEFAULT_OWNER_ID = new mongoose.Types.ObjectId("000000000000000000000001");
+
 
 // دالة تهيئة السجل الافتراضي عند بدء تشغيل المشروع
 const initializeActivition = async () => {

@@ -133,6 +133,11 @@
   "lblDayRestMinPrice": "Rest Min Price:",
   "btnSaveDay": "Save Day",
   "lblDevicesModalTitle": "Assign Devices",
+  "lblDepartmentsModalTitle": "Assign Departments",
+  "lblBranchesModalTitle": "Assign Branches",
+  "lblChooseDepartment": "Choose Department",
+  "btnSaveDepartment": "Save Department",
+  "btnSaveBranch": "Save Branch",
   "lblChooseDevices": "Select Devices:",
   "btnSaveDevices": "Save Devices",
   "btnAllDevices": "All Devices",
@@ -169,5 +174,6 @@
   "no_fingerprint_data": "No fingerprint data available for this employee.",
   "lb_schedules": "Schedules",
   "lb_list_of_devices": "List of Devices",
-  "lb_work_segment_time": "Works for Segmented Time"
+  "lb_work_segment_time": "Works for Segmented Time",
+  "choose_department": "Choose Department"
 }

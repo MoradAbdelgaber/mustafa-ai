@@ -6,12 +6,14 @@
   "bin": "server.js",
   "pkg": {
     "assets": [
-      "controllers/*.jsc",
       "public/**/*",
-      ".env"
+      ".env",
+      "node_modules/axios/dist/**/*",
+      "reportController.serialized",
+      "services/*.js"
     ],
     "targets": [
-      "node16-macos-arm64",
+      "node16-win-x64",
       "node16-linux-x64"
     ],
     "outputPath": "pkg"
@@ -29,20 +31,25 @@
   "author": "اسمك",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.27.2",
+    "agenda": "^5.0.0",
+    "axios": "^1.8.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
-    "bytenode": "^1.5.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
     "moment-timezone": "^0.5.46",
-    "mongoose": "^5.9.13",
+    "mongoose": "^8.12.2",
     "morgan": "^1.10.0",
-    "node-jose": "^2.2.0",
     "node-machine-id": "^1.1.12",
-    "nodemailer": "^6.10.0"
+    "nodemailer": "^6.10.0",
+    "v8-compile-cache": "^2.4.0",
+    "ws": "^8.18.1"
+  },
+  "devDependencies": {
+    "bytenode": "^1.5.7",
+    "javascript-obfuscator": "^4.1.1"
   }
 }
