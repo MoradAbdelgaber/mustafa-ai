@@ -5,7 +5,7 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-require('bytenode');
+require("bytenode");
 const morgan = require("morgan");
 const path = require("path");
 
@@ -16,7 +16,7 @@ const connectDB = require("./config/db");
 const { authMiddleware } = require("./auth");
 
 // استيراد الكنترولرز والمسارات الخاصة بالمشروع الرئيسي
-const activitionController = require('./controllers/activitionController');
+const activitionController = require("./controllers/activitionController");
 const userRoutes = require("./routes/userRoutes");
 const departmentRoutes = require("./routes/departmentRoutes");
 const branchRoutes = require("./routes/branchRoutes");
@@ -37,7 +37,7 @@ const pdfDesignRoutes = require("./routes/pdfDesignRoutes");
 const statusNameRoutes = require("./routes/statusNameRoutes");
 const vacationTypeRoutes = require("./routes/vacationTypeRoutes");
 const vacationRoutes = require("./routes/vacationRoutes");
-const extraMinutesRoutes = require('./routes/extraMinutesRoutes');
+const extraMinutesRoutes = require("./routes/extraMinutesRoutes");
 const reportRoutes = require("./routes/reportRoutes");
 const deviceRoutes = require("./routes/deviceRoutes");
 const weekScheduleTemplatesRoutes = require("./routes/weekScheduleTemplatesRoutes");
@@ -72,7 +72,9 @@ appMain.get("/api/machine-id", (req, res) => {
     const id = machineIdSync();
     res.json({ machineId: id });
   } catch (error) {
-    res.status(500).json({ error: "فشل الحصول على معرف الجهاز", details: error.message });
+    res
+      .status(500)
+      .json({ error: "فشل الحصول على معرف الجهاز", details: error.message });
   }
 });
 
@@ -87,7 +89,11 @@ appMain.use(express.static(path.join(__dirname, "public")));
 appMain.use("/api/departments", authMiddleware, departmentRoutes);
 appMain.use("/api/employees", employeeRoutes);
 appMain.use("/api/fingerprints", fingerPrintLogRoutes);
-appMain.use("/api/rewards-penalties", authMiddleware, rewardsAndPenaltiesRoutes);
+appMain.use(
+  "/api/rewards-penalties",
+  authMiddleware,
+  rewardsAndPenaltiesRoutes
+);
 appMain.use("/api/time-based-leaves", authMiddleware, timeBasedLeaveRoutes);
 appMain.use("/api/requests", authMiddleware, apiRequestRoutes);
 appMain.use("/api/attend-reports", authMiddleware, attendReportRoutes);
@@ -103,10 +109,18 @@ appMain.use("/api/reports", reportRoutes);
 appMain.use("/api/commands", commandroutes);
 appMain.use("/api/branches", authMiddleware, branchRoutes);
 appMain.use("/api/tagemployee", authMiddleware, tagemployeeRoutes);
-appMain.use("/api/flexibleAggregateRule", authMiddleware, flexibleAggregateRuleRoutes);
+appMain.use(
+  "/api/flexibleAggregateRule",
+  authMiddleware,
+  flexibleAggregateRuleRoutes
+);
 appMain.use("/api/activition", authMiddleware, activitionRoutes);
 appMain.use("/api/devices", authMiddleware, deviceRoutes);
-appMain.use("/api/weekSchedule-templates", authMiddleware, weekScheduleTemplatesRoutes);
+appMain.use(
+  "/api/weekSchedule-templates",
+  authMiddleware,
+  weekScheduleTemplatesRoutes
+);
 appMain.use("/api/rules", ruleRoutes);
 appMain.use("/api/timeslots", timeSlotRoutes);
 appMain.use("/api/shifts", shiftRoutes);
@@ -123,7 +137,9 @@ appMain.use(function (err, req, res, next) {
 });
 
 // تشغيل الخادم الرئيسي على البورت المحدد
-const PORT = (process.env.TYPE === "DEV" ? process.env.PORT_LOCAL : process.env.PORT) || 4089;
+const PORT =
+  (process.env.TYPE === "DEV" ? process.env.PORT_LOCAL : process.env.PORT) ||
+  4089;
 appMain.listen(PORT, () => {
   console.log(`Main server running on port ${PORT}`);
 });
@@ -138,10 +154,6 @@ const apiPort = process.env.port; // تأكد من ضبط هذا المتغير 
 // السماح بحجم payload كبير واستخدام CORS
 appAPI.use(cors());
 appAPI.use(express.json({ limit: "50mb" }));
-
-// استيراد واستخدام ميدلوير السيريال
-const serials = require("./utils/serials");
-appAPI.use(serials.middleware);
 
 // تشغيل الـ Job Scheduler
 const JobScheduler = require("./utils/jobScheduler");
@@ -796,7 +808,6 @@ appAPI.post("/api/dynamic", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
 
 // بدء تشغيل خادم API على بورت مختلف
 appAPI.listen(apiPort, () => {

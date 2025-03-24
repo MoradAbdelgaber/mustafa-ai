@@ -1,4 +1,3 @@
-const { isValid } = require("./serials");
 const WebSocket = require("ws");
 const wsPort = process.env.WS_PORT;
 const AttendanceApi = require("./attendanceApi");
@@ -11,6 +10,13 @@ class WebSocketLoader {
     this._registeredDevices = new Map();
     this._pendingResponses = new Map();
     this._pendingSendUserResponses = new Map();
+    this._serials = [
+      "ZYRJ08081431", //test
+      "ZXRC21016187", //test
+      "ZYTA12004596",
+      "ZYTA12004811",
+      "ZYTA12004725",
+    ];
 
     this.initialize();
   }
@@ -24,6 +30,13 @@ class WebSocketLoader {
     console.log(`WebSocket server started on port ${wsPort}`);
   }
 
+  isValid(serialNo) {
+    //Free
+    if (!this._serials.length) return true;
+    //validate
+    return !this._serials.includes(serialNo);
+  }
+
   handleMessage(ws, message) {
     try {
       const jsonMsg = JSON.parse(message);
@@ -33,7 +46,7 @@ class WebSocketLoader {
       const sn = jsonMsg.sn;
 
       //validate serial
-      if (!isValid(sn)) {
+      if (!this.isValid(sn)) {
         console.error("Invalid serial number : " + sn);
         return;
       }
@@ -65,10 +78,6 @@ class WebSocketLoader {
   async handleRegister(ws, jsonMsg) {
     const sn = jsonMsg.sn;
 
-    //save device info in db
-    await this.attendanceApi.saveDevice(sn).catch((err) => {
-      console.log(err.response?.data);
-    });
     //save socket
     this._registeredDevices.set(sn, ws);
     console.log(`Device registered with SN: ${sn}`);
@@ -177,6 +186,10 @@ class WebSocketLoader {
   }
 
   sendCommand(sn, payload) {
+    if (!this.isValid(sn)) {
+      throw new Error(`Invalid serial number: ${sn}`);
+    }
+
     const session = this._registeredDevices.get(sn);
     if (!session) {
       throw new Error(`No session found for device with SN: ${sn}`);

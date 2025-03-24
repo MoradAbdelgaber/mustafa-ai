@@ -43,6 +43,7 @@
     "moment-timezone": "^0.5.46",
     "mongoose": "^8.12.2",
     "morgan": "^1.10.0",
+    "node-jose": "^2.2.0",
     "node-machine-id": "^1.1.12",
     "nodemailer": "^6.10.0",
     "v8-compile-cache": "^2.4.0",
