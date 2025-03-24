@@ -1,46 +1,76 @@
 const WebSocket = require("ws");
 const wsPort = process.env.WS_PORT;
 const AttendanceApi = require("./attendanceApi");
+const crypto = require("crypto");
+const { readFile } = require("fs/promises");
+const { join } = require("path");
+const secretKey = "morad";
+const secretIv = "mostafa";
+const openLimit = false;
 
 class WebSocketLoader {
   attendanceApi = new AttendanceApi();
+  #registeredDevices = new Map();
+  #pendingResponses = new Map();
+  #pendingSendUserResponses = new Map();
+  #serials = [];
 
   constructor() {
-    this.server = new WebSocket.Server({ port: wsPort });
-    this._registeredDevices = new Map();
-    this._pendingResponses = new Map();
-    this._pendingSendUserResponses = new Map();
-    this._serials = [
-      //test mostafa
-      "ZXRE06022863",
-      "ZYRL07096754",
-      "AYSI06099903",
-      "ZXRE06022934",
-      //test morad
-      "ZXRC21016187",
-      //client
-      "ZYTA12004596",
-      "ZYTA12004811",
-      "ZYTA12004725",
-    ];
-
     this.initialize();
   }
 
-  initialize() {
+  async initialize() {
+    try {
+      //load serials
+      const filePath = join(__dirname, "../serials.txt");
+      const data = await readFile(filePath, "utf-8");
+      //decrypt
+      const decryptedData = this.decrypt(data.trim());
+      this.#serials = decryptedData.split(",") || [];
+      //initialize socket
+      this.initializeSocket();
+    } catch (error) {
+      console.error("Error loading serials");
+    }
+  }
+
+  formatKeyAndIV() {
+    const keyBuffer = crypto.createHash("sha256").update(secretKey).digest(); // Ensure 32 bytes
+    const ivBuffer = crypto.createHash("md5").update(secretIv).digest(); // Ensure 16 bytes
+    return { key: keyBuffer, iv: ivBuffer };
+  }
+
+  encrypt(text) {
+    const { key, iv } = this.formatKeyAndIV();
+    const cipher = crypto.createCipheriv("aes-256-cbc", key, iv);
+    let encrypted = cipher.update(text, "utf8", "hex");
+    encrypted += cipher.final("hex");
+    return encrypted;
+  }
+
+  decrypt(encryptedText) {
+    const { key, iv } = this.formatKeyAndIV();
+    const decipher = crypto.createDecipheriv("aes-256-cbc", key, iv);
+    let decrypted = decipher.update(encryptedText, "hex", "utf8");
+    decrypted += decipher.final("utf8");
+    return decrypted;
+  }
+
+  isValid(serialNo) {
+    //Free
+    if (!this.#serials.length) return openLimit;
+    //validate
+    return this.#serials.includes(serialNo);
+  }
+
+  initializeSocket() {
+    this.server = new WebSocket.Server({ port: wsPort });
     this.server.on("connection", (ws, req) => {
       console.log(`New connection from ${req.socket.remoteAddress}`);
       ws.on("message", (message) => this.handleMessage(ws, message));
       ws.on("close", (code, reason) => this.handleClose(ws, code, reason));
     });
     console.log(`WebSocket server started on port ${wsPort}`);
-  }
-
-  isValid(serialNo) {
-    //Free
-    if (!this._serials.length) return true;
-    //validate
-    return !this._serials.includes(serialNo);
   }
 
   handleMessage(ws, message) {
@@ -85,7 +115,7 @@ class WebSocketLoader {
     const sn = jsonMsg.sn;
 
     //save socket
-    this._registeredDevices.set(sn, ws);
+    this.#registeredDevices.set(sn, ws);
     console.log(`Device registered with SN: ${sn}`);
 
     //send response to device
@@ -142,11 +172,11 @@ class WebSocketLoader {
      */
 
     //send send Data to client
-    if (this._pendingSendUserResponses.has(sn)) {
-      const { resolve, timeout } = this._pendingSendUserResponses.get(sn);
+    if (this.#pendingSendUserResponses.has(sn)) {
+      const { resolve, timeout } = this.#pendingSendUserResponses.get(sn);
       clearTimeout(timeout);
       resolve({ result: true, ...jsonMsg });
-      this._pendingSendUserResponses.delete(sn);
+      this.#pendingSendUserResponses.delete(sn);
     }
 
     //confirm receiving
@@ -163,11 +193,11 @@ class WebSocketLoader {
     const ret = jsonMsg.ret;
     const sn = this.getSNBySession(ws);
 
-    if (ret && this._pendingResponses.has(sn)) {
-      const { resolve, timeout } = this._pendingResponses.get(sn);
+    if (ret && this.#pendingResponses.has(sn)) {
+      const { resolve, timeout } = this.#pendingResponses.get(sn);
       clearTimeout(timeout);
       resolve(jsonMsg);
-      this._pendingResponses.delete(sn);
+      this.#pendingResponses.delete(sn);
     } else {
       console.log(`No pending request or unknown response: ${ret}`);
     }
@@ -177,13 +207,13 @@ class WebSocketLoader {
     console.log(`Connection closed: ${code} - ${reason}`);
     const sn = this.getSNBySession(ws);
     if (sn) {
-      this._registeredDevices.delete(sn);
+      this.#registeredDevices.delete(sn);
       console.log(`Device with SN: ${sn} disconnected`);
     }
   }
 
   getSNBySession(ws) {
-    for (const [sn, session] of this._registeredDevices.entries()) {
+    for (const [sn, session] of this.#registeredDevices.entries()) {
       if (session === ws) {
         return sn;
       }
@@ -196,7 +226,7 @@ class WebSocketLoader {
       throw new Error(`Invalid serial number: ${sn}`);
     }
 
-    const session = this._registeredDevices.get(sn);
+    const session = this.#registeredDevices.get(sn);
     if (!session) {
       throw new Error(`No session found for device with SN: ${sn}`);
     }
@@ -206,16 +236,16 @@ class WebSocketLoader {
 
     return new Promise((resolve, reject) => {
       const timeout = setTimeout(() => {
-        this._pendingResponses.delete(sn);
+        this.#pendingResponses.delete(sn);
         reject(new Error(`Timeout waiting for response from SN: ${sn}`));
       }, 30000); // مهلة الانتظار 10 ثوانٍ
 
-      this._pendingResponses.set(sn, { resolve, reject, timeout });
+      this.#pendingResponses.set(sn, { resolve, reject, timeout });
     });
   }
 
   isRegistered(sn) {
-    return this._registeredDevices.has(sn);
+    return this.#registeredDevices.has(sn);
   }
 
   // دوال للعمليات المختلفة
@@ -444,7 +474,7 @@ class WebSocketLoader {
     };
 
     //check live session
-    const session = this._registeredDevices.get(sn);
+    const session = this.#registeredDevices.get(sn);
     if (!session) {
       throw new Error(`No session found for device with SN: ${sn}`);
     }
@@ -454,7 +484,7 @@ class WebSocketLoader {
 
     return new Promise((resolve, reject) => {
       const timeout = setTimeout(() => {
-        this._pendingSendUserResponses.delete(sn);
+        this.#pendingSendUserResponses.delete(sn);
         reject(
           new UnprocessableEntityException(
             `Timeout waiting for response from SN: ${sn}`
@@ -462,7 +492,7 @@ class WebSocketLoader {
         );
       }, 30000); // 30 seconds
 
-      this._pendingSendUserResponses.set(sn, { resolve, reject, timeout });
+      this.#pendingSendUserResponses.set(sn, { resolve, reject, timeout });
     });
   }
 
@@ -485,7 +515,7 @@ class WebSocketLoader {
     await this.getTime(sn);
     return {
       result: true,
-      online: this._registeredDevices.has(sn),
+      online: this.#registeredDevices.has(sn),
     };
   }
 
