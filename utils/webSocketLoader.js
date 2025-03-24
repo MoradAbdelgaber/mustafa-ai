@@ -11,8 +11,14 @@ class WebSocketLoader {
     this._pendingResponses = new Map();
     this._pendingSendUserResponses = new Map();
     this._serials = [
-      "ZYRJ08081431", //test
-      "ZXRC21016187", //test
+      //test mostafa
+      "ZXRE06022863",
+      "ZYRL07096754",
+      "AYSI06099903",
+      "ZXRE06022934",
+      //test morad
+      "ZXRC21016187",
+      //client
       "ZYTA12004596",
       "ZYTA12004811",
       "ZYTA12004725",
