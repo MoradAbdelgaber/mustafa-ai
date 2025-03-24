@@ -149,7 +149,7 @@ appMain.listen(PORT, () => {
 // ==========================================
 
 const appAPI = express();
-const apiPort = process.env.port; // تأكد من ضبط هذا المتغير في ملف .env
+const apiPort = process.env.PORT; // تأكد من ضبط هذا المتغير في ملف .env
 
 // السماح بحجم payload كبير واستخدام CORS
 appAPI.use(cors());
