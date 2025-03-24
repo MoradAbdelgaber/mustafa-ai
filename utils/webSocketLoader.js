@@ -3,7 +3,7 @@ const wsPort = process.env.WS_PORT;
 const AttendanceApi = require("./attendanceApi");
 const crypto = require("crypto");
 const { readFile } = require("fs/promises");
-const { join } = require("path");
+const { join, dirname } = require("path");
 const secretKey = "morad";
 const secretIv = "mostafa";
 const openLimit = false;
@@ -22,7 +22,8 @@ class WebSocketLoader {
   async initialize() {
     try {
       //load serials
-      const filePath = join(__dirname, "../serials.txt");
+      // const filePath = join(__dirname, "../serials.txt"); //  dev
+      const filePath = join(dirname(process.execPath), "serials.txt"); // pkg
       const data = await readFile(filePath, "utf-8");
       //decrypt
       const decryptedData = this.decrypt(data.trim());
