@@ -19,7 +19,8 @@
   <!-- خطا Tajawal (للغة العربية) وOpen Sans (للإنجليزية) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+    rel="stylesheet">
 
   <style>
     html {
@@ -578,59 +579,59 @@
       box-sizing: border-box;
     }
 
-  .accordion-header {
-    background-color: #dddddd4f;
-    color: #000;
-    padding: 10px;
-    cursor: pointer;
-    border: 1px solid #ddd;
-    transition: background-color 0.3s ease;
-    margin: 0 0 9px 0;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
-    position: relative;
-  }
+    .accordion-header {
+      background-color: #dddddd4f;
+      color: #000;
+      padding: 10px;
+      cursor: pointer;
+      border: 1px solid #ddd;
+      transition: background-color 0.3s ease;
+      margin: 0 0 9px 0;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      position: relative;
+    }
 
-  .accordion-header::before{
-    content: '+';
-    position: absolute;
-    top: 6px;
-    right: 11px;
-    font-size: 1.4rem;
-    color: #000;
-  }
+    .accordion-header::before {
+      content: '+';
+      position: absolute;
+      top: 6px;
+      right: 11px;
+      font-size: 1.4rem;
+      color: #000;
+    }
 
-  html[lang="ar"] .accordion-header::before{
-    right: auto;
-    left: 11px;
-  }
+    html[lang="ar"] .accordion-header::before {
+      right: auto;
+      left: 11px;
+    }
 
-  .accordion-header:hover {
+    .accordion-header:hover {
       background-color: #ddd;
-  }
-  .accordion-header.active{
-    margin-bottom: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    border: 1px solid #ddd;
-    background-color: #ddd;
-  }
+    }
 
-  .accordion-header.active::before{
-    content: '_';
-    top: -6px;
-  }
+    .accordion-header.active {
+      margin-bottom: 0;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+      border: 1px solid #ddd;
+      background-color: #ddd;
+    }
 
-.accordion-content {
-    display: none;
-    background-color: #f1f1f1;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-top: none;
-    margin-bottom: 5px;
-}
+    .accordion-header.active::before {
+      content: '_';
+      top: -6px;
+    }
 
+    .accordion-content {
+      display: none;
+      background-color: #f1f1f1;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-top: none;
+      margin-bottom: 5px;
+    }
   </style>
 </head>
 
@@ -667,16 +668,16 @@
       <!-- حاوية البحث أعلى الجدول -->
       <div class="searchFilters">
         <label id="devices_search_name_label" for="searchName" data-lng="devices_search_name_label"></label>
-        <input type="text" id="searchName" oninput="filterDevicesLocally()" data-lng-placeholder="devices_search_name_placeholder"
-          placeholder="">
+        <input type="text" id="searchName" oninput="filterDevicesLocally()"
+          data-lng-placeholder="devices_search_name_placeholder" placeholder="">
 
         <label id="devices_search_serial_label" for="searchSerial" data-lng="devices_search_serial_label"></label>
-        <input type="text" id="searchSerial" oninput="filterDevicesLocally()" data-lng-placeholder="devices_search_serial_placeholder"
-          placeholder="">
+        <input type="text" id="searchSerial" oninput="filterDevicesLocally()"
+          data-lng-placeholder="devices_search_serial_placeholder" placeholder="">
 
         <label id="devices_search_serverip_label" for="searchServerIp" data-lng="devices_search_serverip_label"></label>
-        <input type="text" id="searchServerIp" oninput="filterDevicesLocally()" data-lng-placeholder="devices_search_serverip_placeholder"
-          placeholder="">
+        <input type="text" id="searchServerIp" oninput="filterDevicesLocally()"
+          data-lng-placeholder="devices_search_serverip_placeholder" placeholder="">
 
         <label id="devices_search_status_label" for="searchStatus" data-lng="devices_search_status_label"></label>
         <select id="searchStatus" onchange="filterDevicesLocally()">
@@ -694,7 +695,8 @@
         <button class="addDeviceBtn" id="devices_add_button" onclick="openModalForAdd()" data-lng="devices_add_button">
           Add Device</button>
         <p>IP: 140.82.38.238
-          <span></span>Port: 7716 </p>
+          <span></span>Port: 7716
+        </p>
       </div>
 
       <!-- جدول الأجهزة -->
@@ -760,20 +762,23 @@
           <label id="devices_modal_serial_label" data-lng="deviceSerial" for="deviceSerial">Device Serial:</label>
           <input type="text" id="deviceSerial" placeholder="12345-ABCDE" />
 
-          <label id="devices_modal_serverip_label" data-lng="devices_modal_label_serverip" for="serverIp">ServerIP:</label>
+          <label id="devices_modal_serverip_label" data-lng="devices_modal_label_serverip"
+            for="serverIp">ServerIP:</label>
           <input type="text" id="serverIp" placeholder="192.168.1.50" />
 
           <label data-lng="timeZoneLable" for="deviceTimeZone">timeZone:</label>
           <input list="timezones" id="deviceTimeZone" data-lng-placeholder="timeZone" />
           <datalist id="timezones"></datalist>
 
-          <label id="devices_modal_status_label" data-lng="devices_modal_label_status" for="deviceStatus">Status:</label>
+          <label id="devices_modal_status_label" data-lng="devices_modal_label_status"
+            for="deviceStatus">Status:</label>
           <select id="deviceStatus">
             <option value="true" data-lng-option="devices_modal_status_option_true">Enabled</option>
             <option value="false" data-lng-option="devices_modal_status_option_false">Disabled</option>
           </select>
 
-          <button class="modalSaveBtn" id="devices_modal_save_button" data-lng="devices_modal_button_save" onclick="saveDevice()">Save</button>
+          <button class="modalSaveBtn" id="devices_modal_save_button" data-lng="devices_modal_button_save"
+            onclick="saveDevice()">Save</button>
         </div>
       </div>
     </div>
@@ -790,596 +795,597 @@
           <div class="accordion">
             <h3 data-lng="registration_options" class="accordion-header">خيارات التسجيل</h3>
             <div class="accordion-content">
-                  <!-- (1) خيارات التسجيل -->
-                <div class="settings-section">
-                 
-                  <div class="fieldGroup">
-                    <div class="fieldItem">
-                      <label for="rfid_free_reg" data-lng="rfid_free_reg">تسجيل مجاني للبطاقة</label>
-                      <select id="rfid_free_reg">
-                        <option value="1" data-lng-option="option_yes">نعم</option>
-                        <option value="0" data-lng-option="option_no">لا</option>
-                      </select>
-                    </div>
-                    <div class="fieldItem">
-                      <label for="rfid_auto_reg" data-lng="rfid_auto_reg">استعمال البطاقة لتسجيل الحضور</label>
-                      <select id="rfid_auto_reg">
-                        <option value="1" data-lng-option="option_yes">نعم</option>
-                        <option value="0" data-lng-option="option_no">لا</option>
-                      </select>
-                    </div>
-                    <div class="fieldItem">
-                      <label for="face_double_check" data-lng="face_double_check">فحص تكرار الوجه</label>
-                      <select id="face_double_check">
-                        <option value="1" data-lng-option="option_yes">نعم</option>
-                        <option value="0" data-lng-option="option_no">لا</option>
-                      </select>
-                    </div>
+              <!-- (1) خيارات التسجيل -->
+              <div class="settings-section">
+
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="rfid_free_reg" data-lng="rfid_free_reg">تسجيل مجاني للبطاقة</label>
+                    <select id="rfid_free_reg">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
                   </div>
-                  <div class="fieldGroup">
-                    <div class="fieldItem">
-                      <label for="reg_card_1" data-lng="add_card_1">إضافة بطاقة1</label>
-                      <input type="number" id="reg_card_1" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="reg_card_2" data-lng="add_card_2">إضافة بطاقة2</label>
-                      <input type="number" id="reg_card_2" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="reg_card_3" data-lng="add_card_3">إضافة بطاقة3</label>
-                      <input type="number" id="reg_card_3" />
-                    </div>
+                  <div class="fieldItem">
+                    <label for="rfid_auto_reg" data-lng="rfid_auto_reg">استعمال البطاقة لتسجيل الحضور</label>
+                    <select id="rfid_auto_reg">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="face_double_check" data-lng="face_double_check">فحص تكرار الوجه</label>
+                    <select id="face_double_check">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
                   </div>
                 </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="reg_card_1" data-lng="add_card_1">إضافة بطاقة1</label>
+                    <input type="number" id="reg_card_1" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="reg_card_2" data-lng="add_card_2">إضافة بطاقة2</label>
+                    <input type="number" id="reg_card_2" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="reg_card_3" data-lng="add_card_3">إضافة بطاقة3</label>
+                    <input type="number" id="reg_card_3" />
+                  </div>
+                </div>
+              </div>
             </div>
-        
+
             <h3 data-lng="attendance_and_time_settings" class="accordion-header">إعدادات الحضور والوقت</h3>
             <div class="accordion-content">
-                  <!-- (2) إعدادات الحضور والوقت -->
-                <div class="settings-section">
-                 
-                  <div class="fieldGroup">
-                    <div class="fieldItem">
-                      <label for="reverifytime" data-lng="reverifytime">فترة التسجيل</label>
-                      <input type="number" id="reverifytime" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="glog_warning" data-lng="glog_warning">تحذير سجل الحضور</label>
-                      <input type="number" id="glog_warning" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="use_logphoto" data-lng="use_logphoto">حفظ الصورة</label>
-                      <select id="use_logphoto">
-                        <option value="1" data-lng-option="option_yes">نعم</option>
-                        <option value="0" data-lng-option="option_no">لا</option>
-                      </select>
-                    </div>
+              <!-- (2) إعدادات الحضور والوقت -->
+              <div class="settings-section">
+
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="reverifytime" data-lng="reverifytime">فترة التسجيل</label>
+                    <input type="number" id="reverifytime" />
                   </div>
-                  <div class="fieldGroup">
-                    <div class="fieldItem">
-                      <label for="stranger_photo" data-lng="stranger_photo">صورة الضيف</label>
-                      <select id="stranger_photo">
-                        <option value="1" data-lng-option="option_yes">نعم</option>
-                        <option value="0" data-lng-option="option_no">لا</option>
-                      </select>
-                    </div>
-                    <div class="fieldItem">
-                      <label for="verifyfail_hint" data-lng="verifyfail_hint">سبب فشل التأكد</label>
-                      <select id="verifyfail_hint">
-                        <option value="1" data-lng-option="option_yes">نعم</option>
-                        <option value="0" data-lng-option="option_no">لا</option>
-                      </select>
-                    </div>
-                    <div class="fieldItem">
-                      <label for="selfchecklog" data-lng="selfchecklog">التحقق من السجل</label>
-                      <select id="selfchecklog">
-                        <option value="1" data-lng-option="option_yes">نعم</option>
-                        <option value="0" data-lng-option="option_no">لا</option>
-                      </select>
-                    </div>
+                  <div class="fieldItem">
+                    <label for="glog_warning" data-lng="glog_warning">تحذير سجل الحضور</label>
+                    <input type="number" id="glog_warning" />
                   </div>
-                  <div class="fieldGroup">
-                    <div class="fieldItem">
-                      <label for="default_shift" data-lng="default_shift">وقت العمل الافتراضي</label>
-                      <input type="number" id="default_shift" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="shift_weekend_ot" data-lng="shift_weekend_ot">عمل إضافي في عطلة نهاية الأسبوع</label>
-                      <select id="shift_weekend_ot">
-                        <option value="1" data-lng-option="option_yes">نعم</option>
-                        <option value="0" data-lng-option="option_no">لا</option>
-                      </select>
-                    </div>
-                    <div class="fieldItem">
-                      <label for="excel_password" data-lng="excel_password">Excel Pwd</label>
-                      <input type="text" id="excel_password" />
-                    </div>
-                  </div>
-                  <div class="fieldGroup">
-                    <div class="fieldItem">
-                      <label for="allow_latetime" data-lng="allow_latetime">وقت التأخير</label>
-                      <input type="number" id="allow_latetime" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="allow_earlytime" data-lng="allow_earlytime">وقت الخروج المبكر</label>
-                      <input type="number" id="allow_earlytime" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="reverify_nolock" data-lng="reverify_nolock">تأكيد عدم فتح الباب</label>
-                      <select id="reverify_nolock">
-                        <option value="1" data-lng-option="enable">مفعل</option>
-                        <option value="0" data-lng-option="disable">معطل</option>
-                      </select>
-                    </div>
+                  <div class="fieldItem">
+                    <label for="use_logphoto" data-lng="use_logphoto">حفظ الصورة</label>
+                    <select id="use_logphoto">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
                   </div>
                 </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="stranger_photo" data-lng="stranger_photo">صورة الضيف</label>
+                    <select id="stranger_photo">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="verifyfail_hint" data-lng="verifyfail_hint">سبب فشل التأكد</label>
+                    <select id="verifyfail_hint">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="selfchecklog" data-lng="selfchecklog">التحقق من السجل</label>
+                    <select id="selfchecklog">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="default_shift" data-lng="default_shift">وقت العمل الافتراضي</label>
+                    <input type="number" id="default_shift" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="shift_weekend_ot" data-lng="shift_weekend_ot">عمل إضافي في عطلة نهاية الأسبوع</label>
+                    <select id="shift_weekend_ot">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="excel_password" data-lng="excel_password">Excel Pwd</label>
+                    <input type="text" id="excel_password" />
+                  </div>
+                </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="allow_latetime" data-lng="allow_latetime">وقت التأخير</label>
+                    <input type="number" id="allow_latetime" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="allow_earlytime" data-lng="allow_earlytime">وقت الخروج المبكر</label>
+                    <input type="number" id="allow_earlytime" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="reverify_nolock" data-lng="reverify_nolock">تأكيد عدم فتح الباب</label>
+                    <select id="reverify_nolock">
+                      <option value="1" data-lng-option="enable">مفعل</option>
+                      <option value="0" data-lng-option="disable">معطل</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
             </div>
-        
+
             <h3 data-lng="dst_and_reboot" class="accordion-header">التوقيت الصيفي وإعادة التشغيل</h3>
             <div class="accordion-content">
-                  <!-- (3) التوقيت الصيفي وإعادة التشغيل -->
-                <div class="settings-section">
-                  
-                  <div class="fieldGroup">
-                    <div class="fieldItem">
-                      <label for="use_dst" data-lng="use_dst">استخدام DST</label>
-                      <select id="use_dst">
-                        <option value="1" data-lng-option="option_yes">نعم</option>
-                        <option value="0" data-lng-option="option_no">لا</option>
-                      </select>
-                    </div>
-                    <div class="fieldItem">
-                      <label for="dst_start" data-lng="dst_start">بداية التوقيت الصيفي</label>
-                      <input type="number" id="dst_start" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="dst_end" data-lng="dst_end">نهاية التوقيت الصيفي</label>
-                      <input type="number" id="dst_end" />
-                    </div>
+              <!-- (3) التوقيت الصيفي وإعادة التشغيل -->
+              <div class="settings-section">
+
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="use_dst" data-lng="use_dst">استخدام DST</label>
+                    <select id="use_dst">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
                   </div>
-                  <div class="fieldGroup">
-                    <div class="fieldItem">
-                      <label for="reboottime1" data-lng="reboottime1">وقت إعادة التشغيل 1</label>
-                      <input type="number" id="reboottime1" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="reboottime2" data-lng="reboottime2">وقت إعادة التشغيل 2</label>
-                      <input type="number" id="reboottime2" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="reboottime3" data-lng="reboottime3">وقت إعادة التشغيل 3</label>
-                      <input type="number" id="reboottime3" />
-                    </div>
+                  <div class="fieldItem">
+                    <label for="dst_start" data-lng="dst_start">بداية التوقيت الصيفي</label>
+                    <input type="number" id="dst_start" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="dst_end" data-lng="dst_end">نهاية التوقيت الصيفي</label>
+                    <input type="number" id="dst_end" />
                   </div>
                 </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="reboottime1" data-lng="reboottime1">وقت إعادة التشغيل 1</label>
+                    <input type="number" id="reboottime1" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="reboottime2" data-lng="reboottime2">وقت إعادة التشغيل 2</label>
+                    <input type="number" id="reboottime2" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="reboottime3" data-lng="reboottime3">وقت إعادة التشغيل 3</label>
+                    <input type="number" id="reboottime3" />
+                  </div>
+                </div>
+              </div>
             </div>
-        
+
             <h3 data-lng="section_4_title" class="accordion-header">إعدادات الصوت والعرض</h3>
             <div class="accordion-content">
-                  <!-- (4) إعدادات الصوت والعرض -->
-                  <div class="settings-section">
-                   
-                    <div class="fieldGroup">
-                      <div class="fieldItem">
-                        <label for="volume" data-lng="volume">مستوى الصوت</label>
-                        <input type="number" id="volume" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="tts_voice" data-lng="tts_voice">TTS Voice</label>
-                        <select id="tts_voice" data-lng="tts_voice">
-                          <option value="1" data-lng-option="enable">مفعل</option>
-                          <option value="0" data-lng-option="disable">معطل</option>
-                        </select>
-                      </div>
-                      <div class="fieldItem">
-                        <label for="multifaces" data-lng="multifaces">Multi-Faces</label>
-                        <select id="multifaces">
-                          <option value="1" data-lng-option="enable">مفعل</option>
-                          <option value="0" data-lng-option="disable">معطل</option>
-                        </select>
-                      </div>
-                      <div class="fieldItem">
-                        <label for="showresulttime" data-lng="showresulttime">مدة عرض النتيجة</label>
-                        <input type="number" id="showresulttime" />
-                      </div>
-                    </div>
-                    <div class="fieldGroup">
-                      <div class="fieldItem">
-                        <label for="screensavertime" data-lng="screensavertime">وقت شاشة التوقف</label>
-                        <input type="number" id="screensavertime" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="sleeptime" data-lng="sleeptime">وضع السكون</label>
-                        <input type="number" id="sleeptime" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="live_detect" data-lng="live_detect">اكتشاف حي</label>
-                        <select id="live_detect">
-                          <option value="1" data-lng-option="enable">مفعل</option>
-                          <option value="0" data-lng-option="disable">معطل</option>
-                        </select>
-                      </div>
-                      <div class="fieldItem">
-                        <label for="show_avatar" data-lng="show_avatar">إظهار صورة الوجه</label>
-                        <select id="show_avatar">
-                          <option value="1" data-lng-option="option_yes">نعم</option>
-                          <option value="0" data-lng-option="option_no">لا</option>
-                        </select>
-                      </div>
-                    </div>
+              <!-- (4) إعدادات الصوت والعرض -->
+              <div class="settings-section">
+
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="volume" data-lng="volume">مستوى الصوت</label>
+                    <input type="number" id="volume" />
                   </div>
+                  <div class="fieldItem">
+                    <label for="tts_voice" data-lng="tts_voice">TTS Voice</label>
+                    <select id="tts_voice" data-lng="tts_voice">
+                      <option value="1" data-lng-option="enable">مفعل</option>
+                      <option value="0" data-lng-option="disable">معطل</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="multifaces" data-lng="multifaces">Multi-Faces</label>
+                    <select id="multifaces">
+                      <option value="1" data-lng-option="enable">مفعل</option>
+                      <option value="0" data-lng-option="disable">معطل</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="showresulttime" data-lng="showresulttime">مدة عرض النتيجة</label>
+                    <input type="number" id="showresulttime" />
+                  </div>
+                </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="screensavertime" data-lng="screensavertime">وقت شاشة التوقف</label>
+                    <input type="number" id="screensavertime" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="sleeptime" data-lng="sleeptime">وضع السكون</label>
+                    <input type="number" id="sleeptime" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="live_detect" data-lng="live_detect">اكتشاف حي</label>
+                    <select id="live_detect">
+                      <option value="1" data-lng-option="enable">مفعل</option>
+                      <option value="0" data-lng-option="disable">معطل</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="show_avatar" data-lng="show_avatar">إظهار صورة الوجه</label>
+                    <select id="show_avatar">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
             </div>
-        
+
             <h3 data-lng="section_5_title" class="accordion-header">إعدادات الخصوصية والتعرف</h3>
             <div class="accordion-content">
-                  <!-- (5) إعدادات الخصوصية والتعرف -->
-                  <div class="settings-section">
-                    
-                    <div class="fieldGroup">
-                      <div class="fieldItem">
-                        <label for="managers" data-lng="managers">عدد المدراء</label>
-                        <input type="number" id="managers" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="hide_privacy" data-lng="hide_privacy">إخفاء الخصوصية</label>
-                        <select id="hide_privacy">
-                          <option value="1" data-lng-option="option_yes">نعم</option>
-                          <option value="0" data-lng-option="option_no">لا</option>
-                        </select>
-                      </div>
-                      <div class="fieldItem">
-                        <label for="fcmatch_level" data-lng="fcmatch_level">مستوى مطابقة الوجه</label>
-                        <input type="number" id="fcmatch_level" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="live_treshold" data-lng="live_treshold">عتبة الاكتشاف الحي</label>
-                        <input type="number" id="live_treshold" />
-                      </div>
-                    </div>
-                    <div class="fieldGroup">
-                      <div class="fieldItem">
-                        <label for="wear_mask" data-lng="wear_mask">ارتداء قناع</label>
-                        <select id="wear_mask">
-                          <option value="1" data-lng-option="option_yes">نعم</option>
-                          <option value="0" data-lng-option="option_no">لا</option>
-                        </select>
-                      </div>
-                      <div class="fieldItem">
-                        <label for="mask_treshold" data-lng="mask_treshold">عتبة القناع</label>
-                        <input type="number" id="mask_treshold" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="filllight_period" data-lng="filllight_period">فترة الإضاءة</label>
-                        <input type="number" id="filllight_period" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="exposure_value" data-lng="exposure_value">قيمة التعرض</label>
-                        <input type="number" id="exposure_value" />
-                      </div>
-                    </div>
-                    <div class="fieldGroup">
-                      <div class="fieldItem">
-                        <label for="online_debug" data-lng="online_debug">تصحيح عبر الإنترنت</label>
-                        <select id="online_debug">
-                          <option value="1" data-lng-option="enable">مفعل</option>
-                          <option value="0" data-lng-option="disable">معطل</option>
-                        </select>
-                      </div>
-                    </div>
+              <!-- (5) إعدادات الخصوصية والتعرف -->
+              <div class="settings-section">
+
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="managers" data-lng="managers">عدد المدراء</label>
+                    <input type="number" id="managers" />
                   </div>
+                  <div class="fieldItem">
+                    <label for="hide_privacy" data-lng="hide_privacy">إخفاء الخصوصية</label>
+                    <select id="hide_privacy">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="fcmatch_level" data-lng="fcmatch_level">مستوى مطابقة الوجه</label>
+                    <input type="number" id="fcmatch_level" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="live_treshold" data-lng="live_treshold">عتبة الاكتشاف الحي</label>
+                    <input type="number" id="live_treshold" />
+                  </div>
+                </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="wear_mask" data-lng="wear_mask">ارتداء قناع</label>
+                    <select id="wear_mask">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="mask_treshold" data-lng="mask_treshold">عتبة القناع</label>
+                    <input type="number" id="mask_treshold" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="filllight_period" data-lng="filllight_period">فترة الإضاءة</label>
+                    <input type="number" id="filllight_period" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="exposure_value" data-lng="exposure_value">قيمة التعرض</label>
+                    <input type="number" id="exposure_value" />
+                  </div>
+                </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="online_debug" data-lng="online_debug">تصحيح عبر الإنترنت</label>
+                    <select id="online_debug">
+                      <option value="1" data-lng-option="enable">مفعل</option>
+                      <option value="0" data-lng-option="disable">معطل</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
             </div>
-        
+
             <h3 data-lng="section_6_title" class="accordion-header">إعدادات الباب</h3>
             <div class="accordion-content">
-                  <!-- (6) إعدادات الباب -->
-                  <div class="settings-section">
-                    
-                    <div class="fieldGroup">
-                      <div class="fieldItem">
-                        <label for="door_opentime" data-lng="door_opentime">وقت فتح الباب</label>
-                        <input type="number" id="door_opentime" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="stranger_lock" data-lng="stranger_lock">قفل الغرباء</label>
-                        <select id="stranger_lock">
-                          <option value="1" data-lng-option="option_yes">نعم</option>
-                          <option value="0" data-lng-option="option_no">لا</option>
-                        </select>
-                      </div>
-                      <div class="fieldItem">
-                        <label for="door_password" data-lng="door_password">كلمة مرور الباب</label>
-                        <input type="number" id="door_password" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="multiusers" data-lng="multiusers">دخول متعدد</label>
-                        <select id="multiusers">
-                          <option value="1" data-lng-option="option_yes">نعم</option>
-                          <option value="0" data-lng-option="option_no">لا</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="fieldGroup">
-                      <div class="fieldItem">
-                        <label for="card_reversal" data-lng="card_reversal">عكس البطاقة</label>
-                        <select id="card_reversal">
-                          <option value="1" data-lng-option="option_yes">نعم</option>
-                          <option value="0" data-lng-option="option_no">لا</option>
-                        </select>
-                      </div>
-                      <div class="fieldItem">
-                        <label for="outwg_shot" data-lng="outwg_shot">إخراج Wiegand قصير</label>
-                        <select id="outwg_shot">
-                          <option value="1" data-lng-option="option_yes">نعم</option>
-                          <option value="0" data-lng-option="option_no">لا</option>
-                        </select>
-                      </div>
-                      <div class="fieldItem">
-                        <label for="door_interlock" data-lng="door_interlock">تشابك الأبواب</label>
-                        <select id="door_interlock">
-                          <option value="1" data-lng-option="enable">مفعل</option>
-                          <option value="0" data-lng-option="disable">معطل</option>
-                        </select>
-                      </div>
-                      <div class="fieldItem">
-                        <label for="door_firealarmin" data-lng="door_firealarmin">مدخل إنذار الحريق</label>
-                        <select id="door_firealarmin">
-                          <option value="1" data-lng-option="enable">مفعل</option>
-                          <option value="0" data-lng-option="disable">معطل</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="fieldGroup">
-                      <div class="fieldItem">
-                        <label for="door_trycount" data-lng="door_trycount">عدد المحاولات</label>
-                        <input type="number" id="door_trycount" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="timezone_punchs" data-lng="timezone_punchs">ضربات المنطقة الزمنية</label>
-                        <select id="timezone_punchs">
-                          <option value="1" data-lng-option="enable">مفعل</option>
-                          <option value="0" data-lng-option="disable">معطل</option>
-                        </select>
-                      </div>
-                      <div class="fieldItem">
-                        <label for="access_denied_nolog" data-lng="access_denied_nolog">منع الوصول بلا سجل</label>
-                        <select id="access_denied_nolog">
-                          <option value="1" data-lng-option="enable">مفعل</option>
-                          <option value="0" data-lng-option="disable">معطل</option>
-                        </select>
-                      </div>
-                      <div class="fieldItem">
-                        <label for="outof_notimzone_denied" data-lng="outof_notimzone_denied">رفض خارج الوقت المسموح</label>
-                        <select id="outof_notimzone_denied">
-                          <option value="1" data-lng-option="enable">مفعل</option>
-                          <option value="0" data-lng-option="disable">معطل</option>
-                        </select>
-                      </div>
-                    </div>
+              <!-- (6) إعدادات الباب -->
+              <div class="settings-section">
+
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="door_opentime" data-lng="door_opentime">وقت فتح الباب</label>
+                    <input type="number" id="door_opentime" />
                   </div>
+                  <div class="fieldItem">
+                    <label for="stranger_lock" data-lng="stranger_lock">قفل الغرباء</label>
+                    <select id="stranger_lock">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="door_password" data-lng="door_password">كلمة مرور الباب</label>
+                    <input type="number" id="door_password" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="multiusers" data-lng="multiusers">دخول متعدد</label>
+                    <select id="multiusers">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="card_reversal" data-lng="card_reversal">عكس البطاقة</label>
+                    <select id="card_reversal">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="outwg_shot" data-lng="outwg_shot">إخراج Wiegand قصير</label>
+                    <select id="outwg_shot">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="door_interlock" data-lng="door_interlock">تشابك الأبواب</label>
+                    <select id="door_interlock">
+                      <option value="1" data-lng-option="enable">مفعل</option>
+                      <option value="0" data-lng-option="disable">معطل</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="door_firealarmin" data-lng="door_firealarmin">مدخل إنذار الحريق</label>
+                    <select id="door_firealarmin">
+                      <option value="1" data-lng-option="enable">مفعل</option>
+                      <option value="0" data-lng-option="disable">معطل</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="door_trycount" data-lng="door_trycount">عدد المحاولات</label>
+                    <input type="number" id="door_trycount" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="timezone_punchs" data-lng="timezone_punchs">ضربات المنطقة الزمنية</label>
+                    <select id="timezone_punchs">
+                      <option value="1" data-lng-option="enable">مفعل</option>
+                      <option value="0" data-lng-option="disable">معطل</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="access_denied_nolog" data-lng="access_denied_nolog">منع الوصول بلا سجل</label>
+                    <select id="access_denied_nolog">
+                      <option value="1" data-lng-option="enable">مفعل</option>
+                      <option value="0" data-lng-option="disable">معطل</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="outof_notimzone_denied" data-lng="outof_notimzone_denied">رفض خارج الوقت المسموح</label>
+                    <select id="outof_notimzone_denied">
+                      <option value="1" data-lng-option="enable">مفعل</option>
+                      <option value="0" data-lng-option="disable">معطل</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
             </div>
-        
+
             <h3 data-lng="section_7_title" class="accordion-header">إعدادات الشبكة</h3>
             <div class="accordion-content">
-                <!-- (7) إعدادات الشبكة -->
-                <div class="settings-section">
-                  
-                  <div class="fieldGroup">
-                    <div class="fieldItem">
-                      <label for="deviceid" data-lng="deviceid">رقم الجهاز</label>
-                      <input type="number" id="deviceid" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="netportnum" data-lng="netportnum">رقم منفذ الشبكة</label>
-                      <input type="number" id="netportnum" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="use_bs" data-lng="use_bs">استخدام BS</label>
-                      <select id="use_bs">
-                        <option value="1" data-lng-option="option_yes">نعم</option>
-                        <option value="0" data-lng-option="option_no">لا</option>
-                      </select>
-                    </div>
-                    <div class="fieldItem">
-                      <label for="use_domain_name" data-lng="use_domain_name">استخدام اسم النطاق</label>
-                      <select id="use_domain_name">
-                        <option value="1" data-lng-option="option_yes">نعم</option>
-                        <option value="0" data-lng-option="option_no">لا</option>
-                      </select>
-                    </div>
+              <!-- (7) إعدادات الشبكة -->
+              <div class="settings-section">
+
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="deviceid" data-lng="deviceid">رقم الجهاز</label>
+                    <input type="number" id="deviceid" />
                   </div>
-                  <div class="fieldGroup">
-                    <div class="fieldItem">
-                      <label for="bs_domain_name" data-lng="bs_domain_name">BS Domain Name</label>
-                      <input type="text" id="bs_domain_name" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="serverip_" data-lng="serverip_">Server IP (رقم صحيح)</label>
-                      <input type="text" id="serverip_" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="serverport" data-lng="serverport">Server Port</label>
-                      <input type="number" id="serverport" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="server_response_time" data-lng="server_response_time">Server Resp Time</label>
-                      <input type="number" id="server_response_time" />
-                    </div>
+                  <div class="fieldItem">
+                    <label for="netportnum" data-lng="netportnum">رقم منفذ الشبكة</label>
+                    <input type="number" id="netportnum" />
                   </div>
-                  <div class="fieldGroup">
-                    <div class="fieldItem">
-                      <label for="use_eth_dhcp" data-lng="use_eth_dhcp">Ethernet DHCP</label>
-                      <select id="use_eth_dhcp">
-                        <option value="1" data-lng-option="option_yes">نعم</option>
-                        <option value="0" data-lng-option="option_no">لا</option>
-                      </select>
-                    </div>
-                    <div class="fieldItem">
-                      <label for="netipaddress" data-lng="netipaddress">Net IP (int)</label>
-                      <input type="text" id="netipaddress" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="netmask" data-lng="netmask">Net Mask (int)</label>
-                      <input type="text" id="netmask" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="netgateway" data-lng="netgateway">Net Gateway (int)</label>
-                      <input type="text" id="netgateway" />
-                    </div>
+                  <div class="fieldItem">
+                    <label for="use_bs" data-lng="use_bs">استخدام BS</label>
+                    <select id="use_bs">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
                   </div>
-                  <div class="fieldGroup">
-                    <div class="fieldItem">
-                      <label for="dns_server_ip" data-lng="dns_server_ip">DNS Server (int)</label>
-                      <input type="text" id="dns_server_ip" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="use_wlan_dhcp" data-lng="use_wlan_dhcp">WLAN DHCP</label>
-                      <select id="use_wlan_dhcp">
-                        <option value="1" data-lng-option="option_yes">نعم</option>
-                        <option value="0" data-lng-option="option_no">لا</option>
-                      </select>
-                    </div>
-                    <div class="fieldItem">
-                      <label for="wlan_ip_address" data-lng="wlan_ip_address">WLAN IP (int)</label>
-                      <input type="text" id="wlan_ip_address" />
-                    </div>
-                    <div class="fieldItem">
-                      <label for="wlan_net_mask" data-lng="wlan_net_mask">WLAN Mask (int)</label>
-                      <input type="text" id="wlan_net_mask" />
-                    </div>
+                  <div class="fieldItem">
+                    <label for="use_domain_name" data-lng="use_domain_name">استخدام اسم النطاق</label>
+                    <select id="use_domain_name">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
                   </div>
-                  <div class="fieldGroup">
-                    <div class="fieldItem">
-                      <label for="wlan_gateway" data-lng="wlan_gateway">WLAN Gateway (int)</label>
-                      <input type="text" id="wlan_gateway" />
-                    </div>
+                </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="bs_domain_name" data-lng="bs_domain_name">BS Domain Name</label>
+                    <input type="text" id="bs_domain_name" />
                   </div>
-                </div>    
+                  <div class="fieldItem">
+                    <label for="serverip_" data-lng="serverip_">Server IP (رقم صحيح)</label>
+                    <input type="text" id="serverip_" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="serverport" data-lng="serverport">Server Port</label>
+                    <input type="number" id="serverport" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="server_response_time" data-lng="server_response_time">Server Resp Time</label>
+                    <input type="number" id="server_response_time" />
+                  </div>
+                </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="use_eth_dhcp" data-lng="use_eth_dhcp">Ethernet DHCP</label>
+                    <select id="use_eth_dhcp">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="netipaddress" data-lng="netipaddress">Net IP (int)</label>
+                    <input type="text" id="netipaddress" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="netmask" data-lng="netmask">Net Mask (int)</label>
+                    <input type="text" id="netmask" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="netgateway" data-lng="netgateway">Net Gateway (int)</label>
+                    <input type="text" id="netgateway" />
+                  </div>
+                </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="dns_server_ip" data-lng="dns_server_ip">DNS Server (int)</label>
+                    <input type="text" id="dns_server_ip" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="use_wlan_dhcp" data-lng="use_wlan_dhcp">WLAN DHCP</label>
+                    <select id="use_wlan_dhcp">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="wlan_ip_address" data-lng="wlan_ip_address">WLAN IP (int)</label>
+                    <input type="text" id="wlan_ip_address" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="wlan_net_mask" data-lng="wlan_net_mask">WLAN Mask (int)</label>
+                    <input type="text" id="wlan_net_mask" />
+                  </div>
+                </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="wlan_gateway" data-lng="wlan_gateway">WLAN Gateway (int)</label>
+                    <input type="text" id="wlan_gateway" />
+                  </div>
+                </div>
+              </div>
             </div>
 
             <h3 data-lng="section_8_title" class="accordion-header">إعدادات متنوعة</h3>
             <div class="accordion-content">
-                  <!-- (8) إعدادات متنوعة -->
-                  <div class="settings-section">
-                    
-                    <div class="fieldGroup">
-                      <div class="fieldItem">
-                        <label for="line_notify" data-lng="line_notify">Line Notify</label>
-                        <select id="line_notify">
-                          <option value="1" data-lng-option="enable">مفعل</option>
-                          <option value="0" data-lng-option="disable">معطل</option>
-                        </select>
-                      </div>
-                      <div class="fieldItem">
-                        <label for="app_token" data-lng="app_token">App Token</label>
-                        <input type="text" id="app_token" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="shift_weekend" data-lng="shift_weekend">عطلة نهاية الأسبوع</label>
-                        <input type="number" id="shift_weekend" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="auto_sign" data-lng="auto_sign">توقيع تلقائي للغائبين</label>
-                        <input type="number" id="auto_sign" />
-                      </div>
-                    </div>
-                    <div class="fieldGroup">
-                      <div class="fieldItem">
-                        <label for="time_format" data-lng="time_format">صيغة الوقت</label>
-                        <input type="number" id="time_format" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="date_format" data-lng="date_format">صيغة التاريخ</label>
-                        <input type="number" id="date_format" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="language" data-lng="language">اللغة</label>
-                        <input type="number" id="language" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="screensaver_wakeup" data-lng="screensaver_wakeup">استيقاظ شاشة التوقف</label>
-                        <select id="screensaver_wakeup">
-                          <option value="1" data-lng-option="enable">مفعل</option>
-                          <option value="0" data-lng-option="disable">معطل</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="fieldGroup">
-                      <div class="fieldItem">
-                        <label for="label_style" data-lng="label_style">نمط التسمية</label>
-                        <input type="number" id="label_style" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="identify_distance" data-lng="identify_distance">مسافة التعرف</label>
-                        <input type="number" id="identify_distance" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="verifymode" data-lng="verifymode">نمط التحقق</label>
-                        <input type="number" id="verifymode" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="use_qrcode" data-lng="use_qrcode">استخدام QR</label>
-                        <input type="number" id="use_qrcode" />
-                      </div>
-                    </div>
-                    <div class="fieldGroup">
-                      <div class="fieldItem">
-                        <label for="filllight" data-lng="filllight">الإضاءة الإضافية</label>
-                        <input type="number" id="filllight" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="door_sensor_type" data-lng="door_sensor_type">نوع حساس الباب</label>
-                        <input type="number" id="door_sensor_type" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="door_antipass" data-lng="door_antipass">منع المرور العكسي</label>
-                        <input type="number" id="door_antipass" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="wiegand_output_mode" data-lng="wiegand_output_mode">Wiegand Output Mode</label>
-                        <input type="number" id="wiegand_output_mode" />
-                      </div>
-                    </div>
-                    <div class="fieldGroup">
-                      <div class="fieldItem">
-                        <label for="wiegand_output_bit" data-lng="wiegand_output_bit">Wiegand Output Bit</label>
-                        <input type="number" id="wiegand_output_bit" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="card_disp_format" data-lng="card_disp_format">تنسيق عرض البطاقة</label>
-                        <input type="number" id="card_disp_format" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="combaurate" data-lng="combaurate">منفذ الاتصال</label>
-                        <input type="number" id="combaurate" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="rs485_fun">RS485 Fun</label>
-                        <input type="number" id="rs485_fun" />
-                      </div>
-                    </div>
-                    <div class="fieldGroup">
-                      <div class="fieldItem">
-                        <label for="server_verify" data-lng="server_verify">التحقق من السيرفر</label>
-                        <select id="server_verify">
-                          <option value="1" data-lng-option="option_yes">نعم</option>
-                          <option value="0" data-lng-option="option_no">لا</option>
-                        </select>
-                      </div>
-                      <div class="fieldItem">
-                        <label for="line_push_type">Line Push</label>
-                        <input type="number" id="line_push_type" />
-                      </div>
-                      <div class="fieldItem">
-                        <label for="password" data-lng="password">كلمة المرور العامة</label>
-                        <input type="text" id="password" />
-                      </div>
-                    </div>
+              <!-- (8) إعدادات متنوعة -->
+              <div class="settings-section">
+
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="line_notify" data-lng="line_notify">Line Notify</label>
+                    <select id="line_notify">
+                      <option value="1" data-lng-option="enable">مفعل</option>
+                      <option value="0" data-lng-option="disable">معطل</option>
+                    </select>
                   </div>
+                  <div class="fieldItem">
+                    <label for="app_token" data-lng="app_token">App Token</label>
+                    <input type="text" id="app_token" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="shift_weekend" data-lng="shift_weekend">عطلة نهاية الأسبوع</label>
+                    <input type="number" id="shift_weekend" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="auto_sign" data-lng="auto_sign">توقيع تلقائي للغائبين</label>
+                    <input type="number" id="auto_sign" />
+                  </div>
+                </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="time_format" data-lng="time_format">صيغة الوقت</label>
+                    <input type="number" id="time_format" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="date_format" data-lng="date_format">صيغة التاريخ</label>
+                    <input type="number" id="date_format" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="language" data-lng="language">اللغة</label>
+                    <input type="number" id="language" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="screensaver_wakeup" data-lng="screensaver_wakeup">استيقاظ شاشة التوقف</label>
+                    <select id="screensaver_wakeup">
+                      <option value="1" data-lng-option="enable">مفعل</option>
+                      <option value="0" data-lng-option="disable">معطل</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="label_style" data-lng="label_style">نمط التسمية</label>
+                    <input type="number" id="label_style" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="identify_distance" data-lng="identify_distance">مسافة التعرف</label>
+                    <input type="number" id="identify_distance" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="verifymode" data-lng="verifymode">نمط التحقق</label>
+                    <input type="number" id="verifymode" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="use_qrcode" data-lng="use_qrcode">استخدام QR</label>
+                    <input type="number" id="use_qrcode" />
+                  </div>
+                </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="filllight" data-lng="filllight">الإضاءة الإضافية</label>
+                    <input type="number" id="filllight" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="door_sensor_type" data-lng="door_sensor_type">نوع حساس الباب</label>
+                    <input type="number" id="door_sensor_type" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="door_antipass" data-lng="door_antipass">منع المرور العكسي</label>
+                    <input type="number" id="door_antipass" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="wiegand_output_mode" data-lng="wiegand_output_mode">Wiegand Output Mode</label>
+                    <input type="number" id="wiegand_output_mode" />
+                  </div>
+                </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="wiegand_output_bit" data-lng="wiegand_output_bit">Wiegand Output Bit</label>
+                    <input type="number" id="wiegand_output_bit" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="card_disp_format" data-lng="card_disp_format">تنسيق عرض البطاقة</label>
+                    <input type="number" id="card_disp_format" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="combaurate" data-lng="combaurate">منفذ الاتصال</label>
+                    <input type="number" id="combaurate" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="rs485_fun">RS485 Fun</label>
+                    <input type="number" id="rs485_fun" />
+                  </div>
+                </div>
+                <div class="fieldGroup">
+                  <div class="fieldItem">
+                    <label for="server_verify" data-lng="server_verify">التحقق من السيرفر</label>
+                    <select id="server_verify">
+                      <option value="1" data-lng-option="option_yes">نعم</option>
+                      <option value="0" data-lng-option="option_no">لا</option>
+                    </select>
+                  </div>
+                  <div class="fieldItem">
+                    <label for="line_push_type">Line Push</label>
+                    <input type="number" id="line_push_type" />
+                  </div>
+                  <div class="fieldItem">
+                    <label for="password" data-lng="password">كلمة المرور العامة</label>
+                    <input type="text" id="password" />
+                  </div>
+                </div>
+              </div>
             </div>
-        </div>
+          </div>
 
           <!-- زر الحفظ -->
-          <button class="modalSaveBtn" id="devices_settings_save_button" data-lng=devices_settings_save_button onclick="saveDevSettings()">Save Settings
+          <button class="modalSaveBtn" id="devices_settings_save_button" data-lng=devices_settings_save_button
+            onclick="saveDevSettings()">Save Settings
           </button>
         </div>
       </div>
@@ -1533,7 +1539,8 @@
             </tbody>
           </table>
 
-          <button class="modalSaveBtn" id="devices_lockmodal_save_button" data-lng="save" onclick="saveDevLock()">Save</button>
+          <button class="modalSaveBtn" id="devices_lockmodal_save_button" data-lng="save"
+            onclick="saveDevLock()">Save</button>
         </div>
       </div>
     </div>
@@ -1649,7 +1656,8 @@
             </table>
           </div>
         </div>
-        <button class="modalSaveBtn" id="devices_questionnaire_send_button" style="margin:10px;" onclick="sendQuestionnaire()">Send</button>
+        <button class="modalSaveBtn" id="devices_questionnaire_send_button" style="margin:10px;"
+          onclick="sendQuestionnaire()">Send</button>
       </div>
     </div>
 
@@ -1959,9 +1967,9 @@
         const creationVal = document.getElementById('searchCreation').value;
 
         let filtered = allDevices.filter(d => {
-          if (nameVal && !d.name ?.toLowerCase().includes(nameVal)) return false;
-          if (serialVal && !d.serial ?.toLowerCase().includes(serialVal)) return false;
-          if (serverIpVal && !d.serverip ?.toLowerCase().includes(serverIpVal)) return false;
+          if (nameVal && !d.name?.toLowerCase().includes(nameVal)) return false;
+          if (serialVal && !d.serial?.toLowerCase().includes(serialVal)) return false;
+          if (serverIpVal && !d.serverip?.toLowerCase().includes(serverIpVal)) return false;
           if (statusVal) {
             const boolStatus = d.status ? 'true' : 'false';
             if (boolStatus !== statusVal) return false;
@@ -2158,9 +2166,9 @@
           }
 
           if (!resp.ok) {
-            throw new Error(result ?.error || result ?.message || 'Action failed');
+            throw new Error(result?.error || result?.message || 'Action failed');
           }
-          showSuccess(result ?.message || 'Action done successfully');
+          showSuccess(result?.message || 'Action done successfully');
 
         } catch (err) {
           showError(err.message);
@@ -2184,7 +2192,7 @@
           }
 
           const data = await resp.json();
-          if (data ?.success && data ?.data ?.online === true) {
+          if (data?.success && data?.data?.online === true) {
             setConnectedCell(cell);
           } else {
             setDisconnectedCell(cell);
@@ -2254,7 +2262,7 @@
 
         try {
           while (true) {
-            const logsData = await fetchLogsChunk(serial, from, to, stn);
+            const logsData = await fetchLogsChunk(serverip, serial, from, to, stn);
             if (!logsData || !logsData.success) {
               break;
             }
@@ -2287,9 +2295,9 @@
         }
       }
 
-      async function fetchLogsChunk(serial, from, to, stn) {
+      async function fetchLogsChunk(serverip, serial, from, to, stn) {
         const bodyObj = { sn: serial, from, to, stn };
-        const resp = await fetch('/api/getalllog', {
+        const resp = await fetch(serverip + '/api/getalllog', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(bodyObj)
@@ -2360,12 +2368,14 @@
 
       // إعدادات الجهاز
       let currentDeviceSN = null;
+      let currentDeviceServerIp = null;
       async function openDeviceSettings(serverip, serial) {
         clearMessages();
         currentDeviceSN = serial;
+        currentDeviceServerIp = serverip;
         showLoading();
         try {
-          const resp = await fetch('http://127.0.0.1:3087/api/getdevinfo', {
+          const resp = await fetch(serverip + '/api/getdevinfo', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ sn: serial })
@@ -2394,6 +2404,7 @@
       function closeSettingsModal() {
         document.getElementById('deviceSettingsModal').style.display = 'none';
         currentDeviceSN = null;
+        currentDeviceServerIp = null;
       }
       function getDefaultDevInfo() {
         return {
@@ -2707,7 +2718,7 @@
         showLoading();
         try {
           const bodyObj = collectSettingsForm();
-          const resp = await fetch('/api/setdevinfo', {
+          const resp = await fetch(currentDeviceServerIp + '/api/setdevinfo', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bodyObj)
@@ -2720,9 +2731,9 @@
           }
 
           if (!resp.ok) {
-            throw new Error(result ?.error || result ?.message || "فشل حفظ الإعدادات");
+            throw new Error(result?.error || result?.message || "فشل حفظ الإعدادات");
           }
-          showSuccess(result ?.message || "تم حفظ الإعدادات بنجاح");
+          showSuccess(result?.message || "تم حفظ الإعدادات بنجاح");
           closeSettingsModal();
         } catch (err) {
           showError(err.message);
@@ -2735,14 +2746,16 @@
       //  إعدادات أوقات السماحية (dayzone/weekzone...) - كما في كودك السابق
       // --------------------------------------------------------------------------------
       let currentLockSN = null;
+      let currentLockServerIp = null;
       let devLockData = null;
 
       async function openDevLockModal(serverip, serial) {
         clearMessages();
         currentLockSN = serial;
+        currentLockServerIp = serverip;
         showLoading();
         try {
-          const resp = await fetch('/api/getdevlock', {
+          const resp = await fetch(serverip + '/api/getdevlock', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ sn: serial }),
@@ -2773,6 +2786,7 @@
       function closeDevLockModal() {
         document.getElementById('devLockModal').style.display = 'none';
         currentLockSN = null;
+        currentLockServerIp = null;
         devLockData = null;
       }
 
@@ -2813,20 +2827,20 @@
         for (let i = 0; i < 8; i++) {
           for (let j = 0; j < 5; j++) {
             const fld = document.getElementById(`dayzone_${i}_${j}`);
-            fld.value = d.dayzone[i] ?.day[j] ?.section || "00:00~00:00";
+            fld.value = d.dayzone[i]?.day[j]?.section || "00:00~00:00";
           }
         }
         for (let i = 0; i < 8; i++) {
           for (let j = 0; j < 7; j++) {
             const fld = document.getElementById(`weekzone_${i}_${j}`);
-            fld.value = d.weekzone[i] ?.week[j] ?.day || 0;
+            fld.value = d.weekzone[i]?.week[j]?.day || 0;
           }
         }
         for (let i = 0; i < 7; i++) {
-          document.getElementById(`nopentime_${i}`).value = d.nopentime[i] ?.day || 0;
+          document.getElementById(`nopentime_${i}`).value = d.nopentime[i]?.day || 0;
         }
         for (let i = 0; i < 7; i++) {
-          document.getElementById(`visitortime_${i}`).value = d.visitortime[i] ?.day || 0;
+          document.getElementById(`visitortime_${i}`).value = d.visitortime[i]?.day || 0;
         }
       }
 
@@ -2879,7 +2893,7 @@
             sn: currentLockSN,
             devLockInfo: lockObj
           };
-          const resp = await fetch('/api/setdevlock', {
+          const resp = await fetch(currentLockServerIp + '/api/setdevlock', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(bodyObj)
@@ -2901,10 +2915,12 @@
       //  الاستبيان (Questionnaire)
       // --------------------------------------------------------------------------------
       let currentQuestionnaireSN = null;
+      let currentQuestionnaireServerIp = null;
 
       function openQuestionnaireModal(serverip, serial) {
         clearMessages();
         currentQuestionnaireSN = serial;
+        currentQuestionnaireServerIp = serverip
         const modal = document.getElementById('questionnaireModal')
         modal.style.display = 'flex';
         const dir = document.getElementById('langSelector').value == 'ar' ? 'rtl' : 'ltr'
@@ -2914,6 +2930,7 @@
       function closeQuestionnaireModal() {
         document.getElementById('questionnaireModal').style.display = 'none';
         currentQuestionnaireSN = null;
+        currentQuestionnaireServerIp = null
       }
 
       async function sendQuestionnaire() {
@@ -2964,7 +2981,7 @@
             payload
           };
 
-          const resp = await fetch('http://127.0.0.1:3087/api/dynamic', {
+          const resp = await fetch(currentQuestionnaireServerIp + '/api/dynamic', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -2993,7 +3010,7 @@
         clearMessages();
         showLoading();
         // نأتي بمعلومات الجهاز من السيرفر الوسيط (مثال: /api/getdeviceinfo)
-        fetch('/api/getdeviceinfo', {
+        fetch(serverip + '/api/getdeviceinfo', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ sn: serial })
@@ -3049,23 +3066,23 @@
       }
 
 
-      function loadSiebar(){
+      function loadSiebar() {
         fetch('sidebar.html')
-              .then(response => response.text())
-              .then(data => {
-                  document.querySelector('.sidebar').innerHTML = data;
-                    var submenus = document.querySelectorAll('.submenu');
-                    submenus.forEach(function (submenu) {
-                      if (submenu.querySelector('.navItem.active')) {
-                        submenu.style.display = "block";
-                      }
-                    });
+          .then(response => response.text())
+          .then(data => {
+            document.querySelector('.sidebar').innerHTML = data;
+            var submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(function (submenu) {
+              if (submenu.querySelector('.navItem.active')) {
+                submenu.style.display = "block";
+              }
+            });
 
-                    addActiveToSubmenuClass(1);
-              })
-              .catch(error => console.error('Error loading sidebar:', error));
+            addActiveToSubmenuClass(1);
+          })
+          .catch(error => console.error('Error loading sidebar:', error));
       }
-  
+
       async function loadSidebarLangFile(lang) {
         try {
           const response = await fetch(`${LANG_PATH}/${lang}_sidebar.json`);
@@ -3079,56 +3096,56 @@
         }
       }
 
-      function applySidebarTranslation(){
-          document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
-              const key = el.getAttribute('data-lng');
-              
-              if (sidebarLabels[key]) {
-                el.textContent = sidebarLabels[key];
-              }
-          });
+      function applySidebarTranslation() {
+        document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+          const key = el.getAttribute('data-lng');
+
+          if (sidebarLabels[key]) {
+            el.textContent = sidebarLabels[key];
+          }
+        });
       }
 
       loadSiebar();
 
       function addActiveToSubmenuClass(childIndex) {
-          const submenu = document.getElementById('deviceManagementSubmenu');
-          submenu.style.display = "block";
-          const navItems = submenu.getElementsByClassName('navItem');
-          if (childIndex >= 1 && childIndex <= navItems.length) {
-              Array.from(navItems).forEach(item => item.classList.remove('active'));
-              navItems[childIndex - 1].classList.add('active');
-          } else {
-              console.error('Child index out of bounds');
-          }
+        const submenu = document.getElementById('deviceManagementSubmenu');
+        submenu.style.display = "block";
+        const navItems = submenu.getElementsByClassName('navItem');
+        if (childIndex >= 1 && childIndex <= navItems.length) {
+          Array.from(navItems).forEach(item => item.classList.remove('active'));
+          navItems[childIndex - 1].classList.add('active');
+        } else {
+          console.error('Child index out of bounds');
+        }
       }
 
-      
-      document.addEventListener("DOMContentLoaded", function() {
-            let acc = document.getElementsByClassName("accordion-header");
-            for (let i = 0; i < acc.length; i++) {
-                acc[i].addEventListener("click", function() {
 
-                    // Close all other accordion contents
-                    for (let j = 0; j < acc.length; j++) {
-                        if (acc[j] !== this) {
-                            acc[j].classList.remove("active");
-                            acc[j].nextElementSibling.style.display = "none";
-                        }
-                    }
-                    // Toggle this accordion's content
-                    this.classList.toggle("active");
-                    let panel = this.nextElementSibling;
-                    if (panel.style.display === "block") {
-                        panel.style.display = "none";
-                    } else {
-                        panel.style.display = "block";
-                    }
-                });
+      document.addEventListener("DOMContentLoaded", function () {
+        let acc = document.getElementsByClassName("accordion-header");
+        for (let i = 0; i < acc.length; i++) {
+          acc[i].addEventListener("click", function () {
+
+            // Close all other accordion contents
+            for (let j = 0; j < acc.length; j++) {
+              if (acc[j] !== this) {
+                acc[j].classList.remove("active");
+                acc[j].nextElementSibling.style.display = "none";
+              }
             }
-        });
+            // Toggle this accordion's content
+            this.classList.toggle("active");
+            let panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+              panel.style.display = "none";
+            } else {
+              panel.style.display = "block";
+            }
+          });
+        }
+      });
 
-     
+
     </script>
 </body>
 
