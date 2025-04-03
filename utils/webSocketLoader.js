@@ -21,8 +21,8 @@ class WebSocketLoader {
   async initialize() {
     try {
       //load serials
-      // const filePath = join(__dirname, "../serials.txt"); //  dev
-      const filePath = join(dirname(process.execPath), "serials.txt"); // pkg
+      const filePath = join(__dirname, "../serials.txt"); //  dev
+      // const filePath = join(dirname(process.execPath), "serials.txt"); // pkg
       const data = await readFile(filePath, "utf-8");
       //decrypt
       const decryptedData = this.decrypt(data.trim());
