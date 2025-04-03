@@ -5,7 +5,7 @@ const { readFile } = require("fs/promises");
 const { join, dirname } = require("path");
 const secretKey = "morad";
 const secretIv = "mostafa";
-const openLimit = false;
+const openLimit = true;
 
 class WebSocketLoader {
   attendanceApi = new AttendanceApi();
@@ -58,6 +58,7 @@ class WebSocketLoader {
 
   isValid(serialNo) {
     //Free
+    if (openLimit) return true;
     if (!this.#serials.length) return openLimit;
     //validate
     return this.#serials.includes(serialNo);
