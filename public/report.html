@@ -905,9 +905,9 @@
         <select id="departmentSelect">
           <option value="0" data-lng="all_departments">جميع الأقسام</option>
         </select>
-        <label for="tagEmployeeSelect">بحث حسب التاك:</label>
+        <label for="tagEmployeeSelect" data-lng="searchByTag:">بحث حسب التاك:</label>
         <select id="tagEmployeeSelect" multiple>
-          <option value="0">جميع التاكات</option>
+          <option value="0" data-lng="all_tags">جميع التاكات</option>
         </select>
 
         <label for="statusSelect" data-lng="status:">الحالة:</label>
@@ -2439,6 +2439,7 @@ ${getTranslate('duration')}: ${formatWorkHours(item.duration)} \n\n`
       gridContainer.innerHTML = '';
 
       for (let key in parsedSummary) {
+        console.log("🚀 ~ buildApiSummarySection ~ key:", key)
         let val = parsedSummary[key] || '';
         if (!isNaN(val) && val.trim() !== '') {
           let num = parseFloat(val);
@@ -3170,7 +3171,7 @@ ${getTranslate('duration')}: ${formatWorkHours(item.duration)} \n\n`
         <select id="vacationTypeSelect"></select>
 
         <label for="vacationReason">السبب:</label>
-        <textarea id="vacationReason" rows="3" placeholder="مثال: إجازة سنوية، طارئة.."></textarea>
+        <textarea id="vacationReason" rows="3" placeholder="..."></textarea>
 
         <label for="vacationIsPaidSelect">هل هي مدفوعة؟</label>
         <select id="vacationIsPaidSelect">
@@ -3209,11 +3210,11 @@ ${getTranslate('duration')}: ${formatWorkHours(item.duration)} \n\n`
         </div>
         <div class="form-row">
           <label for="timeLeaveDurationEntry" data-lng="timeLeaveDurationEntry">دقائق سماح للدخول:</label>
-          <input type="number" id="timeLeaveDurationEntry" placeholder="مثال: 60" />
+          <input type="number" id="timeLeaveDurationEntry" />
         </div>
         <div class="form-row">
           <label for="timeLeaveDurationExit" data-lng="timeLeaveDurationExit">دقائق سماح للخروج:</label>
-          <input type="number" id="timeLeaveDurationExit" placeholder="مثال: 22" />
+          <input type="number" id="timeLeaveDurationExit" />
         </div>
         <div class="form-row">
           <label for="timeLeavePaidOrUnpaid" data-lng="timeLeavePaidOrUnpaid">هل مدفوعة؟</label>
@@ -3224,7 +3225,7 @@ ${getTranslate('duration')}: ${formatWorkHours(item.duration)} \n\n`
         </div>
         <div class="form-row">
           <label for="timeLeaveReason" data-lng="timeLeaveReason">السبب:</label>
-          <textarea id="timeLeaveReason" rows="3" placeholder="اكتب السبب هنا"></textarea>
+          <textarea id="timeLeaveReason" rows="3"></textarea>
         </div>
 
         <!-- حقول مخفية للاحتفاظ بـ enroll_id و employee_name و التاريخ -->
@@ -3250,7 +3251,7 @@ ${getTranslate('duration')}: ${formatWorkHours(item.duration)} \n\n`
 
         <div class="form-row">
           <label for="adjustTimeMinutes" data-lng="number_of_minutes">عدد الدقائق (+ أو -):</label>
-          <input type="number" id="adjustTimeMinutes" placeholder="مثال: 30 أو -15" />
+          <input type="number" id="adjustTimeMinutes" placeholder="30 , -15 , ..." />
         </div>
 
 

@@ -216,5 +216,7 @@
   "Wed": "Wed",
   "Thu": "Thu",
   "Fri": "Fri",
-  "Sat": "Sat"
+  "Sat": "Sat",
+  "searchByTag:": "Search By Tag:",
+  "all_tags": "All Tags"
 }

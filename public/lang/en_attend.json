@@ -3,8 +3,8 @@
   "attend_groupby_employee": "Group by employee",
   "attend_groupby_device": "Group by device",
   "attend_groupby_day": "Group by day",
-  "leaves_type":"Leaves Type",
-  "navBranch": "Branches",  
+  "leaves_type": "Leaves Type",
+  "navBranch": "Branches",
   "attend_button_delete_selected": "Delete selected",
   "attend_button_delete_all": "Delete all",
   "attend_button_transfer_modal": "Edit / Transfer Fingerprints",
@@ -17,12 +17,11 @@
   "attend_modal_label_transfer_reason": "Reason for transfer/modification",
   "attend_modal_placeholder_transfer_reason": "Enter the reason for transfer...",
   "attend_btn_transfer_execute": "Transfer",
-  
   "sidebar_title": "Menu",
   "sidebar_dashboard": "Dashboard",
   "sidebar_employees": "Employees",
   "sidebar_attendance_report": "Attendance Report",
-  "leaves_sidebar_time_leaves":"Partial Time Request",
+  "leaves_sidebar_time_leaves": "Partial Time Request",
   "sidebar_shifts": "Shifts",
   "sidebar_timeslots": "Time Slots",
   "sidebarTitle": "Attend System",
@@ -47,7 +46,7 @@
   "timeManagement": "Time Management",
   "navshift": "Shifts",
   "navSlot": "Time Slot",
-  "public_settings": "Public Settings",  
+  "public_settings": "Public Settings",
   "attend_head_title": "Attendance Management System - Attendance",
   "attend_header_title": "Attendance Management System - Attendance",
   "attend_logout": "Logout",
@@ -80,7 +79,6 @@
   "attend_table_header_device": "Device",
   "attend_table_header_image": "Image",
   "attend_table_header_actions": "Actions",
-  
   "attend_sidebar_title": "Menu",
   "attend_sidebar_overview": "Overview",
   "attend_sidebar_employees": "Employees",
@@ -94,9 +92,6 @@
   "attend_sidebar_requests": "Requests",
   "attend_sidebar_departments": "Departments",
   "attend_sidebar_settings": "Settings",
-
-
-
   "attend_modal_add_title": "Add Fingerprint Record",
   "attend_modal_edit_title": "Edit Fingerprint Record",
   "attend_modal_label_employee": "Employee:",
@@ -126,5 +121,11 @@
   "employee": "employee",
   "image": "image",
   "edit": "edit",
-  "delete": "delete"
+  "delete": "delete",
+  "حضور (0)": "Attendance (0)",
+  "دخول (1)": "Check In (1)",
+  "خروج (2)": "Check Out (2)",
+  "دخول اجازة (3)": "Break In (3)",
+  "خروج اجازة (4)": "Break Out (4)",
+  "غير معروف": "UnKnown"
 }

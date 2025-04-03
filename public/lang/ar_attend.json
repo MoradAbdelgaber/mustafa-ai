@@ -4,7 +4,7 @@
   "sidebar_employees": "الموظفين",
   "sidebar_attendance_report": "تقرير الحضور",
   "sidebar_shifts": "النوبات",
-  "leaves_sidebar_time_leaves":"طلبات الاجازات الزمنية",
+  "leaves_sidebar_time_leaves": "طلبات الاجازات الزمنية",
   "sidebar_timeslots": "الفترات الزمنية",
   "navOverview": "نظرة عامة",
   "staffManagement": "ادارة الموظفين",
@@ -84,7 +84,6 @@
   "attend_table_header_device": "الجهاز",
   "attend_table_header_image": "الصورة",
   "attend_table_header_actions": "العمليات",
-
   "attend_sidebar_title": "القائمة",
   "attend_sidebar_overview": "نظرة عامة",
   "attend_sidebar_employees": "الموظفين",
@@ -98,8 +97,6 @@
   "attend_sidebar_requests": "الأوامر",
   "attend_sidebar_departments": "الأقسام",
   "attend_sidebar_settings": "الإعدادات",
-
-
   "attend_modal_add_title": "إضافة سجل بصمة",
   "attend_modal_edit_title": "تعديل سجل بصمة",
   "attend_modal_label_employee": "اسم الموظف:",
@@ -129,5 +126,11 @@
   "employee": "موظف",
   "image": "صورة",
   "edit": "تعديل",
-  "delete": "حذف"
+  "delete": "حذف",
+  "حضور (0)": "حضور (0)",
+  "دخول (1)": "دخول (1)",
+  "خروج (2)": "خروج (2)",
+  "دخول اجازة (3)": "دخول استراحة (3)",
+  "خروج اجازة (4)": "خروج استراحة (4)",
+  "غير معروف": "غير معروف"
 }

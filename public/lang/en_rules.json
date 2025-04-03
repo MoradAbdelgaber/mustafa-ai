@@ -21,5 +21,7 @@
   "table_header_stop_on_match": "? Stop on match",
   "table_header_control": "Actions",
   "add_rule_button": "Add  New Rule",
-  "rules_header_title": "Attendance Management System - Rules Management"
+  "rules_header_title": "Attendance Management System - Rules Management",
+  "use_variable_label": "use variable?",
+  "select_variable": "Select Variable"
 }
