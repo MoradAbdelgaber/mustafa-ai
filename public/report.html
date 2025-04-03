@@ -26,6 +26,7 @@
       from {
         opacity: 0;
       }
+
       to {
         opacity: 1;
       }
@@ -819,7 +820,7 @@
       min-height: 60px;
     }
 
-    .input_report_box{
+    .input_report_box {
       border-radius: 13px;
       background-color: #cccccc2b;
       padding-right: 10px;
@@ -827,21 +828,22 @@
       box-sizing: border-box;
       padding-top: 10px;
       padding-bottom: 10px;
-  }
-  .input_report_label{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .input_report_button{
-	  background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 0 22px;
-    cursor: pointer;
-  }
+    }
 
+    .input_report_label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .input_report_button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0 22px;
+      cursor: pointer;
+    }
   </style>
 </head>
 
@@ -931,7 +933,8 @@
 
         <!-- Checkbox إظهار الملخص الإضافي -->
         <label>
-          <input type="checkbox" id="showApiSummaryCheckbox" data-lng="show_api_summary" onchange="toggleApiSummaryVisibility()">
+          <input type="checkbox" id="showApiSummaryCheckbox" data-lng="show_api_summary"
+            onchange="toggleApiSummaryVisibility()">
           <span>إظهار ملخص الـ API الإضافي</span>
         </label>
         <button onclick="loadReport()">جلب التقرير</button>
@@ -1014,8 +1017,8 @@
             <input type="checkbox" id="useDynamicHourPrice" data-lng="active-dynmic-prices" />
             <span data-lng="active_dynmic_hour_prices"></span>
           </label>
-          <br/>
-          <br/>
+          <br />
+          <br />
           <label>
             <span data-lng="round_to"></span>
             <input type="number" id="roundValue" placeholder="like 1or 5$" />
@@ -1368,7 +1371,7 @@
     }
 
 
-    async function loadReport() { 
+    async function loadReport() {
       isTableLoaded = true;
       const errorMsg = document.getElementById('errorMsg');
       errorMsg.textContent = '';
@@ -1406,10 +1409,13 @@
       url += `&roundvalue=${additionalSettings.roundvalue || ''}`;
 
       try {
-        const resp = await fetch(url, 
-        { headers: { 'Authorization': 'Bearer ' + authToken,
-        'tagemployee': tagEmployeeHeaderValue
-      } });
+        const resp = await fetch(url,
+          {
+            headers: {
+              'Authorization': 'Bearer ' + authToken,
+              'tagemployee': tagEmployeeHeaderValue
+            }
+          });
         if (!resp.ok) throw new Error('فشل جلب التقرير: ' + resp.status);
 
         const data = await resp.json();
@@ -1698,7 +1704,7 @@
       `;
     }
 
-    function addDateCellDropdown(dateStr, enrollId, endDayOffset, employeeName, scheduled_start_time='', scheduled_end_time='') {
+    function addDateCellDropdown(dateStr, enrollId, endDayOffset, employeeName, scheduled_start_time = '', scheduled_end_time = '') {
       return `
       <div class="dateContainer">
         <span class="dateClickable"
@@ -2299,7 +2305,7 @@
         displayedColumns.forEach(col => {
           theadHtml += `<th style="width:${col.width};">${col.label}</th>`;
         });
-       
+
         theadHtml += '</tr>';
         tableHead.innerHTML = theadHtml;
 
@@ -2866,13 +2872,13 @@ ${getTranslate('duration')}: ${formatWorkHours(item.duration)} \n\n`
         <!-- محتوى تفاصيل الشفت -->
         <label data-lng="lblDaySelect" for="daySelect"></label>
         <select id="daySelect">
-          <option value="Sun">Sun</option>
-          <option value="Mon">Mon</option>
-          <option value="Tue">Tue</option>
-          <option value="Wed">Wed</option>
-          <option value="Thu">Thu</option>
-          <option value="Fri">Fri</option>
-          <option value="Sat">Sat</option>
+          <option value="Sun" data-lng="Sun">Sun</option>
+          <option value="Mon" data-lng="Mon">Mon</option>
+          <option value="Tue" data-lng="Tue">Tue</option>
+          <option value="Wed" data-lng="Wed">Wed</option>
+          <option value="Thu" data-lng="Thu">Thu</option>
+          <option value="Fri" data-lng="Fri">Fri</option>
+          <option value="Sat" data-lng="Sat">Sat</option>
         </select>
 
         <label data-lng="lblDayStart" for="dayStart"></label>
@@ -2968,7 +2974,7 @@ ${getTranslate('duration')}: ${formatWorkHours(item.duration)} \n\n`
     }
 
     let currentScheduleDay = null
-    function openAttendanceLogsModal(attDateStr, endDayOffset, enroll_id, scheduled_start_time='', scheduled_end_time='') {
+    function openAttendanceLogsModal(attDateStr, endDayOffset, enroll_id, scheduled_start_time = '', scheduled_end_time = '') {
       function parseDateString(dateStr) {
         const [y, m, d] = dateStr.split('-');
         return new Date(+y, +m - 1, +d);
@@ -2988,7 +2994,7 @@ ${getTranslate('duration')}: ${formatWorkHours(item.duration)} \n\n`
       const baseDate = parseDateString(attDateStr);
       const endDateObj = addDaysToDate(baseDate, endDayOffset || 0);
 
-      const startDateFormatted = formatDateYMD(baseDate); 
+      const startDateFormatted = formatDateYMD(baseDate);
       const endDateFormatted = formatDateYMD(endDateObj);
 
       const sch_start_time = scheduled_start_time.split(" ")[0];
@@ -3002,7 +3008,7 @@ ${getTranslate('duration')}: ${formatWorkHours(item.duration)} \n\n`
 
       document.getElementById('logsEnrollId').value = enroll_id || '';
 
-      const weekSchedules = employees.filter(em => em.enroll_id == enroll_id)[0] ?.weekSchedules || [];
+      const weekSchedules = employees.filter(em => em.enroll_id == enroll_id)[0]?.weekSchedules || [];
       const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
       const dayStr = dayOrder[new Date(attDateStr).getDay()];
       const scheduleDay = weekSchedules.filter(day => day.day == dayStr)[0];
@@ -3015,8 +3021,8 @@ ${getTranslate('duration')}: ${formatWorkHours(item.duration)} \n\n`
       document.getElementById('logsDateRange').textContent =
         `${reportTranslations['records_from']} ${scheduled_start_time} ${reportTranslations['to']} ${scheduled_end_time}`;
 
-        // document.getElementById('logsDateRange').textContent =
-        // `${reportTranslations['records_from']} ${startDateFormatted} 00:00 ${reportTranslations['to']} ${endDateFormatted} 23:59`;
+      // document.getElementById('logsDateRange').textContent =
+      // `${reportTranslations['records_from']} ${startDateFormatted} 00:00 ${reportTranslations['to']} ${endDateFormatted} 23:59`;
 
       const modal = document.getElementById('attendanceLogsModal')
       modal.style.display = 'block';
@@ -3080,9 +3086,9 @@ ${getTranslate('duration')}: ${formatWorkHours(item.duration)} \n\n`
     }
 
     async function fetchAttendanceLogs() {
-      const fromDate = document.getElementById('logsFromDate').value; 
+      const fromDate = document.getElementById('logsFromDate').value;
       const toDate = document.getElementById('logsToDate').value;
-      const eid = document.getElementById('logsEnrollId').value.trim(); 
+      const eid = document.getElementById('logsEnrollId').value.trim();
 
       if (!fromDate || !toDate) {
         alert(reportTranslations['err_1']);
@@ -3518,7 +3524,7 @@ ${getTranslate('duration')}: ${formatWorkHours(item.duration)} \n\n`
     window.addEventListener('resize', makeTableScrollable);
 
     function makeTableScrollable() {
-     
+
       const sidebar_element = document.querySelector('.sidebar');
       const table_element = document.querySelector('.tbl_wrapper');
       const viewportWidth = window.innerWidth;
@@ -3529,59 +3535,59 @@ ${getTranslate('duration')}: ${formatWorkHours(item.duration)} \n\n`
       table_element.style.overflowX = 'auto';
     }
 
-    function loadSiebar(){
-        fetch('sidebar.html')
-              .then(response => response.text())
-              .then(data => {
-                  document.querySelector('.sidebar').innerHTML = data;
-                    var submenus = document.querySelectorAll('.submenu');
-                    submenus.forEach(function (submenu) {
-                      if (submenu.querySelector('.navItem.active')) {
-                        submenu.style.display = "block";
-                      }
-                    });
-
-                    addActiveToSubmenuClass(1);
-              })
-              .catch(error => console.error('Error loading sidebar:', error));
-      }
-  
-      async function loadSidebarLangFile(lang) {
-        try {
-          const response = await fetch(`${REPORT_LANG_PATH}/${lang}_sidebar.json`);
-          if (!response.ok) {
-            throw new Error(`Error loading ${lang}_sidebar.json`);
-          }
-          sidebarLabels = await response.json();
-
-        } catch (error) {
-          console.error("Report translation file error:", error);
-        }
-      }
-
-      function applySidebarTranslation(){
-          document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
-              const key = el.getAttribute('data-lng');
-              
-              if (sidebarLabels[key]) {
-                el.textContent = sidebarLabels[key];
-              }
+    function loadSiebar() {
+      fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.querySelector('.sidebar').innerHTML = data;
+          var submenus = document.querySelectorAll('.submenu');
+          submenus.forEach(function (submenu) {
+            if (submenu.querySelector('.navItem.active')) {
+              submenu.style.display = "block";
+            }
           });
-      }
 
-      loadSiebar();
+          addActiveToSubmenuClass(1);
+        })
+        .catch(error => console.error('Error loading sidebar:', error));
+    }
 
-      function addActiveToSubmenuClass(childIndex) {
-          const submenu = document.getElementById('reportsSubmenu');
-          submenu.style.display = "block";
-          const navItems = submenu.getElementsByClassName('navItem');
-          if (childIndex >= 1 && childIndex <= navItems.length) {
-              Array.from(navItems).forEach(item => item.classList.remove('active'));
-              navItems[childIndex - 1].classList.add('active');
-          } else {
-              console.error('Child index out of bounds');
-          }
+    async function loadSidebarLangFile(lang) {
+      try {
+        const response = await fetch(`${REPORT_LANG_PATH}/${lang}_sidebar.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}_sidebar.json`);
+        }
+        sidebarLabels = await response.json();
+
+      } catch (error) {
+        console.error("Report translation file error:", error);
       }
+    }
+
+    function applySidebarTranslation() {
+      document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+
+        if (sidebarLabels[key]) {
+          el.textContent = sidebarLabels[key];
+        }
+      });
+    }
+
+    loadSiebar();
+
+    function addActiveToSubmenuClass(childIndex) {
+      const submenu = document.getElementById('reportsSubmenu');
+      submenu.style.display = "block";
+      const navItems = submenu.getElementsByClassName('navItem');
+      if (childIndex >= 1 && childIndex <= navItems.length) {
+        Array.from(navItems).forEach(item => item.classList.remove('active'));
+        navItems[childIndex - 1].classList.add('active');
+      } else {
+        console.error('Child index out of bounds');
+      }
+    }
 
   </script>
   <!-- ===============================  i18n script end  ================================================ -->

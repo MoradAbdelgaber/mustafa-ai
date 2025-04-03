@@ -1,31 +1,25 @@
 {
-    "tagemployee_head_title": "نظام إدارة الحضور والانصراف - الموظف التاجي (TagEmployee)",
-    "tagemployee_header_title": "نظام إدارة الحضور والانصراف - الموظف التاجي (TagEmployee)",
-    "tagemployee_logout": "تسجيل الخروج",
-  
-    "tagemployee_table_header_index": "#",
-    "tagemployee_table_header_name": "اسم الموظف التاجي",
-    "tagemployee_table_header_note": "ملاحظات",
-    "tagemployee_table_header_created": "تاريخ الإضافة",
-    "tagemployee_table_header_edit": "تحرير",
-    "tagemployee_table_header_delete": "حذف",
-  
-    "tagemployee_button_add_tagemployee": "إضافة موظف تاجي",
-  
-    "tagemployee_modal_title_add": "إضافة موظف تاجي",
-    "tagemployee_modal_title_edit": "تعديل موظف تاجي",
-    "tagemployee_modal_name_label": "اسم الموظف التاجي:",
-    "tagemployee_modal_note_label": "ملاحظات:",
-    "tagemployee_modal_save_button": "حفظ",
-  
-    "tagemployee_placeholder_search_name": "ابحث بالاسم...",
-  
-    "tagemployee_msg_confirm_delete": "هل أنت متأكد أنك تريد حذف الموظف التاجي؟",
-    "tagemployee_msg_success_delete": "تم حذف الموظف التاجي بنجاح.",
-    "tagemployee_msg_fail_delete": "فشل حذف الموظف التاجي.",
-    "tagemployee_msg_success_add": "تمت إضافة الموظف التاجي بنجاح.",
-    "tagemployee_msg_fail_add": "فشل إضافة الموظف التاجي.",
-    "tagemployee_msg_success_edit": "تم تعديل الموظف التاجي بنجاح.",
-    "tagemployee_msg_fail_edit": "فشل تعديل الموظف التاجي."
-  }
-  
+  "tagemployee_head_title": "نظام إدارة الحضور والانصراف - علامة الموظف (TagEmployee)",
+  "tagemployee_header_title": "نظام إدارة الحضور والانصراف - علامة الموظف (TagEmployee)",
+  "tagemployee_logout": "تسجيل الخروج",
+  "tagemployee_table_header_index": "#",
+  "tagemployee_table_header_name": "اسم العلامة",
+  "tagemployee_table_header_note": "ملاحظات",
+  "tagemployee_table_header_created": "تاريخ الإضافة",
+  "tagemployee_table_header_edit": "تحرير",
+  "tagemployee_table_header_delete": "حذف",
+  "tagemployee_button_add_tagemployee": "إضافة علامة",
+  "tagemployee_modal_title_add": "إضافة علامة",
+  "tagemployee_modal_title_edit": "تعديل علامة",
+  "tagemployee_modal_name_label": "اسم علامة الموظف:",
+  "tagemployee_modal_note_label": "ملاحظات:",
+  "tagemployee_modal_save_button": "حفظ",
+  "tagemployee_placeholder_search_name": "ابحث بالاسم...",
+  "tagemployee_msg_confirm_delete": "هل أنت متأكد أنك تريد حذف علامة الموظف؟",
+  "tagemployee_msg_success_delete": "تم حذف علامة الموظف بنجاح.",
+  "tagemployee_msg_fail_delete": "فشل حذف علامة الموظف.",
+  "tagemployee_msg_success_add": "تمت إضافة علامة الموظف بنجاح.",
+  "tagemployee_msg_fail_add": "فشل إضافة علامة الموظف.",
+  "tagemployee_msg_success_edit": "تم تعديل علامة الموظف بنجاح.",
+  "tagemployee_msg_fail_edit": "فشل تعديل علامة الموظف."
+}

@@ -1129,7 +1129,7 @@
                   <select id="empShiftSelect"></select>
                 </div>
                 <div class="form-group">
-                  <label for="empTagSelect">Tags</label>
+                  <label for="empTagSelect" data-lng="select_tags_label"></label>
                   <select id="empTagSelect" multiple></select>
                 </div>
 
@@ -1604,13 +1604,13 @@
 
             <label data-lng="lblDaySelect" for="daySelect"></label>
             <select id="daySelect">
-              <option value="Sun">Sun</option>
-              <option value="Mon">Mon</option>
-              <option value="Tue">Tue</option>
-              <option value="Wed">Wed</option>
-              <option value="Thu">Thu</option>
-              <option value="Fri">Fri</option>
-              <option value="Sat">Sat</option>
+              <option value="Sun" data-lng="Sun">Sun</option>
+              <option value="Mon" data-lng="Mon">Mon</option>
+              <option value="Tue" data-lng="Tue">Tue</option>
+              <option value="Wed" data-lng="Wed">Wed</option>
+              <option value="Thu" data-lng="Thu">Thu</option>
+              <option value="Fri" data-lng="Fri">Fri</option>
+              <option value="Sat" data-lng="Sat">Sat</option>
             </select>
           </div>
 
@@ -1785,7 +1785,9 @@
       const LANG_PATH = './lang';
       const LANG_KEY = 'lng';
       let translations = {};
-      function getTranslate(key) { return translations[key] || "" }
+      function getTranslate(key) {
+        return translations[key] || ""
+      }
 
       async function loadLanguageFile(lang) {
         try {
@@ -1908,7 +1910,7 @@
 
           $('#empTagSelect').select2({
             width: '100%',
-            placeholder: 'Select Tagemployee',
+            placeholder: getTranslate('Select Tagemployee'),
             allowClear: true,
             dropdownParent: $('#employeeModal .modalBody')
           });
@@ -2920,7 +2922,7 @@
         sch.forEach((dayObj, i) => {
           let row = document.createElement('tr');
           row.innerHTML =
-            `<td>${dayObj.day || ''}</td>
+            `<td>${getTranslate(dayObj.day) || ''}</td>
           <td>${dayObj.startTime || ''}</td>
           <td>${dayObj.endTime || ''}</td>
           <td>${dayObj.overtimeStart || ''}</td>
@@ -2940,7 +2942,7 @@
         sch.forEach((dayObj, i) => {
           let row = document.createElement('tr');
           row.innerHTML =
-            `<td>${dayObj.day || ''}</td>
+            `<td>${getTranslate(dayObj.day) || ''}</td>
           <td>${dayObj.startTime || ''}</td>
           <td>${dayObj.endTime || ''}</td>
           <td>${dayObj.overtimeStart || ''}</td>

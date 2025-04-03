@@ -17,8 +17,7 @@
   <!-- استيراد خطّي Tajawal (للعربية) وOpen Sans (للإنجليزية) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
     rel="stylesheet">
 
   <style>
@@ -30,6 +29,7 @@
       from {
         opacity: 0;
       }
+
       to {
         opacity: 1;
       }
@@ -205,7 +205,10 @@
 
     .filters input[type="month"],
     .filters input[type="date"],
-    .filters input[type="week"] /* -- أضيف لدعم الأسبوع -- */ {
+    .filters input[type="week"]
+
+    /* -- أضيف لدعم الأسبوع -- */
+      {
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 4px;
@@ -478,17 +481,17 @@
     <!-- المحتوى الرئيسي -->
     <div class="mainContent">
       <!-- فلاتر لتحديد الشهر/اليوم المطلوب -->
-      
+
       <div class="filters">
         <label for="monthPicker" data-lng="dash_filter_month">اختر الشهر:</label>
         <input type="month" id="monthPicker" />
-      
+
         <label for="dayPicker" data-lng="dash_filter_day">اختر يوم محدد:</label>
         <input type="date" id="dayPicker" />
-        
+
         <!-- -- أضيف: اختيار الأسبوع -- -->
-        <label for="weekPicker" data-lng="dash_filter_week">Week2</label>        
-        <input type="week" id="weekPicker" />  <!-- نوع week متوفر HTML5 -->
+        <label for="weekPicker" data-lng="dash_filter_week">Week2</label>
+        <input type="week" id="weekPicker" /> <!-- نوع week متوفر HTML5 -->
 
         <!-- -- أضيف: من تاريخ إلى تاريخ -- -->
         <label for="fromDate" data-lng="dash_filter_from_date">From Date</label>
@@ -679,7 +682,7 @@
         callSidebarTranslation(storedLang);
       }
 
-      async function callSidebarTranslation(storedLang){
+      async function callSidebarTranslation(storedLang) {
         await loadSidebarLangFile(storedLang);
         applySidebarTranslation();
       }
@@ -722,7 +725,7 @@
         const simple = new Date(year, 0, 1 + (week - 1) * 7);
         const dayOfWeek = simple.getDay(); // الأحد=0, الاثنين=1, ...
         // في ISO 8601: يبدأ الأسبوع الاثنين، فنضبط الفرق
-        const diff = (dayOfWeek <= 0) ? 6 : (dayOfWeek - 1); 
+        const diff = (dayOfWeek <= 0) ? 6 : (dayOfWeek - 1);
         // نحصل على بداية الأسبوع (الاثنين)
         const start = new Date(simple);
         start.setDate(simple.getDate() - diff);
@@ -752,7 +755,7 @@
         const toVal = document.getElementById('toDate').value;
 
         let startDate = '', endDate = '';
-        
+
         if (weekVal) {
           // إذا تم تحديد أسبوع، استخدمه
           [startDate, endDate] = getWeekRange(weekVal);
@@ -943,13 +946,13 @@
                 tdName.textContent = log.name || "No Name";
                 tdTime.textContent = new Date(log.time).toLocaleString();
                 let statusText = "";
-                switch(log.event) {
-                  case 1: statusText = "Check IN"; break;
-                  case 2: statusText = "Check Out"; break;
-                  case 3: statusText = "Enter Break"; break;
-                  case 4: statusText = "Exit Break"; break;
-                  case 5: statusText = "Special"; break;
-                  default: statusText = "No Event";
+                switch (log.event) {
+                  case 1: statusText = getTranslate("Check IN"); break;
+                  case 2: statusText = getTranslate("Check Out"); break;
+                  case 3: statusText = getTranslate("Enter Break"); break;
+                  case 4: statusText = getTranslate("Exit Break"); break;
+                  case 5: statusText = getTranslate("Special"); break;
+                  default: statusText = getTranslate("No Event");
                 }
                 tdStatus.textContent = statusText;
                 tr.appendChild(tdName);
@@ -1002,6 +1005,10 @@
         }
       }
 
+      function getTranslate(key) {
+        return dashTranslations.hasOwnProperty(key) ? translations[key] : key;
+      }
+
       function applyDashboardTranslations(lang) {
         document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
         document.documentElement.lang = lang;
@@ -1050,21 +1057,21 @@
         await setDashboardLanguage(storedLang);
       });
 
-      function loadSiebar(){
+      function loadSiebar() {
         fetch('sidebar.html')
-              .then(response => response.text())
-              .then(data => {
-                  document.querySelector('.sidebar').innerHTML = data;
-                    var submenus = document.querySelectorAll('.submenu');
-                    submenus.forEach(function (submenu) {
-                      if (submenu.querySelector('.navItem.active')) {
-                        submenu.style.display = "block";
-                      }
-                    });
-              })
-              .catch(error => console.error('Error loading sidebar:', error));
+          .then(response => response.text())
+          .then(data => {
+            document.querySelector('.sidebar').innerHTML = data;
+            var submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(function (submenu) {
+              if (submenu.querySelector('.navItem.active')) {
+                submenu.style.display = "block";
+              }
+            });
+          })
+          .catch(error => console.error('Error loading sidebar:', error));
       }
-  
+
       async function loadSidebarLangFile(lang) {
         try {
           const response = await fetch(`${DASHBOARD_LANG_PATH}/${lang}_sidebar.json`);
@@ -1078,14 +1085,14 @@
         }
       }
 
-      function applySidebarTranslation(){
-          document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
-              const key = el.getAttribute('data-lng');
-              
-              if (sidebarLabels[key]) {
-                el.textContent = sidebarLabels[key];
-              }
-          });
+      function applySidebarTranslation() {
+        document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+          const key = el.getAttribute('data-lng');
+
+          if (sidebarLabels[key]) {
+            el.textContent = sidebarLabels[key];
+          }
+        });
       }
 
       loadSiebar();

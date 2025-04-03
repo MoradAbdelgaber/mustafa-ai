@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ar">
+
 <head>
   <meta charset="UTF-8">
-  <title data-lng="tagemployee_head_title">نظام إدارة الحضور والانصراف - الموظف التاجي (TagEmployee)</title>
-
+  <title data-lng="tagemployee_head_title">نظام إدارة الحضور والانصراف - علامة الموظف (TagEmployee)</title>
   <!-- مكتبة jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -17,17 +17,22 @@
   <!-- خطوط -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
     rel="stylesheet">
 
   <style>
     html {
       animation: fadeIn .3s ease-in forwards;
     }
+
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
 
     /* عند العربية: الخط Tajawal + RTL */
@@ -85,6 +90,7 @@
       padding-left: 10px;
       margin-bottom: 5px;
     }
+
     .menu-group-header {
       font-weight: bold;
       background: #dee2e6;
@@ -92,7 +98,8 @@
 
     .container {
       display: flex;
-      flex-direction: row-reverse; /* لعرض المحتوى الرئيسي يمين والسيدبار يسار (في حالة العربية) */
+      flex-direction: row-reverse;
+      /* لعرض المحتوى الرئيسي يمين والسيدبار يسار (في حالة العربية) */
     }
 
     .mainContent {
@@ -142,6 +149,7 @@
       background: #007bff;
       color: #fff;
     }
+
     .navItem.active i {
       color: #fff;
     }
@@ -172,6 +180,7 @@
       border: none;
       cursor: pointer;
     }
+
     .addTagEmployeeBtn:hover {
       background: #218838;
     }
@@ -238,6 +247,7 @@
       cursor: pointer;
       border: none;
     }
+
     .btnDanger:hover {
       background: #c82333;
     }
@@ -252,6 +262,7 @@
       cursor: pointer;
       border: none;
     }
+
     .btnEdit:hover {
       background: #0056b3;
     }
@@ -269,6 +280,7 @@
       align-items: center;
       z-index: 9999;
     }
+
     .modalContent {
       width: 400px;
       max-width: 90%;
@@ -281,11 +293,13 @@
       animation: fadeInModal 0.3s ease;
       position: relative;
     }
+
     @keyframes fadeInModal {
       from {
         transform: scale(0.9);
         opacity: 0;
       }
+
       to {
         transform: scale(1);
         opacity: 1;
@@ -300,10 +314,12 @@
       justify-content: space-between;
       align-items: center;
     }
+
     .modalHeader h2 {
       margin: 0;
       font-size: 1rem;
     }
+
     .modalCloseBtn {
       background: none;
       border: none;
@@ -312,17 +328,21 @@
       cursor: pointer;
       transition: color 0.3s;
     }
+
     .modalCloseBtn:hover {
       color: #ffdddd;
     }
+
     .modalBody {
       padding: 20px;
     }
+
     .modalBody label {
       display: block;
       margin: 8px 0 4px;
       font-weight: 500;
     }
+
     .modalBody input,
     .modalBody textarea {
       width: 100%;
@@ -333,6 +353,7 @@
       font-size: 0.9rem;
       font-family: inherit;
     }
+
     .modalSaveBtn {
       background: #28a745;
       color: #fff;
@@ -344,6 +365,7 @@
       font-size: 0.9rem;
       transition: background 0.3s;
     }
+
     .modalSaveBtn:hover {
       background: #218838;
     }
@@ -357,10 +379,11 @@
     }
   </style>
 </head>
+
 <body onload="initPage()">
   <!-- الهيدر -->
   <header>
-    <h1 data-lng="tagemployee_header_title">نظام إدارة الحضور والانصراف - الموظف التاجي (TagEmployee)</h1>
+    <h1 data-lng="tagemployee_header_title">نظام إدارة الحضور والانصراف - علامة (TagEmployee)</h1>
     <!-- الجزء الأيمن: زر الخروج + اختيار اللغة -->
     <div>
       <button id="dep_logout" data-lng="tagemployee_logout" onclick="logout()"></button>
@@ -370,9 +393,9 @@
       </select>
     </div>
   </header>
-  
+
   <div id="sidebarContainer"></div>
-  
+
   <div class="container">
     <!-- المحتوى الرئيسي -->
     <div class="mainContent">
@@ -382,14 +405,16 @@
       <!-- فلاتر البحث -->
       <div class="searchFilters">
         <label for="searchName" data-lng="tagemployee_table_header_name"></label>
-        <input type="text" id="searchName" oninput="filterTagEmployeesLocally()" data-lng-placeholder="tagemployee_placeholder_search_name" placeholder="" />
+        <input type="text" id="searchName" oninput="filterTagEmployeesLocally()"
+          data-lng-placeholder="tagemployee_placeholder_search_name" placeholder="" />
 
         <label for="searchCreation" data-lng="tagemployee_table_header_created"></label>
         <input type="date" id="searchCreation" onchange="filterTagEmployeesLocally()" />
       </div>
 
       <!-- زر إضافة  -->
-      <button class="addTagEmployeeBtn" onclick="openModalForAdd()" data-lng="tagemployee_button_add_tagemployee"></button>
+      <button class="addTagEmployeeBtn" onclick="openModalForAdd()"
+        data-lng="tagemployee_button_add_tagemployee"></button>
 
       <!-- الجدول -->
       <table id="tagemployeeTable">
@@ -416,13 +441,13 @@
   <div class="modalOverlay" id="tagemployeeModal">
     <div class="modalContent">
       <div class="modalHeader">
-        <h2 id="modalTitle" data-lng="tagemployee_modal_title_add">إضافة موظف تاجي</h2>
+        <h2 id="modalTitle" data-lng="tagemployee_modal_title_add">إضافة علامة</h2>
         <button class="modalCloseBtn" onclick="closeModal()">×</button>
       </div>
       <div class="modalBody">
         <input type="hidden" id="tagemployeeId" />
 
-        <label for="tagemployeeName" data-lng="tagemployee_modal_name_label">اسم الموظف التاجي:</label>
+        <label for="tagemployeeName" data-lng="tagemployee_modal_name_label">اسم علامة:</label>
         <input type="text" id="tagemployeeName" placeholder="" />
 
         <label for="tagemployeeNote" data-lng="tagemployee_modal_note_label">ملاحظات:</label>
@@ -437,7 +462,7 @@
     /**
      * مفاتيح عامة
      */
-    const LANG_KEY = 'lng';  
+    const LANG_KEY = 'lng';
     const TAGEMPLOYEE_LANG_PATH = './lang'; // حيث يوجد ar_tagemployee.json و en_tagemployee.json
     let authToken = null;
     let allTagEmployees = [];  // نخزن جميع الموظفين التاجيين
@@ -559,7 +584,7 @@
         const resp = await fetch(`/api/tagemployee/${id}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error('فشل جلب بيانات الموظف التاجي');
+        if (!resp.ok) throw new Error('فشل جلب بيانات علامة');
         const tagData = await resp.json();
 
         document.getElementById('modalTitle').textContent = getTranslate('tagemployee_modal_title_edit');
@@ -620,7 +645,7 @@
     }
 
     /**
-     * حذف الموظف التاجي
+     * حذف علامة
      */
     async function deleteTagEmployee(id) {
       const errorMsg = document.getElementById('errorMsg');
@@ -750,59 +775,60 @@
       applyTranslations(storedLang);
     });
 
-    function loadSiebar(){
-        fetch('sidebar.html')
-              .then(response => response.text())
-              .then(data => {
-                  document.querySelector('.sidebar').innerHTML = data;
-                    var submenus = document.querySelectorAll('.submenu');
-                    submenus.forEach(function (submenu) {
-                      if (submenu.querySelector('.navItem.active')) {
-                        submenu.style.display = "block";
-                      }
-                    });
-                    addActiveToSubmenuClass(4);
-              })
-              .catch(error => console.error('Error loading sidebar:', error));
-      }
-  
-      async function loadSidebarLangFile(lang) {
-        try {
-          const response = await fetch(`./lang/${lang}_sidebar.json`);
-          if (!response.ok) {
-            throw new Error(`Error loading ${lang}_sidebar.json`);
-          }
-          sidebarLabels = await response.json();
-
-        } catch (error) {
-          console.error("Report translation file error:", error);
-        }
-      }
-
-      function applySidebarTranslation(){
-          document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
-              const key = el.getAttribute('data-lng');
-              
-              if (sidebarLabels[key]) {
-                el.textContent = sidebarLabels[key];
-              }
+    function loadSiebar() {
+      fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.querySelector('.sidebar').innerHTML = data;
+          var submenus = document.querySelectorAll('.submenu');
+          submenus.forEach(function (submenu) {
+            if (submenu.querySelector('.navItem.active')) {
+              submenu.style.display = "block";
+            }
           });
-      }
+          addActiveToSubmenuClass(4);
+        })
+        .catch(error => console.error('Error loading sidebar:', error));
+    }
 
-      loadSiebar();
+    async function loadSidebarLangFile(lang) {
+      try {
+        const response = await fetch(`./lang/${lang}_sidebar.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}_sidebar.json`);
+        }
+        sidebarLabels = await response.json();
 
-      function addActiveToSubmenuClass(childIndex) {
-          const submenu = document.getElementById('staffManagementSubmenu');
-          submenu.style.display = "block";
-          const navItems = submenu.getElementsByClassName('navItem');
-          if (childIndex >= 1 && childIndex <= navItems.length) {
-              Array.from(navItems).forEach(item => item.classList.remove('active'));
-              navItems[childIndex - 1].classList.add('active');
-          } else {
-              console.error('Child index out of bounds');
-          }
+      } catch (error) {
+        console.error("Report translation file error:", error);
       }
+    }
+
+    function applySidebarTranslation() {
+      document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+
+        if (sidebarLabels[key]) {
+          el.textContent = sidebarLabels[key];
+        }
+      });
+    }
+
+    loadSiebar();
+
+    function addActiveToSubmenuClass(childIndex) {
+      const submenu = document.getElementById('staffManagementSubmenu');
+      submenu.style.display = "block";
+      const navItems = submenu.getElementsByClassName('navItem');
+      if (childIndex >= 1 && childIndex <= navItems.length) {
+        Array.from(navItems).forEach(item => item.classList.remove('active'));
+        navItems[childIndex - 1].classList.add('active');
+      } else {
+        console.error('Child index out of bounds');
+      }
+    }
 
   </script>
 </body>
+
 </html>
