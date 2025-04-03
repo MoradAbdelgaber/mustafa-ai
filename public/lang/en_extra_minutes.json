@@ -10,5 +10,7 @@
     "delete": "Delete",
     "edit": "Edit",
     "sys_title": "Attendance Management System - Extra Minutes",
-    "logout": "Logout"
+    "logout": "Logout",
+    "error": "Error Fetching",
+    "adding_extra_mins": "Add Extra Minutes"
 }
