@@ -1,5 +1,4 @@
 const WebSocket = require("ws");
-const wsPort = process.env.WS_PORT;
 const AttendanceApi = require("./attendanceApi");
 const crypto = require("crypto");
 const { readFile } = require("fs/promises");
@@ -65,6 +64,8 @@ class WebSocketLoader {
   }
 
   initializeSocket() {
+    const wsPort =
+      process.env.type == "DEV" ? process.env.wsPortLocal : process.env.wsPort;
     this.server = new WebSocket.Server({ port: wsPort });
     this.server.on("connection", (ws, req) => {
       console.log(`New connection from ${req.socket.remoteAddress}`);

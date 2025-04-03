@@ -64,15 +64,12 @@ class AttendanceApi {
       event: record.event,
     };
 
-    return axios.post(
-      process.env.attendanceAPI + "/fingerprints/socket",
-      body,
-      {
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        // },
-      }
-    );
+    const port =
+      process.env.type == "DEV"
+        ? process.env.appPortLocal
+        : process.env.appPort;
+
+    return axios.post(`http://localhost:${port}/ap/fingerprints/socket`, body);
   }
 }
 

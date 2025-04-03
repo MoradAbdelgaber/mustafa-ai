@@ -137,9 +137,8 @@ appMain.use(function (err, req, res, next) {
 });
 
 // تشغيل الخادم الرئيسي على البورت المحدد
-const PORT =
-  (process.env.TYPE === "DEV" ? process.env.PORT_LOCAL : process.env.PORT) ||
-  4089;
+const devMode = process.env.type === "DEV";
+const PORT = devMode ? process.env.appPortLocal : process.env.appPort;
 appMain.listen(PORT, () => {
   console.log(`Main server running on port ${PORT}`);
 });
@@ -149,7 +148,7 @@ appMain.listen(PORT, () => {
 // ==========================================
 
 const appAPI = express();
-const apiPort = process.env.PORT; // تأكد من ضبط هذا المتغير في ملف .env
+const apiPort = devMode ? process.env.devicePortLocal : process.env.devicePort; // تأكد من ضبط هذا المتغير في ملف .env
 
 // السماح بحجم payload كبير واستخدام CORS
 appAPI.use(cors());

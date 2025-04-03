@@ -4,7 +4,10 @@ const AttendanceApi = require("./attendanceApi");
 class JobScheduler {
   attendanceApi = new AttendanceApi();
   constructor() {
-    this.agenda = new Agenda({ db: { address: process.env.MONGO_URI_LOCAL } });
+    const dbPath =
+      process.env.type == "DEV" ? process.env.dbLocal : process.env.db;
+
+    this.agenda = new Agenda({ db: { address: dbPath } });
   }
 
   async initialize() {
