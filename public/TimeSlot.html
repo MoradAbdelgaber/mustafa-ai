@@ -14,7 +14,8 @@
   <!-- خطوط عربية/إنجليزية -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+  <link
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
     rel="stylesheet">
 
   <style>
@@ -26,7 +27,6 @@
       from {
         opacity: 0;
       }
-
       to {
         opacity: 1;
       }
@@ -81,8 +81,7 @@
 
     .container {
       display: flex;
-      flex-direction: row-reverse;
-      /* تخطيط العربية */
+      flex-direction: row-reverse; /* لتوافق التخطيط العربي */
     }
 
     .mainContent {
@@ -167,6 +166,21 @@
       margin-bottom: 5px;
     }
 
+    html[lang="ar"] .submenu{
+      border-right: 2px solid #dee2e6;
+      border-left: none;
+      margin-right: 15px;
+      padding-right: 10px;
+      margin-bottom: 5px;
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    html[lang="ar"] button,
+    html[lang="ar"] select{
+      font-family: Tajawal;
+    }
+
     .menu-group-header {
       font-weight: bold;
       background: #dee2e6;
@@ -226,6 +240,7 @@
       color: #0056b3;
     }
 
+    /* تحسين تنسيق المودال */
     .modalOverlay {
       display: none;
       position: fixed;
@@ -240,11 +255,12 @@
     }
 
     .modalContent {
-      width: 450px;
+      width: 1000px;
       max-width: 95%;
-      border-radius: 8px;
+      border-radius: 12px;
       background: #fff;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      border: 2px solid #0062cc;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -259,7 +275,6 @@
         transform: scale(0.9);
         opacity: 0;
       }
-
       to {
         transform: scale(1);
         opacity: 1;
@@ -267,12 +282,14 @@
     }
 
     .modalHeader {
-      background: #007bff;
+      background: linear-gradient(45deg, #0062cc, #004085);
       color: #fff;
-      padding: 10px;
+      padding: 15px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+     
     }
 
     .modalHeader h2 {
@@ -294,27 +311,53 @@
     }
 
     .modalBody {
-      padding: 20px;
+      padding: 25px;
     }
 
-    .modalBody label {
-      display: block;
-      margin: 8px 0 4px;
+    /* تنسيق احترافي للحقول باستخدام Grid */
+    .formGrid {
+      display: grid;
+      grid-template-columns: 130px 1fr; /* عمود لليبل وعمود للحقل */
+      gap: 12px 16px;
+      align-items: center; /* لتوسيط النص عموديًا */
+    }
+
+    .formGrid label {
       font-weight: 500;
       font-size: 0.95rem;
+      margin-bottom: 0; /* منع أي فراغات سفلية إضافية */
     }
 
-    .modalBody input,
-    .modalBody select {
+    /* الحقول العادية */
+    .formGrid input[type="text"],
+    .formGrid input[type="number"],
+    .formGrid input[type="color"],
+    .formGrid select,
+    .formGrid input[type="time"] {
       width: 100%;
       padding: 8px;
       border: 1px solid #ccc;
       border-radius: 4px;
-      margin-bottom: 10px;
       font-size: 0.9rem;
       font-family: inherit;
     }
 
+    /* عند وجود حقل الوقت مع الأوفست بنفس السطر */
+    .timeFieldContainer {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .timeFieldContainer input[type="time"] {
+      flex: 1;
+    }
+
+    .timeFieldContainer select {
+      width: 60px; /* لتصغير عرض الأوفست */
+    }
+
+    /* زر الحفظ في أسفل المودال */
     .modalSaveBtn {
       background: #28a745;
       color: #fff;
@@ -322,16 +365,16 @@
       border-radius: 4px;
       padding: 10px 14px;
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 15px;
       font-size: 0.9rem;
       transition: background 0.3s;
+      width: 100%;
     }
 
     .modalSaveBtn:hover {
       background: #218838;
     }
 
-    /* لودر شكلي (اختياري) */
     .loadingOverlay {
       display: none;
       position: fixed;
@@ -358,11 +401,52 @@
       0% {
         transform: rotate(0deg);
       }
-
       100% {
         transform: rotate(360deg);
       }
     }
+
+    .form-wrapper,
+    .form-wrapper .form-inner-row{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+    .form-wrapper .form-row{
+      flex-basis: 33.3%;
+      max-width: 33.3%;
+      box-sizing: border-box;
+      padding: 0 10px;
+      margin-bottom:10px;
+    }
+
+    .form-wrapper .form-row input,
+    .form-wrapper .form-row select{
+      width: 100%;
+      box-sizing: border-box;
+      height: 40px;
+      background-color: #cccccc2b;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 0 6px;
+    }
+
+    .form-wrapper .form-row input[type="checkbox"]{
+      width: auto;
+      height: auto;
+    }
+
+    .form-wrapper .form-inner-row .col-8{
+      flex-basis: 70%;
+      max-width: 70%;
+    }
+
+    .form-wrapper .form-inner-row .col-4{
+      flex-basis: 30%;
+      max-width: 30%;
+      margin-top: 22px;
+    }
+
   </style>
 </head>
 
@@ -371,7 +455,7 @@
   <header>
     <h1 data-lng="timeslots_header_title">إدارة Time Slots</h1>
     <div>
-      <button onclick="logout()" data-lng="timeslots_logout">خروج</button>
+      <button onclick="logout()" data-lng="timeslots_logout">Logout</button>
       <select id="langSelector">
         <option value="en">English</option>
         <option value="ar" selected>العربية</option>
@@ -411,393 +495,466 @@
 
     </div>
 
-    <div class="sidebar">
-      
-          
-            <!-- الرئيسية -->
-            <div class="navItem menu-group-header" onclick="location.href='dashboard.html'">
-              <i class="bi bi-house-fill"></i>
-              <span data-lng="navOverview">الرئيسية</span>
-            </div>
-      
-            <!-- ادارة الموظفين -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('staffManagementSubmenu')">
-              <i class="bi bi-people-fill"></i>
-              <span data-lng="staffManagement">ادارة الموظفين</span>
-            </div>
-            <div id="staffManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='employee.html'">
-                <i class="bi bi-person-lines-fill"></i>
-                <span data-lng="navEmployees">الموظفين</span>
+    <div class="sidebar"></div>
+  <!-- مودال إدارة التايمSlot -->
+  <div class="modalOverlay" id="timeSlotModal">
+    <div class="modalContent">
+      <div class="modalHeader">
+        <h2 id="timeSlotModalTitle" data-lng="timeslots_modal_title_add">إضافة TimeSlot</h2>
+        <button class="modalCloseBtn" onclick="closeTimeSlotModal()">×</button>
+      </div>
+      <div class="modalBody">
+        <input type="hidden" id="timeSlotId" />
+
+        <!-- تم جمع الحقول في Grid واحد -->
+        <div class="formGrid form-wrapper">
+
+          <div class="form-row">
+            <div class="form-inner-row">
+              <div class="col-8">
+                  <label data-lng="modal_label_startTime">وقت البداية (startTime)</label>
+                  <input type="time" id="startTime" />
               </div>
-              <div class="navItem" onclick="location.href='department.html'">
-                <i class="bi bi-building"></i>
-                <span data-lng="navDepartment">الأقسام</span>
-              </div>
-            </div>
-      
-            <!-- التقارير -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('reportsSubmenu')">
-              <i class="bi bi-bar-chart-line-fill"></i>
-              <span data-lng="reports">التقارير</span>
-            </div>
-      
-            <div id="reportsSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='report.html'">
-                <i class="bi bi-bar-chart-line-fill"></i>
-                <span data-lng="navReport"></span>
-              </div>
-      
-              <div class="navItem" onclick="location.href='attend.html'">
-                <i class="bi bi-journal-check"></i>
-                <span data-lng="navAttend">تقرير الحضور</span>
-              </div>
-      
-      
-              <div class="navItem" onclick="location.href='employee-summary-report.html'">
-                <i class="bi bi-people-fill"></i>
-                <span data-lng="employee_summary_report">تقرير ملخص الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='rule.html'">
-                <i class="bi bi-braces"></i>
-                <span data-lng="navRules">القواعد (Rules)</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاجهزة -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('deviceManagementSubmenu')">
-              <i class="bi bi-device-hdd-fill"></i>
-              <span data-lng="deviceManagement">ادارة الاجهزة</span>
-            </div>
-            <div id="deviceManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='devices.html'">
-                <i class="bi bi-laptop"></i>
-                <span data-lng="navDevices">الأجهزة</span>
-              </div>
-              <div class="navItem" onclick="location.href='requests.html'">
-                <i class="bi bi-list-check"></i>
-                <span data-lng="navOrders">الأوامر</span>
-              </div>
-              <div class="navItem" onclick="location.href='importemployee.html'">
-                <i class="bi bi-person-exclamation"></i>
-                <span data-lng="unregistered">الموظفين غير المسجلين</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الدوام -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('workManagementSubmenu')">
-              <i class="bi bi-calendar-event-fill"></i>
-              <span data-lng="workManagement">ادارة الدوام</span>
-            </div>
-            <div id="workManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='leaves.html'">
-                <i class="bi bi-calendar3"></i>
-                <span data-lng="navLeaves">الإجازات</span>
-              </div>
-              <div class="navItem" onclick="location.href='rewards.html'">
-                <i class="bi bi-gift-fill"></i>
-                <span data-lng="navRewards">المكافئات</span>
-              </div>
-              <div class="navItem" onclick="location.href='time-based-leaves.html'">
-                <i class="bi bi-clock-fill"></i>
-                <span data-lng="leaves_sidebar_time_leaves">إجازات زمنية</span>
-              </div>
-              
-              <div class="navItem" onclick="location.href='holidays.html'">
-                <i class="bi bi-calendar-event"></i>
-                <span data-lng="navHolidays">العطل الرسمية</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاوقات -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('timeManagementSubmenu')">
-              <i class="bi bi-clock-fill"></i>
-              <span data-lng="timeManagement">ادارة الاوقات</span>
-            </div>
-            <div id="timeManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='shifts.html'">
-                <i class="bi bi-hourglass-split"></i>
-                <span data-lng="navshift">الشفتات</span>
-              </div>
-              <div class="navItem active" onclick="location.href='TimeSlot.html'">
-                <i class="bi bi-watch"></i>
-                <span data-lng="navSlot">الأوقات</span>
-              </div>
-              <div class="navItem" onclick="location.href='public-settings.html'">
-                <i class="bi bi-gear"></i>
-                <span data-lng="public_settings">الإعدادات</span>
+              <div class="col-4">
+                <select id="startTime_Offset">
+                  <option value="-6">-6</option>
+                  <option value="-5">-5</option>
+                  <option value="-4">-4</option>
+                  <option value="-3">-3</option>
+                  <option value="-2">-2</option>
+                  <option value="-1">-1</option>
+                  <option value="0" selected>0</option>
+                  <option value="1">+1</option>
+                  <option value="2">+2</option>
+                  <option value="3">+3</option>
+                  <option value="4">+4</option>
+                  <option value="5">+5</option>
+                  <option value="6">+6</option>
+                </select>
               </div>
             </div>
           </div>
-      
-          <script>
-            // دالة لتبديل عرض وإخفاء القائمة الفرعية
-            function toggleSubMenu(id) {
-              var submenu = document.getElementById(id);
-              if (submenu.style.display === "none" || submenu.style.display === "") {
-                submenu.style.display = "block";
-              } else {
-                submenu.style.display = "none";
-              }
-            }
-      
-            // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
-            // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
-            document.addEventListener("DOMContentLoaded", function () {
-              var submenus = document.querySelectorAll('.submenu');
-              submenus.forEach(function (submenu) {
-                if (submenu.querySelector('.navItem.active')) {
-                  submenu.style.display = "block";
-                }
-              });
-            });
-          </script>
-   
 
+          <div class="form-row">
+            <div class="form-inner-row">
+              <div class="col-8">
+                <label data-lng="modal_label_workRegStartTime">وقت فتح تسجيل الحضور (workRegistrationStartTime)</label>
+                <input type="time" id="workRegStartTime" />
+              </div>
+              <div class="col-4">
+                <select id="work_registration_start_time_Offset">
+                  <option value="-6">-6</option>
+                  <option value="-5">-5</option>
+                  <option value="-4">-4</option>
+                  <option value="-3">-3</option>
+                  <option value="-2">-2</option>
+                  <option value="-1">-1</option>
+                  <option value="0" selected>0</option>
+                  <option value="1">+1</option>
+                  <option value="2">+2</option>
+                  <option value="3">+3</option>
+                  <option value="4">+4</option>
+                  <option value="5">+5</option>
+                  <option value="6">+6</option>
+                </select>
+              </div>
+            </div>
+          </div>
 
-    <!-- مودال إدارة التايمSlot -->
-    <div class="modalOverlay" id="timeSlotModal">
-      <div class="modalContent">
-        <div class="modalHeader">
-          <h2 id="timeSlotModalTitle" data-lng="timeslots_modal_title_add">إضافة TimeSlot</h2>
-          <button class="modalCloseBtn" onclick="closeTimeSlotModal()">×</button>
+          <div class="form-row">
+            <div class="form-inner-row">
+              <div class="col-8">
+                <label data-lng="modal_label_lastEntryPreventionTime">وقت منع الدخول (lastEntryPreventionTime)</label>
+                <input type="time" id="lastEntryPreventionTime" />
+              </div>
+              <div class="col-4">
+                <select id="last_entry_prevention_time_Offset">
+                  <option value="-6">-6</option>
+                  <option value="-5">-5</option>
+                  <option value="-4">-4</option>
+                  <option value="-3">-3</option>
+                  <option value="-2">-2</option>
+                  <option value="-1">-1</option>
+                  <option value="0" selected>0</option>
+                  <option value="1">+1</option>
+                  <option value="2">+2</option>
+                  <option value="3">+3</option>
+                  <option value="4">+4</option>
+                  <option value="5">+5</option>
+                  <option value="6">+6</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-inner-row">
+              <div class="col-8">
+                  <label data-lng="modal_label_endTime">وقت النهاية (endTime)</label>
+                  <input type="time" id="endTime" />
+              </div>
+              <div class="col-4">
+                <select id="endTime_Offset">
+                  <option value="-6">-6</option>
+                  <option value="-5">-5</option>
+                  <option value="-4">-4</option>
+                  <option value="-3">-3</option>
+                  <option value="-2">-2</option>
+                  <option value="-1">-1</option>
+                  <option value="0" selected>0</option>
+                  <option value="1">+1</option>
+                  <option value="2">+2</option>
+                  <option value="3">+3</option>
+                  <option value="4">+4</option>
+                  <option value="5">+5</option>
+                  <option value="6">+6</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-inner-row">
+               <div class="col-8">
+                 <label data-lng="modal_label_firstExitAllowedTime">أول وقت مسموح فيه للخروج (first_exit_allowed_time)</label>
+                 <input type="time" id="firstExitAllowedTime" />
+               </div>
+               <div class="col-4">
+                 <select id="first_exit_allowed_time_Offset">
+                   <option value="-6">-6</option>
+                   <option value="-5">-5</option>
+                   <option value="-4">-4</option>
+                   <option value="-3">-3</option>
+                   <option value="-2">-2</option>
+                   <option value="-1">-1</option>
+                   <option value="0" selected>0</option>
+                   <option value="1">+1</option>
+                   <option value="2">+2</option>
+                   <option value="3">+3</option>
+                   <option value="4">+4</option>
+                   <option value="5">+5</option>
+                   <option value="6">+6</option>
+                 </select>
+               </div>
+            </div>
+         </div>
+
+         <div class="form-row">
+          <div class="form-inner-row">
+             <div class="col-8">
+                <label data-lng="modal_label_lastExitAllowedTime">آخر وقت مسموح فيه للخروج (last_exit_allowed_time)</label>
+                <input type="time" id="lastExitAllowedTime" />
+             </div>
+             <div class="col-4">
+                <select id="last_exit_allowed_time_Offset">
+                  <option value="-6">-6</option>
+                  <option value="-5">-5</option>
+                  <option value="-4">-4</option>
+                  <option value="-3">-3</option>
+                  <option value="-2">-2</option>
+                  <option value="-1">-1</option>
+                  <option value="0" selected>0</option>
+                  <option value="1">+1</option>
+                  <option value="2">+2</option>
+                  <option value="3">+3</option>
+                  <option value="4">+4</option>
+                  <option value="5">+5</option>
+                  <option value="6">+6</option>
+                </select>
+             </div>
+          </div>
         </div>
-        <div class="modalBody">
-          <input type="hidden" id="timeSlotId" />
 
-          <label data-lng="modal_label_slotName">الاسم</label>
-          <input type="text" id="slotName" data-lng-placeholder="modal_placeholder_slotName"
-            placeholder="مثال: Morning-08-16" />
-
-          <label data-lng="modal_label_color">اللون</label>
-          <input type="color" id="color" value="#000000" />
-
-          <label data-lng="modal_label_startTime">وقت البداية (startTime)</label>
-          <input type="time" id="startTime" />
-
-          <label data-lng="modal_label_endTime">وقت النهاية (endTime)</label>
-          <input type="time" id="endTime" />
-
-          <label data-lng="modal_label_offset">Offset (عدد الأيام الإضافية لنهاية الدوام)</label>
-          <input type="number" id="offset" value="0" />
-
-          <label data-lng="modal_label_workRegStartTime">وقت فتح تسجيل الحضور (workRegistrationStartTime)</label>
-          <input type="time" id="workRegStartTime" />
-
-          <label data-lng="modal_label_lastEntryPreventionTime">وقت منع الدخول (lastEntryPreventionTime)</label>
-          <input type="time" id="lastEntryPreventionTime" />
-
-          <label data-lng="modal_label_firstExitAllowedTime">وقت السماح للخروج الأول (first_exit_allowed_time)</label>
-          <input type="time" id="firstExitAllowedTime" />
-
-          <label data-lng="modal_label_lastExitAllowedTime">وقت السماح للخروج الثاني (last_exit_allowed_time)</label>
-          <input type="time" id="lastExitAllowedTime" />
-
-          <label data-lng="modal_label_overtimeStartTime">وقت بدء الأوفر تايم (overtimeStartTime)</label>
-          <input type="time" id="overtimeStartTime" />
-
-          <label data-lng="modal_label_officialWorkingHours">ساعات العمل الرسمية (officialWorkingHours)</label>
-          <input type="number" id="officialWorkingHours" value="8" />
-
-          <label data-lng="modal_label_minimumWorkingHoursOvertime">أقل عدد ساعات عمل لحساب الأوفر تايم
-            (minimumWorkingHoursOvertime)</label>
-          <input type="number" id="minimumWorkingHoursOvertime" value="10" />
-
+        <div class="form-row">
           <label data-lng="modal_label_allowedDelayMinutes">الدقائق المسموحة للتأخير (allowedDelayMinutes)</label>
           <input type="number" id="allowedDelayMinutes" value="0" />
+        </div>
 
+        <div class="form-row">
           <label data-lng="modal_label_allowedExitMinutes">الدقائق المسموحة للخروج المبكر (allowedExitMinutes)</label>
           <input type="number" id="allowedExitMinutes" value="0" />
+        </div>
 
-          <!-- تأكدنا من إضافة الـ ID الصحيح على الـ checkbox -->
-          <label>
-            <input type="checkbox" id="worksForDailyWage" />
-            يعمل بالأجر اليومي؟
-          </label>
-          <label>
-            <input type="checkbox" id="overtimeEligible" />
-            مؤهل للأوفر تايم؟
-          </label>
+        <div class="form-row">
+          <label data-lng="modal_label_officialWorkingHours">ساعات العمل الرسمية (officialWorkingHours)</label>
+          <input type="number" id="officialWorkingHours" value="8" />
+        </div>
 
-
-          <label data-lng="modal_label_hourPrice">سعر الساعة العادي (hourPrice)</label>
-          <input type="number" id="hourPrice" value="0" />
-
-          <label data-lng="modal_label_overtimePrice">سعر ساعة الأوفر تايم (overtimePrice)</label>
-          <input type="number" id="overtimePrice" value="0" />
-
+        <div class="form-row">
           <label data-lng="modal_label_dailySalary">الراتب اليومي (dailySalary)</label>
           <input type="number" id="dailySalary" value="0" />
+        </div>
 
-          <label data-lng="modal_label_allowedMinRest">الحد الأدنى لدقائق الاستراحة (allowed_min_rest)</label>
-          <input type="number" id="allowedMinRest" value="0" />
-
-          <label data-lng="modal_label_restMinPrices">سعر كل دقيقة استراحة زائدة (rest_min_prices)</label>
-          <input type="number" id="restMinPrices" value="0" />
-
-          <label data-lng="modal_label_absentCutting">absent_cutting</label>
-          <input type="number" id="absentCutting" value="0" />
-
-          <label data-lng="modal_label_lateMinPrices">late_min_prices</label>
-          <input type="number" id="lateMinPrices" value="0" />
-
-          <label data-lng="modal_label_earlyMinPrices">early_min_prices</label>
-          <input type="number" id="earlyMinPrices" value="0" />
-
+        <div class="form-row">
           <label data-lng="modal_label_lateCuttingByCount">late_cutting_by_count</label>
           <input type="number" id="lateCuttingByCount" value="0" />
+        </div>
 
+        <div class="form-row">
+          <label data-lng="modal_label_lateMinPrices">late_min_prices</label>
+          <input type="number" id="lateMinPrices" value="0" />
+        </div>
+
+
+        <div class="form-row">
           <label data-lng="modal_label_earlyCuttingByCount">early_cutting_by_count</label>
           <input type="number" id="earlyCuttingByCount" value="0" />
-
-          <button class="modalSaveBtn" onclick="saveTimeSlot()" data-lng="modal_button_save">حفظ</button>
         </div>
+
+        <div class="form-row">
+          <label data-lng="modal_label_earlyMinPrices">early_min_prices</label>
+          <input type="number" id="earlyMinPrices" value="0" />
+        </div>
+
+        <div class="form-row">
+          <label data-lng="modal_label_minimumWorkingHoursOvertime">
+            أقل عدد ساعات عمل لحساب الأوفر تايم (minimumWorkingHoursOvertime)
+          </label>
+          <input type="number" id="minimumWorkingHoursOvertime" value="10" />
+        </div>
+
+
+        <div class="form-row">
+          <div class="form-inner-row">
+             <div class="col-8">
+                <label data-lng="modal_label_overtimeStartTime">وقت بدء الأوفر تايم (overtimeStartTime)</label>
+                <input type="time" id="overtimeStartTime" />
+             </div>
+             <div class="col-4">
+                <select id="overtimeStart_Offset">
+                  <option value="-6">-6</option>
+                  <option value="-5">-5</option>
+                  <option value="-4">-4</option>
+                  <option value="-3">-3</option>
+                  <option value="-2">-2</option>
+                  <option value="-1">-1</option>
+                  <option value="0" selected>0</option>
+                  <option value="1">+1</option>
+                  <option value="2">+2</option>
+                  <option value="3">+3</option>
+                  <option value="4">+4</option>
+                  <option value="5">+5</option>
+                  <option value="6">+6</option>
+                </select>
+             </div>
+          </div>
+       </div>
+
+       <div class="form-row">
+        <label data-lng="modal_label_overtime">مؤهل أوفر تايم (overtime)</label>
+        <div>
+          <input type="checkbox" id="overtimeEligible" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <!-- تشيك بوكس -->
+      <label data-lng="modal_label_daily_work">يعمل بنظام يومي (daily_work)</label>
+      <div>
+        <input type="checkbox" id="worksForDailyWage" />
       </div>
     </div>
 
-    <!-- ننقل السكربت إلى نهاية الـ body لضمان تحميل العناصر أولاً -->
-    <script>
-      // -----------------------------
-      // آلية الترجمة الديناميكية
-      // -----------------------------
-      const LANG_KEY = 'lng';
-      const TIMESLOTS_LANG_PATH = './lang';
-      let translations = {};
+    <div class="form-row">
+      <label data-lng="modal_label_allowedMinRest">الحد الأدنى لدقائق الاستراحة (allowed_min_rest)</label>
+      <input type="number" id="allowedMinRest" value="0" />
+    </div>
 
-      function getTranslate(key) {
-        return translations[key] || "";
-      }
+    <div class="form-row">
+      <label data-lng="modal_label_restMinPrices">سعر كل دقيقة استراحة زائدة (rest_min_prices)</label>
+      <input type="number" id="restMinPrices" value="0" />
+    </div>
 
-      async function loadLanguageFile(lang) {
-        try {
-          const response = await fetch(`${TIMESLOTS_LANG_PATH}/${lang}_timeslots.json`);
-          if (!response.ok) {
-            throw new Error(`Error loading ${lang}_timeslots.json`);
-          }
-          translations = await response.json();
-        } catch (error) {
-          console.error("TimeSlots translation file error:", error);
+    <div class="form-row">
+      <label data-lng="modal_label_absentCutting">absent_cutting</label>
+      <input type="number" id="absentCutting" value="0" />
+    </div>
+
+    <div class="form-row" style="display: none;">
+      <label data-lng="modal_label_offset">Offset (عدد الأيام الإضافية لنهاية الدوام)</label>
+      <input type="number" id="offset" value="0" />
+    </div>
+
+    <div class="form-row">
+      <label data-lng="modal_label_hourPrice">سعر الساعة العادي (hourPrice)</label>
+      <input type="number" id="hourPrice" value="0" />
+    </div>
+    
+
+    <div class="form-row">
+      <label data-lng="modal_label_overtimePrice">سعر ساعة الأوفر تايم (overtimePrice)</label>
+      <input type="number" id="overtimePrice" value="0" />
+    </div>
+
+          <div class="form-row">
+            <label data-lng="modal_label_slotName">الاسم</label>
+            <input type="text" id="slotName" data-lng-placeholder="modal_placeholder_slotName"
+                   placeholder="مثال: Morning-08-16" />
+          </div>
+          
+          <div class="form-row">
+            <label data-lng="modal_label_color">اللون</label>
+            <input type="color" id="color" value="#000000" />
+          </div>
+        
+          <!-- <div class="timeFieldContainer"></div> -->
+
+        </div>
+
+        <button style="width:auto" class="modalSaveBtn" onclick="saveTimeSlot()" data-lng="modal_button_save">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // -----------------------------
+    // آلية الترجمة الديناميكية
+    // -----------------------------
+    const LANG_KEY = 'lng';
+    const TIMESLOTS_LANG_PATH = './lang';
+    let translations = {};
+
+    function getTranslate(key) {
+      return translations[key] || "";
+    }
+
+    async function loadLanguageFile(lang) {
+      try {
+        const response = await fetch(`${TIMESLOTS_LANG_PATH}/${lang}_timeslots.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}_timeslots.json`);
         }
+        translations = await response.json();
+      } catch (error) {
+        console.error("TimeSlots translation file error:", error);
       }
+    }
 
-      function applyTranslations(lang) {
-        document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-        document.documentElement.lang = lang;
-        document.querySelectorAll('[data-lng]').forEach(el => {
-          const key = el.getAttribute('data-lng');
-          if (translations[key]) {
-            el.textContent = translations[key];
-          }
-        });
-        document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
-          const key = el.getAttribute('data-lng-placeholder');
-          if (translations[key]) {
-            el.placeholder = translations[key];
-          }
-        });
-      }
-
-      async function setLanguage(lang) {
-        await loadLanguageFile(lang);
-        localStorage.setItem(LANG_KEY, lang);
-        applyTranslations(lang);
-      }
-
-      window.addEventListener('DOMContentLoaded', async () => {
-        let storedLang = localStorage.getItem(LANG_KEY) || 'ar';
-        await loadLanguageFile(storedLang);
-        applyTranslations(storedLang);
-        document.getElementById('langSelector').value = storedLang;
+    function applyTranslations(lang) {
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+        if (translations[key]) {
+          el.textContent = translations[key];
+        }
       });
-
-      document.getElementById('langSelector').addEventListener('change', async function () {
-        await setLanguage(this.value);
+      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-lng-placeholder');
+        if (translations[key]) {
+          el.placeholder = translations[key];
+        }
       });
+    }
 
-      // -----------------------------
-      // سكربت صفحة TimeSlots
-      // -----------------------------
-      let authToken = null;
-      let allTimeSlots = [];
-      let currentTimeSlotId = null;
+    async function setLanguage(lang) {
+      await loadLanguageFile(lang);
+      localStorage.setItem(LANG_KEY, lang);
+      applyTranslations(lang);
 
-      // تنسيق الوقت بإضافة ":00" في حال كان hh:mm فقط
-      function formatTime(t) {
-        if (t && t.length === 5) {
-          return t + ":00";
-        }
-        return t;
+      await loadSidebarLangFile(lang);
+        applySidebarTranslation();
+
+    }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      let storedLang = localStorage.getItem(LANG_KEY) || 'ar';
+      await loadLanguageFile(storedLang);
+      applyTranslations(storedLang);
+      document.getElementById('langSelector').value = storedLang;
+
+      await loadSidebarLangFile(storedLang);
+      applySidebarTranslation();
+      
+    });
+
+    document.getElementById('langSelector').addEventListener('change', async function () {
+      await setLanguage(this.value);
+    });
+
+    // -----------------------------
+    // سكربت صفحة TimeSlots
+    // -----------------------------
+    let authToken = null;
+    let allTimeSlots = [];
+    let currentTimeSlotId = null;
+
+    // تنسيق الوقت بإضافة ":00" في حال كان hh:mm فقط
+    function formatTime(t) {
+      if (t && t.length === 5) {
+        return t + ":00";
       }
+      return t;
+    }
 
-      // يتم استدعاء هذه الدالة عند تحميل الصفحة (في الـ body onload) أو يمكنك استدعاؤها يدوياً
-      function initTimeSlotsPage() {
-        authToken = localStorage.getItem('authToken');
-        if (!authToken) {
-          window.location.href = 'login.html';
-          return;
-        }
-        loadTimeSlotsData();
-      }
-
-      function logout() {
-        localStorage.removeItem('authToken');
+    function initTimeSlotsPage() {
+      authToken = localStorage.getItem('authToken');
+      if (!authToken) {
         window.location.href = 'login.html';
+        return;
       }
+      loadTimeSlotsData();
+    }
 
-      function showLoading() {
-        document.getElementById('loadingOverlay').style.display = 'flex';
-      }
-      function hideLoading() {
-        document.getElementById('loadingOverlay').style.display = 'none';
-      }
+    function logout() {
+      localStorage.removeItem('authToken');
+      window.location.href = 'login.html';
+    }
 
-      function showError(msg) {
-        const errEl = document.getElementById('errorMsg');
-        errEl.textContent = msg;
-        errEl.style.display = 'block';
-        document.getElementById('successMsg').style.display = 'none';
-      }
-      function showSuccess(msg) {
-        const succEl = document.getElementById('successMsg');
-        succEl.textContent = msg;
-        succEl.style.display = 'block';
-        document.getElementById('errorMsg').style.display = 'none';
-      }
-      function clearMessages() {
-        document.getElementById('errorMsg').style.display = 'none';
-        document.getElementById('successMsg').style.display = 'none';
-      }
+    function showLoading() {
+      document.getElementById('loadingOverlay').style.display = 'flex';
+    }
+    function hideLoading() {
+      document.getElementById('loadingOverlay').style.display = 'none';
+    }
 
-      // جلب قائمة الـ TimeSlots من السيرفر
-      async function loadTimeSlotsData() {
-        clearMessages();
-        showLoading();
-        try {
-          const resp = await fetch('/api/timeslots', {
-            headers: { 'Authorization': 'Bearer ' + authToken }
-          });
-          if (!resp.ok) throw new Error(getTranslate("timeslots_error_fetch"));
-          const data = await resp.json();
-          allTimeSlots = data || [];
-          renderTimeSlots(allTimeSlots);
-        } catch (err) {
-          showError(err.message);
-        } finally {
-          hideLoading();
-        }
-      }
+    function showError(msg) {
+      const errEl = document.getElementById('errorMsg');
+      errEl.textContent = msg;
+      errEl.style.display = 'block';
+      document.getElementById('successMsg').style.display = 'none';
+    }
+    function showSuccess(msg) {
+      const succEl = document.getElementById('successMsg');
+      succEl.textContent = msg;
+      succEl.style.display = 'block';
+      document.getElementById('errorMsg').style.display = 'none';
+    }
+    function clearMessages() {
+      document.getElementById('errorMsg').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'none';
+    }
 
-      // عرض الـ TimeSlots في الجدول
-      function renderTimeSlots(tsArr) {
-        const tb = document.querySelector('#timeSlotsTable tbody');
-        tb.innerHTML = '';
-        tsArr.forEach((ts, i) => {
-          let row = document.createElement('tr');
-          let cName = ts.name || '';
-          let st = ts.startTime || '';
-          let et = ts.endTime || '';
-          let offVal = ts.offset || 0;
-          row.innerHTML = `
+    // جلب قائمة الـ TimeSlots من السيرفر
+    async function loadTimeSlotsData() {
+      clearMessages();
+      showLoading();
+      try {
+        const resp = await fetch('/api/timeslots', {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!resp.ok) throw new Error(getTranslate("timeslots_error_fetch"));
+        const data = await resp.json();
+        allTimeSlots = data || [];
+        renderTimeSlots(allTimeSlots);
+      } catch (err) {
+        showError(err.message);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    // عرض الـ TimeSlots في الجدول
+    function renderTimeSlots(tsArr) {
+      const tb = document.querySelector('#timeSlotsTable tbody');
+      tb.innerHTML = '';
+      tsArr.forEach((ts, i) => {
+        let row = document.createElement('tr');
+        let cName = ts.name || '';
+        let st = ts.startTime || '';
+        let et = ts.endTime || '';
+        let offVal = ts.offset || 0;
+        row.innerHTML = `
           <td>${i + 1}</td>
           <td>${cName}</td>
           <td>${st}</td>
@@ -810,214 +967,336 @@
             <i class="bi bi-trash-fill actionIcon" title="${getTranslate("timeslots_table_delete")}" onclick="deleteTimeSlot('${ts._id}')"></i>
           </td>
         `;
-          tb.appendChild(row);
+        tb.appendChild(row);
+      });
+    }
+
+    // فتح المودال لإضافة تايمSlot جديد
+    function openTimeSlotModalForAdd() {
+      clearMessages();
+      currentTimeSlotId = null;
+      document.getElementById('timeSlotModalTitle').textContent = getTranslate("timeslots_modal_title_add");
+      document.getElementById('timeSlotId').value = "";
+      resetTimeSlotFields();
+      showTimeSlotModal();
+    }
+
+    // تفريغ حقول المودال
+    function resetTimeSlotFields() {
+      document.getElementById('slotName').value = '';
+      document.getElementById('color').value = '#000000';
+
+      document.getElementById('startTime').value = '';
+      document.getElementById('startTime_Offset').value = '0';
+
+      document.getElementById('endTime').value = '';
+      document.getElementById('endTime_Offset').value = '0';
+
+      document.getElementById('offset').value = '0';
+
+      document.getElementById('workRegStartTime').value = '';
+      document.getElementById('work_registration_start_time_Offset').value = '0';
+
+      document.getElementById('lastEntryPreventionTime').value = '';
+      document.getElementById('last_entry_prevention_time_Offset').value = '0';
+
+      document.getElementById('firstExitAllowedTime').value = '';
+      document.getElementById('first_exit_allowed_time_Offset').value = '0';
+
+      document.getElementById('lastExitAllowedTime').value = '';
+      document.getElementById('last_exit_allowed_time_Offset').value = '0';
+
+      document.getElementById('overtimeStartTime').value = '';
+      document.getElementById('overtimeStart_Offset').value = '0';
+
+      document.getElementById('officialWorkingHours').value = '8';
+      document.getElementById('minimumWorkingHoursOvertime').value = '10';
+      document.getElementById('allowedDelayMinutes').value = '0';
+      document.getElementById('allowedExitMinutes').value = '0';
+      document.getElementById('worksForDailyWage').checked = false;
+      document.getElementById('overtimeEligible').checked = false;
+      document.getElementById('hourPrice').value = '0';
+      document.getElementById('overtimePrice').value = '0';
+      document.getElementById('dailySalary').value = '0';
+      document.getElementById('allowedMinRest').value = '0';
+      document.getElementById('restMinPrices').value = '0';
+      document.getElementById('absentCutting').value = '0';
+      document.getElementById('lateMinPrices').value = '0';
+      document.getElementById('earlyMinPrices').value = '0';
+      document.getElementById('lateCuttingByCount').value = '0';
+      document.getElementById('earlyCuttingByCount').value = '0';
+    }
+
+    // فتح المودال للتعديل
+    async function openTimeSlotModalForEdit(tsId) {
+      clearMessages();
+      currentTimeSlotId = tsId;
+      showLoading();
+      try {
+        const resp = await fetch(`/api/timeslots/${tsId}`, {
+          headers: { 'Authorization': 'Bearer ' + authToken }
         });
-      }
-
-      // فتح المودال لإضافة تايمSlot جديد
-      function openTimeSlotModalForAdd() {
-        clearMessages();
-        currentTimeSlotId = null;
-        document.getElementById('timeSlotModalTitle').textContent = getTranslate("timeslots_modal_title_add");
-        document.getElementById('timeSlotId').value = "";
-        resetTimeSlotFields();
+        if (!resp.ok) throw new Error(getTranslate("timeslots_error_fetch_single"));
+        const result = await resp.json();
+        if (!result.success) throw new Error(getTranslate("timeslots_error_fetch_single"));
+        const ts = result.data;
+        document.getElementById('timeSlotModalTitle').textContent = getTranslate("timeslots_modal_title_edit");
+        document.getElementById('timeSlotId').value = ts._id;
+        fillTimeSlotFields(ts);
         showTimeSlotModal();
+      } catch (err) {
+        showError(err.message);
+      } finally {
+        hideLoading();
       }
+    }
 
-      // تفريغ حقول المودال
-      function resetTimeSlotFields() {
-        document.getElementById('slotName').value = '';
-        document.getElementById('color').value = '#000000';
-        document.getElementById('startTime').value = '';
-        document.getElementById('endTime').value = '';
-        document.getElementById('offset').value = '0';
-        document.getElementById('workRegStartTime').value = '';
-        document.getElementById('lastEntryPreventionTime').value = '';
-        document.getElementById('firstExitAllowedTime').value = '';
-        document.getElementById('lastExitAllowedTime').value = '';
-        document.getElementById('overtimeStartTime').value = '';
-        document.getElementById('officialWorkingHours').value = '8';
-        document.getElementById('minimumWorkingHoursOvertime').value = '10';
-        document.getElementById('allowedDelayMinutes').value = '0';
-        document.getElementById('allowedExitMinutes').value = '0';
-        document.getElementById('worksForDailyWage').checked = false;
-        document.getElementById('overtimeEligible').checked = false;
-        document.getElementById('hourPrice').value = '0';
-        document.getElementById('overtimePrice').value = '0';
-        document.getElementById('dailySalary').value = '0';
-        document.getElementById('allowedMinRest').value = '0';
-        document.getElementById('restMinPrices').value = '0';
-        document.getElementById('absentCutting').value = '0';
-        document.getElementById('lateMinPrices').value = '0';
-        document.getElementById('earlyMinPrices').value = '0';
-        document.getElementById('lateCuttingByCount').value = '0';
-        document.getElementById('earlyCuttingByCount').value = '0';
+    // فتح المودال لعمل نسخة من الـ TimeSlot
+    function copyTimeSlot(tsId) {
+      clearMessages();
+      currentTimeSlotId = null;
+      document.getElementById('timeSlotModalTitle').textContent = getTranslate("timeslots_modal_title_copy");
+      document.getElementById('timeSlotId').value = "";
+      const ts = allTimeSlots.find(item => item._id === tsId);
+      if (ts) {
+        fillTimeSlotFields(ts);
+        showTimeSlotModal();
+      } else {
+        showError(getTranslate("timeslots_error_fetch_single"));
       }
+    }
 
-      // فتح المودال للتعديل
-      async function openTimeSlotModalForEdit(tsId) {
-        clearMessages();
-        currentTimeSlotId = tsId;
-        showLoading();
-        try {
-          const resp = await fetch(`/api/timeslots/${tsId}`, {
-            headers: { 'Authorization': 'Bearer ' + authToken }
-          });
-          if (!resp.ok) throw new Error(getTranslate("timeslots_error_fetch_single"));
-          const result = await resp.json();
-          if (!result.success) throw new Error(getTranslate("timeslots_error_fetch_single"));
-          const ts = result.data;
-          document.getElementById('timeSlotModalTitle').textContent = getTranslate("timeslots_modal_title_edit");
-          document.getElementById('timeSlotId').value = ts._id;
-          fillTimeSlotFields(ts);
-          showTimeSlotModal();
-        } catch (err) {
-          showError(err.message);
-        } finally {
-          hideLoading();
+    // تعبئة حقول المودال بالقيم القادمة من السيرفر
+    function fillTimeSlotFields(ts) {
+      document.getElementById('slotName').value = ts.name || '';
+      document.getElementById('color').value = ts.color || '#000000';
+
+      document.getElementById('startTime').value = ts.startTime || '';
+      document.getElementById('startTime_Offset').value = ts.startTime_Offset || 0;
+
+      document.getElementById('endTime').value = ts.endTime || '';
+      document.getElementById('endTime_Offset').value = ts.endTime_Offset || 0;
+
+      document.getElementById('offset').value = ts.offset || '0';
+
+      document.getElementById('workRegStartTime').value = ts.workRegistrationStartTime || '';
+      document.getElementById('work_registration_start_time_Offset').value = ts.work_registration_start_time_Offset || 0;
+
+      document.getElementById('lastEntryPreventionTime').value = ts.lastEntryPreventionTime || '';
+      document.getElementById('last_entry_prevention_time_Offset').value = ts.last_entry_prevention_time_Offset || 0;
+
+      document.getElementById('firstExitAllowedTime').value = ts.first_exit_allowed_time || '';
+      document.getElementById('first_exit_allowed_time_Offset').value = ts.first_exit_allowed_time_Offset || 0;
+
+      document.getElementById('lastExitAllowedTime').value = ts.last_exit_allowed_time || '';
+      document.getElementById('last_exit_allowed_time_Offset').value = ts.last_exit_allowed_time_Offset || 0;
+
+      document.getElementById('overtimeStartTime').value = ts.overtimeStartTime || '';
+      document.getElementById('overtimeStart_Offset').value = ts.overtimeStart_Offset || 0;
+
+      document.getElementById('officialWorkingHours').value = ts.officialWorkingHours || '8';
+      document.getElementById('minimumWorkingHoursOvertime').value = ts.minimumWorkingHoursOvertime || '10';
+      document.getElementById('allowedDelayMinutes').value = ts.allowedDelayMinutes || '0';
+      document.getElementById('allowedExitMinutes').value = ts.allowedExitMinutes || '0';
+      document.getElementById('worksForDailyWage').checked = !!ts.worksForDailyWage;
+      document.getElementById('overtimeEligible').checked = !!ts.overtimeEligible;
+      document.getElementById('hourPrice').value = ts.hourPrice || '0';
+      document.getElementById('overtimePrice').value = ts.overtimePrice || '0';
+      document.getElementById('dailySalary').value = ts.dailySalary || '0';
+      document.getElementById('allowedMinRest').value = ts.allowed_min_rest || '0';
+      document.getElementById('restMinPrices').value = ts.rest_min_prices || '0';
+      document.getElementById('absentCutting').value = ts.absent_cutting || '0';
+      document.getElementById('lateMinPrices').value = ts.late_min_prices || '0';
+      document.getElementById('earlyMinPrices').value = ts.early_min_prices || '0';
+      document.getElementById('lateCuttingByCount').value = ts.late_cutting_by_count || '0';
+      document.getElementById('earlyCuttingByCount').value = ts.early_cutting_by_count || '0';
+    }
+
+    // حفظ (إضافة/تعديل) التايمSlot
+    async function saveTimeSlot() {
+      clearMessages();
+      showLoading();
+      try {
+        const tsIdVal = document.getElementById('timeSlotId').value;
+        const body = {
+          name: document.getElementById('slotName').value.trim(),
+          color: document.getElementById('color').value,
+          startTime: formatTime(document.getElementById('startTime').value),
+          startTime_Offset: +document.getElementById('startTime_Offset').value || 0,
+
+          endTime: formatTime(document.getElementById('endTime').value),
+          endTime_Offset: +document.getElementById('endTime_Offset').value || 0,
+
+          offset: +document.getElementById('offset').value || 0,
+
+          workRegistrationStartTime: formatTime(document.getElementById('workRegStartTime').value),
+          work_registration_start_time_Offset: +document.getElementById('work_registration_start_time_Offset').value || 0,
+
+          lastEntryPreventionTime: formatTime(document.getElementById('lastEntryPreventionTime').value),
+          last_entry_prevention_time_Offset: +document.getElementById('last_entry_prevention_time_Offset').value || 0,
+
+          first_exit_allowed_time: formatTime(document.getElementById('firstExitAllowedTime').value),
+          first_exit_allowed_time_Offset: +document.getElementById('first_exit_allowed_time_Offset').value || 0,
+
+          last_exit_allowed_time: formatTime(document.getElementById('lastExitAllowedTime').value),
+          last_exit_allowed_time_Offset: +document.getElementById('last_exit_allowed_time_Offset').value || 0,
+
+          overtimeStartTime: formatTime(document.getElementById('overtimeStartTime').value),
+          overtimeStart_Offset: +document.getElementById('overtimeStart_Offset').value || 0,
+
+          officialWorkingHours: +document.getElementById('officialWorkingHours').value || 8,
+          minimumWorkingHoursOvertime: +document.getElementById('minimumWorkingHoursOvertime').value || 10,
+          allowedDelayMinutes: +document.getElementById('allowedDelayMinutes').value || 0,
+          allowedExitMinutes: +document.getElementById('allowedExitMinutes').value || 0,
+          worksForDailyWage: document.getElementById('worksForDailyWage').checked,
+          overtimeEligible: document.getElementById('overtimeEligible').checked,
+          hourPrice: +document.getElementById('hourPrice').value || 0,
+          overtimePrice: +document.getElementById('overtimePrice').value || 0,
+          dailySalary: +document.getElementById('dailySalary').value || 0,
+          allowed_min_rest: +document.getElementById('allowedMinRest').value || 0,
+          rest_min_prices: +document.getElementById('restMinPrices').value || 0,
+          absent_cutting: +document.getElementById('absentCutting').value || 0,
+          late_min_prices: +document.getElementById('lateMinPrices').value || 0,
+          early_min_prices: +document.getElementById('earlyMinPrices').value || 0,
+          late_cutting_by_count: +document.getElementById('lateCuttingByCount').value || 0,
+          early_cutting_by_count: +document.getElementById('earlyCuttingByCount').value || 0,
+        };
+
+        let url = '/api/timeslots';
+        let method = 'POST';
+        if (tsIdVal) {
+          url = `/api/timeslots/${tsIdVal}`;
+          method = 'PUT';
         }
+        const resp = await fetch(url, {
+          method,
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+        if (!resp.ok) throw new Error(getTranslate("timeslots_error_save"));
+        showSuccess(getTranslate("timeslots_success_save"));
+        closeTimeSlotModal();
+        loadTimeSlotsData();
+      } catch (err) {
+        showError(err.message);
+      } finally {
+        hideLoading();
       }
+    }
 
-      // فتح المودال لعمل نسخة من الـ TimeSlot
-      function copyTimeSlot(tsId) {
-        clearMessages();
-        currentTimeSlotId = null;
-        document.getElementById('timeSlotModalTitle').textContent = getTranslate("timeslots_modal_title_copy");
-        document.getElementById('timeSlotId').value = "";
-        const ts = allTimeSlots.find(item => item._id === tsId);
-        if (ts) {
-          fillTimeSlotFields(ts);
-          showTimeSlotModal();
-        } else {
-          showError(getTranslate("timeslots_error_fetch_single"));
+    // حذف تايمSlot
+    async function deleteTimeSlot(id) {
+      if (!confirm(getTranslate("timeslots_confirm_delete"))) return;
+      clearMessages();
+      showLoading();
+      try {
+        const resp = await fetch(`/api/timeslots/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!resp.ok) throw new Error(getTranslate("timeslots_error_delete"));
+        showSuccess(getTranslate("timeslots_success_delete"));
+        loadTimeSlotsData();
+      } catch (err) {
+        showError(err.message);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    // إظهار/إخفاء المودال
+    function showTimeSlotModal() {
+      document.getElementById('timeSlotModal').style.display = 'flex';
+    }
+    function closeTimeSlotModal() {
+      document.getElementById('timeSlotModal').style.display = 'none';
+      currentTimeSlotId = null;
+      document.getElementById('timeSlotId').value = "";
+      resetTimeSlotFields();
+    }
+
+    // استدعاء init بعد تحميل الصفحة
+    window.onload = initTimeSlotsPage;
+
+    // دالة لتبديل عرض وإخفاء القائمة الفرعية
+    function toggleSubMenu(id) {
+      var submenu = document.getElementById(id);
+      if (submenu.style.display === "none" || submenu.style.display === "") {
+        submenu.style.display = "block";
+      } else {
+        submenu.style.display = "none";
+      }
+    }
+
+    // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
+    // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
+    document.addEventListener("DOMContentLoaded", function () {
+      var submenus = document.querySelectorAll('.submenu');
+      submenus.forEach(function (submenu) {
+        if (submenu.querySelector('.navItem.active')) {
+          submenu.style.display = "block";
         }
-      }
+      });
+    });
 
-      // تعبئة حقول المودال بالقيم القادمة من السيرفر
-      function fillTimeSlotFields(ts) {
-        document.getElementById('slotName').value = ts.name || '';
-        document.getElementById('color').value = ts.color || '#000000';
-        document.getElementById('startTime').value = ts.startTime || '';
-        document.getElementById('endTime').value = ts.endTime || '';
-        document.getElementById('offset').value = ts.offset || '0';
-        document.getElementById('workRegStartTime').value = ts.workRegistrationStartTime || '';
-        document.getElementById('lastEntryPreventionTime').value = ts.lastEntryPreventionTime || '';
-        document.getElementById('firstExitAllowedTime').value = ts.first_exit_allowed_time || '';
-        document.getElementById('lastExitAllowedTime').value = ts.last_exit_allowed_time || '';
-        document.getElementById('overtimeStartTime').value = ts.overtimeStartTime || '';
-        document.getElementById('officialWorkingHours').value = ts.officialWorkingHours || '8';
-        document.getElementById('minimumWorkingHoursOvertime').value = ts.minimumWorkingHoursOvertime || '10';
-        document.getElementById('allowedDelayMinutes').value = ts.allowedDelayMinutes || '0';
-        document.getElementById('allowedExitMinutes').value = ts.allowedExitMinutes || '0';
-        document.getElementById('worksForDailyWage').checked = !!ts.worksForDailyWage;
-        document.getElementById('overtimeEligible').checked = !!ts.overtimeEligible;
-        document.getElementById('hourPrice').value = ts.hourPrice || '0';
-        document.getElementById('overtimePrice').value = ts.overtimePrice || '0';
-        document.getElementById('dailySalary').value = ts.dailySalary || '0';
-        document.getElementById('allowedMinRest').value = ts.allowed_min_rest || '0';
-        document.getElementById('restMinPrices').value = ts.rest_min_prices || '0';
-        document.getElementById('absentCutting').value = ts.absent_cutting || '0';
-        document.getElementById('lateMinPrices').value = ts.late_min_prices || '0';
-        document.getElementById('earlyMinPrices').value = ts.early_min_prices || '0';
-        document.getElementById('lateCuttingByCount').value = ts.late_cutting_by_count || '0';
-        document.getElementById('earlyCuttingByCount').value = ts.early_cutting_by_count || '0';
-      }
+    function loadSiebar(){
+        fetch('sidebar.html')
+              .then(response => response.text())
+              .then(data => {
+                  document.querySelector('.sidebar').innerHTML = data;
+                    var submenus = document.querySelectorAll('.submenu');
+                    submenus.forEach(function (submenu) {
+                      if (submenu.querySelector('.navItem.active')) {
+                        submenu.style.display = "block";
+                      }
+                    });
 
-      // حفظ (إضافة/تعديل) التايمSlot
-      async function saveTimeSlot() {
-        clearMessages();
-        showLoading();
+                    addActiveToSubmenuClass(2);
+              })
+              .catch(error => console.error('Error loading sidebar:', error));
+      }
+  
+      async function loadSidebarLangFile(lang) {
         try {
-          const tsIdVal = document.getElementById('timeSlotId').value;
-          const body = {
-            name: document.getElementById('slotName').value.trim(),
-            color: document.getElementById('color').value,
-            startTime: formatTime(document.getElementById('startTime').value),
-            endTime: formatTime(document.getElementById('endTime').value),
-            offset: +document.getElementById('offset').value || 0,
-            workRegistrationStartTime: formatTime(document.getElementById('workRegStartTime').value),
-            lastEntryPreventionTime: formatTime(document.getElementById('lastEntryPreventionTime').value),
-            first_exit_allowed_time: formatTime(document.getElementById('firstExitAllowedTime').value),
-            last_exit_allowed_time: formatTime(document.getElementById('lastExitAllowedTime').value),
-            overtimeStartTime: formatTime(document.getElementById('overtimeStartTime').value),
-            officialWorkingHours: +document.getElementById('officialWorkingHours').value || 8,
-            minimumWorkingHoursOvertime: +document.getElementById('minimumWorkingHoursOvertime').value || 10,
-            allowedDelayMinutes: +document.getElementById('allowedDelayMinutes').value || 0,
-            allowedExitMinutes: +document.getElementById('allowedExitMinutes').value || 0,
-            worksForDailyWage: document.getElementById('worksForDailyWage').checked,
-            overtimeEligible: document.getElementById('overtimeEligible').checked,
-            hourPrice: +document.getElementById('hourPrice').value || 0,
-            overtimePrice: +document.getElementById('overtimePrice').value || 0,
-            dailySalary: +document.getElementById('dailySalary').value || 0,
-            allowed_min_rest: +document.getElementById('allowedMinRest').value || 0,
-            rest_min_prices: +document.getElementById('restMinPrices').value || 0,
-            absent_cutting: +document.getElementById('absentCutting').value || 0,
-            late_min_prices: +document.getElementById('lateMinPrices').value || 0,
-            early_min_prices: +document.getElementById('earlyMinPrices').value || 0,
-            late_cutting_by_count: +document.getElementById('lateCuttingByCount').value || 0,
-            early_cutting_by_count: +document.getElementById('earlyCuttingByCount').value || 0,
-          };
-
-          let url = '/api/timeslots';
-          let method = 'POST';
-          if (tsIdVal) {
-            url = `/api/timeslots/${tsIdVal}`;
-            method = 'PUT';
+          const response = await fetch(`./lang/${lang}_sidebar.json`);
+          if (!response.ok) {
+            throw new Error(`Error loading ${lang}_sidebar.json`);
           }
-          const resp = await fetch(url, {
-            method,
-            headers: {
-              'Authorization': 'Bearer ' + authToken,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-          });
-          if (!resp.ok) throw new Error(getTranslate("timeslots_error_save"));
-          showSuccess(getTranslate("timeslots_success_save"));
-          closeTimeSlotModal();
-          loadTimeSlotsData();
-        } catch (err) {
-          showError(err.message);
-        } finally {
-          hideLoading();
+          sidebarLabels = await response.json();
+
+        } catch (error) {
+          console.error("Report translation file error:", error);
         }
       }
 
-      // حذف تايمSlot
-      async function deleteTimeSlot(id) {
-        if (!confirm(getTranslate("timeslots_confirm_delete"))) return;
-        clearMessages();
-        showLoading();
-        try {
-          const resp = await fetch(`/api/timeslots/${id}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': 'Bearer ' + authToken }
+      function applySidebarTranslation(){
+          document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+              const key = el.getAttribute('data-lng');
+              
+              if (sidebarLabels[key]) {
+                el.textContent = sidebarLabels[key];
+              }
           });
-          if (!resp.ok) throw new Error(getTranslate("timeslots_error_delete"));
-          showSuccess(getTranslate("timeslots_success_delete"));
-          loadTimeSlotsData();
-        } catch (err) {
-          showError(err.message);
-        } finally {
-          hideLoading();
-        }
       }
 
-      // إظهار/إخفاء المودال
-      function showTimeSlotModal() {
-        document.getElementById('timeSlotModal').style.display = 'flex';
-      }
-      function closeTimeSlotModal() {
-        document.getElementById('timeSlotModal').style.display = 'none';
-        currentTimeSlotId = null;
-        document.getElementById('timeSlotId').value = "";
-        resetTimeSlotFields();
+      loadSiebar();
+
+      function addActiveToSubmenuClass(childIndex) {
+          const submenu = document.getElementById('timeManagementSubmenu');
+          submenu.style.display = "block";
+          const navItems = submenu.getElementsByClassName('navItem');
+          if (childIndex >= 1 && childIndex <= navItems.length) {
+              Array.from(navItems).forEach(item => item.classList.remove('active'));
+              navItems[childIndex - 1].classList.add('active');
+          } else {
+              console.error('Child index out of bounds');
+          }
       }
 
-      // استدعاء init بعد تحميل الصفحة
-      window.onload = initTimeSlotsPage;
-    </script>
-
+  </script>
 </body>
 
 </html>

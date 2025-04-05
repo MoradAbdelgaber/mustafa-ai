@@ -55,6 +55,34 @@ exports.getRequestById = async (req, res) => {
   }
 };
 
+//تعديل مجموعة طلبات 
+exports.bulkUpdateRequests = async (req, res) => {
+  try {
+    // نتوقع استلام مصفوفة من الآي ديز في req.body.ids
+    const { ids } = req.body;
+
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ message: 'يرجى إرسال مصفوفة تحتوي على آي ديز صحيحة' });
+    }
+
+    // تحديث جميع الطلبات التي يملكها المستخدم الحالي والتي تتطابق مع الآي ديز المرسلة
+    const result = await ApiRequest.updateMany(
+      { _id: { $in: ids }, owner: req.userId },
+      { running_times: 0, status: 'pending' }
+    );
+
+    // التأكد مما إذا كانت العملية نجحت بتحديث بعض السجلات
+    if (result.nModified === 0) {
+      return res.status(404).json({ message: 'لم يتم العثور على طلبات مطابقة أو أنها غير مملوكة لك' });
+    }
+
+    res.json({ message: 'تم تحديث الطلبات بنجاح', result });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: 'حدث خطأ أثناء تحديث الطلبات' });
+  }
+};
+
 
 exports.updateRequest = async (req, res) => {
   try {

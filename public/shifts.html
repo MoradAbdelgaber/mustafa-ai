@@ -77,12 +77,27 @@
       background: #c82333;
     }
 
-        /* تنسيق للقوائم الفرعية لتظهر كفرع */
-        .submenu {
+    /* تنسيق للقوائم الفرعية لتظهر كفرع */
+    .submenu {
       border-left: 2px solid #dee2e6;
       margin-left: 15px;
       padding-left: 10px;
       margin-bottom: 5px;
+    }
+
+    html[lang="ar"] .submenu {
+      border-right: 2px solid #8ebcea;
+      border-left: none;
+      margin-right: 15px;
+      padding-right: 10px;
+      margin-bottom: 5px;
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    html[lang="ar"] button,
+    html[lang="ar"] select {
+      font-family: Tajawal;
     }
 
     .menu-group-header {
@@ -303,6 +318,7 @@
       align-items: center;
       width: 100%;
       font-size: 1rem;
+      box-sizing: border-box;
     }
 
     html[lang="ar"] .modalHeader {
@@ -494,6 +510,7 @@
       flex-direction: column;
       gap: 10px;
       width: 100%;
+      padding: 15px;
     }
 
     #departmentsSelect {
@@ -516,6 +533,62 @@
       border-bottom: 1px dashed #ccc;
       padding: 4px;
     }
+
+
+    .form-inner-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+
+    .form-inner-row .form-row {
+      flex-basis: 50%;
+      max-width: 50%;
+      box-sizing: border-box;
+      padding: 0 10px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      gap: 0;
+    }
+
+    .form-inner-row .form-row input,
+    .form-inner-row .form-row select {
+      width: 100%;
+      box-sizing: border-box;
+      height: 40px;
+      background-color: #cccccc2b;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 0 6px;
+    }
+
+    .btnClearAll {
+      background: #d30d0d;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .btnSaveShift {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button[data-lng="assign_modal_button_fetch_employees"] {
+      margin-top: 10px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
   </style>
 </head>
 
@@ -523,7 +596,7 @@
   <header>
     <h1 data-lng="shifts_header_title">إدارة الشفتات</h1>
     <div>
-      <button onclick="logout()" data-lng="shifts_logout">خروج</button>
+      <button onclick="logout()" data-lng="shifts_logout">Logout</button>
       <select id="langSelector">
         <option value="en">English</option>
         <option value="ar" selected>العربية</option>
@@ -563,435 +636,331 @@
     </div>
 
     <!-- الشريط الجانبي -->
-    <div class="sidebar">
-      
-          
-            <!-- الرئيسية -->
-            <div class="navItem menu-group-header" onclick="location.href='dashboard.html'">
-              <i class="bi bi-house-fill"></i>
-              <span data-lng="navOverview">الرئيسية</span>
-            </div>
-      
-            <!-- ادارة الموظفين -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('staffManagementSubmenu')">
-              <i class="bi bi-people-fill"></i>
-              <span data-lng="staffManagement">ادارة الموظفين</span>
-            </div>
-            <div id="staffManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='employee.html'">
-                <i class="bi bi-person-lines-fill"></i>
-                <span data-lng="navEmployees">الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='department.html'">
-                <i class="bi bi-building"></i>
-                <span data-lng="navDepartment">الأقسام</span>
-              </div>
-            </div>
-      
-            <!-- التقارير -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('reportsSubmenu')">
-              <i class="bi bi-bar-chart-line-fill"></i>
-              <span data-lng="reports">التقارير</span>
-            </div>
-      
-            <div id="reportsSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='report.html'">
-                <i class="bi bi-bar-chart-line-fill"></i>
-                <span data-lng="navReport"></span>
-              </div>
-      
-              <div class="navItem" onclick="location.href='attend.html'">
-                <i class="bi bi-journal-check"></i>
-                <span data-lng="navAttend">تقرير الحضور</span>
-              </div>
-      
-      
-              <div class="navItem" onclick="location.href='employee-summary-report.html'">
-                <i class="bi bi-people-fill"></i>
-                <span data-lng="employee_summary_report">تقرير ملخص الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='rule.html'">
-                <i class="bi bi-braces"></i>
-                <span data-lng="navRules">القواعد (Rules)</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاجهزة -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('deviceManagementSubmenu')">
-              <i class="bi bi-device-hdd-fill"></i>
-              <span data-lng="deviceManagement">ادارة الاجهزة</span>
-            </div>
-            <div id="deviceManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='devices.html'">
-                <i class="bi bi-laptop"></i>
-                <span data-lng="navDevices">الأجهزة</span>
-              </div>
-              <div class="navItem" onclick="location.href='requests.html'">
-                <i class="bi bi-list-check"></i>
-                <span data-lng="navOrders">الأوامر</span>
-              </div>
-              <div class="navItem" onclick="location.href='importemployee.html'">
-                <i class="bi bi-person-exclamation"></i>
-                <span data-lng="unregistered">الموظفين غير المسجلين</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الدوام -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('workManagementSubmenu')">
-              <i class="bi bi-calendar-event-fill"></i>
-              <span data-lng="workManagement">ادارة الدوام</span>
-            </div>
-            <div id="workManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='leaves.html'">
-                <i class="bi bi-calendar3"></i>
-                <span data-lng="navLeaves">الإجازات</span>
-              </div>
-              <div class="navItem" onclick="location.href='rewards.html'">
-                <i class="bi bi-gift-fill"></i>
-                <span data-lng="navRewards">المكافئات</span>
-              </div>
-              <div class="navItem" onclick="location.href='time-based-leaves.html'">
-                <i class="bi bi-clock-fill"></i>
-                <span data-lng="leaves_sidebar_time_leaves">إجازات زمنية</span>
-              </div>
-              
-              <div class="navItem" onclick="location.href='holidays.html'">
-                <i class="bi bi-calendar-event"></i>
-                <span data-lng="navHolidays">العطل الرسمية</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاوقات -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('timeManagementSubmenu')">
-              <i class="bi bi-clock-fill"></i>
-              <span data-lng="timeManagement">ادارة الاوقات</span>
-            </div>
-            <div id="timeManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem active" onclick="location.href='shifts.html'">
-                <i class="bi bi-hourglass-split"></i>
-                <span data-lng="navshift">الشفتات</span>
-              </div>
-              <div class="navItem" onclick="location.href='TimeSlot.html'">
-                <i class="bi bi-watch"></i>
-                <span data-lng="navSlot">الأوقات</span>
-              </div>
-              <div class="navItem" onclick="location.href='public-settings.html'">
-                <i class="bi bi-gear"></i>
-                <span data-lng="public_settings">الإعدادات</span>
-              </div>
-            </div>
-          </div>
-      
-          <script>
-   
+    <div class="sidebar"></div>
 
-            // دالة لتبديل عرض وإخفاء القائمة الفرعية
-            function toggleSubMenu(id) {
-              var submenu = document.getElementById(id);
-              if (submenu.style.display === "none" || submenu.style.display === "") {
-                submenu.style.display = "block";
-              } else {
-                submenu.style.display = "none";
-              }
-            }
-      
-            // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
-            // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
-            document.addEventListener("DOMContentLoaded", function () {
-              var submenus = document.querySelectorAll('.submenu');
-              submenus.forEach(function (submenu) {
-                if (submenu.querySelector('.navItem.active')) {
-                  submenu.style.display = "block";
-                }
-              });
-            });
-          </script>
-   
+    <script>
 
 
-   <script>
-  function saveCurrentShift() {
-    // مسح الرسائل السابقة
-    clearMessages();
-
-    // جمع البيانات من الحقول
-    const shiftName = document.getElementById("shiftNameInput").value.trim();
-    const cycleUnit = document.getElementById("cycleUnitInput").value;
-    const cycleLength = parseInt(document.getElementById("cycleLengthInput").value) || 7;
-    const cycleStartDate = document.getElementById("cycleStartDateInput").value;
-    const autoShift = document.getElementById("autoShiftChk").checked;
-    const weeklyOvertime = document.getElementById("weeklyOvertimeChk").checked;
-
-    // التأكد من وجود اسم الشفت مثلاً (يمكن إضافة المزيد من التحقق)
-    if (!shiftName) {
-      showError("يجب إدخال اسم الشفت.");
-      return;
-    }
-    if (!cycleStartDate) {
-      showError("يجب تحديد تاريخ بداية الدورة.");
-      return;
-    }
-
-    // تحويل daysAssignments (كائن يحتوي على index: timeSlot) إلى مصفوفة من الكائنات
-    let daysMap = [];
-    for (const day in daysAssignments) {
-      if (daysAssignments.hasOwnProperty(day)) {
-        daysMap.push({
-          dayIndex: parseInt(day),
-          timeSlot: daysAssignments[day]  // يُفترض أن يحتوي على بيانات الـ TimeSlot
-        });
-      }
-    }
-
-    // تكوين كائن البيانات للشفت
-    const shiftData = {
-      shiftName: shiftName,
-      cycleUnit: cycleUnit,
-      cycleLength: cycleLength,
-      cycleStartDate: cycleStartDate,
-      autoShift: autoShift,
-      weeklyOvertime: weeklyOvertime,
-      daysMap: daysMap
-    };
-
-    // تحديد الإجراء (إضافة جديدة أو تعديل) بناءً على قيمة editingShiftId
-    let url = baseUrl + "/api/shifts";
-    let method = "POST"; // افتراضاً عملية إضافة
-    if (editingShiftId) {
-      url += "/" + editingShiftId;
-      method = "PUT"; // عملية تعديل
-    }
-
-    showLoading();
-
-    fetch(url, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + authToken
-      },
-      body: JSON.stringify(shiftData)
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("حدث خطأ أثناء حفظ الشفت");
-        }
-        return response.json();
-      })
-      .then(result => {
-        // عرض رسالة نجاح بناءً على نوع العملية
-        if (editingShiftId) {
-          showSuccess(getTranslate("shifts_success_update") || "تم تعديل الشفت بنجاح");
+      // دالة لتبديل عرض وإخفاء القائمة الفرعية
+      function toggleSubMenu(id) {
+        var submenu = document.getElementById(id);
+        if (submenu.style.display === "none" || submenu.style.display === "") {
+          submenu.style.display = "block";
         } else {
-          showSuccess(getTranslate("shifts_success_add") || "تم إضافة الشفت بنجاح");
+          submenu.style.display = "none";
         }
-        // إعادة تحميل جدول الشفتات وإغلاق المودال
-        loadAllShifts();
-        closeMainModal();
-      })
-      .catch(error => {
-        showError(error.message);
-      })
-      .finally(() => {
-        hideLoading();
-      });
-  }
-</script>
-  <!-- مودال الشفت (إضافة/تعديل/نسخ) -->
-  <div class="modalOverlay" id="mainModal">
-    <div class="modalContent">
-      <div class="modalHeader">
-        <h2 id="mainModalTitle" data-lng="shifts_modal_title_add">إضافة شفت</h2>
-        <button class="modalCloseBtn" onclick="closeMainModal()">×</button>
-      </div>
-      <div class="modalBody">
-        <!-- القائمة اليسرى: TimeSlots -->
-        <div style="width:250px; flex-shrink:0; border-left:1px solid #eee; background:#fafafa; padding:10px;">
-          <p class="tsListTitle" data-lng="modal_ts_list_title">قائمة TimeSlots</p>
-          <div id="tsListContainer"></div>
+      }
+
+      // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
+      // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
+      // document.addEventListener("DOMContentLoaded", function () {
+      //   var submenus = document.querySelectorAll('.submenu');
+      //   submenus.forEach(function (submenu) {
+      //     if (submenu.querySelector('.navItem.active')) {
+      //       submenu.style.display = "block";
+      //     }
+      //   });
+      // });
+    </script>
+
+
+
+    <script>
+      function saveCurrentShift() {
+        // مسح الرسائل السابقة
+        clearMessages();
+
+        // جمع البيانات من الحقول
+        const shiftName = document.getElementById("shiftNameInput").value.trim();
+        const cycleUnit = document.getElementById("cycleUnitInput").value;
+        const cycleLength = parseInt(document.getElementById("cycleLengthInput").value) || 7;
+        const cycleStartDate = document.getElementById("cycleStartDateInput").value;
+        const autoShift = document.getElementById("autoShiftChk").checked;
+        const weeklyOvertime = document.getElementById("weeklyOvertimeChk").checked;
+
+        // التأكد من وجود اسم الشفت مثلاً (يمكن إضافة المزيد من التحقق)
+        if (!shiftName) {
+          showError("يجب إدخال اسم الشفت.");
+          return;
+        }
+        if (!cycleStartDate) {
+          showError("يجب تحديد تاريخ بداية الدورة.");
+          return;
+        }
+
+        // تحويل daysAssignments (كائن يحتوي على index: timeSlot) إلى مصفوفة من الكائنات
+        let daysMap = [];
+        for (const day in daysAssignments) {
+          if (daysAssignments.hasOwnProperty(day)) {
+            daysMap.push({
+              dayIndex: parseInt(day),
+              timeSlot: daysAssignments[day]  // يُفترض أن يحتوي على بيانات الـ TimeSlot
+            });
+          }
+        }
+
+        // تكوين كائن البيانات للشفت
+        const shiftData = {
+          shiftName: shiftName,
+          cycleUnit: cycleUnit,
+          cycleLength: cycleLength,
+          cycleStartDate: cycleStartDate,
+          autoShift: autoShift,
+          weeklyOvertime: weeklyOvertime,
+          daysMap: daysMap
+        };
+
+        // تحديد الإجراء (إضافة جديدة أو تعديل) بناءً على قيمة editingShiftId
+        let url = baseUrl + "/api/shifts";
+        let method = "POST"; // افتراضاً عملية إضافة
+        if (editingShiftId) {
+          url += "/" + editingShiftId;
+          method = "PUT"; // عملية تعديل
+        }
+
+        showLoading();
+
+        fetch(url, {
+          method: method,
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + authToken
+          },
+          body: JSON.stringify(shiftData)
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error("حدث خطأ أثناء حفظ الشفت");
+            }
+            return response.json();
+          })
+          .then(result => {
+            // عرض رسالة نجاح بناءً على نوع العملية
+            if (editingShiftId) {
+              showSuccess(getTranslate("shifts_success_update") || "تم تعديل الشفت بنجاح");
+            } else {
+              showSuccess(getTranslate("shifts_success_add") || "تم إضافة الشفت بنجاح");
+            }
+            // إعادة تحميل جدول الشفتات وإغلاق المودال
+            loadAllShifts();
+            closeMainModal();
+          })
+          .catch(error => {
+            showError(error.message);
+          })
+          .finally(() => {
+            hideLoading();
+          });
+      }
+    </script>
+    <!-- مودال الشفت (إضافة/تعديل/نسخ) -->
+    <div class="modalOverlay" id="mainModal">
+      <div class="modalContent">
+        <div class="modalHeader">
+          <h2 id="mainModalTitle" data-lng="shifts_modal_title_add">إضافة شفت</h2>
+          <button class="modalCloseBtn" onclick="closeMainModal()">×</button>
         </div>
-        <!-- الجزء الأيمن: نموذج الشفت + شبكة الأيام -->
-        <div style="flex:1; display:flex; flex-direction:column; padding:20px;">
-          <div class="shiftForm">
-            <div class="shiftFormRow">
-              <div class="formGroup">
-                <label data-lng="modal_label_shiftName">اسم الشفت:</label>
-                <input type="text" id="shiftNameInput" data-lng-placeholder="modal_placeholder_shiftName"
-                  placeholder="مثال: Morning Shift" />
+        <div class="modalBody">
+          <!-- القائمة اليسرى: TimeSlots -->
+          <div style="width:250px; flex-shrink:0; border-left:1px solid #eee; background:#fafafa; padding:10px;">
+            <p class="tsListTitle" data-lng="modal_ts_list_title">قائمة TimeSlots</p>
+            <div id="tsListContainer"></div>
+          </div>
+          <!-- الجزء الأيمن: نموذج الشفت + شبكة الأيام -->
+          <div style="flex:1; display:flex; flex-direction:column; padding:20px;">
+            <div class="shiftForm">
+              <div class="shiftFormRow form-inner-row">
+
+                <div class="formGroup form-row">
+                  <label data-lng="modal_label_shiftName">اسم الشفت:</label>
+                  <input type="text" id="shiftNameInput" data-lng-placeholder="modal_placeholder_shiftName"
+                    placeholder="مثال: Morning Shift" />
+                </div>
+
+                <div class="formGroup form-row">
+                  <label data-lng="modal_label_cycleUnit">نوع الدورة (Week/Month):</label>
+                  <select id="cycleUnitInput">
+                    <option value="Week">week</option>
+                    <option value="Month">Month</option>
+                  </select>
+                </div>
+
+                <div class="formGroup form-row">
+                  <label data-lng="modal_label_cycleLength">طول الدورة (رقم):</label>
+                  <input type="number" id="cycleLengthInput" value="7" min="1" />
+                </div>
+
+                <div class="formGroup form-row">
+                  <label data-lng="modal_label_cycleStartDate">بداية الدورة (تاريخ):</label>
+                  <input type="date" id="cycleStartDateInput" />
+                </div>
+
               </div>
-              <div class="formGroup">
-                <label data-lng="modal_label_cycleUnit">نوع الدورة (Week/Month):</label>
-                <select id="cycleUnitInput">
-                  <option value="Week">أسبوع</option>
-                  <option value="Month">شهر</option>
-                </select>
-              </div>
-              <div class="formGroup">
-                <label data-lng="modal_label_cycleLength">طول الدورة (رقم):</label>
-                <input type="number" id="cycleLengthInput" value="7" min="1" />
-              </div>
-              <div class="formGroup">
-                <label data-lng="modal_label_cycleStartDate">بداية الدورة (تاريخ):</label>
-                <input type="date" id="cycleStartDateInput" />
-              </div>
+              <!-- حقل مخفي للاحتفاظ بـ _id -->
+              <input type="hidden" id="shiftDbId" />
+              <!-- إخفاء الجيك بوكس -->
+              <input type="checkbox" id="autoShiftChk" />
+              <input type="checkbox" id="weeklyOvertimeChk" />
             </div>
-            <!-- حقل مخفي للاحتفاظ بـ _id -->
-            <input type="hidden" id="shiftDbId" />
-            <!-- إخفاء الجيك بوكس -->
-            <input type="checkbox" id="autoShiftChk" />
-            <input type="checkbox" id="weeklyOvertimeChk" />
-          </div>
 
-          <div style="margin-top:10px;">
-            <button class="btnClearAll" onclick="clearAllAssignments()" data-lng="modal_button_clearAll">مسح
-              الكل</button>
-          </div>
-          <div class="daysGrid" id="daysGrid">
-            <!-- سيتم ملؤه بالأيام -->
-          </div>
+            <div style="margin-top:10px;">
+              <button class="btnClearAll" onclick="clearAllAssignments()" data-lng="modal_button_clearAll">مسح
+                الكل</button>
+            </div>
+            <div class="daysGrid" id="daysGrid">
+              <!-- سيتم ملؤه بالأيام -->
+            </div>
 
-          <div style="margin-top:10px;">
-            <button class="btnSaveShift" onclick="saveCurrentShift()" data-lng="modal_button_save_shift">حفظ
-              الشفت</button>
+            <div style="margin-top:10px;">
+              <button class="btnSaveShift" onclick="saveCurrentShift()" data-lng="modal_button_save_shift">حفظ
+                الشفت</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- مودال تنسيب الشفت للموظفين -->
-  <div class="modalOverlay" id="assignModal">
-    <div class="modalContent">
-      <div class="modalHeader">
-        <h2 id="assignModalTitle" data-lng="assign_modal_title">تنسيب الشفت للموظفين</h2>
-        <button class="modalCloseBtn" onclick="closeAssignModal()">×</button>
-      </div>
-      <div class="modalBody">
-        <div class="assignForm">
-          <label data-lng="assign_modal_label_departments">اختر الأقسام (يمكن اختيار أكثر من قسم):</label>
-          <select id="departmentsSelect" multiple></select>
+    <!-- مودال تنسيب الشفت للموظفين -->
+    <div class="modalOverlay" id="assignModal">
+      <div class="modalContent">
+        <div class="modalHeader">
+          <h2 id="assignModalTitle" data-lng="assign_modal_title">تنسيب الشفت للموظفين</h2>
+          <button class="modalCloseBtn" onclick="closeAssignModal()">×</button>
+        </div>
+        <div class="modalBody">
+          <div class="assignForm">
+            <label data-lng="assign_modal_label_departments">اختر الأقسام (يمكن اختيار أكثر من قسم):</label>
+            <select id="departmentsSelect" multiple></select>
 
-          <button style="margin-top:6px;" onclick="fetchEmployeesForSelectedDepartments()"
-            data-lng="assign_modal_button_fetch_employees">جلب الموظفين</button>
+            <button style="margin-top:6px;" onclick="fetchEmployeesForSelectedDepartments()"
+              data-lng="assign_modal_button_fetch_employees">جلب الموظفين</button>
 
-          <div id="employeesContainer"></div>
+            <div id="employeesContainer"></div>
 
-          <button
-            style="margin-top:10px; background:#28a745; color:#fff; border:none; padding:8px 14px; border-radius:4px; cursor:pointer;"
-            onclick="assignShiftToEmployees()" data-lng="assign_modal_button_assign_shift">
-            تنسيب الشفت
-          </button>
+            <button
+              style="margin-top:10px; background:#28a745; color:#fff; border:none; padding:8px 14px; border-radius:4px; cursor:pointer;"
+              onclick="assignShiftToEmployees()" data-lng="assign_modal_button_assign_shift">
+              تنسيب الشفت
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script>
-    // -----------------------------
-    // آلية الترجمة الديناميكية
-    // -----------------------------
-    const LANG_KEY = 'lng';
-    const SHIFTS_LANG_PATH = './lang';
-    let translations = {};
+    <script>
+      // -----------------------------
+      // آلية الترجمة الديناميكية
+      // -----------------------------
+      const LANG_KEY = 'lng';
+      const SHIFTS_LANG_PATH = './lang';
+      let translations = {};
 
-    function getTranslate(key) {
-      return translations[key] || "";
-    }
-
-    async function loadLanguageFile(lang) {
-      try {
-        const response = await fetch(`${SHIFTS_LANG_PATH}/${lang}_shifts.json`);
-        if (!response.ok) {
-          throw new Error(`Error loading ${lang}_shifts.json`);
-        }
-        translations = await response.json();
-      } catch (error) {
-        console.error("Shifts translation file error:", error);
+      function getTranslate(key) {
+        return translations[key] || "";
       }
-    }
 
-    function applyTranslations(lang) {
-      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-      document.documentElement.lang = lang;
-      document.querySelectorAll('[data-lng]').forEach(el => {
-        const key = el.getAttribute('data-lng');
-        if (translations[key]) {
-          el.textContent = translations[key];
+      async function loadLanguageFile(lang) {
+        try {
+          const response = await fetch(`${SHIFTS_LANG_PATH}/${lang}_shifts.json`);
+          if (!response.ok) {
+            throw new Error(`Error loading ${lang}_shifts.json`);
+          }
+          translations = await response.json();
+        } catch (error) {
+          console.error("Shifts translation file error:", error);
         }
-      });
-      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-lng-placeholder');
-        if (translations[key]) {
-          el.placeholder = translations[key];
-        }
-      });
-    }
+      }
 
-    async function setLanguage(lang) {
-      await loadLanguageFile(lang);
-      localStorage.setItem(LANG_KEY, lang);
-      applyTranslations(lang);
-    }
-
-    window.addEventListener('DOMContentLoaded', async () => {
-      let storedLang = localStorage.getItem(LANG_KEY) || 'ar';
-      await loadLanguageFile(storedLang);
-      applyTranslations(storedLang);
-    });
-
-    document.getElementById('langSelector').addEventListener('change', async function () {
-      await setLanguage(this.value);
-    });
-
-    // -----------------------------
-    // سكربت إدارة الشفتات
-    // -----------------------------
-    const authToken = localStorage.getItem('authToken') || "";
-    const baseUrl = "";
-    let shiftsData = [];
-    let timeSlotsData = [];
-    let editingShiftId = null;
-    let daysAssignments = {};
-    let selectedTimeSlot = null;
-    let assignShiftId = null;
-    let departmentsData = [];
-    let employeesData = [];
-    const dayNames = ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
-
-    function initPage() {
-      loadAllShifts();
-      loadAllTimeSlots();
-      fetchAllDepartments();
-    }
-
-    function logout() {
-      localStorage.removeItem('authToken');
-      window.location.href = 'login.html';
-    }
-
-    async function loadAllShifts() {
-      showLoading();
-      try {
-        const resp = await fetch(`${baseUrl}/api/shifts`, {
-          headers: { 'Authorization': 'Bearer ' + authToken }
+      function applyTranslations(lang) {
+        document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+        document.documentElement.lang = lang;
+        document.querySelectorAll('[data-lng]').forEach(el => {
+          const key = el.getAttribute('data-lng');
+          if (translations[key]) {
+            el.textContent = translations[key];
+          }
         });
-        if (!resp.ok) throw new Error(getTranslate("shifts_error_fetch_shifts"));
-        shiftsData = await resp.json();
-        renderShiftsTable();
-      } catch (err) {
-        showError(err.message);
-      } finally {
-        hideLoading();
+        document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+          const key = el.getAttribute('data-lng-placeholder');
+          if (translations[key]) {
+            el.placeholder = translations[key];
+          }
+        });
       }
-    }
 
-    function renderShiftsTable() {
-      const tb = document.getElementById('shiftTableBody');
-      tb.innerHTML = '';
-      shiftsData.forEach((sh, idx) => {
-        const cdate = sh.createdAt ? new Date(sh.createdAt).toLocaleString() : '';
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
+      async function setLanguage(lang) {
+        await loadLanguageFile(lang);
+        localStorage.setItem(LANG_KEY, lang);
+        applyTranslations(lang);
+
+        await loadSidebarLangFile(lang);
+        applySidebarTranslation();
+
+      }
+
+      window.addEventListener('DOMContentLoaded', async () => {
+        let storedLang = localStorage.getItem(LANG_KEY) || 'ar';
+        await loadLanguageFile(storedLang);
+        applyTranslations(storedLang);
+
+        await loadSidebarLangFile(storedLang);
+        applySidebarTranslation();
+
+      });
+
+      document.getElementById('langSelector').addEventListener('change', async function () {
+        await setLanguage(this.value);
+      });
+
+      // -----------------------------
+      // سكربت إدارة الشفتات
+      // -----------------------------
+      const authToken = localStorage.getItem('authToken') || "";
+      const baseUrl = "";
+      let shiftsData = [];
+      let timeSlotsData = [];
+      let editingShiftId = null;
+      let daysAssignments = {};
+      let selectedTimeSlot = null;
+      let assignShiftId = null;
+      let departmentsData = [];
+      let employeesData = [];
+      const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+      function initPage() {
+        loadAllShifts();
+        loadAllTimeSlots();
+        fetchAllDepartments();
+      }
+
+      function logout() {
+        localStorage.removeItem('authToken');
+        window.location.href = 'login.html';
+      }
+
+      async function loadAllShifts() {
+        showLoading();
+        try {
+          const resp = await fetch(`${baseUrl}/api/shifts`, {
+            headers: { 'Authorization': 'Bearer ' + authToken }
+          });
+          if (!resp.ok) throw new Error(getTranslate("shifts_error_fetch_shifts"));
+          shiftsData = await resp.json();
+          renderShiftsTable();
+        } catch (err) {
+          showError(err.message);
+        } finally {
+          hideLoading();
+        }
+      }
+
+      function renderShiftsTable() {
+        const tb = document.getElementById('shiftTableBody');
+        tb.innerHTML = '';
+        shiftsData.forEach((sh, idx) => {
+          const cdate = sh.createdAt ? new Date(sh.createdAt).toLocaleString() : '';
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
           <td>${idx + 1}</td>
           <td>${sh.shiftName || ''}</td>
           <td>${sh.cycleUnit || ''}</td>
@@ -1004,133 +973,133 @@
             <i class="bi bi-trash-fill actionIcon" title="${getTranslate("shifts_table_delete")}" onclick="deleteShift('${sh._id}')"></i>
           </td>
         `;
-        tb.appendChild(tr);
-      });
-    }
-
-    async function loadAllTimeSlots() {
-      try {
-        const resp = await fetch(`${baseUrl}/api/timeslots`, {
-          headers: { 'Authorization': 'Bearer ' + authToken }
+          tb.appendChild(tr);
         });
-        if (!resp.ok) throw new Error(getTranslate("shifts_error_fetch_timeslots"));
-        timeSlotsData = await resp.json();
-      } catch (err) {
-        console.log(err.message);
       }
-    }
 
-    function openMainModalForAdd() {
-      editingShiftId = null;
-      document.getElementById('mainModalTitle').textContent = getTranslate("shifts_modal_title_add");
-      document.getElementById('shiftDbId').value = '';
-      document.getElementById('shiftNameInput').value = '';
-      document.getElementById('cycleUnitInput').value = 'Week';
-      document.getElementById('cycleLengthInput').value = '7';
-      let today = new Date();
-      today = fixToPreviousSunday(today);
-      document.getElementById('cycleStartDateInput').value = formatDateForInput(today);
-      document.getElementById('autoShiftChk').checked = false;
-      document.getElementById('weeklyOvertimeChk').checked = false;
-      daysAssignments = {};
-      selectedTimeSlot = null;
-      buildTimeSlotsList();
-      buildDaysGrid();
-      showMainModal();
-    }
-
-    async function openMainModalForEdit(shiftId) {
-      editingShiftId = shiftId;
-      try {
-        showLoading();
-        const resp = await fetch(`${baseUrl}/api/shifts/${shiftId}`, {
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("shifts_error_fetch_shift"));
-        const result = await resp.json();
-        const sh = result.data;
-        document.getElementById('mainModalTitle').textContent = getTranslate("shifts_modal_title_edit");
-        document.getElementById('shiftDbId').value = sh._id;
-        document.getElementById('shiftNameInput').value = sh.shiftName || '';
-        document.getElementById('cycleUnitInput').value = sh.cycleUnit || 'Week';
-        document.getElementById('cycleLengthInput').value = sh.cycleLength || (sh.cycleUnit === 'Month' ? 30 : 7);
-        if (sh.cycleStartDate) {
-          let dt = new Date(sh.cycleStartDate);
-          dt = fixToPreviousSunday(dt);
-          document.getElementById('cycleStartDateInput').value = formatDateForInput(dt);
-        } else {
-          let today = new Date();
-          today = fixToPreviousSunday(today);
-          document.getElementById('cycleStartDateInput').value = formatDateForInput(today);
-        }
-        document.getElementById('autoShiftChk').checked = !!sh.autoShift;
-        document.getElementById('weeklyOvertimeChk').checked = !!sh.weeklyOvertime;
-        daysAssignments = {};
-        if (Array.isArray(sh.daysMap)) {
-          sh.daysMap.forEach(d => {
-            daysAssignments[d.dayIndex] = d.timeSlot;
+      async function loadAllTimeSlots() {
+        try {
+          const resp = await fetch(`${baseUrl}/api/timeslots`, {
+            headers: { 'Authorization': 'Bearer ' + authToken }
           });
+          if (!resp.ok) throw new Error(getTranslate("shifts_error_fetch_timeslots"));
+          timeSlotsData = await resp.json();
+        } catch (err) {
+          console.log(err.message);
         }
-        selectedTimeSlot = null;
-        buildTimeSlotsList();
-        buildDaysGrid();
-        showMainModal();
-      } catch (err) {
-        showError(err.message);
-      } finally {
-        hideLoading();
       }
-    }
 
-    async function copyShift(shiftId) {
-      editingShiftId = null;
-      try {
-        showLoading();
-        const resp = await fetch(`${baseUrl}/api/shifts/${shiftId}`, {
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("shifts_error_fetch_shift"));
-        const result = await resp.json();
-        const sh = result.data;
-        document.getElementById('mainModalTitle').textContent = getTranslate("shifts_modal_title_copy");
+      function openMainModalForAdd() {
+        editingShiftId = null;
+        document.getElementById('mainModalTitle').textContent = getTranslate("shifts_modal_title_add");
         document.getElementById('shiftDbId').value = '';
         document.getElementById('shiftNameInput').value = '';
-        document.getElementById('cycleUnitInput').value = sh.cycleUnit || 'Week';
-        document.getElementById('cycleLengthInput').value = sh.cycleLength || (sh.cycleUnit === 'Month' ? 30 : 7);
-        if (sh.cycleStartDate) {
-          let dt = new Date(sh.cycleStartDate);
-          dt = fixToPreviousSunday(dt);
-          document.getElementById('cycleStartDateInput').value = formatDateForInput(dt);
-        } else {
-          let today = new Date();
-          today = fixToPreviousSunday(today);
-          document.getElementById('cycleStartDateInput').value = formatDateForInput(today);
-        }
+        document.getElementById('cycleUnitInput').value = 'Week';
+        document.getElementById('cycleLengthInput').value = '7';
+        let today = new Date();
+        today = fixToPreviousSunday(today);
+        document.getElementById('cycleStartDateInput').value = formatDateForInput(today);
+        document.getElementById('autoShiftChk').checked = false;
+        document.getElementById('weeklyOvertimeChk').checked = false;
         daysAssignments = {};
-        if (Array.isArray(sh.daysMap)) {
-          sh.daysMap.forEach(d => {
-            daysAssignments[d.dayIndex] = d.timeSlot;
-          });
-        }
         selectedTimeSlot = null;
         buildTimeSlotsList();
         buildDaysGrid();
         showMainModal();
-      } catch (err) {
-        showError(err.message);
-      } finally {
-        hideLoading();
       }
-    }
 
-    function buildTimeSlotsList() {
-      const container = document.getElementById('tsListContainer');
-      container.innerHTML = '';
-      timeSlotsData.forEach(ts => {
-        let d = document.createElement('div');
-        d.className = 'tsItem';
-        let colorBg = ts.color || '#007bff';
-        d.innerHTML = `
+      async function openMainModalForEdit(shiftId) {
+        editingShiftId = shiftId;
+        try {
+          showLoading();
+          const resp = await fetch(`${baseUrl}/api/shifts/${shiftId}`, {
+            headers: { 'Authorization': 'Bearer ' + authToken }
+          });
+          if (!resp.ok) throw new Error(getTranslate("shifts_error_fetch_shift"));
+          const result = await resp.json();
+          const sh = result.data;
+          document.getElementById('mainModalTitle').textContent = getTranslate("shifts_modal_title_edit");
+          document.getElementById('shiftDbId').value = sh._id;
+          document.getElementById('shiftNameInput').value = sh.shiftName || '';
+          document.getElementById('cycleUnitInput').value = sh.cycleUnit || 'Week';
+          document.getElementById('cycleLengthInput').value = sh.cycleLength || (sh.cycleUnit === 'Month' ? 30 : 7);
+          if (sh.cycleStartDate) {
+            let dt = new Date(sh.cycleStartDate);
+            dt = fixToPreviousSunday(dt);
+            document.getElementById('cycleStartDateInput').value = formatDateForInput(dt);
+          } else {
+            let today = new Date();
+            today = fixToPreviousSunday(today);
+            document.getElementById('cycleStartDateInput').value = formatDateForInput(today);
+          }
+          document.getElementById('autoShiftChk').checked = !!sh.autoShift;
+          document.getElementById('weeklyOvertimeChk').checked = !!sh.weeklyOvertime;
+          daysAssignments = {};
+          if (Array.isArray(sh.daysMap)) {
+            sh.daysMap.forEach(d => {
+              daysAssignments[d.dayIndex] = d.timeSlot;
+            });
+          }
+          selectedTimeSlot = null;
+          buildTimeSlotsList();
+          buildDaysGrid();
+          showMainModal();
+        } catch (err) {
+          showError(err.message);
+        } finally {
+          hideLoading();
+        }
+      }
+
+      async function copyShift(shiftId) {
+        editingShiftId = null;
+        try {
+          showLoading();
+          const resp = await fetch(`${baseUrl}/api/shifts/${shiftId}`, {
+            headers: { 'Authorization': 'Bearer ' + authToken }
+          });
+          if (!resp.ok) throw new Error(getTranslate("shifts_error_fetch_shift"));
+          const result = await resp.json();
+          const sh = result.data;
+          document.getElementById('mainModalTitle').textContent = getTranslate("shifts_modal_title_copy");
+          document.getElementById('shiftDbId').value = '';
+          document.getElementById('shiftNameInput').value = '';
+          document.getElementById('cycleUnitInput').value = sh.cycleUnit || 'Week';
+          document.getElementById('cycleLengthInput').value = sh.cycleLength || (sh.cycleUnit === 'Month' ? 30 : 7);
+          if (sh.cycleStartDate) {
+            let dt = new Date(sh.cycleStartDate);
+            dt = fixToPreviousSunday(dt);
+            document.getElementById('cycleStartDateInput').value = formatDateForInput(dt);
+          } else {
+            let today = new Date();
+            today = fixToPreviousSunday(today);
+            document.getElementById('cycleStartDateInput').value = formatDateForInput(today);
+          }
+          daysAssignments = {};
+          if (Array.isArray(sh.daysMap)) {
+            sh.daysMap.forEach(d => {
+              daysAssignments[d.dayIndex] = d.timeSlot;
+            });
+          }
+          selectedTimeSlot = null;
+          buildTimeSlotsList();
+          buildDaysGrid();
+          showMainModal();
+        } catch (err) {
+          showError(err.message);
+        } finally {
+          hideLoading();
+        }
+      }
+
+      function buildTimeSlotsList() {
+        const container = document.getElementById('tsListContainer');
+        container.innerHTML = '';
+        timeSlotsData.forEach(ts => {
+          let d = document.createElement('div');
+          d.className = 'tsItem';
+          let colorBg = ts.color || '#007bff';
+          d.innerHTML = `
           <div class="tsTitle" style="background-color:${colorBg};">
             ${ts.name}
           </div>
@@ -1138,265 +1107,382 @@
             ${ts.startTime} - ${ts.endTime}
           </div>
         `;
-        d.addEventListener('click', () => {
-          document.querySelectorAll('.tsItem').forEach(x => x.classList.remove('selected'));
-          d.classList.add('selected');
-          selectedTimeSlot = ts;
+          d.addEventListener('click', () => {
+            document.querySelectorAll('.tsItem').forEach(x => x.classList.remove('selected'));
+            d.classList.add('selected');
+            selectedTimeSlot = ts;
+          });
+          container.appendChild(d);
         });
-        container.appendChild(d);
-      });
-    }
+      }
 
-    function buildDaysGrid() {
-      let grid = document.getElementById('daysGrid');
-      grid.innerHTML = '';
-      let cycleLen = +document.getElementById('cycleLengthInput').value || 7;
-      for (let i = 0; i < cycleLen; i++) {
-        let dayOrdinal = getArabicOrdinal(i + 1);
-        let dayName = dayNames[i % 7];
-        let cell = document.createElement('div');
-        cell.className = 'dayCell';
-        cell.style.backgroundColor = '#f9f9f9';
-        cell.innerHTML = `
+      function buildDaysGrid() {
+        let grid = document.getElementById('daysGrid');
+        grid.innerHTML = '';
+        let cycleLen = +document.getElementById('cycleLengthInput').value || 7;
+        for (let i = 0; i < cycleLen; i++) {
+          let dayOrdinal = getArabicOrdinal(i + 1);
+          let dayName = dayNames[i % 7];
+          let cell = document.createElement('div');
+          cell.className = 'dayCell';
+          cell.style.backgroundColor = '#f9f9f9';
+          cell.innerHTML = `
           <div class="cellTitle">${getTranslate("shifts_day_title")} ${dayOrdinal}</div>
-          <div class="cellDayName">${dayName}</div>
+          <div class="cellDayName">${getTranslate(dayName)}</div>
         `;
-        if (daysAssignments[i]) {
-          cell.classList.add('assigned');
-          cell.style.backgroundColor = '#aaa';
-          const ts = daysAssignments[i];
-          let labelBg = ts.color || '#007bff';
-          cell.innerHTML += `
+          if (daysAssignments[i]) {
+            cell.classList.add('assigned');
+            cell.style.backgroundColor = '#aaa';
+            const ts = daysAssignments[i];
+            let labelBg = ts.color || '#007bff';
+            cell.innerHTML += `
             <div class="cellTimeslotLabel" style="background-color:${labelBg};">
               ${ts.name}
             </div>
             <i class="bi bi-x-circle-fill deleteIcon" onclick="removeAssignment(${i}, event)"></i>
           `;
-        }
-        cell.addEventListener('click', (ev) => {
-          if (ev.target.classList.contains('deleteIcon')) return;
-          if (!selectedTimeSlot) {
-            alert(getTranslate("shifts_alert_select_timeslot"));
-            return;
           }
-          daysAssignments[i] = selectedTimeSlot;
-          buildDaysGrid();
-        });
-        grid.appendChild(cell);
+          cell.addEventListener('click', (ev) => {
+            if (ev.target.classList.contains('deleteIcon')) return;
+            if (!selectedTimeSlot) {
+              alert(getTranslate("shifts_alert_select_timeslot"));
+              return;
+            }
+            daysAssignments[i] = selectedTimeSlot;
+            buildDaysGrid();
+          });
+          grid.appendChild(cell);
+        }
       }
-    }
 
-    function clearAllAssignments() {
-      daysAssignments = {};
-      buildDaysGrid();
-    }
-    function removeAssignment(dayIndex, ev) {
-      ev.stopPropagation();
-      delete daysAssignments[dayIndex];
-      buildDaysGrid();
-    }
-    function showMainModal() {
-      document.getElementById('mainModal').style.display = 'flex';
-    }
-    function closeMainModal() {
-      document.getElementById('mainModal').style.display = 'none';
-    }
-    async function deleteShift(shiftId) {
-      if (!confirm(getTranslate("shifts_confirm_delete"))) return;
-      showLoading();
-      try {
-        const resp = await fetch(`${baseUrl}/api/shifts/${shiftId}`, {
-          method: 'DELETE',
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("shifts_error_delete"));
-        showSuccess(getTranslate("shifts_success_delete"));
-        loadAllShifts();
-      } catch (err) {
-        showError(err.message);
-      } finally {
-        hideLoading();
+      function clearAllAssignments() {
+        daysAssignments = {};
+        buildDaysGrid();
       }
-    }
-    function showAssignModal() {
-      document.getElementById('assignModal').style.display = 'flex';
-    }
-    function closeAssignModal() {
-      document.getElementById('assignModal').style.display = 'none';
-    }
-    function openAssignModal(shiftId) {
-      assignShiftId = shiftId;
-      document.getElementById('assignModalTitle').textContent = getTranslate("assign_modal_title") + " (Shift ID = " + shiftId + ")";
-      document.getElementById('departmentsSelect').value = null;
-      document.getElementById('employeesContainer').innerHTML = '';
-      showAssignModal();
-    }
-    async function fetchAllDepartments() {
-      try {
-        const resp = await fetch(`${baseUrl}/api/departments`, {
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error(getTranslate("shifts_error_fetch_departments"));
-        departmentsData = await resp.json();
-        renderDepartmentsSelect();
-      } catch (err) {
-        console.error(err);
+      function removeAssignment(dayIndex, ev) {
+        ev.stopPropagation();
+        delete daysAssignments[dayIndex];
+        buildDaysGrid();
       }
-    }
-    function renderDepartmentsSelect() {
-      const sel = document.getElementById('departmentsSelect');
-      sel.innerHTML = '';
-      let optAll = document.createElement('option');
-      optAll.value = '__ALL__';
-      optAll.textContent = getTranslate("assign_modal_option_all_departments");
-      sel.appendChild(optAll);
-      departmentsData.forEach(dep => {
-        let opt = document.createElement('option');
-        opt.value = dep.department_name;
-        opt.textContent = dep.department_name;
-        sel.appendChild(opt);
-      });
-    }
-    async function fetchEmployeesForSelectedDepartments() {
-      const sel = document.getElementById('departmentsSelect');
-      const selectedVals = Array.from(sel.selectedOptions).map(o => o.value);
-      document.getElementById('employeesContainer').innerHTML = '';
-      employeesData = [];
-      showLoading();
-      try {
-        if (selectedVals.includes('__ALL__')) {
-          let url = `${baseUrl}/api/employees?page=1&limit=99999`;
-          const resp = await fetch(url, {
+      function showMainModal() {
+        document.getElementById('mainModal').style.display = 'flex';
+      }
+      function closeMainModal() {
+        document.getElementById('mainModal').style.display = 'none';
+      }
+      async function deleteShift(shiftId) {
+        if (!confirm(getTranslate("shifts_confirm_delete"))) return;
+        showLoading();
+        try {
+          const resp = await fetch(`${baseUrl}/api/shifts/${shiftId}`, {
+            method: 'DELETE',
             headers: { 'Authorization': 'Bearer ' + authToken }
           });
-          if (!resp.ok) throw new Error(getTranslate("assign_error_fetch_employees"));
-          let arr = await resp.json();
-          employeesData = arr.data;
-        } else {
-          for (let depName of selectedVals) {
-            if (depName === '__ALL__') continue;
-            let url = `${baseUrl}/api/employees?department=${encodeURIComponent(depName)}&page=1&limit=99999`;
+          if (!resp.ok) throw new Error(getTranslate("shifts_error_delete"));
+          showSuccess(getTranslate("shifts_success_delete"));
+          loadAllShifts();
+        } catch (err) {
+          showError(err.message);
+        } finally {
+          hideLoading();
+        }
+      }
+      function showAssignModal() {
+        document.getElementById('assignModal').style.display = 'flex';
+      }
+      function closeAssignModal() {
+        document.getElementById('assignModal').style.display = 'none';
+      }
+      function openAssignModal(shiftId) {
+        assignShiftId = shiftId;
+        document.getElementById('assignModalTitle').textContent = getTranslate("assign_modal_title") + " (Shift ID = " + shiftId + ")";
+        document.getElementById('departmentsSelect').value = null;
+        document.getElementById('employeesContainer').innerHTML = '';
+        showAssignModal();
+      }
+      async function fetchAllDepartments() {
+        try {
+          const resp = await fetch(`${baseUrl}/api/departments`, {
+            headers: { 'Authorization': 'Bearer ' + authToken }
+          });
+          if (!resp.ok) throw new Error(getTranslate("shifts_error_fetch_departments"));
+          departmentsData = await resp.json();
+          renderDepartmentsSelect();
+        } catch (err) {
+          console.error(err);
+        }
+      }
+      function renderDepartmentsSelect() {
+        const sel = document.getElementById('departmentsSelect');
+        sel.innerHTML = '';
+        let optAll = document.createElement('option');
+        optAll.value = '__ALL__';
+        optAll.textContent = getTranslate("assign_modal_option_all_departments");
+        sel.appendChild(optAll);
+        departmentsData.forEach(dep => {
+          let opt = document.createElement('option');
+          opt.value = dep.department_name;
+          opt.textContent = dep.department_name;
+          sel.appendChild(opt);
+        });
+
+        // $('#departmentsSelect').select2();
+
+      }
+      async function fetchEmployeesForSelectedDepartments() {
+        const sel = document.getElementById('departmentsSelect');
+
+        const selectedVals = Array.from(sel.selectedOptions).map(o => o.value);
+
+        document.getElementById('employeesContainer').innerHTML = '';
+        employeesData = [];
+        showLoading();
+        try {
+          if (selectedVals.includes('__ALL__')) {
+            let url = `${baseUrl}/api/employees?page=1&limit=99999`;
             const resp = await fetch(url, {
               headers: { 'Authorization': 'Bearer ' + authToken }
             });
+            if (!resp.ok) throw new Error(getTranslate("assign_error_fetch_employees"));
+            let arr = await resp.json();
+            employeesData = arr.data;
+          } else {
+            for (let depName of selectedVals) {
+              if (depName === '__ALL__') continue;
+              let url = `${baseUrl}/api/employees?department=${encodeURIComponent(depName)}&page=1&limit=99999`;
+              const resp = await fetch(url, {
+                headers: { 'Authorization': 'Bearer ' + authToken }
+              });
+              if (!resp.ok) {
+                let t = await resp.text();
+                throw new Error(getTranslate("assign_error_fetch_employees") + " " + depName + ": " + t);
+              }
+              let arr = await resp.json();
+              employeesData = employeesData.concat(arr.data);
+            }
+          }
+          renderEmployeesList();
+        } catch (err) {
+          showError(err.message);
+        } finally {
+          hideLoading();
+        }
+      }
+
+      function renderEmployeesList() {
+        const cont = document.getElementById('employeesContainer');
+        cont.innerHTML = '';
+        employeesData.forEach(emp => {
+          let d = document.createElement('div');
+
+          let checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';  // Set input type to checkbox
+          checkbox.className = 'emp';   // Set class
+          checkbox.value = emp._id;         // Set value
+
+          d.className = 'empItem';
+          // d.textContent = `ID:${emp._id} - ${emp.name} (${emp.department || ''})`;
+          d.textContent = `${emp.name} (${emp.department || ''})`;
+          d.prepend(checkbox);
+          cont.appendChild(d);
+        });
+      }
+      async function assignShiftToEmployees() {
+
+        if (!assignShiftId) {
+          alert(getTranslate("assign_alert_no_shift"));
+          return;
+        }
+
+        let checked_employees = [];
+
+
+        // if (!employeesData || employeesData.length === 0) {
+        //   alert(getTranslate("assign_alert_no_employees"));
+        //   return;
+        // }
+
+
+        checked_employees = getCheckedEmployee();
+
+        if (!checked_employees || checked_employees.length === 0) {
+          alert(getTranslate("assign_alert_no_employees"));
+          return;
+        }
+
+        showLoading();
+
+        try {
+          // for (let emp of employeesData) {
+          for (let emp of checked_employees) {
+            let bodyObj = {
+              card: emp.card || "",
+              department: emp.department || "",
+              department_id: emp.department_id || "",
+              enroll_id: emp.enroll_id || 0,
+              joining_date: emp.joining_date || null,
+              leave_date: emp.leave_date || null,
+              main_salary: emp.main_salary || 0,
+              name: emp.name || "",
+              scheduleMode: "shift",
+              shift_id: assignShiftId,
+              week_zone: 0
+            };
+
+            let url = `${baseUrl}/api/employees/${emp._id}`;
+            const resp = await fetch(url, {
+              method: 'PUT',
+              headers: {
+                'Authorization': 'Bearer ' + authToken,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(bodyObj)
+            });
             if (!resp.ok) {
               let t = await resp.text();
-              throw new Error(getTranslate("assign_error_fetch_employees") + " " + depName + ": " + t);
+              throw new Error(`فشل تحديث الموظف ${emp._id}: ${t}`);
             }
-            let arr = await resp.json();
-            employeesData = employeesData.concat(arr.data);
+          }
+          showSuccess(getTranslate("assign_success"));
+          closeAssignModal();
+        } catch (err) {
+          showError(err.message);
+        } finally {
+          hideLoading();
+        }
+      }
+
+      function fixToPreviousSunday(dateObj) {
+        const day = dateObj.getDay();
+        if (day !== 0) {
+          dateObj.setDate(dateObj.getDate() - day);
+        }
+        return dateObj;
+      }
+      function formatDateForInput(dateObj) {
+        const year = dateObj.getFullYear();
+        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+        const day = String(dateObj.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+      function getArabicOrdinal(n) {
+        const ordinals = [
+          "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"
+        ];
+        return (n <= ordinals.length) ? ordinals[n - 1] : n;
+      }
+      function showLoading() {
+        document.getElementById('loadingOverlay').style.display = 'flex';
+      }
+      function hideLoading() {
+        document.getElementById('loadingOverlay').style.display = 'none';
+      }
+      function showError(msg) {
+        const errEl = document.getElementById('errorMsg');
+        errEl.textContent = msg;
+        errEl.style.display = 'block';
+        document.getElementById('successMsg').style.display = 'none';
+      }
+      function showSuccess(msg) {
+        const sEl = document.getElementById('successMsg');
+        sEl.textContent = msg;
+        sEl.style.display = 'block';
+        document.getElementById('errorMsg').style.display = 'none';
+      }
+      function clearMessages() {
+        document.getElementById('errorMsg').style.display = 'none';
+        document.getElementById('successMsg').style.display = 'none';
+      }
+
+      function getCheckedEmployee() {
+        // Select all checkboxes with the class 'emp'
+        const checkboxes = document.querySelectorAll('.emp');
+        const checkedValues = [];
+
+        // Loop through the checkboxes and collect the values of checked ones
+        checkboxes.forEach(checkbox => {
+          if (checkbox.checked) {
+            checkedValues.push(checkbox.value);
+          }
+        });
+
+        filtered_employees = [];
+
+        if (employeesData.length > 0) {
+
+          let emp_counter = 0;
+
+          for (let i = 0; i < checkedValues.length; i++) {
+            const employee = employeesData.find((item) => {
+              if (item._id == checkedValues[i]) {
+                filtered_employees[emp_counter] = item;
+                console.log(checkedValues[i]);
+                emp_counter++;
+              }
+            });
+
           }
         }
-        renderEmployeesList();
-      } catch (err) {
-        showError(err.message);
-      } finally {
-        hideLoading();
+
+        return filtered_employees;
+
       }
-    }
-    function renderEmployeesList() {
-      const cont = document.getElementById('employeesContainer');
-      cont.innerHTML = '';
-      employeesData.forEach(emp => {
-        let d = document.createElement('div');
-        d.className = 'empItem';
-        d.textContent = `ID:${emp._id} - ${emp.name} (${emp.department || ''})`;
-        cont.appendChild(d);
-      });
-    }
-    async function assignShiftToEmployees() {
-      if (!assignShiftId) {
-        alert(getTranslate("assign_alert_no_shift"));
-        return;
+
+      function loadSiebar() {
+        fetch('sidebar.html')
+          .then(response => response.text())
+          .then(data => {
+            document.querySelector('.sidebar').innerHTML = data;
+            var submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(function (submenu) {
+              if (submenu.querySelector('.navItem.active')) {
+                submenu.style.display = "block";
+              }
+            });
+
+            addActiveToSubmenuClass(1);
+          })
+          .catch(error => console.error('Error loading sidebar:', error));
       }
-      if (!employeesData || employeesData.length === 0) {
-        alert(getTranslate("assign_alert_no_employees"));
-        return;
-      }
-      showLoading();
-      try {
-        for (let emp of employeesData) {
-          let bodyObj = {
-            card: emp.card || "",
-            department: emp.department || "",
-            department_id: emp.department_id || "",
-            enroll_id: emp.enroll_id || 0,
-            joining_date: emp.joining_date || null,
-            leave_date: emp.leave_date || null,
-            main_salary: emp.main_salary || 0,
-            name: emp.name || "",
-            scheduleMode: "shift",
-            shift_id: assignShiftId,
-            week_zone: 0
-          };
-          let url = `${baseUrl}/api/employees/${emp._id}`;
-          const resp = await fetch(url, {
-            method: 'PUT',
-            headers: {
-              'Authorization': 'Bearer ' + authToken,
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(bodyObj)
-          });
-          if (!resp.ok) {
-            let t = await resp.text();
-            throw new Error(`فشل تحديث الموظف ${emp._id}: ${t}`);
+
+      async function loadSidebarLangFile(lang) {
+        try {
+          const response = await fetch(`./lang/${lang}_sidebar.json`);
+          if (!response.ok) {
+            throw new Error(`Error loading ${lang}_sidebar.json`);
           }
+          sidebarLabels = await response.json();
+
+        } catch (error) {
+          console.error("Report translation file error:", error);
         }
-        showSuccess(getTranslate("assign_success"));
-        closeAssignModal();
-      } catch (err) {
-        showError(err.message);
-      } finally {
-        hideLoading();
       }
-    }
-    function fixToPreviousSunday(dateObj) {
-      const day = dateObj.getDay();
-      if (day !== 0) {
-        dateObj.setDate(dateObj.getDate() - day);
+
+      function applySidebarTranslation() {
+        document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+          const key = el.getAttribute('data-lng');
+
+          if (sidebarLabels[key]) {
+            el.textContent = sidebarLabels[key];
+          }
+        });
       }
-      return dateObj;
-    }
-    function formatDateForInput(dateObj) {
-      const year = dateObj.getFullYear();
-      const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-      const day = String(dateObj.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
-    }
-    function getArabicOrdinal(n) {
-      const ordinals = [
-        "الأول", "الثاني", "الثالث", "الرابع", "الخامس", "السادس", "السابع", "الثامن", "التاسع", "العاشر",
-        "الحادي عشر", "الثاني عشر", "الثالث عشر", "الرابع عشر", "الخامس عشر", "السادس عشر", "السابع عشر",
-        "الثامن عشر", "التاسع عشر", "العشرون", "الحادي والعشرون", "الثاني والعشرون", "الثالث والعشرون",
-        "الرابع والعشرون", "الخامس والعشرون", "السادس والعشرون", "السابع والعشرون", "الثامن والعشرون",
-        "التاسع والعشرون", "الثلاثون"
-      ];
-      return (n <= ordinals.length) ? ordinals[n - 1] : n;
-    }
-    function showLoading() {
-      document.getElementById('loadingOverlay').style.display = 'flex';
-    }
-    function hideLoading() {
-      document.getElementById('loadingOverlay').style.display = 'none';
-    }
-    function showError(msg) {
-      const errEl = document.getElementById('errorMsg');
-      errEl.textContent = msg;
-      errEl.style.display = 'block';
-      document.getElementById('successMsg').style.display = 'none';
-    }
-    function showSuccess(msg) {
-      const sEl = document.getElementById('successMsg');
-      sEl.textContent = msg;
-      sEl.style.display = 'block';
-      document.getElementById('errorMsg').style.display = 'none';
-    }
-    function clearMessages() {
-      document.getElementById('errorMsg').style.display = 'none';
-      document.getElementById('successMsg').style.display = 'none';
-    }
-  </script>
+
+      loadSiebar();
+
+      function addActiveToSubmenuClass(childIndex) {
+        const submenu = document.getElementById('timeManagementSubmenu');
+        submenu.style.display = "block";
+        const navItems = submenu.getElementsByClassName('navItem');
+        if (childIndex >= 1 && childIndex <= navItems.length) {
+          Array.from(navItems).forEach(item => item.classList.remove('active'));
+          navItems[childIndex - 1].classList.add('active');
+        } else {
+          console.error('Child index out of bounds');
+        }
+      }
+
+    </script>
 </body>
 
 </html>

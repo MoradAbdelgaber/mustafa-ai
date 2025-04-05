@@ -10,7 +10,7 @@ const { Roles } = require("../utils/roles");
 
 exports.registerUser = async (req, res) => {
   try {
-    const { user_name, pass, display_name, timeZone, email, code } = req.body;
+    const { user_name, pass, display_name, timeZone, email, code,branches } = req.body;
 
     //verify email
     const isVerified = await checkVerificationCode(email, code);
@@ -35,6 +35,7 @@ exports.registerUser = async (req, res) => {
       timeZone,
       email,
       roles: [Roles.ADMIN],
+      branches: branches
     });
     await newUser.save();
 
@@ -92,7 +93,7 @@ exports.loginUser = async (req, res) => {
 
     // إنشاء توكن
     const token = jwt.sign(
-      { userId: user._id, userName: user.user_name },
+      { userId: user._id, userName: user.user_name, branch: user.branches },
       process.env.JWT_SECRET,
       { expiresIn: "8h" }
     );
@@ -241,7 +242,7 @@ exports.loginEmployee = async (req, res) => {
 
     // إنشاء توكن
     const token = jwt.sign(
-      { userId: user._id, userName: user.user_name },
+      { userId: user._id, userName: user.user_name, branch: user.branches },
       process.env.JWT_SECRET,
       { expiresIn: "8h" }
     );

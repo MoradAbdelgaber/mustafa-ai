@@ -4,15 +4,11 @@ const mongoose = require("mongoose");
 const connectDB = async () => {
   try {
     const dbPath =
-      process.env.TYPE == "DEV"
-        ? process.env.MONGO_URI_LOCAL
-        : process.env.MONGO_URI;
+      process.env.type == "DEV" ? process.env.dbLocal : process.env.db;
 
     await mongoose.connect(dbPath, {
-      useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useFindAndModify: false,
     });
     console.log("MongoDB connected successfully. : " + dbPath);
   } catch (error) {

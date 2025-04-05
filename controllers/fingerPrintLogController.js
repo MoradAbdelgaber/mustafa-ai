@@ -44,6 +44,70 @@ exports.createLog = async (req, res) => {
     return res.status(400).json({ error: "Error creating log" });
   }
 };
+//حذف مجموعة بصمات 
+exports.bulkDelete = async (req, res) => {
+  try {
+    const { ids } = req.body;
+
+    // التحقق من أن ids مصفوفة غير فارغة
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({
+        error: "يجب توفير مصفوفة IDs صالحة للحذف",
+      });
+    }
+
+    // حذف السجلات التي تعود لنفس المالك (owner) والـ id موجود ضمن المصفوفة
+    const deleteResult = await FingerPrintLog.deleteMany({
+      _id: { $in: ids },
+      owner: req.userId,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "تم حذف السجلات بنجاح",
+      deletedCount: deleteResult.deletedCount,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ error: "حدث خطأ أثناء حذف السجلات" });
+  }
+};
+//تحويل بصمات 
+exports.modifyFingerprints = async (req, res) => {
+  try {
+    const { fingerprintIds, newEnrollId, newName, modificationReason } = req.body;
+
+    // تحقق من وجود جميع الحقول المطلوبة
+    if (!fingerprintIds || !Array.isArray(fingerprintIds) || fingerprintIds.length === 0) {
+      return res.status(400).json({ error: "يجب توفير fingerprintIds كمصفوفة غير فارغة" });
+    }
+    if (newEnrollId === undefined || newName === undefined || !modificationReason) {
+      return res.status(400).json({ error: "يجب توفير newEnrollId و newName و modificationReason" });
+    }
+
+    // تحديث السجلات التي يملكها المستخدم الحالي والتي تقع ضمن fingerprintIds
+    const updateResult = await FingerPrintLog.updateMany(
+      { _id: { $in: fingerprintIds }, owner: req.userId },
+      {
+        $set: {
+          enrollid: newEnrollId,
+          name: newName,
+          modificationReason,         // سجل سبب التعديل
+          modificationDate: new Date()  // يمكن إضافة تاريخ التعديل إن رغبت
+        },
+      }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "تم تعديل السجلات بنجاح",
+      modifiedCount: updateResult.modifiedCount || updateResult.nModified, // اعتمادًا على إصدار mongoose
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ error: "حدث خطأ أثناء تعديل السجلات" });
+  }
+};
 
 //"2023-02-23 22:19:47"
 exports.getBioTime = (stringTime, timezone) => {

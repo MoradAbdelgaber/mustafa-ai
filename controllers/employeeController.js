@@ -1,14 +1,16 @@
 // controllers/employeeController.js
 
 const Employee = require("../models/Employee");
+const Department = require("../models/Department");
 const bcrypt = require("bcryptjs");
 const createHttpError = require("http-errors");
 const createError = require("http-errors");
 const jwt = require("jsonwebtoken");
 
+//اضافة موظف 
 exports.createEmployee = async (req, res, next) => {
   try {
-    //check username
+    // التحقق من وجود اسم المستخدم
     if (req.body.username) {
       const count = await Employee.countDocuments({
         username: req.body.username,
@@ -18,12 +20,11 @@ exports.createEmployee = async (req, res, next) => {
           "Employee with this username already exists"
         );
     } else {
-      //auto generate one
+      // إنشاء اسم مستخدم افتراضي
       const count = await Employee.countDocuments({
         owner: req.userId,
         enroll_id: req.body.enroll_id,
       });
-
       if (count)
         throw createError.BadRequest(
           `Employee with this enroll_id ${req.body.enroll_id} already exists`
@@ -33,12 +34,22 @@ exports.createEmployee = async (req, res, next) => {
       req.body.password = process.env.defaultEmployeePassword;
     }
 
-    //create employee
+    // تشفير كلمة المرور
+    req.body.password = await bcrypt.hash(req.body.password, 10);
+
+    // اجلب الـ department_id من البودي
+    const departmentId = req.body.department_id;
+    // ابحث عن القسم
+    const department = await Department.findById(departmentId);
+    // إذا لم يوجد، devices = []
+    const devices = department ? department.devices : [];
+
+    // بناء بيانات الموظف
     const employeeData = {
       ...req.body,
-      password: await bcrypt.hash(req.body.password, 10),
-      owner: req.userId, //owner Id
-      weekSchedules: req.user.weekSchedules, //default owner weekSchedules
+      owner: req.userId,
+      weekSchedules: req.user.weekSchedules, // أو إذا أردت أخذها من body أيضًا فغيّرها
+      devices: devices,
     };
 
     const newEmp = await Employee.create(employeeData);
@@ -48,7 +59,6 @@ exports.createEmployee = async (req, res, next) => {
     next(error);
   }
 };
-
 // تعديل متعدد
 exports.multiUpdateEmployees = async (req, res) => {
   try {
@@ -88,23 +98,33 @@ exports.getEmployeeById = async (req, res) => {
 
 exports.getEmployees = async (req, res) => {
   try {
-    // ترقيم الصفحات
+    console.log("req.employee:", req.employee); 
     const { page = 1, limit = 10, department } = req.query;
-    const pageNum = parseInt(page);
-    const limitNum = parseInt(limit);
+    const pageNum = parseInt(page, 10);
+    const limitNum = parseInt(limit, 10);
 
-    // نرشّح الموظفين بناءً على المالك
+    // ترشيح الموظفين بناءً على المالك
     const filter = { owner: req.userId };
 
-    // إذا تم توفير القسم، نقوم بإضافته للتصفية
+    // إضافة التصفية للقسم إن وُجد
     if (department) {
       filter.department = department;
+    }
+
+    // بدلاً من عمل if (req.employee && Array.isArray(req.employee.branch) ...)
+    // نفحص بطريقة آمنة مع optional chaining:
+    const employeeBranches = Array.isArray(req.employee?.branch) ? req.employee.branch : [];
+
+    // إن كانت employeeBranches فيها قيم > 0، نضيف شرط التصفية
+    if (employeeBranches.length > 0) {
+      filter.branch = { $in: employeeBranches };
     }
 
     const employees = await Employee.find(filter)
       .skip((pageNum - 1) * limitNum)
       .limit(limitNum)
-      .select("-password");
+      .select("-password")
+      .populate("branch", "name"); // تعبئة بيانات الفرع لإظهار حقل الاسم فقط مثلاً
 
     const totalCount = await Employee.countDocuments(filter);
 
@@ -119,6 +139,7 @@ exports.getEmployees = async (req, res) => {
     res.status(500).json({ error: "Error fetching employees" });
   }
 };
+
 
 exports.updateEmployee = async (req, res, next) => {
   try {

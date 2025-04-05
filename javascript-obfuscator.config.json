@@ -1,0 +1,7 @@
+{
+    "compact": true,
+    "controlFlowFlattening": true,
+    "deadCodeInjection": true,
+    "disableConsoleOutput": true
+  }
+  

@@ -18,7 +18,8 @@
   <!-- خط Tajawal (للعربية) وOpen Sans (للإنجليزية) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+  <link
+    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
     rel="stylesheet">
 
   <style>
@@ -84,8 +85,8 @@
       background: #c82333;
     }
 
-        /* تنسيق للقوائم الفرعية لتظهر كفرع */
-        .submenu {
+    /* تنسيق للقوائم الفرعية لتظهر كفرع */
+    .submenu {
       border-left: 2px solid #dee2e6;
       margin-left: 15px;
       padding-left: 10px;
@@ -428,149 +429,31 @@
       </table>
     </div>
 
-    <div class="sidebar">
-      
-          
-            <!-- الرئيسية -->
-            <div class="navItem menu-group-header" onclick="location.href='dashboard.html'">
-              <i class="bi bi-house-fill"></i>
-              <span data-lng="navOverview">الرئيسية</span>
-            </div>
-      
-            <!-- ادارة الموظفين -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('staffManagementSubmenu')">
-              <i class="bi bi-people-fill"></i>
-              <span data-lng="staffManagement">ادارة الموظفين</span>
-            </div>
-            <div id="staffManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='employee.html'">
-                <i class="bi bi-person-lines-fill"></i>
-                <span data-lng="navEmployees">الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='department.html'">
-                <i class="bi bi-building"></i>
-                <span data-lng="navDepartment">الأقسام</span>
-              </div>
-            </div>
-      
-            <!-- التقارير -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('reportsSubmenu')">
-              <i class="bi bi-bar-chart-line-fill"></i>
-              <span data-lng="reports">التقارير</span>
-            </div>
-      
-            <div id="reportsSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='report.html'">
-                <i class="bi bi-bar-chart-line-fill"></i>
-                <span data-lng="navReport"></span>
-              </div>
-      
-              <div class="navItem" onclick="location.href='attend.html'">
-                <i class="bi bi-journal-check"></i>
-                <span data-lng="navAttend">تقرير الحضور</span>
-              </div>
-      
-      
-              <div class="navItem" onclick="location.href='employee-summary-report.html'">
-                <i class="bi bi-people-fill"></i>
-                <span data-lng="employee_summary_report">تقرير ملخص الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='rule.html'">
-                <i class="bi bi-braces"></i>
-                <span data-lng="navRules">القواعد (Rules)</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاجهزة -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('deviceManagementSubmenu')">
-              <i class="bi bi-device-hdd-fill"></i>
-              <span data-lng="deviceManagement">ادارة الاجهزة</span>
-            </div>
-            <div id="deviceManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='devices.html'">
-                <i class="bi bi-laptop"></i>
-                <span data-lng="navDevices">الأجهزة</span>
-              </div>
-              <div class="navItem" onclick="location.href='requests.html'">
-                <i class="bi bi-list-check"></i>
-                <span data-lng="navOrders">الأوامر</span>
-              </div>
-              <div class="navItem" onclick="location.href='importemployee.html'">
-                <i class="bi bi-person-exclamation"></i>
-                <span data-lng="unregistered">الموظفين غير المسجلين</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الدوام -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('workManagementSubmenu')">
-              <i class="bi bi-calendar-event-fill"></i>
-              <span data-lng="workManagement">ادارة الدوام</span>
-            </div>
-            <div id="workManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='leaves.html'">
-                <i class="bi bi-calendar3"></i>
-                <span data-lng="navLeaves">الإجازات</span>
-              </div>
-              <div class="navItem" onclick="location.href='rewards.html'">
-                <i class="bi bi-gift-fill"></i>
-                <span data-lng="navRewards">المكافئات</span>
-              </div>
-              <div class="navItem" onclick="location.href='time-based-leaves.html'">
-                <i class="bi bi-clock-fill"></i>
-                <span data-lng="leaves_sidebar_time_leaves">إجازات زمنية</span>
-              </div>
-              
-              <div class="navItem active" onclick="location.href='holidays.html'">
-                <i class="bi bi-calendar-event"></i>
-                <span data-lng="navHolidays">العطل الرسمية</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاوقات -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('timeManagementSubmenu')">
-              <i class="bi bi-clock-fill"></i>
-              <span data-lng="timeManagement">ادارة الاوقات</span>
-            </div>
-            <div id="timeManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='shifts.html'">
-                <i class="bi bi-hourglass-split"></i>
-                <span data-lng="navshift">الشفتات</span>
-              </div>
-              <div class="navItem" onclick="location.href='TimeSlot.html'">
-                <i class="bi bi-watch"></i>
-                <span data-lng="navSlot">الأوقات</span>
-              </div>
-              <div class="navItem" onclick="location.href='public-settings.html'">
-                <i class="bi bi-gear"></i>
-                <span data-lng="public_settings">الإعدادات</span>
-              </div>
-            </div>
-          </div>
-      
-          <script>
-            // دالة لتبديل عرض وإخفاء القائمة الفرعية
-            function toggleSubMenu(id) {
-              var submenu = document.getElementById(id);
-              if (submenu.style.display === "none" || submenu.style.display === "") {
-                submenu.style.display = "block";
-              } else {
-                submenu.style.display = "none";
-              }
-            }
-      
-            // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
-            // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
-            document.addEventListener("DOMContentLoaded", function () {
-              var submenus = document.querySelectorAll('.submenu');
-              submenus.forEach(function (submenu) {
-                if (submenu.querySelector('.navItem.active')) {
-                  submenu.style.display = "block";
-                }
-              });
-            });
-          </script>
-   
+    <div class="sidebar"></div>
+  </div>
 
+      <script>
+        // دالة لتبديل عرض وإخفاء القائمة الفرعية
+        function toggleSubMenu(id) {
+          var submenu = document.getElementById(id);
+          if (submenu.style.display === "none" || submenu.style.display === "") {
+            submenu.style.display = "block";
+          } else {
+            submenu.style.display = "none";
+          }
+        }
+    
+        // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
+        // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
+        // document.addEventListener("DOMContentLoaded", function () {
+        //   var submenus = document.querySelectorAll('.submenu');
+        //   submenus.forEach(function (submenu) {
+        //     if (submenu.querySelector('.navItem.active')) {
+        //       submenu.style.display = "block";
+        //     }
+        //   });
+        // });
+      </script>
   <div class="modalOverlay" id="holidayModal">
     <div class="modalContent">
       <div class="modalHeader">
@@ -580,8 +463,12 @@
       <div class="modalBody">
         <input type="hidden" id="holidayId" />
 
-        <label for="holidayDate" data-lng="holidays_modal_date_label">تاريخ العطلة:</label>
-        <input type="date" id="holidayDate" />
+        <!-- تمت إضافة حقلي بداية العطلة ونهايتها بدل حقل واحد -->
+        <label for="holidayStartDate" data-lng="holidays_modal_start_label">بداية العطلة:</label>
+        <input type="date" id="holidayStartDate" />
+
+        <label for="holidayEndDate" data-lng="holidays_modal_end_label">نهاية العطلة:</label>
+        <input type="date" id="holidayEndDate" />
 
         <label for="description" data-lng="holidays_modal_description_label">الوصف:</label>
         <input type="text" id="description" placeholder="" />
@@ -608,7 +495,7 @@
       document.getElementById('langSelector').value = storedLang;
 
       setLanguage(storedLang).then(() => {
-        // (ب) بعد ذلك نحمل الأقسام
+        // (ب) بعد ذلك نحمل العطل الرسمية
         authToken = localStorage.getItem('authToken');
         if (!authToken) {
           window.location.href = 'login.html';
@@ -616,12 +503,12 @@
         }
         loadHolidays();
       });
-
     }
+
     // تغيير اللغة من الـselect
     document.getElementById('langSelector').addEventListener('change', function () {
       setLanguage(this.value);
-      loadHolidays()
+      loadHolidays();
     });
 
     function logout() {
@@ -640,7 +527,7 @@
         const resp = await fetch('/api/official-holidays', {
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
-        if (!resp.ok) throw new Error('فشل جلب العطل الرسمية');
+        if (!resp.ok) throw new Error('فشل جلب العطلة الرسمية');
         const data = await resp.json();
         allHolidays = data;
         renderHolidays(data);
@@ -696,21 +583,23 @@
       renderHolidays(filtered);
     }
 
-    // إضافة
+    // إضافة (مودال)
     function openModalForAdd() {
       editModeHolidayId = null;
       document.getElementById('modalTitle').textContent = getTranslate("holidays_modal_title_add");
       document.getElementById('holidayId').value = '';
 
+      // اضبط الافتراضي لبداية اليوم ونهايته
       const today = new Date().toISOString().split('T')[0];
-      document.getElementById('holidayDate').value = today;
+      document.getElementById('holidayStartDate').value = today;
+      document.getElementById('holidayEndDate').value = today;
       document.getElementById('description').value = '';
       document.getElementById('note').value = '';
 
       showModal();
     }
 
-    // تحرير
+    // تحرير (مودال)
     async function openModalForEdit(id) {
       const errorMsg = document.getElementById('errorMsg');
       const successMsg = document.getElementById('successMsg');
@@ -729,8 +618,11 @@
         document.getElementById('modalTitle').textContent = getTranslate('holidays_modal_title_edit');
         document.getElementById('holidayId').value = h._id || '';
 
+        // في وضع التعديل، نستمر مع تاريخ واحد فقط (كما كان النظام سابقًا):
         if (h.holiday_date) {
-          document.getElementById('holidayDate').value = h.holiday_date.split('T')[0];
+          const singleDate = h.holiday_date.split('T')[0];
+          document.getElementById('holidayStartDate').value = singleDate;
+          document.getElementById('holidayEndDate').value = singleDate;
         }
         document.getElementById('description').value = h.description || '';
         document.getElementById('note').value = h.note || '';
@@ -749,34 +641,63 @@
       successMsg.textContent = '';
 
       const holidayId = document.getElementById('holidayId').value;
-      const holidayDate = document.getElementById('holidayDate').value;
+      const startDate = document.getElementById('holidayStartDate').value;
+      const endDate = document.getElementById('holidayEndDate').value;
       const description = document.getElementById('description').value.trim();
       const note = document.getElementById('note').value.trim();
 
-      const bodyObj = {
-        holiday_date: holidayDate,
-        description,
-        note
-      };
-
       try {
-        let url = '/api/official-holidays';
-        let method = 'POST';
+        // إذا كان لدينا holidayId فهذا يعني وضع التعديل (كي لا نكسر المنظومة القديمة)
         if (holidayId) {
-          url = `/api/official-holidays/${holidayId}`;
-          method = 'PUT';
+          const bodyObj = {
+            holiday_date: startDate,  // نستخدم نفس الحقل كما في السابق
+            description,
+            note
+          };
+          const resp = await fetch(`/api/official-holidays/${holidayId}`, {
+            method: 'PUT',
+            headers: {
+              'Authorization': 'Bearer ' + authToken,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(bodyObj)
+          });
+          if (!resp.ok) throw new Error('فشل تعديل العطلة الرسمية');
+          successMsg.textContent = getTranslate('holidays_msg_success_edit');
         }
-        const resp = await fetch(url, {
-          method,
-          headers: {
-            'Authorization': 'Bearer ' + authToken,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(bodyObj)
-        });
-        if (!resp.ok) throw new Error(`فشل ${holidayId ? 'تعديل' : 'إضافة'} العطلة الرسمية`);
+        // وإلا فهو وضع الإضافة
+        else {
+          // تحديد المدى الزمني
+          let start = new Date(startDate);
+          let end = new Date(endDate);
+          // إذا كانت النهاية قبل البداية، نجعل النهاية نفس البداية (تجنّب الأخطاء)
+          if (end < start) {
+            end = start;
+          }
+          // نقوم بإضافة عطلة لكل يوم في هذا المدى
+          let day = new Date(start);
+          while (day <= end) {
+            const isoDay = day.toISOString().split('T')[0];
+            const bodyObj = {
+              holiday_date: isoDay,
+              description,
+              note
+            };
+            const resp = await fetch('/api/official-holidays', {
+              method: 'POST',
+              headers: {
+                'Authorization': 'Bearer ' + authToken,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(bodyObj)
+            });
+            if (!resp.ok) throw new Error('فشل إضافة العطلة الرسمية ليوم: ' + isoDay);
+            // انتقل لليوم التالي
+            day.setDate(day.getDate() + 1);
+          }
+          successMsg.textContent = getTranslate('holidays_msg_success_add');
+        }
 
-        successMsg.textContent = getTranslate(holidayId ? 'holidays_msg_success_edit' : 'holidays_msg_success_add');
         closeModal();
         loadHolidays();
       } catch (err) {
@@ -815,7 +736,8 @@
       document.getElementById('modalTitle').textContent = getTranslate('holidays_modal_title_add');
 
       const today = new Date().toISOString().split('T')[0];
-      document.getElementById('holidayDate').value = today;
+      document.getElementById('holidayStartDate').value = today;
+      document.getElementById('holidayEndDate').value = today;
       document.getElementById('description').value = '';
       document.getElementById('note').value = '';
     }
@@ -850,7 +772,7 @@
       // ضبط اتجاه الصفحة
       document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
       document.documentElement.lang = lang;
-      // طبيق النصوص على العناصر data-lng="..."
+      // تطبيق النصوص على العناصر data-lng="..."
       document.querySelectorAll('[data-lng]').forEach(el => {
         const key = el.getAttribute('data-lng');
         if (translations[key]) {
@@ -873,89 +795,6 @@
           el.textContent = translations[key];
         }
       });
-      // // <title>
-      // if (holidaysTranslations['holidays_head_title']) {
-      //   document.title = holidaysTranslations['holidays_head_title'];
-      // }
-
-      // // رأس الصفحة
-      // if (holidaysTranslations['holidays_header_title']) {
-      //   document.querySelector('header h1').textContent = holidaysTranslations['holidays_header_title'];
-      // }
-      // if (holidaysTranslations['holidays_logout']) {
-      //   document.querySelector('header button').textContent = holidaysTranslations['holidays_logout'];
-      // }
-
-      // // فلاتر البحث
-      // if (holidaysTranslations['holidays_filter_date_label']) {
-      //   document.querySelector('label[for="searchDate"]').textContent = holidaysTranslations['holidays_filter_date_label'];
-      // }
-      // if (holidaysTranslations['holidays_filter_desc_label']) {
-      //   document.querySelector('label[for="searchDesc"]').textContent = holidaysTranslations['holidays_filter_desc_label'];
-      // }
-      // if (holidaysTranslations['holidays_filter_creation_label']) {
-      //   document.querySelector('label[for="searchCreation"]').textContent = holidaysTranslations['holidays_filter_creation_label'];
-      // }
-
-      // // زر الإضافة
-      // if (holidaysTranslations['holidays_button_add_holiday']) {
-      //   document.querySelector('.addHolidayBtn').textContent = holidaysTranslations['holidays_button_add_holiday'];
-      // }
-
-      // // عناوين الجدول
-      // const tableHeads = document.querySelectorAll('#holidaysTable thead th');
-      // // 0->#, 1->date, 2->desc, 3->note, 4->created, 5->edit, 6->delete
-      // if (tableHeads.length >= 7) {
-      //   if (holidaysTranslations['holidays_table_header_index']) tableHeads[0].textContent = holidaysTranslations['holidays_table_header_index'];
-      //   if (holidaysTranslations['holidays_table_header_date']) tableHeads[1].textContent = holidaysTranslations['holidays_table_header_date'];
-      //   if (holidaysTranslations['holidays_table_header_description']) tableHeads[2].textContent = holidaysTranslations['holidays_table_header_description'];
-      //   if (holidaysTranslations['holidays_table_header_note']) tableHeads[3].textContent = holidaysTranslations['holidays_table_header_note'];
-      //   if (holidaysTranslations['holidays_table_header_created']) tableHeads[4].textContent = holidaysTranslations['holidays_table_header_created'];
-      //   if (holidaysTranslations['holidays_table_header_edit']) tableHeads[5].textContent = holidaysTranslations['holidays_table_header_edit'];
-      //   if (holidaysTranslations['holidays_table_header_delete']) tableHeads[6].textContent = holidaysTranslations['holidays_table_header_delete'];
-      // }
-
-      // // الشريط الجانبي
-      // const sidebarTitle = document.querySelector('.sidebar h2');
-      // if (sidebarTitle && holidaysTranslations['holidays_sidebar_title']) {
-      //   sidebarTitle.textContent = holidaysTranslations['holidays_sidebar_title'];
-      // }
-      // const sideItems = document.querySelectorAll('.sidebar .navItem');
-      // // نفترض 12 عنصر
-      // if (sideItems.length >= 12) {
-      //   if (holidaysTranslations['holidays_sidebar_overview']) sideItems[0].innerHTML = `<i class="bi bi-house-fill"></i> ${holidaysTranslations['holidays_sidebar_overview']}`;
-      //   if (holidaysTranslations['holidays_sidebar_employees']) sideItems[1].innerHTML = `<i class="bi bi-people-fill"></i> ${holidaysTranslations['holidays_sidebar_employees']}`;
-      //   if (holidaysTranslations['holidays_sidebar_report']) sideItems[2].innerHTML = `<i class="bi bi-bar-chart-line-fill"></i> ${holidaysTranslations['holidays_sidebar_report']}`;
-      //   if (holidaysTranslations['holidays_sidebar_time_leaves']) sideItems[3].innerHTML = `<i class="bi bi-clock-fill"></i> ${holidaysTranslations['holidays_sidebar_time_leaves']}`;
-      //   if (holidaysTranslations['holidays_sidebar_holidays']) sideItems[4].innerHTML = `<i class="bi bi-calendar-event-fill"></i> ${holidaysTranslations['holidays_sidebar_holidays']}`;
-      //   if (holidaysTranslations['holidays_sidebar_leaves']) sideItems[5].innerHTML = `<i class="bi bi-calendar3"></i> ${holidaysTranslations['holidays_sidebar_leaves']}`;
-      //   if (holidaysTranslations['holidays_sidebar_attend']) sideItems[6].innerHTML = `<i class="bi bi-journal-check"></i> ${holidaysTranslations['holidays_sidebar_attend']}`;
-      //   if (holidaysTranslations['holidays_sidebar_rewards']) sideItems[7].innerHTML = `<i class="bi bi-gift-fill"></i> ${holidaysTranslations['holidays_sidebar_rewards']}`;
-      //   if (holidaysTranslations['holidays_sidebar_devices']) sideItems[8].innerHTML = `<i class="bi bi-device-hdd-fill"></i> ${holidaysTranslations['holidays_sidebar_devices']}`;
-      //   if (holidaysTranslations['holidays_sidebar_requests']) sideItems[9].innerHTML = `<i class="bi bi-list-check"></i> ${holidaysTranslations['holidays_sidebar_requests']}`;
-      //   if (holidaysTranslations['holidays_sidebar_departments']) sideItems[10].innerHTML = `<i class="bi bi-building"></i> ${holidaysTranslations['holidays_sidebar_departments']}`;
-      //   if (holidaysTranslations['holidays_sidebar_settings']) sideItems[11].innerHTML = `<i class="bi bi-gear-fill"></i> ${holidaysTranslations['holidays_sidebar_settings']}`;
-      // }
-
-      // // المودال
-      // // إذا لا يوجد holidayId => نفترض إضافة
-      // const holidayId = document.getElementById('holidayId').value;
-      // if (!holidayId && holidaysTranslations['holidays_modal_title_add']) {
-      //   document.getElementById('modalTitle').textContent = holidaysTranslations['holidays_modal_title_add'];
-      // }
-
-      // if (holidaysTranslations['holidays_modal_date_label']) {
-      //   document.querySelector('label[for="holidayDate"]').textContent = holidaysTranslations['holidays_modal_date_label'];
-      // }
-      // if (holidaysTranslations['holidays_modal_description_label']) {
-      //   document.querySelector('label[for="description"]').textContent = holidaysTranslations['holidays_modal_description_label'];
-      // }
-      // if (holidaysTranslations['holidays_modal_note_label']) {
-      //   document.querySelector('label[for="note"]').textContent = holidaysTranslations['holidays_modal_note_label'];
-      // }
-      // if (holidaysTranslations['holidays_modal_save_button']) {
-      //   document.querySelector('.modalSaveBtn').textContent = holidaysTranslations['holidays_modal_save_button'];
-      // }
     }
 
     // تعيين اللغة
@@ -963,15 +802,17 @@
       await loadLanguageFile(lang);
       localStorage.setItem(LANG_KEY, lang);
       applyTranslations(lang);
+
+      await loadSidebarLangFile(lang);
+        applySidebarTranslation();
+
     }
-    /**
-     * عند تحميل الصفحة، نقرأ اللغة من الـ localStorage ونطبّقها
-     */
+
+    // عند تحميل الصفحة، نقرأ اللغة من الـ localStorage ونطبّقها
     window.addEventListener('DOMContentLoaded', async () => {
       let storedLang = localStorage.getItem(LANG_KEY);
       if (!storedLang) {
-        // إذا رغبت بالعربية افتراضيًا، عدّلها إلى ar
-        storedLang = 'en';
+        storedLang = 'en'; // أو 'ar' إذا رغبت بالعربية افتراضيًا
       }
       await loadLanguageFile(storedLang);
       applyTranslations(storedLang);
@@ -980,6 +821,61 @@
     document.getElementById('langSelector').addEventListener('change', async function () {
       await setLanguage(this.value);
     });
+
+
+    function loadSiebar(){
+        fetch('sidebar.html')
+              .then(response => response.text())
+              .then(data => {
+                  document.querySelector('.sidebar').innerHTML = data;
+                    var submenus = document.querySelectorAll('.submenu');
+                    submenus.forEach(function (submenu) {
+                      if (submenu.querySelector('.navItem.active')) {
+                        submenu.style.display = "block";
+                      }
+                    });
+
+                    addActiveToSubmenuClass(4);
+              })
+              .catch(error => console.error('Error loading sidebar:', error));
+      }
+  
+      async function loadSidebarLangFile(lang) {
+        try {
+          const response = await fetch(`./lang/${lang}_sidebar.json`);
+          if (!response.ok) {
+            throw new Error(`Error loading ${lang}_sidebar.json`);
+          }
+          sidebarLabels = await response.json();
+
+        } catch (error) {
+          console.error("Report translation file error:", error);
+        }
+      }
+
+      function applySidebarTranslation(){
+          document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+              const key = el.getAttribute('data-lng');
+              
+              if (sidebarLabels[key]) {
+                el.textContent = sidebarLabels[key];
+              }
+          });
+      }
+
+      loadSiebar();
+
+      function addActiveToSubmenuClass(childIndex) {
+          const submenu = document.getElementById('workManagementSubmenu');
+          submenu.style.display = "block";
+          const navItems = submenu.getElementsByClassName('navItem');
+          if (childIndex >= 1 && childIndex <= navItems.length) {
+              Array.from(navItems).forEach(item => item.classList.remove('active'));
+              navItems[childIndex - 1].classList.add('active');
+          } else {
+              console.error('Child index out of bounds');
+          }
+      }
 
   </script>
 </body>

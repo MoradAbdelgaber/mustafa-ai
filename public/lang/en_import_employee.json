@@ -6,6 +6,8 @@
     "leaves_sidebar_time_leaves":"Partial Time Request",
     "sidebar_shifts": "Shifts",
     "sidebar_timeslots": "Time Slots",
+    "leaves_type":"Leaves Type",
+    "navBranch": "Branches",  
     "sidebarTitle": "Attend System",
     "navOverview": "Overview",
     "staffManagement": "Staff Management",

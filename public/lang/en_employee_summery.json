@@ -2,8 +2,10 @@
     "sidebar_title": "Menu",
     "sidebar_dashboard": "Dashboard",
     "sidebar_employees": "Employees",
+    "leaves_type": "Leaves Type",
+    "navBranch": "Branches",
     "sidebar_attendance_report": "Attendance Report",
-    "leaves_sidebar_time_leaves":"Partial Time Request",
+    "leaves_sidebar_time_leaves": "Partial Time Request",
     "sidebar_shifts": "Shifts",
     "sidebar_timeslots": "Time Slots",
     "sidebarTitle": "Attend System",
@@ -28,13 +30,10 @@
     "timeManagement": "Time Management",
     "navshift": "Shifts",
     "navSlot": "Time Slot",
-    "public_settings": "Public Settings",  
+    "public_settings": "Public Settings",
     "page_title": "Dashboard - Employee Summary Report",
-
-    "Unregistere_employees":"Employee  Summary Report",
-    "Logout":"Logout",
-
-
+    "Unregistere_employees": "Employee  Summary Report",
+    "Logout": "Logout",
     "export_as": "Export as Excel",
     "print_as": "Print with Design",
     "week_filter": "Week:",
@@ -57,12 +56,10 @@
     "summery": "Show Additional API Summary",
     "get_report": "Get Report",
     "addition_summery": "Additional Summary from the System",
-
     "employees_number": "Number of Employees",
     "late_summ": "Total Late (M)",
     "early_summ": "Total Early Leave (Minutes)",
     "total_salary": "Total Net Salary",
-
     "employees": "Employee",
     "records": "Number of Records",
     "Absences": "Number of Absences",
@@ -75,7 +72,6 @@
     "partly_num": "Number of Partial Attendance",
     "late_early_num": "Number of (Late + Early Leave)",
     "over_num": "Number of Overtime",
-
     "attend_sidebar_title": "Menu",
     "attend_sidebar_overview": "Overview",
     "attend_sidebar_employees": "Employees",
@@ -89,16 +85,16 @@
     "attend_sidebar_requests": "Requests",
     "attend_sidebar_departments": "Departments",
     "attend_sidebar_settings": "Settings",
-
-
     "إجازات انتظار": "Waiting Leaves",
     "إجازات زمنية": "Timed Leaves",
     "إجازات غير مدفوعة": "Unpaid Leaves",
     "إجازات مدفوعة": "Paid Leaves",
     "اجمالي ايام العطل": "Total Vacation Days",
     "الغياب": "Absence",
-    "المجموع الكلي للمكافآت وعقوبات": "Total Rewards and Penalties",
-    "المكافآ": "Rewards",
+    "المجموع الصافي للمكافآت والعقوبات": "Total Rewards & Penalties",
+    "اجمالي عطل رسمية": "Total Official Vacations",
+    "أيام الدوام المتوقعة لهذا الشهر": "Expected Work Days",
+    "المكافآت": "Rewards",
     "ايام الاستراحة": "Rest Days",
     "ايام العمل الرسمية": "Official Working Days",
     "ايام عطل اسبوعية": "Weekly Holidays",
@@ -114,16 +110,13 @@
     "مجموع الاستراحة(ساعة)": "Total Break Time (Hours)",
     "مرات التاخير": "Delay Occurrences",
     "مرات الخروج المبكر": "Early Exit Occurrences",
-
     "get_report_err": "Failed to retrieve report: ",
-    "س":"h",
-    "و":"and",
-    "د":"m",
-
+    "س": "h",
+    "و": "and",
+    "د": "m",
     "print": "print",
     "period_from": "Period From",
     "to": "To",
-
     "employee": "Employee",
     "records_num": "Number of Records",
     "absent_num": "Number of Absences",
@@ -136,7 +129,4 @@
     "attend_num": "Number of Partial Attendances",
     "late_adn_early_num": "Number of (Late + Early)",
     "overtime_num": "Number of Overtime Hours"
-
-
-
 }

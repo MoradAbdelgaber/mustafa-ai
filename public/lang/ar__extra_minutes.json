@@ -1,0 +1,14 @@
+{
+    "extra_minutes": "دقائق إضافية",
+    "employee_name": "اسم الموظف",
+    "bonus_date": "تاريخ العملية",
+    "minutes": "عدد الدقائق",
+    "save": "يحفظ",
+    "add_extra_minute": "إضافة دقائق إضافية",
+    "date_of_transaction": "تاريخ العملية",
+    "number_of_minutes": "عدد الدقائق",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "sys_title": "نظام إدارة الحضور والانصراف - الدقائق الإضافية",
+    "logout": "تسجيل الخروج"
+}

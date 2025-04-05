@@ -1,4 +1,5 @@
 {
+  
   "sidebar_title": "Menu",
   "sidebar_dashboard": "Dashboard",
   "sidebar_employees": "Employees",
@@ -119,7 +120,7 @@
   "sidebar_devices": "Devices",
   "sidebar_requests": "Requests",
   "sidebar_departments": "Departments",
-  "sidebar_settings": "Settings",
+  "sidebar_settings": "Settings"
   
   
 }

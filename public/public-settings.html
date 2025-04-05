@@ -381,7 +381,7 @@
     }
 
     .modalContent {
-      width: 400px;
+      width: 800px;
       max-width: 90%;
       border-radius: 8px;
       background: #fff;
@@ -535,6 +535,30 @@
     .applyBtn:hover {
       background: #12889b;
     }
+
+    .form-wrapper{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .form-wrapper .form-group{
+      max-width: 33.3%;
+      flex-basis: 33.3%;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
+    .form-wrapper .form-group input,
+    .form-wrapper .form-group select{
+      box-sizing: border-box;
+      height: 43px;
+      border-radius: 13px;
+      background-color: #cccccc2b;
+      padding-right: 10px;
+      padding-left: 10px;
+      box-sizing: border-box;
+    }
+
   </style>
 </head>
 
@@ -543,7 +567,7 @@
   <header>
     <h1 data-lng="header_title">الاعدادات العامة</h1>
     <div>
-      <button data-lng="logout" onclick="logout()">خروج</button>
+      <button data-lng="logout" onclick="logout()">Logout</button>
       <!-- اختيار اللغة (مثل صفحة اللوجن) -->
       <select id="langSelector" id="langSelector">
         <option value="en">English</option>
@@ -651,96 +675,146 @@
           <button class="modalCloseBtn" onclick="closeDayModal()">×</button>
         </div>
         <div class="modalBody">
-
-          <label data-lng="lblDaySelect" for="daySelect"></label>
-          <select id="daySelect">
-            <option value="Sun">Sun</option>
-            <option value="Mon">Mon</option>
-            <option value="Tue">Tue</option>
-            <option value="Wed">Wed</option>
-            <option value="Thu">Thu</option>
-            <option value="Fri">Fri</option>
-            <option value="Sat">Sat</option>
-          </select>
-
-          <label data-lng="lblDayStart" for="dayStart"></label>
-          <input type="time" id="dayStart" />
-
-          <label data-lng="lblDayEnd" for="dayEnd"></label>
-          <input type="time" id="dayEnd" />
-
-          <label data-lng="lblDayOTStart" for="dayOTStart"></label>
-          <input type="time" id="dayOTStart" />
-
-          <label data-lng="lblDayOffset" for="dayOffset"></label>
-          <input type="number" id="dayOffset" />
-
-          <label data-lng="lblDayHourPrice" for="dayHourPrice"></label>
-          <input type="number" id="dayHourPrice" />
-
-          <label data-lng="lblDayOTPrice" for="dayOTPrice"></label>
-          <input type="number" id="dayOTPrice" />
-
-          <label data-lng="lblDayAllowedDelay" for="dayAllowedDelay"></label>
-          <input type="number" id="dayAllowedDelay" />
-
-          <label data-lng="lblDayAllowedExit" for="dayAllowedExit"></label>
-          <input type="number" id="dayAllowedExit" />
-
-          <label data-lng="lblDayOfficialHours" for="dayOfficialHours"></label>
-          <input type="number" id="dayOfficialHours" />
-
-          <label data-lng="lblDayLateCutCount" for="dayLateCutCount"></label>
-          <input type="number" id="dayLateCutCount" />
-
-          <label data-lng="lblDayAbsentCut" for="dayAbsentCut"></label>
-          <input type="number" id="dayAbsentCut" />
-
-          <label data-lng="lblDayDailySalary" for="dayDailySalary"></label>
-          <input type="number" id="dayDailySalary" />
-
-          <label data-lng="lblDayEarlyCutCount" for="dayEarlyCutCount"></label>
-          <input type="number" id="dayEarlyCutCount" />
-
-          <label data-lng="lblDayLateMinPrice" for="dayLateMinPrice"></label>
-          <input type="number" id="dayLateMinPrice" />
-
-          <label data-lng="lblDayEarlyMinPrice" for="dayEarlyMinPrice"></label>
-          <input type="number" id="dayEarlyMinPrice" />
-
-          <label data-lng="lblDayMinOTHours" for="dayMinOTHours"></label>
-          <input type="number" id="dayMinOTHours" />
-
-          <label data-lng="lblDayWrStart" for="dayWrStart"></label>
-          <input type="time" id="dayWrStart" />
-
-          <label data-lng="lblDayLastEntry" for="dayLastEntry"></label>
-          <input type="time" id="dayLastEntry" />
-
-          <label data-lng="lblDayFirstExit" for="dayFirstExit"></label>
-          <input type="time" id="dayFirstExit" />
-
-          <label data-lng="lblDayLastExit" for="dayLastExit"></label>
-          <input type="time" id="dayLastExit" />
-
-          <label data-lng="lblDayDailyWage" for="dayDailyWage"></label>
-          <select id="dayDailyWage">
-            <option value="false">false</option>
-            <option value="true">true</option>
-          </select>
-
-          <label data-lng="lblDayOTEligible" for="dayOTEligible"></label>
-          <select id="dayOTEligible">
-            <option value="false">false</option>
-            <option value="true">true</option>
-          </select>
-
-          <label data-lng="lblDayAllowedMinRest" for="dayAllowedMinRest"></label>
-          <input type="number" id="dayAllowedMinRest" />
-
-          <label data-lng="lblDayRestMinPrice" for="dayRestMinPrice"></label>
-          <input type="number" id="dayRestMinPrice" />
-
+          <div class="form-wrapper">
+            <div class="form-group">
+              <label data-lng="lblDayStart" for="dayStart"></label>
+              <input type="time" id="dayStart" />
+            </div>
+      
+       <div class="form-group">
+              <label data-lng="lblDayWrStart" for="dayWrStart"></label>
+              <input type="time" id="dayWrStart" />
+            </div>
+      
+       <div class="form-group">
+              <label data-lng="lblDayLastEntry" for="dayLastEntry"></label>
+              <input type="time" id="dayLastEntry" />
+            </div>
+      
+       <div class="form-group">
+              <label data-lng="lblDayEnd" for="dayEnd"></label>
+              <input type="time" id="dayEnd" />
+            </div>
+      
+       <div class="form-group">
+              <label data-lng="lblDayFirstExit" for="dayFirstExit"></label>
+              <input type="time" id="dayFirstExit" />
+            </div>
+      
+       <div class="form-group">
+              <label data-lng="lblDayLastExit" for="dayLastExit"></label>
+              <input type="time" id="dayLastExit" />
+            </div>
+      
+       <div class="form-group">
+              <label data-lng="lblDayAllowedDelay" for="dayAllowedDelay"></label>
+              <input type="number" id="dayAllowedDelay" />
+            </div>
+      
+      
+            <div class="form-group">
+              <label data-lng="lblDayAllowedExit" for="dayAllowedExit"></label>
+              <input type="number" id="dayAllowedExit" />
+            </div>
+      
+       <div class="form-group">
+              <label data-lng="lblDayOfficialHours" for="dayOfficialHours"></label>
+              <input type="number" id="dayOfficialHours" />
+            </div>
+      
+        <div class="form-group">
+              <label data-lng="lblDayDailySalary" for="dayDailySalary"></label>
+              <input type="number" id="dayDailySalary" />
+            </div>
+      
+         <div class="form-group">
+              <label data-lng="lblDayLateCutCount" for="dayLateCutCount"></label>
+              <input type="number" id="dayLateCutCount" />
+            </div>
+      
+       <div class="form-group">
+              <label data-lng="lblDayLateMinPrice" for="dayLateMinPrice"></label>
+              <input type="number" id="dayLateMinPrice" />
+            </div>
+      
+       <div class="form-group">
+              <label data-lng="lblDayEarlyCutCount" for="dayEarlyCutCount"></label>
+              <input type="number" id="dayEarlyCutCount" />
+            </div>
+      
+       <div class="form-group">
+              <label data-lng="lblDayEarlyMinPrice" for="dayEarlyMinPrice"></label>
+              <input type="number" id="dayEarlyMinPrice" />
+            </div>
+      
+       <div class="form-group">
+              <label data-lng="lblDayMinOTHours" for="dayMinOTHours"></label>
+              <input type="number" id="dayMinOTHours" />
+            </div>
+      
+       <div class="form-group">
+              <label data-lng="lblDayOTStart" for="dayOTStart"></label>
+              <input type="time" id="dayOTStart" />
+            </div>
+      
+      <div class="form-group">
+              <label data-lng="lblDayOTEligible" for="dayOTEligible"></label>
+              <select id="dayOTEligible">
+                <option value="false">false</option>
+                <option value="true">true</option>
+              </select>
+            </div>
+      
+      <div class="form-group">
+              <label data-lng="lblDaySelect" for="daySelect"></label>
+              <select id="daySelect">
+                <option value="Sun">Sun</option>
+                <option value="Mon">Mon</option>
+                <option value="Tue">Tue</option>
+                <option value="Wed">Wed</option>
+                <option value="Thu">Thu</option>
+                <option value="Fri">Fri</option>
+                <option value="Sat">Sat</option>
+              </select>
+            </div>
+      
+      <div class="form-group">
+              <label data-lng="lblDayDailyWage" for="dayDailyWage"></label>
+              <select id="dayDailyWage">
+                <option value="false">false</option>
+                <option value="true">true</option>
+              </select>
+            </div>
+      
+       <div class="form-group">
+              <label data-lng="lblDayAllowedMinRest" for="dayAllowedMinRest"></label>
+              <input type="number" id="dayAllowedMinRest" />
+            </div>
+      
+        <div class="form-group">
+              <label data-lng="lblDayRestMinPrice" for="dayRestMinPrice"></label>
+              <input type="number" id="dayRestMinPrice" />
+            </div>
+      
+       <div class="form-group">
+              <label data-lng="lblDayAbsentCut" for="dayAbsentCut"></label>
+              <input type="number" id="dayAbsentCut" />
+            </div>
+      
+       <div class="form-group" style="display: none;">
+              <label data-lng="lblDayOffset" for="dayOffset"></label>
+              <input type="number" id="dayOffset" />
+            </div>
+      
+          <div class="form-group">
+              <label data-lng="lblDayHourPrice" for="dayHourPrice"></label>
+              <input type="number" id="dayHourPrice" />
+            </div>
+            <div class="form-group">
+              <label data-lng="lblDayOTPrice" for="dayOTPrice"></label>
+              <input type="number" id="dayOTPrice" />
+            </div>
+          </div>
           <button class="modalSaveBtn" data-lng="btnSaveDay" onclick="saveDay()"></button>
         </div>
       </div>
@@ -750,124 +824,7 @@
 
 
     <!-- الشريط الجانبي -->
-    <div class="sidebar">
-      
-          
-            <!-- الرئيسية -->
-            <div class="navItem menu-group-header" onclick="location.href='dashboard.html'">
-              <i class="bi bi-house-fill"></i>
-              <span data-lng="navOverview">الرئيسية</span>
-            </div>
-      
-            <!-- ادارة الموظفين -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('staffManagementSubmenu')">
-              <i class="bi bi-people-fill"></i>
-              <span data-lng="staffManagement">ادارة الموظفين</span>
-            </div>
-            <div id="staffManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='employee.html'">
-                <i class="bi bi-person-lines-fill"></i>
-                <span data-lng="navEmployees">الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='department.html'">
-                <i class="bi bi-building"></i>
-                <span data-lng="navDepartment">الأقسام</span>
-              </div>
-            </div>
-      
-            <!-- التقارير -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('reportsSubmenu')">
-              <i class="bi bi-bar-chart-line-fill"></i>
-              <span data-lng="reports">التقارير</span>
-            </div>
-      
-            <div id="reportsSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='report.html'">
-                <i class="bi bi-bar-chart-line-fill"></i>
-                <span data-lng="navReport"></span>
-              </div>
-      
-              <div class="navItem" onclick="location.href='attend.html'">
-                <i class="bi bi-journal-check"></i>
-                <span data-lng="navAttend">تقرير الحضور</span>
-              </div>
-      
-      
-              <div class="navItem" onclick="location.href='employee-summary-report.html'">
-                <i class="bi bi-people-fill"></i>
-                <span data-lng="employee_summary_report">تقرير ملخص الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='rule.html'">
-                <i class="bi bi-braces"></i>
-                <span data-lng="navRules">القواعد (Rules)</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاجهزة -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('deviceManagementSubmenu')">
-              <i class="bi bi-device-hdd-fill"></i>
-              <span data-lng="deviceManagement">ادارة الاجهزة</span>
-            </div>
-            <div id="deviceManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='devices.html'">
-                <i class="bi bi-laptop"></i>
-                <span data-lng="navDevices">الأجهزة</span>
-              </div>
-              <div class="navItem" onclick="location.href='requests.html'">
-                <i class="bi bi-list-check"></i>
-                <span data-lng="navOrders">الأوامر</span>
-              </div>
-              <div class="navItem" onclick="location.href='importemployee.html'">
-                <i class="bi bi-person-exclamation"></i>
-                <span data-lng="unregistered">الموظفين غير المسجلين</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الدوام -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('workManagementSubmenu')">
-              <i class="bi bi-calendar-event-fill"></i>
-              <span data-lng="workManagement">ادارة الدوام</span>
-            </div>
-            <div id="workManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='leaves.html'">
-                <i class="bi bi-calendar3"></i>
-                <span data-lng="navLeaves">الإجازات</span>
-              </div>
-              <div class="navItem" onclick="location.href='rewards.html'">
-                <i class="bi bi-gift-fill"></i>
-                <span data-lng="navRewards">المكافئات</span>
-              </div>
-              <div class="navItem" onclick="location.href='time-based-leaves.html'">
-                <i class="bi bi-clock-fill"></i>
-                <span data-lng="leaves_sidebar_time_leaves">إجازات زمنية</span>
-              </div>
-              
-              <div class="navItem" onclick="location.href='holidays.html'">
-                <i class="bi bi-calendar-event"></i>
-                <span data-lng="navHolidays">العطل الرسمية</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاوقات -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('timeManagementSubmenu')">
-              <i class="bi bi-clock-fill"></i>
-              <span data-lng="timeManagement">ادارة الاوقات</span>
-            </div>
-            <div id="timeManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='shifts.html'">
-                <i class="bi bi-hourglass-split"></i>
-                <span data-lng="navshift">الشفتات</span>
-              </div>
-              <div class="navItem" onclick="location.href='TimeSlot.html'">
-                <i class="bi bi-watch"></i>
-                <span data-lng="navSlot">الأوقات</span>
-              </div>
-              <div class="navItem active" onclick="location.href='public-settings.html'">
-                <i class="bi bi-gear"></i>
-                <span data-lng="public_settings">الإعدادات</span>
-              </div>
-            </div>
-          </div>
+    <div class="sidebar"></div>
       
           <script>
             // دالة لتبديل عرض وإخفاء القائمة الفرعية
@@ -882,14 +839,14 @@
       
             // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
             // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
-            document.addEventListener("DOMContentLoaded", function () {
-              var submenus = document.querySelectorAll('.submenu');
-              submenus.forEach(function (submenu) {
-                if (submenu.querySelector('.navItem.active')) {
-                  submenu.style.display = "block";
-                }
-              });
-            });
+            // document.addEventListener("DOMContentLoaded", function () {
+            //   var submenus = document.querySelectorAll('.submenu');
+            //   submenus.forEach(function (submenu) {
+            //     if (submenu.querySelector('.navItem.active')) {
+            //       submenu.style.display = "block";
+            //     }
+            //   });
+            // });
           </script>
    
 
@@ -927,6 +884,10 @@
       document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr'
       await loadLanguageFile(lang);
       applyTranslations(lang);
+
+      await loadSidebarLangFile(lang);
+        applySidebarTranslation();
+
     }
 
     function applyTranslations(lang) {
@@ -1008,7 +969,7 @@
 
         showLoading()
 
-        const resp = await fetch('https://timeattendhr.com/api/users/profile', {
+        const resp = await fetch('/api/users/profile', {
           headers: {
             'Authorization': 'Bearer ' + authToken,
             'Content-Type': 'application/json'
@@ -1370,6 +1331,61 @@
       document.getElementById('errorMsg').style.display = 'none';
       document.getElementById('successMsg').style.display = 'none';
     }
+
+
+    function loadSiebar(){
+        fetch('sidebar.html')
+              .then(response => response.text())
+              .then(data => {
+                  document.querySelector('.sidebar').innerHTML = data;
+                    var submenus = document.querySelectorAll('.submenu');
+                    submenus.forEach(function (submenu) {
+                      if (submenu.querySelector('.navItem.active')) {
+                        submenu.style.display = "block";
+                      }
+                    });
+
+                    addActiveToSubmenuClass(3);
+              })
+              .catch(error => console.error('Error loading sidebar:', error));
+      }
+  
+      async function loadSidebarLangFile(lang) {
+        try {
+          const response = await fetch(`./lang/${lang}_sidebar.json`);
+          if (!response.ok) {
+            throw new Error(`Error loading ${lang}_sidebar.json`);
+          }
+          sidebarLabels = await response.json();
+
+        } catch (error) {
+          console.error("Report translation file error:", error);
+        }
+      }
+
+      function applySidebarTranslation(){
+          document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+              const key = el.getAttribute('data-lng');
+              
+              if (sidebarLabels[key]) {
+                el.textContent = sidebarLabels[key];
+              }
+          });
+      }
+
+      loadSiebar();
+
+      function addActiveToSubmenuClass(childIndex) {
+          const submenu = document.getElementById('timeManagementSubmenu');
+          submenu.style.display = "block";
+          const navItems = submenu.getElementsByClassName('navItem');
+          if (childIndex >= 1 && childIndex <= navItems.length) {
+              Array.from(navItems).forEach(item => item.classList.remove('active'));
+              navItems[childIndex - 1].classList.add('active');
+          } else {
+              console.error('Child index out of bounds');
+          }
+      }
 
   </script>
 

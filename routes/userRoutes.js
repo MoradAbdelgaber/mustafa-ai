@@ -29,4 +29,13 @@ router.post("/employees/login", loginEmployee);
 router.put("/employees/:id", authMiddleware, updateEmployee);
 router.delete("/employees/:id", authMiddleware, deleteEmployee);
 
+router.get("/profile", authMiddleware, (req, res) => {
+  // هنا ستجد req.userId, req.user, req.branches جاهزة للاستخدام
+  res.json({
+    userId: req.userId,
+    user: req.user,
+    branches: req.branches,
+  });
+});
+
 module.exports = router;

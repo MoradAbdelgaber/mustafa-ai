@@ -4,7 +4,7 @@
     "sidebar_employees": "الموظفين",
     "sidebar_attendance_report": "تقرير الحضور",
     "sidebar_shifts": "النوبات",
-    "leaves_sidebar_time_leaves":"طلبات الاجازات الزمنية",
+    "leaves_sidebar_time_leaves": "طلبات الاجازات الزمنية",
     "sidebar_timeslots": "الفترات الزمنية",
     "navOverview": "نظرة عامة",
     "staffManagement": "ادارة الموظفين",
@@ -36,20 +36,18 @@
     "leaves_type": "أنواع الإجازات",
     "users_tab": "المستخدمين",
     "page_title": "لوحة التحكم - تقرير ملخص الموظفين",
-    "Unregistere_employees":"تقرير ملخص الموظفين",
-    "Logout":"خروج",
-
-
+    "Unregistere_employees": "تقرير ملخص الموظفين",
+    "Logout": "خروج",
     "export_as": "تصدير كـ Excel",
-    "print_as": "طباعة بتصميم", 
-    "week_filter":"الأسبوع:",
-    "month_filter":"الشهر:",
-    "from_filter":"من تاريخ:",
-    "to_filter":"إلى تاريخ:",
-    "employee_filter":"الموظف:",
-    "employee_filter_placeholder":"جميع الموظفين",
-    "category_filter":"القسم:",
-    "category_filter_placeholder":"جميع الأقسام",
+    "print_as": "طباعة بتصميم",
+    "week_filter": "الأسبوع:",
+    "month_filter": "الشهر:",
+    "from_filter": "من تاريخ:",
+    "to_filter": "إلى تاريخ:",
+    "employee_filter": "الموظف:",
+    "employee_filter_placeholder": "جميع الموظفين",
+    "category_filter": "القسم:",
+    "category_filter_placeholder": "جميع الأقسام",
     "state_filter": "الحالة:",
     "state_filter_placeholder": "جميع الحالات",
     "state_1": "غائب",
@@ -62,12 +60,10 @@
     "summery": "إظهار ملخص الـ API الإضافي",
     "get_report": "جلب التقرير",
     "addition_summery": "ملخص إضافي من النظام",
-
     "employees_number": "عدد الموظفين",
     "late_summ": "مجموع التأخير (دقيقة)",
     "early_summ": "مجموع الخروج المبكر (دقيقة)",
     "total_salary": "إجمالي الراتب الصافي",
-
     "employees": "الموظف",
     "records": "عدد السجلات",
     "Absences": "عدد الغياب",
@@ -80,8 +76,6 @@
     "partly_num": "عدد الحضور الجزئي",
     "late_early_num": "عدد (متأخر + مبكر)",
     "over_num": "عدد الأوفر تايم",
-
-
     "attend_sidebar_title": "القائمة",
     "attend_sidebar_overview": "نظرة عامة",
     "attend_sidebar_employees": "الموظفين",
@@ -95,16 +89,15 @@
     "attend_sidebar_requests": "الأوامر",
     "attend_sidebar_departments": "الأقسام",
     "attend_sidebar_settings": "الإعدادات",
-  
-
-
     "إجازات انتظار": "إجازات انتظار",
     "إجازات زمنية": "إجازات زمنية",
     "إجازات غير مدفوعة": "إجازات غير مدفوعة",
     "إجازات مدفوعة": "إجازات مدفوعة",
     "اجمالي ايام العطل": "اجمالي ايام العطل",
     "الغياب": "الغياب",
-    "المجموع الكلي للمكافآت وعقوبات": "المجموع الكلي للمكافآت وعقوبات",
+    "المجموع الصافي للمكافآت والعقوبات": "المجموع الكلي للمكافآت وعقوبات",
+    "اجمالي عطل رسمية": "اجمالي عطل رسمية",
+    "أيام الدوام المتوقعة لهذا الشهر": "أيام الدوام المتوقعة لهذا الشهر",
     "المكافآت": "المكافآت",
     "ايام الاستراحة": "ايام الاستراحة",
     "ايام العمل الرسمية": "ايام العمل الرسمية",
@@ -121,17 +114,13 @@
     "مجموع الاستراحة(ساعة)": "مجموع الاستراحة(ساعة)",
     "مرات التاخير": "مرات التاخير",
     "مرات الخروج المبكر": "مرات الخروج المبكر",
-
-
     "get_report_err": "فشل جلب التقرير: ",
-    "س":"س",
-    "و":"و",
-    "د":"د",
-
+    "س": "س",
+    "و": "و",
+    "د": "د",
     "print": "طباعة",
     "period_from": "للفترة من",
     "to": "إلى",
-
     "employee": "الموظف",
     "records_num": "عدد السجلات",
     "absent_num": "عدد الغياب",
@@ -144,5 +133,4 @@
     "attend_num": "عدد الحضور الجزئي",
     "late_adn_early_num": "عدد (متأخر + مبكر)",
     "overtime_num": "عدد الأوفر تايم"
-
 }

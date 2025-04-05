@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title data-lng="dep_head_title">Department Management</title>
@@ -17,7 +18,8 @@
   <!-- Google Fonts: Tajawal (Arabic) & Open Sans (English) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+    rel="stylesheet">
 
   <!-- مكتبة XLSX للتعامل مع ملفات الإكسيل -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -27,9 +29,15 @@
     html {
       animation: fadeIn 0.3s ease-in forwards;
     }
+
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
 
     /* الخط والاتجاه حسب اللغة */
@@ -37,6 +45,7 @@
       font-family: 'Tajawal', sans-serif;
       direction: rtl;
     }
+
     html[lang="en"] body {
       font-family: 'Open Sans', sans-serif;
       direction: ltr;
@@ -47,6 +56,7 @@
       padding: 0;
       background: #f2f2f2;
     }
+
     header {
       background: linear-gradient(45deg, #0062cc, #004085);
       color: #fff;
@@ -55,10 +65,12 @@
       justify-content: space-between;
       align-items: center;
     }
+
     header h1 {
       margin: 0;
       font-size: 1.2rem;
     }
+
     header button {
       background: #dc3545;
       color: #fff;
@@ -69,30 +81,36 @@
       font-size: 0.9rem;
       transition: background 0.3s;
     }
+
     header button:hover {
       background: #c82333;
     }
+
     .container {
       display: flex;
       flex-direction: row-reverse;
     }
+
     .mainContent {
       flex: 1;
       padding: 20px;
     }
+
     .sidebar {
       width: 240px;
       background: #fff;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       min-height: 100vh;
       padding: 20px 10px;
     }
+
     .sidebar h2 {
       margin-bottom: 15px;
       font-size: 1rem;
       text-align: center;
       color: #444;
     }
+
     .navItem {
       padding: 12px 10px;
       margin: 6px 0;
@@ -105,21 +123,26 @@
       align-items: center;
       gap: 8px;
     }
+
     .navItem i {
       font-size: 1.1rem;
       color: #666;
       transition: color 0.3s;
     }
+
     .navItem:hover {
       background: #f0f0f0;
     }
+
     .navItem.active {
       background: #007bff;
       color: #fff;
     }
+
     .navItem.active i {
       color: #fff;
     }
+
     .errorMsg,
     .successMsg {
       margin: 10px 0;
@@ -129,16 +152,19 @@
       border-radius: 4px;
       display: none;
     }
+
     .errorMsg {
       background-color: #f8d7da;
       border: 1px solid #f5c6cb;
       color: #721c24;
     }
+
     .successMsg {
       background-color: #d4edda;
       border: 1px solid #c3e6cb;
       color: #155724;
     }
+
     .addBtn {
       background: #28a745;
       color: #fff;
@@ -150,9 +176,11 @@
       border: none;
       cursor: pointer;
     }
+
     .addBtn:hover {
       background: #218838;
     }
+
     .searchFilters {
       background: #fff;
       padding: 10px;
@@ -162,12 +190,14 @@
       gap: 10px;
       align-items: center;
       border-radius: 6px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+
     .searchFilters label {
       margin-right: 4px;
       font-weight: 500;
     }
+
     .searchFilters select,
     .searchFilters input[type="date"],
     .searchFilters input[type="text"] {
@@ -177,18 +207,21 @@
       font-size: 0.9rem;
       font-family: inherit;
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
       background: #fff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       border-radius: 6px;
       overflow: hidden;
     }
+
     table thead {
       background: #007bff;
       color: #fff;
     }
+
     table th,
     table td {
       border: 1px solid #ddd;
@@ -196,9 +229,11 @@
       text-align: center;
       font-size: 0.9rem;
     }
+
     table tbody tr:hover {
       background: #f9f9f9;
     }
+
     .actionIcon {
       color: #007bff;
       cursor: pointer;
@@ -206,9 +241,11 @@
       margin: 0 6px;
       transition: color 0.3s;
     }
+
     .actionIcon:hover {
       color: #0056b3;
     }
+
     .modalOverlay {
       display: none;
       position: fixed;
@@ -216,27 +253,37 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.5);
       justify-content: center;
       align-items: center;
       z-index: 9999;
     }
+
     .modalContent {
       width: 400px;
       max-width: 90%;
       border-radius: 8px;
       background: #fff;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
       overflow: hidden;
       display: flex;
       flex-direction: column;
       animation: fadeInModal 0.3s ease;
       position: relative;
     }
+
     @keyframes fadeInModal {
-      from { transform: scale(0.9); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
     }
+
     .modalHeader {
       background: #007bff;
       color: #fff;
@@ -245,10 +292,12 @@
       justify-content: space-between;
       align-items: center;
     }
+
     .modalHeader h2 {
       margin: 0;
       font-size: 1rem;
     }
+
     .modalCloseBtn {
       background: none;
       border: none;
@@ -257,12 +306,15 @@
       cursor: pointer;
       transition: color 0.3s;
     }
+
     .modalCloseBtn:hover {
       color: #ffdddd;
     }
+
     .modalBody {
       padding: 20px;
     }
+
     /* تنسيق للقوائم الفرعية لتظهر كفرع */
     .submenu {
       border-left: 2px solid #dee2e6;
@@ -275,11 +327,13 @@
       font-weight: bold;
       background: #dee2e6;
     }
+
     .modalBody label {
       display: block;
       margin: 8px 0 4px;
       font-weight: 500;
     }
+
     .modalBody input,
     .modalBody select {
       width: 100%;
@@ -290,6 +344,7 @@
       font-size: 0.9rem;
       font-family: inherit;
     }
+
     .modalSaveBtn {
       background: #28a745;
       color: #fff;
@@ -301,21 +356,24 @@
       font-size: 0.9rem;
       transition: background 0.3s;
     }
+
     .modalSaveBtn:hover {
       background: #218838;
     }
+
     .loadingOverlay {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.5);
       display: none;
       justify-content: center;
       align-items: center;
       z-index: 99999;
     }
+
     .spinner {
       width: 60px;
       height: 60px;
@@ -324,10 +382,17 @@
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
+
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
+
     #langSelector {
       margin: 10px;
       padding: 6px;
@@ -337,6 +402,7 @@
     }
   </style>
 </head>
+
 <body onload="initPage()">
   <header>
     <h1 data-lng="dep_head_title">Department Management</h1>
@@ -360,7 +426,8 @@
 
       <div class="searchFilters">
         <label for="searchName" data-lng="dep_filter_name_label">Name:</label>
-        <input type="text" id="searchName" oninput="filterDepartmentsLocally()" data-lng-placeholder="dep_placeholder_search_name" />
+        <input type="text" id="searchName" oninput="filterDepartmentsLocally()"
+          data-lng-placeholder="dep_placeholder_search_name" />
 
         <label for="searchStatus" data-lng="dep_filter_status_label">Status:</label>
         <select id="searchStatus" onchange="filterDepartmentsLocally()">
@@ -375,10 +442,13 @@
 
       <!-- أزرار العمليات -->
       <button class="addBtn" onclick="openModalForAdd()" data-lng="dep_button_add_dept">Add Department</button>
-      <button class="addBtn" onclick="exportExcel()" id="exportExcelBtn" data-lng="dep_button_export_excel">Export Excel</button>
-      <button class="addBtn" onclick="document.getElementById('importExcelInput').click()" id="importExcelBtn" data-lng="dep_button_import_excel">Import Excel</button>
+      <button class="addBtn" onclick="exportExcel()" id="exportExcelBtn" data-lng="dep_button_export_excel">Export
+        Excel</button>
+      <button class="addBtn" onclick="document.getElementById('importExcelInput').click()" id="importExcelBtn"
+        data-lng="dep_button_import_excel">Import Excel</button>
       <!-- عنصر رفع ملف مخفي -->
-      <input type="file" id="importExcelInput" style="display:none" accept=".xlsx, .xls" onchange="importExcel(event)" />
+      <input type="file" id="importExcelInput" style="display:none" accept=".xlsx, .xls"
+        onchange="importExcel(event)" />
 
       <table id="departmentsTable">
         <thead>
@@ -387,6 +457,8 @@
             <th data-lng="dep_table_header_name">Name</th>
             <th data-lng="dep_table_header_status">Status</th>
             <th data-lng="dep_table_header_mawjood">Short ID</th>
+            <!-- إضافة عمود الفرع في الجدول -->
+            <th data-lng="dep_table_header_branch">Branch</th>
             <th data-lng="dep_table_header_created">Created</th>
             <th data-lng="dep_table_header_actions">Actions</th>
           </tr>
@@ -395,541 +467,669 @@
       </table>
     </div>
 
-    <div class="sidebar">
-      
-          
-            <!-- الرئيسية -->
-            <div class="navItem menu-group-header" onclick="location.href='dashboard.html'">
-              <i class="bi bi-house-fill"></i>
-              <span data-lng="navOverview">الرئيسية</span>
-            </div>
-      
-            <!-- ادارة الموظفين -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('staffManagementSubmenu')">
-              <i class="bi bi-people-fill"></i>
-              <span data-lng="staffManagement">ادارة الموظفين</span>
-            </div>
-            <div id="staffManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='employee.html'">
-                <i class="bi bi-person-lines-fill"></i>
-                <span data-lng="navEmployees">الموظفين</span>
-              </div>
-              <div class="navItem active" onclick="location.href='department.html'">
-                <i class="bi bi-building"></i>
-                <span data-lng="navDepartment">الأقسام</span>
-              </div>
-            </div>
-      
-            <!-- التقارير -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('reportsSubmenu')">
-              <i class="bi bi-bar-chart-line-fill"></i>
-              <span data-lng="reports">التقارير</span>
-            </div>
-      
-            <div id="reportsSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='report.html'">
-                <i class="bi bi-bar-chart-line-fill"></i>
-                <span data-lng="navReport"></span>
-              </div>
-      
-              <div class="navItem" onclick="location.href='attend.html'">
-                <i class="bi bi-journal-check"></i>
-                <span data-lng="navAttend">تقرير الحضور</span>
-              </div>
-      
-      
-              <div class="navItem" onclick="location.href='employee-summary-report.html'">
-                <i class="bi bi-people-fill"></i>
-                <span data-lng="employee_summary_report">تقرير ملخص الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='rule.html'">
-                <i class="bi bi-braces"></i>
-                <span data-lng="navRules">القواعد (Rules)</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاجهزة -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('deviceManagementSubmenu')">
-              <i class="bi bi-device-hdd-fill"></i>
-              <span data-lng="deviceManagement">ادارة الاجهزة</span>
-            </div>
-            <div id="deviceManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='devices.html'">
-                <i class="bi bi-laptop"></i>
-                <span data-lng="navDevices">الأجهزة</span>
-              </div>
-              <div class="navItem" onclick="location.href='requests.html'">
-                <i class="bi bi-list-check"></i>
-                <span data-lng="navOrders">الأوامر</span>
-              </div>
-              <div class="navItem" onclick="location.href='importemployee.html'">
-                <i class="bi bi-person-exclamation"></i>
-                <span data-lng="unregistered">الموظفين غير المسجلين</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الدوام -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('workManagementSubmenu')">
-              <i class="bi bi-calendar-event-fill"></i>
-              <span data-lng="workManagement">ادارة الدوام</span>
-            </div>
-            <div id="workManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='leaves.html'">
-                <i class="bi bi-calendar3"></i>
-                <span data-lng="navLeaves">الإجازات</span>
-              </div>
-              <div class="navItem" onclick="location.href='rewards.html'">
-                <i class="bi bi-gift-fill"></i>
-                <span data-lng="navRewards">المكافئات</span>
-              </div>
-              <div class="navItem" onclick="location.href='time-based-leaves.html'">
-                <i class="bi bi-clock-fill"></i>
-                <span data-lng="leaves_sidebar_time_leaves">إجازات زمنية</span>
-              </div>
-              
-              <div class="navItem" onclick="location.href='holidays.html'">
-                <i class="bi bi-calendar-event"></i>
-                <span data-lng="navHolidays">العطل الرسمية</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاوقات -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('timeManagementSubmenu')">
-              <i class="bi bi-clock-fill"></i>
-              <span data-lng="timeManagement">ادارة الاوقات</span>
-            </div>
-            <div id="timeManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='shifts.html'">
-                <i class="bi bi-hourglass-split"></i>
-                <span data-lng="navshift">الشفتات</span>
-              </div>
-              <div class="navItem" onclick="location.href='TimeSlot.html'">
-                <i class="bi bi-watch"></i>
-                <span data-lng="navSlot">الأوقات</span>
-              </div>
-              <div class="navItem" onclick="location.href='public-settings.html'">
-                <i class="bi bi-gear"></i>
-                <span data-lng="public_settings">الإعدادات</span>
-              </div>
-            </div>
-          </div>
-      
-          <script>
-            // دالة لتبديل عرض وإخفاء القائمة الفرعية
-            function toggleSubMenu(id) {
-              var submenu = document.getElementById(id);
-              if (submenu.style.display === "none" || submenu.style.display === "") {
-                submenu.style.display = "block";
-              } else {
-                submenu.style.display = "none";
-              }
-            }
-      
-            // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
-            // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
-            document.addEventListener("DOMContentLoaded", function () {
-              var submenus = document.querySelectorAll('.submenu');
-              submenus.forEach(function (submenu) {
-                if (submenu.querySelector('.navItem.active')) {
-                  submenu.style.display = "block";
-                }
-              });
-            });
-          </script>
-      
+    <div class="sidebar"></div>
 
-  <!-- مودال إضافة/تعديل القسم -->
-  <div class="modalOverlay" id="departmentModal">
-    <div class="modalContent">
-      <div class="modalHeader">
-        <h2 id="modalTitle" data-lng="dep_modal_title_add">Add Department</h2>
-        <button class="modalCloseBtn" onclick="closeModal()">×</button>
-      </div>
-      <div class="modalBody">
-        <input type="hidden" id="deptId" />
-        <label for="departmentName" data-lng="dep_modal_field_dept_name">Department Name:</label>
-        <input type="text" id="departmentName" placeholder="" />
-        <label for="departmentStatus" data-lng="dep_modal_field_dept_status">Status:</label>
-        <select id="departmentStatus">
-          <option value="1" data-lng-option="dep_active_status">Active</option>
-          <option value="0" data-lng-option="dep_inactive_status">Inactive</option>
-        </select>
-        <label for="mawjoodId" data-lng="dep_modal_field_short_id">Short ID:</label>
-        <input type="text" id="mawjoodId" placeholder="ex: 6294d76f..." />
-        <button class="modalSaveBtn" onclick="saveDepartment()" data-lng="dep_modal_save_button">Save</button>
+    <script>
+      // دالة لتبديل عرض وإخفاء القائمة الفرعية
+      function toggleSubMenu(id) {
+        var submenu = document.getElementById(id);
+        if (submenu.style.display === "none" || submenu.style.display === "") {
+          submenu.style.display = "block";
+        } else {
+          submenu.style.display = "none";
+        }
+      }
+
+      // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
+      // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
+      // document.addEventListener("DOMContentLoaded", function () {
+      //   var submenus = document.querySelectorAll('.submenu');
+      //   submenus.forEach(function (submenu) {
+      //     if (submenu.querySelector('.navItem.active')) {
+      //       submenu.style.display = "block";
+      //     }
+      //   });
+      // });
+    </script>
+
+
+    <!-- مودال إضافة/تعديل القسم -->
+    <div class="modalOverlay" id="departmentModal">
+      <div class="modalContent">
+        <div class="modalHeader">
+          <h2 id="modalTitle" data-lng="dep_modal_title_add">Add Department</h2>
+          <button class="modalCloseBtn" onclick="closeModal()">×</button>
+        </div>
+        <div class="modalBody">
+          <input type="hidden" id="deptId" />
+
+          <label for="departmentName" data-lng="dep_modal_field_dept_name">Department Name:</label>
+          <input type="text" id="departmentName" placeholder="" />
+
+          <label for="departmentStatus" data-lng="dep_modal_field_dept_status">Status:</label>
+          <select id="departmentStatus">
+            <option value="1" data-lng-option="dep_active_status">Active</option>
+            <option value="0" data-lng-option="dep_inactive_status">Inactive</option>
+          </select>
+
+          <!-- حقل اختيار الفرع -->
+          <label for="departmentBranch" data-lng="dep_modal_field_dept_branch">Branch</label>
+          <select id="departmentBranch">
+            <!-- سيتم تعبئة الخيارات برمجياً -->
+          </select>
+
+          <label for="mawjoodId" data-lng="dep_modal_field_short_id">Short ID:</label>
+          <input type="text" id="mawjoodId" placeholder="ex: 6294d76f..." />
+
+          <button class="modalSaveBtn" onclick="saveDepartment()" data-lng="dep_modal_save_button">Save</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <script>
-    let authToken = null;
-    let allDepartments = [];
-    let editModeDeptId = null;
+    <!-- مودال تعيين الأجهزة للقسم -->
+    <div class="modalOverlay" id="departmentDevicesModal">
+      <div class="modalContent">
+        <div class="modalHeader">
+          <h2 id="deptDevicesModalTitle" data-lng="assign_devices">Assign Devices</h2>
+          <button class="modalCloseBtn" onclick="closeDeptDevicesModal()">×</button>
+        </div>
+        <div class="modalBody">
+          <label for="devicesSelectDept" data-lng="select_devices">Select Devices:</label>
+          <select id="devicesSelectDept" multiple style="width:100%;"></select>
+          <button class="modalSaveBtn" onclick="saveDepartmentDevices()" data-lng="save">Save</button>
+        </div>
+      </div>
+    </div>
 
-    function initPage() {
-      let storedLang = localStorage.getItem(LANG_KEY);
-      if (!storedLang) {
-        storedLang = 'en';
-      }
-      document.getElementById('langSelector').value = storedLang;
-      setLanguage(storedLang).then(() => {
-        authToken = localStorage.getItem('authToken');
-        if (!authToken) {
-          window.location.href = 'login.html';
-          return;
+    <script>
+      let authToken = null;
+      let allDepartments = [];
+      let allBranches = []; // مصفوفة لحفظ الفروع
+      let editModeDeptId = null;
+      // المتغيرات الخاصة بتعيين الأجهزة للأقسام
+      let allDevices = [];
+      let currentDepartmentId = null;
+
+      function initPage() {
+        let storedLang = localStorage.getItem(LANG_KEY);
+        if (!storedLang) {
+          storedLang = 'en';
         }
-        loadDepartments();
-      });
-    }
-
-    document.getElementById('langSelector').addEventListener('change', function () {
-      setLanguage(this.value);
-    });
-
-    function logout() {
-      localStorage.removeItem('authToken');
-      window.location.href = 'login.html';
-    }
-
-    function showLoading() {
-      document.getElementById('loadingOverlay').style.display = 'flex';
-    }
-    function hideLoading() {
-      document.getElementById('loadingOverlay').style.display = 'none';
-    }
-
-    function showError(msg) {
-      const errorMsg = document.getElementById('errorMsg');
-      errorMsg.textContent = msg;
-      errorMsg.style.display = 'block';
-      document.getElementById('successMsg').style.display = 'none';
-    }
-    function showSuccess(msg) {
-      const successMsg = document.getElementById('successMsg');
-      successMsg.textContent = msg;
-      successMsg.style.display = 'block';
-      document.getElementById('errorMsg').style.display = 'none';
-    }
-    function clearMessages() {
-      document.getElementById('errorMsg').style.display = 'none';
-      document.getElementById('successMsg').style.display = 'none';
-    }
-
-    async function loadDepartments() {
-      clearMessages();
-      showLoading();
-      try {
-        const resp = await fetch('/api/departments', {
-          headers: { 'Authorization': 'Bearer ' + authToken }
+        document.getElementById('langSelector').value = storedLang;
+        setLanguage(storedLang).then(() => {
+          authToken = localStorage.getItem('authToken');
+          if (!authToken) {
+            window.location.href = 'login.html';
+            return;
+          }
+          // نجلب الفروع أولاً ثم نجلب الأقسام
+          loadBranches().then(() => {
+            loadDepartments();
+          });
         });
-        if (!resp.ok) {
-          throw new Error(getTranslate('dep_msg_error_fetch'));
-        }
-        const data = await resp.json();
-        allDepartments = data;
-        renderDepartments(allDepartments);
-      } catch (err) {
-        showError(err.message);
-      } finally {
-        hideLoading();
       }
-    }
 
-    function renderDepartments(deptArray) {
-      const tb = document.querySelector('#departmentsTable tbody');
-      tb.innerHTML = '';
-      deptArray.forEach((d, i) => {
-        const creationDate = d.createdAt ? new Date(d.createdAt).toISOString().split('T')[0] : '';
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
+      document.getElementById('langSelector').addEventListener('change', function () {
+        setLanguage(this.value);
+      });
+
+      function logout() {
+        localStorage.removeItem('authToken');
+        window.location.href = 'login.html';
+      }
+
+      function showLoading() {
+        document.getElementById('loadingOverlay').style.display = 'flex';
+      }
+      function hideLoading() {
+        document.getElementById('loadingOverlay').style.display = 'none';
+      }
+
+      function showError(msg) {
+        const errorMsg = document.getElementById('errorMsg');
+        errorMsg.textContent = msg;
+        errorMsg.style.display = 'block';
+        document.getElementById('successMsg').style.display = 'none';
+      }
+      function showSuccess(msg) {
+        const successMsg = document.getElementById('successMsg');
+        successMsg.textContent = msg;
+        successMsg.style.display = 'block';
+        document.getElementById('errorMsg').style.display = 'none';
+      }
+      function clearMessages() {
+        document.getElementById('errorMsg').style.display = 'none';
+        document.getElementById('successMsg').style.display = 'none';
+      }
+
+      /***********************
+       *  جلب الفروع من السيرفر
+       ***********************/
+      async function loadBranches() {
+        showLoading();
+        try {
+          const resp = await fetch('/api/branches', {
+            headers: { 'Authorization': 'Bearer ' + authToken }
+          });
+          if (!resp.ok) {
+            throw new Error('Failed to fetch branches');
+          }
+          allBranches = await resp.json();
+        } catch (err) {
+          showError(err.message);
+        } finally {
+          hideLoading();
+        }
+      }
+
+      /********************************
+       * تعبئة القائمة المنسدلة للفروع
+       *******************************/
+      function fillBranchDropdown(selectedBranchId = null) {
+        const branchSelect = document.getElementById('departmentBranch');
+        branchSelect.innerHTML = '';
+        // خيار فارغ أو خيار "اختر فرع" حسب الرغبة
+        // يمكنك إضافة بيانات الترجمة له أيضاً
+        const defaultOpt = document.createElement('option');
+        defaultOpt.value = '';
+        defaultOpt.textContent = getTranslate('Select Branch');
+        branchSelect.appendChild(defaultOpt);
+
+        allBranches.forEach(branch => {
+          const opt = document.createElement('option');
+          opt.value = branch._id;
+          opt.textContent = branch.name || `Branch ${branch._id}`;
+          branchSelect.appendChild(opt);
+        });
+
+        // في حالة التعديل نضبط القيمة المختارة
+        if (selectedBranchId) {
+          branchSelect.value = selectedBranchId;
+        } else {
+          branchSelect.value = '';
+        }
+      }
+
+      /***********************
+       *  جلب الأقسام من السيرفر
+       ***********************/
+      async function loadDepartments() {
+        clearMessages();
+        showLoading();
+        try {
+          const resp = await fetch('/api/departments', {
+            headers: { 'Authorization': 'Bearer ' + authToken }
+          });
+          if (!resp.ok) {
+            throw new Error(getTranslate('dep_msg_error_fetch'));
+          }
+          const data = await resp.json();
+          allDepartments = data;
+          renderDepartments(allDepartments);
+        } catch (err) {
+          showError(err.message);
+        } finally {
+          hideLoading();
+        }
+      }
+
+      function renderDepartments(deptArray) {
+        const tb = document.querySelector('#departmentsTable tbody');
+        tb.innerHTML = '';
+        deptArray.forEach((d, i) => {
+          const creationDate = d.createdAt ? new Date(d.createdAt).toISOString().split('T')[0] : '';
+
+          // لو كان الفرع مُعرّف وموجود في الدالة (populate) أو مشابه
+          // قد يكون d.branch = { _id, branch_name } مثلاً
+          const branchObj = allBranches.find(b => b._id === d.branch);
+          const branchName = branchObj ? branchObj.name : '';
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
           <td>${i + 1}</td>
           <td>${d.department_name || ''}</td>
           <td>${getTranslate(d.department_status === "1" ? 'dep_active_status' : 'dep_inactive_status')}</td>
           <td>${d.mawjood_id || ''}</td>
+          <!-- عرض اسم الفرع في الجدول -->
+          <td>${branchName}</td>
           <td>${creationDate}</td>
           <td>
             <i class="bi bi-pencil-fill actionIcon" title="${getTranslate('edit')}" onclick="openModalForEdit('${d._id}')"></i>
             <i class="bi bi-trash-fill actionIcon" title="${getTranslate('delete')}" onclick="deleteDepartment('${d._id}')"></i>
+            <i class="bi bi-hdd-network actionIcon" title="${getTranslate('assign_devices')}" onclick="openDevicesModalForDepartment('${d._id}')"></i>
           </td>
         `;
-        tb.appendChild(tr);
-      });
-    }
-
-    function filterDepartmentsLocally() {
-      const nameVal = document.getElementById('searchName').value.toLowerCase().trim();
-      const statusVal = document.getElementById('searchStatus').value;
-      const creationVal = document.getElementById('searchCreation').value;
-      let filtered = allDepartments.filter(d => {
-        if (nameVal && !d.department_name?.toLowerCase().includes(nameVal)) return false;
-        if (statusVal && d.department_status !== statusVal) return false;
-        if (creationVal) {
-          let cdate = d.createdAt ? new Date(d.createdAt).toISOString().split('T')[0] : '';
-          if (cdate !== creationVal) return false;
-        }
-        return true;
-      });
-      renderDepartments(filtered);
-    }
-
-    function openModalForAdd() {
-      editModeDeptId = null;
-      document.getElementById('deptId').value = '';
-      document.getElementById('departmentName').value = '';
-      document.getElementById('departmentStatus').value = '1';
-      document.getElementById('mawjoodId').value = '';
-      showModal();
-    }
-
-    async function openModalForEdit(id) {
-      clearMessages();
-      editModeDeptId = id;
-      showLoading();
-      try {
-        const resp = await fetch(`/api/departments/${id}`, {
-          headers: { 'Authorization': 'Bearer ' + authToken }
+          tb.appendChild(tr);
         });
-        if (!resp.ok) throw new Error('فشل جلب بيانات القسم');
-        const d = await resp.json();
-        document.getElementById('deptId').value = d._id || '';
-        document.getElementById('departmentName').value = d.department_name || '';
-        document.getElementById('departmentStatus').value = d.department_status || '1';
-        document.getElementById('mawjoodId').value = d.mawjood_id || '';
+      }
+
+      function filterDepartmentsLocally() {
+        const nameVal = document.getElementById('searchName').value.toLowerCase().trim();
+        const statusVal = document.getElementById('searchStatus').value;
+        const creationVal = document.getElementById('searchCreation').value;
+        let filtered = allDepartments.filter(d => {
+          if (nameVal && !d.department_name?.toLowerCase().includes(nameVal)) return false;
+          if (statusVal && d.department_status !== statusVal) return false;
+          if (creationVal) {
+            let cdate = d.createdAt ? new Date(d.createdAt).toISOString().split('T')[0] : '';
+            if (cdate !== creationVal) return false;
+          }
+          return true;
+        });
+        renderDepartments(filtered);
+      }
+
+      function openModalForAdd() {
+        editModeDeptId = null;
+        document.getElementById('deptId').value = '';
+        document.getElementById('departmentName').value = '';
+        document.getElementById('departmentStatus').value = '1';
+        document.getElementById('mawjoodId').value = '';
+        // تعبئة قائمة الفروع دون اختيار محدد
+        fillBranchDropdown(null);
         showModal();
-      } catch (err) {
-        showError(err.message);
-      } finally {
-        hideLoading();
       }
-    }
 
-    async function saveDepartment() {
-      clearMessages();
-      showLoading();
-      const deptId = document.getElementById('deptId').value;
-      const deptName = document.getElementById('departmentName').value.trim();
-      const deptStatus = document.getElementById('departmentStatus').value;
-      let mawjoodId = document.getElementById('mawjoodId').value.trim();
-      if (!mawjoodId) {
-        mawjoodId = generateShortId();
-      }
-      const bodyObj = {
-        department_name: deptName,
-        department_status: deptStatus,
-        mawjood_id: mawjoodId
-      };
-      try {
-        let url = '/api/departments';
-        let method = 'POST';
-        if (deptId) {
-          url = `/api/departments/${deptId}`;
-          method = 'PUT';
-        }
-        const resp = await fetch(url, {
-          method,
-          headers: {
-            'Authorization': 'Bearer ' + authToken,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(bodyObj)
-        });
-        if (!resp.ok) {
-          throw new Error(`فشل ${deptId ? 'تعديل' : 'إضافة'} القسم`);
-        }
-        showSuccess(getTranslate(deptId ? 'dep_msg_success_edit' : 'dep_msg_success_add'));
-        closeModal();
-        loadDepartments();
-      } catch (err) {
-        showError(err.message);
-      } finally {
-        hideLoading();
-      }
-    }
-
-    async function deleteDepartment(id) {
-      clearMessages();
-      if (!confirm(getTranslate('dep_msg_confirm_delete'))) return;
-      showLoading();
-      try {
-        const resp = await fetch(`/api/departments/${id}`, {
-          method: 'DELETE',
-          headers: { 'Authorization': 'Bearer ' + authToken }
-        });
-        if (!resp.ok) throw new Error('فشل حذف القسم');
-        showSuccess(getTranslate('dep_msg_success_delete'));
-        loadDepartments();
-      } catch (err) {
-        showError(err.message);
-      } finally {
-        hideLoading();
-      }
-    }
-
-    function showModal() {
-      document.getElementById('departmentModal').style.display = 'flex';
-    }
-    function closeModal() {
-      document.getElementById('departmentModal').style.display = 'none';
-      document.getElementById('deptId').value = '';
-      document.getElementById('departmentName').value = '';
-      document.getElementById('departmentStatus').value = '1';
-      document.getElementById('mawjoodId').value = '';
-    }
-
-    // توليد شورت ايدي عشوائي من 5 حروف
-    function generateShortId() {
-      let result = '';
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      for (let i = 0; i < 5; i++) {
-        result += characters.charAt(Math.floor(Math.random() * characters.length));
-      }
-      return result;
-    }
-
-    // استخراج ملف الإكسيل (يحتوي على _id واسم القسم وحقل الشورت ايدي)
-    function exportExcel() {
-      const exportData = allDepartments.map(d => ({
-        id: d._id,
-        department_name: d.department_name,
-        mawjood_id: d.mawjood_id
-      }));
-      const worksheet = XLSX.utils.json_to_sheet(exportData);
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Departments");
-      XLSX.writeFile(workbook, "departments.xlsx");
-    }
-
-    // استيراد ملف الإكسيل
-    function importExcel(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      showLoading();
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const data = new Uint8Array(e.target.result);
-        const workbook = XLSX.read(data, { type: 'array' });
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet);
-        const promises = [];
-        jsonData.forEach(row => {
-          const deptName = row['department_name'] ? row['department_name'].toString().trim() : '';
-          let mawjoodId = row['mawjood_id'] ? row['mawjood_id'].toString().trim() : '';
-          if (!mawjoodId) {
-            mawjoodId = generateShortId();
-          }
-          // البحث عن القسم بناءً على الشورت ايدي
-          const existingDept = allDepartments.find(d => d.mawjood_id === mawjoodId);
-          if (existingDept) {
-            const bodyObj = {
-              department_name: deptName,
-              department_status: existingDept.department_status,
-              mawjood_id: mawjoodId
-            };
-            const promise = fetch(`/api/departments/${existingDept._id}`, {
-              method: 'PUT',
-              headers: {
-                'Authorization': 'Bearer ' + authToken,
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(bodyObj)
-            });
-            promises.push(promise);
-          } else {
-            const bodyObj = {
-              department_name: deptName,
-              department_status: '1',
-              mawjood_id: mawjoodId
-            };
-            const promise = fetch('/api/departments', {
-              method: 'POST',
-              headers: {
-                'Authorization': 'Bearer ' + authToken,
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(bodyObj)
-            });
-            promises.push(promise);
-          }
-        });
-        Promise.all(promises)
-          .then(() => {
-            hideLoading();
-            showSuccess(getTranslate('dep_msg_success_import_excel'));
-            loadDepartments();
-          })
-          .catch(err => {
-            hideLoading();
-            showError(err.message);
+      async function openModalForEdit(id) {
+        clearMessages();
+        editModeDeptId = id;
+        showLoading();
+        try {
+          const resp = await fetch(`/api/departments/${id}`, {
+            headers: { 'Authorization': 'Bearer ' + authToken }
           });
-      };
-      reader.readAsArrayBuffer(file);
-    }
-  </script>
+          if (!resp.ok) throw new Error('فشل جلب بيانات القسم');
+          const d = await resp.json();
 
-  <!-- سكربت الترجمة -->
-  <script>
-    const LANG_KEY = 'lng';
-    const DEPART_LANG_PATH = './lang';
-    let translations = {};
+          document.getElementById('deptId').value = d._id || '';
+          document.getElementById('departmentName').value = d.department_name || '';
+          document.getElementById('departmentStatus').value = d.department_status || '1';
+          document.getElementById('mawjoodId').value = d.mawjood_id || '';
 
-    function getTranslate(key) {
-      return translations[key] || key;
-    }
+          // تعبئة قائمة الفروع مع اختيار الفرع المرتبط بالقسم
+          let selectedBranchId = d.branch ? (d.branch._id || d.branch) : null;
 
-    async function loadLanguageFile(lang) {
-      try {
-        const response = await fetch(`${DEPART_LANG_PATH}/${lang}_departments.json`);
-        if (!response.ok) {
-          throw new Error(`Error loading ${lang}.json`);
+          fillBranchDropdown(selectedBranchId);
+
+          showModal();
+        } catch (err) {
+          showError(err.message);
+        } finally {
+          hideLoading();
         }
-        translations = await response.json();
-      } catch (error) {
-        console.error("خطأ عند تحميل ملف الترجمة:", error);
       }
-    }
 
-    function applyDepartmentsTranslations(lang) {
-      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-      document.documentElement.lang = lang;
-      document.querySelectorAll('[data-lng]').forEach(el => {
-        const key = el.getAttribute('data-lng');
-        if (translations[key]) {
-          el.textContent = translations[key];
-        }
-      });
-      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-lng-placeholder');
-        if (translations[key]) {
-          el.placeholder = translations[key];
-        }
-      });
-      document.querySelectorAll('[data-lng-option]').forEach(el => {
-        const key = el.getAttribute('data-lng-option');
-        if (translations[key]) {
-          el.textContent = translations[key];
-        }
-      });
-    }
+      async function saveDepartment() {
+        clearMessages();
+        showLoading();
 
-    async function setLanguage(lang) {
-      await loadLanguageFile(lang);
-      localStorage.setItem(LANG_KEY, lang);
-      applyDepartmentsTranslations(lang);
-    }
+        const deptId = document.getElementById('deptId').value;
+        const deptName = document.getElementById('departmentName').value.trim();
+        const deptStatus = document.getElementById('departmentStatus').value;
+        let mawjoodId = document.getElementById('mawjoodId').value.trim();
+        // قراءة قيمة الفرع المختار
+        const selectedBranchId = document.getElementById('departmentBranch').value;
 
-    window.addEventListener('DOMContentLoaded', async () => {
-      let storedLang = localStorage.getItem(DEPART_LANG_PATH);
-      if (!storedLang) {
-        storedLang = 'en';
+        if (!mawjoodId) {
+          mawjoodId = generateShortId();
+        }
+        const bodyObj = {
+          department_name: deptName,
+          department_status: deptStatus,
+          mawjood_id: mawjoodId,
+          // نرسل آي دي الفرع إذا كان موجودًا
+          branch: selectedBranchId || null
+        };
+        try {
+          let url = '/api/departments';
+          let method = 'POST';
+          if (deptId) {
+            url = `/api/departments/${deptId}`;
+            method = 'PUT';
+          }
+          const resp = await fetch(url, {
+            method,
+            headers: {
+              'Authorization': 'Bearer ' + authToken,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(bodyObj)
+          });
+          if (!resp.ok) {
+            throw new Error(`فشل ${deptId ? 'تعديل' : 'إضافة'} القسم`);
+          }
+          showSuccess(getTranslate(deptId ? 'dep_msg_success_edit' : 'dep_msg_success_add'));
+          closeModal();
+          loadDepartments();
+        } catch (err) {
+          showError(err.message);
+        } finally {
+          hideLoading();
+        }
       }
-      applyDepartmentsTranslations(storedLang);
-    });
 
-    document.getElementById('langSelector').addEventListener('change', async function () {
-      await setLanguage(this.value);
-      clearMessages();
-    });
-  </script>
+      async function deleteDepartment(id) {
+        clearMessages();
+        if (!confirm(getTranslate('dep_msg_confirm_delete'))) return;
+        showLoading();
+        try {
+          const resp = await fetch(`/api/departments/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': 'Bearer ' + authToken }
+          });
+          if (!resp.ok) throw new Error('فشل حذف القسم');
+          showSuccess(getTranslate('dep_msg_success_delete'));
+          loadDepartments();
+        } catch (err) {
+          showError(err.message);
+        } finally {
+          hideLoading();
+        }
+      }
+
+      function showModal() {
+        document.getElementById('departmentModal').style.display = 'flex';
+      }
+      function closeModal() {
+        document.getElementById('departmentModal').style.display = 'none';
+        document.getElementById('deptId').value = '';
+        document.getElementById('departmentName').value = '';
+        document.getElementById('departmentStatus').value = '1';
+        document.getElementById('mawjoodId').value = '';
+        // إرجاع اختيار الفرع للحالة الافتراضية
+        fillBranchDropdown(null);
+      }
+
+      // توليد شورت ايدي عشوائي من 5 حروف
+      function generateShortId() {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        for (let i = 0; i < 5; i++) {
+          result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
+      }
+
+      // استخراج ملف الإكسيل (يحتوي على _id واسم القسم وحقل الشورت ايدي)
+      function exportExcel() {
+        const exportData = allDepartments.map(d => ({
+          id: d._id,
+          department_name: d.department_name,
+          mawjood_id: d.mawjood_id
+        }));
+        const worksheet = XLSX.utils.json_to_sheet(exportData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Departments");
+        XLSX.writeFile(workbook, "departments.xlsx");
+      }
+
+      // استيراد ملف الإكسيل
+      function importExcel(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        showLoading();
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(worksheet);
+          const promises = [];
+          jsonData.forEach(row => {
+            const deptName = row['department_name'] ? row['department_name'].toString().trim() : '';
+            let mawjoodId = row['mawjood_id'] ? row['mawjood_id'].toString().trim() : '';
+            if (!mawjoodId) {
+              mawjoodId = generateShortId();
+            }
+            // البحث عن القسم بناءً على الشورت ايدي
+            const existingDept = allDepartments.find(d => d.mawjood_id === mawjoodId);
+            if (existingDept) {
+              const bodyObj = {
+                department_name: deptName,
+                department_status: existingDept.department_status,
+                mawjood_id: mawjoodId
+              };
+              const promise = fetch(`/api/departments/${existingDept._id}`, {
+                method: 'PUT',
+                headers: {
+                  'Authorization': 'Bearer ' + authToken,
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyObj)
+              });
+              promises.push(promise);
+            } else {
+              const bodyObj = {
+                department_name: deptName,
+                department_status: '1',
+                mawjood_id: mawjoodId
+              };
+              const promise = fetch('/api/departments', {
+                method: 'POST',
+                headers: {
+                  'Authorization': 'Bearer ' + authToken,
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyObj)
+              });
+              promises.push(promise);
+            }
+          });
+          Promise.all(promises)
+            .then(() => {
+              hideLoading();
+              showSuccess(getTranslate('dep_msg_success_import_excel'));
+              loadDepartments();
+            })
+            .catch(err => {
+              hideLoading();
+              showError(err.message);
+            });
+        };
+        reader.readAsArrayBuffer(file);
+      }
+
+      // دوال تعيين الأجهزة للأقسام
+
+      async function loadAllDevices() {
+        try {
+          const resp = await fetch('/api/devices', {
+            headers: { 'Authorization': 'Bearer ' + authToken }
+          });
+          if (!resp.ok) throw new Error('Failed to fetch devices');
+          const data = await resp.json();
+          allDevices = data;
+
+          const devicesSelect = document.getElementById('devicesSelectDept');
+          devicesSelect.innerHTML = '';
+          allDevices.forEach(d => {
+            const opt = document.createElement('option');
+            opt.value = d._id;
+            opt.textContent = d.name || `Device ${d._id}`;
+            devicesSelect.appendChild(opt);
+          });
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      function openDevicesModalForDepartment(deptId) {
+        currentDepartmentId = deptId;
+        loadAllDevices().then(() => {
+          // تعيين الأجهزة الحالية للقسم إن وُجدت
+          const dept = allDepartments.find(d => d._id === deptId);
+          if (dept && dept.devices && dept.devices.length) {
+            $('#devicesSelectDept').val(dept.devices).trigger('change');
+          } else {
+            $('#devicesSelectDept').val([]).trigger('change');
+          }
+          showDeptDevicesModal();
+        });
+      }
+
+      function showDeptDevicesModal() {
+        document.getElementById('departmentDevicesModal').style.display = 'flex';
+      }
+
+      function closeDeptDevicesModal() {
+        document.getElementById('departmentDevicesModal').style.display = 'none';
+        currentDepartmentId = null;
+      }
+
+      async function saveDepartmentDevices() {
+        const errorMsg = document.getElementById('errorMsg');
+        const successMsg = document.getElementById('successMsg');
+        errorMsg.textContent = '';
+        successMsg.textContent = '';
+        const selectedDevices = $('#devicesSelectDept').val() || [];
+        showLoading();
+        try {
+          const dept = allDepartments.find(d => d._id === currentDepartmentId);
+          if (!dept) throw new Error('Department not found');
+          dept.devices = selectedDevices;
+          const resp = await fetch(`/api/departments/${dept._id}`, {
+            method: 'PUT',
+            headers: {
+              'Authorization': 'Bearer ' + authToken,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dept)
+          });
+          if (!resp.ok) throw new Error('Failed to save devices');
+          successMsg.textContent = getTranslate("dep_msg_success_edit");
+        } catch (err) {
+          errorMsg.textContent = err.message;
+        } finally {
+          hideLoading();
+          closeDeptDevicesModal();
+          loadDepartments();
+        }
+      }
+    </script>
+
+    <!-- سكربت الترجمة -->
+    <script>
+      const LANG_KEY = 'lng';
+      const DEPART_LANG_PATH = './lang';
+      let translations = {};
+
+      function getTranslate(key) {
+        return translations[key] || key;
+      }
+
+      async function loadLanguageFile(lang) {
+        try {
+          const response = await fetch(`${DEPART_LANG_PATH}/${lang}_departments.json`);
+          if (!response.ok) {
+            throw new Error(`Error loading ${lang}.json`);
+          }
+          translations = await response.json();
+        } catch (error) {
+          console.error("خطأ عند تحميل ملف الترجمة:", error);
+        }
+      }
+
+      function applyDepartmentsTranslations(lang) {
+        document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+        document.documentElement.lang = lang;
+        document.querySelectorAll('[data-lng]').forEach(el => {
+          const key = el.getAttribute('data-lng');
+          if (translations[key]) {
+            el.textContent = translations[key];
+          }
+        });
+        document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+          const key = el.getAttribute('data-lng-placeholder');
+          if (translations[key]) {
+            el.placeholder = translations[key];
+          }
+        });
+        document.querySelectorAll('[data-lng-option]').forEach(el => {
+          const key = el.getAttribute('data-lng-option');
+          if (translations[key]) {
+            el.textContent = translations[key];
+          }
+        });
+      }
+
+      async function setLanguage(lang) {
+        await loadLanguageFile(lang);
+        localStorage.setItem(LANG_KEY, lang);
+        applyDepartmentsTranslations(lang);
+
+        await loadSidebarLangFile(lang);
+        applySidebarTranslation();
+
+      }
+
+      window.addEventListener('DOMContentLoaded', async () => {
+        let storedLang = localStorage.getItem(DEPART_LANG_PATH);
+        if (!storedLang) {
+          storedLang = 'en';
+        }
+        applyDepartmentsTranslations(storedLang);
+      });
+
+      document.getElementById('langSelector').addEventListener('change', async function () {
+        await setLanguage(this.value);
+        clearMessages();
+      });
+
+      function loadSiebar() {
+        fetch('sidebar.html')
+          .then(response => response.text())
+          .then(data => {
+            document.querySelector('.sidebar').innerHTML = data;
+            var submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(function (submenu) {
+              if (submenu.querySelector('.navItem.active')) {
+                submenu.style.display = "block";
+              }
+            });
+            addActiveToSubmenuClass(2);
+          })
+          .catch(error => console.error('Error loading sidebar:', error));
+      }
+
+      async function loadSidebarLangFile(lang) {
+        try {
+          const response = await fetch(`./lang/${lang}_sidebar.json`);
+          if (!response.ok) {
+            throw new Error(`Error loading ${lang}_sidebar.json`);
+          }
+          sidebarLabels = await response.json();
+
+        } catch (error) {
+          console.error("Report translation file error:", error);
+        }
+      }
+
+      function applySidebarTranslation() {
+        document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+          const key = el.getAttribute('data-lng');
+
+          if (sidebarLabels[key]) {
+            el.textContent = sidebarLabels[key];
+          }
+        });
+      }
+
+      loadSiebar();
+
+      function addActiveToSubmenuClass(childIndex) {
+        const submenu = document.getElementById('staffManagementSubmenu');
+        submenu.style.display = "block";
+        const navItems = submenu.getElementsByClassName('navItem');
+        if (childIndex >= 1 && childIndex <= navItems.length) {
+          Array.from(navItems).forEach(item => item.classList.remove('active'));
+          navItems[childIndex - 1].classList.add('active');
+        } else {
+          console.error('Child index out of bounds');
+        }
+      }
+
+    </script>
 </body>
+
 </html>

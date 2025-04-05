@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+  <meta charset="UTF-8">
+  <title data-lng="tagemployee_head_title">نظام إدارة الحضور والانصراف - علامة الموظف (TagEmployee)</title>
+  <!-- مكتبة jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- مكتبة Select2 (اختياري) -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <!-- أيقونات Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- خطوط -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    html {
+      animation: fadeIn .3s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* عند العربية: الخط Tajawal + RTL */
+    html[lang="ar"] body {
+      font-family: 'Tajawal', sans-serif;
+      direction: rtl;
+    }
+
+    /* عند الإنجليزية: الخط Open Sans + LTR */
+    html[lang="en"] body {
+      font-family: 'Open Sans', sans-serif;
+      direction: ltr;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
+    }
+
+    /* رأس الصفحة (header) */
+    header {
+      background: linear-gradient(45deg, #0062cc, #004085);
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    header button {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+
+    header button:hover {
+      background: #c82333;
+    }
+
+    /* تنسيق للقوائم الفرعية لتظهر كفرع */
+    .submenu {
+      border-left: 2px solid #dee2e6;
+      margin-left: 15px;
+      padding-left: 10px;
+      margin-bottom: 5px;
+    }
+
+    .menu-group-header {
+      font-weight: bold;
+      background: #dee2e6;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row-reverse;
+      /* لعرض المحتوى الرئيسي يمين والسيدبار يسار (في حالة العربية) */
+    }
+
+    .mainContent {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .sidebar {
+      width: 240px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      min-height: 100vh;
+      padding: 20px 10px;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 15px;
+      font-size: 1rem;
+      text-align: center;
+      color: #444;
+    }
+
+    .navItem {
+      padding: 12px 10px;
+      margin: 6px 0;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #333;
+      font-weight: 500;
+      transition: background 0.3s, color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .navItem i {
+      font-size: 1.1rem;
+      color: #666;
+      transition: color 0.3s;
+    }
+
+    .navItem:hover {
+      background: #f0f0f0;
+    }
+
+    .navItem.active {
+      background: #007bff;
+      color: #fff;
+    }
+
+    .navItem.active i {
+      color: #fff;
+    }
+
+    .errorMsg,
+    .successMsg {
+      margin: 10px 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .errorMsg {
+      color: red;
+    }
+
+    .successMsg {
+      color: green;
+    }
+
+    .addTagEmployeeBtn {
+      background: #28a745;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      transition: background 0.3s;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .addTagEmployeeBtn:hover {
+      background: #218838;
+    }
+
+    .searchFilters {
+      background: #fff;
+      padding: 10px;
+      margin-bottom: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .searchFilters label {
+      margin-right: 4px;
+      font-weight: 500;
+    }
+
+    .searchFilters input[type="date"],
+    .searchFilters input[type="text"] {
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    table thead {
+      background: #007bff;
+      color: #fff;
+    }
+
+    table th,
+    table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .btnDanger {
+      background: #dc3545;
+      color: #fff;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      transition: background 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btnDanger:hover {
+      background: #c82333;
+    }
+
+    .btnEdit {
+      background: #007bff;
+      color: #fff;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      transition: background 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btnEdit:hover {
+      background: #0056b3;
+    }
+
+    /* المودال */
+    .modalOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .modalContent {
+      width: 400px;
+      max-width: 90%;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: fadeInModal 0.3s ease;
+      position: relative;
+    }
+
+    @keyframes fadeInModal {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .modalHeader {
+      background: #007bff;
+      color: #fff;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modalHeader h2 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .modalCloseBtn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .modalCloseBtn:hover {
+      color: #ffdddd;
+    }
+
+    .modalBody {
+      padding: 20px;
+    }
+
+    .modalBody label {
+      display: block;
+      margin: 8px 0 4px;
+      font-weight: 500;
+    }
+
+    .modalBody input,
+    .modalBody textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+
+    .modalSaveBtn {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 14px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+
+    .modalSaveBtn:hover {
+      background: #218838;
+    }
+
+    #langSelector {
+      margin: 10px;
+      padding: 6px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+
+<body onload="initPage()">
+  <!-- الهيدر -->
+  <header>
+    <h1 data-lng="tagemployee_header_title">نظام إدارة الحضور والانصراف - علامة (TagEmployee)</h1>
+    <!-- الجزء الأيمن: زر الخروج + اختيار اللغة -->
+    <div>
+      <button id="dep_logout" data-lng="tagemployee_logout" onclick="logout()"></button>
+      <select id="langSelector" class="lang-select">
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+      </select>
+    </div>
+  </header>
+
+  <div id="sidebarContainer"></div>
+
+  <div class="container">
+    <!-- المحتوى الرئيسي -->
+    <div class="mainContent">
+      <div class="errorMsg" id="errorMsg"></div>
+      <div class="successMsg" id="successMsg"></div>
+
+      <!-- فلاتر البحث -->
+      <div class="searchFilters">
+        <label for="searchName" data-lng="tagemployee_table_header_name"></label>
+        <input type="text" id="searchName" oninput="filterTagEmployeesLocally()"
+          data-lng-placeholder="tagemployee_placeholder_search_name" placeholder="" />
+
+        <label for="searchCreation" data-lng="tagemployee_table_header_created"></label>
+        <input type="date" id="searchCreation" onchange="filterTagEmployeesLocally()" />
+      </div>
+
+      <!-- زر إضافة  -->
+      <button class="addTagEmployeeBtn" onclick="openModalForAdd()"
+        data-lng="tagemployee_button_add_tagemployee"></button>
+
+      <!-- الجدول -->
+      <table id="tagemployeeTable">
+        <thead>
+          <tr>
+            <th data-lng="tagemployee_table_header_index">#</th>
+            <th data-lng="tagemployee_table_header_name">الاسم</th>
+            <th data-lng="tagemployee_table_header_note">ملاحظات</th>
+            <th data-lng="tagemployee_table_header_created">تاريخ الإضافة</th>
+            <th data-lng="tagemployee_table_header_edit">تحرير</th>
+            <th data-lng="tagemployee_table_header_delete">حذف</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- الشريط الجانبي (Sidebar) - يمكنك تعديل الروابط أو الإبقاء كما هي -->
+    <div class="sidebar"></div>
+
+  </div>
+
+  <!-- المودال -->
+  <div class="modalOverlay" id="tagemployeeModal">
+    <div class="modalContent">
+      <div class="modalHeader">
+        <h2 id="modalTitle" data-lng="tagemployee_modal_title_add">إضافة علامة</h2>
+        <button class="modalCloseBtn" onclick="closeModal()">×</button>
+      </div>
+      <div class="modalBody">
+        <input type="hidden" id="tagemployeeId" />
+
+        <label for="tagemployeeName" data-lng="tagemployee_modal_name_label">اسم علامة:</label>
+        <input type="text" id="tagemployeeName" placeholder="" />
+
+        <label for="tagemployeeNote" data-lng="tagemployee_modal_note_label">ملاحظات:</label>
+        <textarea id="tagemployeeNote" rows="2" placeholder="..."></textarea>
+
+        <button class="modalSaveBtn" onclick="saveTagEmployee()" data-lng="tagemployee_modal_save_button">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * مفاتيح عامة
+     */
+    const LANG_KEY = 'lng';
+    const TAGEMPLOYEE_LANG_PATH = './lang'; // حيث يوجد ar_tagemployee.json و en_tagemployee.json
+    let authToken = null;
+    let allTagEmployees = [];  // نخزن جميع الموظفين التاجيين
+    let editModeTagEmployeeId = null;
+    let translations = {};
+
+    /**
+     * تهيئة الصفحة
+     */
+    function initPage() {
+      // 1) ضبط اللغة الافتراضية (حسب المخزن في لوكال ستوريج أو إن لم يوجد فـ الإنجليزية)
+      let storedLang = localStorage.getItem(LANG_KEY);
+      if (!storedLang) {
+        storedLang = 'en';
+      }
+      document.getElementById('langSelector').value = storedLang;
+
+      // 2) تحميل الترجمة ثم استدعاء الدوال
+      setLanguage(storedLang).then(() => {
+        // 3) التحقق من التوكن
+        authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+          window.location.href = 'login.html';
+          return;
+        }
+        // 4) تحميل بيانات الموظفين التاجيين من السيرفر
+        loadTagEmployees();
+      });
+    }
+
+    /**
+     * جلب قائمة الموظفين التاجيين
+     */
+    async function loadTagEmployees() {
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+
+      try {
+        const resp = await fetch('/api/tagemployee', {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!resp.ok) throw new Error('فشل جلب قائمة الموظفين التاجيين');
+        const data = await resp.json();
+        // نفترض أن الـ API يعيد مصفوفة
+        allTagEmployees = data;
+        renderTagEmployees(data);
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      }
+    }
+
+    /**
+     * رسم الجدول
+     */
+    function renderTagEmployees(tagArr) {
+      const tb = document.querySelector('#tagemployeeTable tbody');
+      tb.innerHTML = '';
+
+      tagArr.forEach((item, i) => {
+        const creationDate = item.createdAt ? new Date(item.createdAt).toISOString().split('T')[0] : '';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${i + 1}</td>
+          <td>${item.name || ''}</td>
+          <td>${item.note || ''}</td>
+          <td>${creationDate}</td>
+          <td><button class="btnEdit" onclick="openModalForEdit('${item._id}')">${getTranslate("tagemployee_table_header_edit")}</button></td>
+          <td><button class="btnDanger" onclick="deleteTagEmployee('${item._id}')">${getTranslate("tagemployee_table_header_delete")}</button></td>
+        `;
+        tb.appendChild(tr);
+      });
+    }
+
+    /**
+     * فلترة محلية حسب الاسم وتاريخ الإضافة
+     */
+    function filterTagEmployeesLocally() {
+      const nameFilter = document.getElementById('searchName').value.toLowerCase().trim();
+      const creationDateFilter = document.getElementById('searchCreation').value;
+
+      const filtered = allTagEmployees.filter(item => {
+        if (nameFilter) {
+          if (!item.name?.toLowerCase().includes(nameFilter)) return false;
+        }
+        if (creationDateFilter) {
+          let cdate = item.createdAt ? new Date(item.createdAt).toISOString().split('T')[0] : '';
+          if (cdate !== creationDateFilter) return false;
+        }
+        return true;
+      });
+      renderTagEmployees(filtered);
+    }
+
+    /**
+     * فتح المودال للإضافة
+     */
+    function openModalForAdd() {
+      editModeTagEmployeeId = null;
+      document.getElementById('modalTitle').textContent = getTranslate("tagemployee_modal_title_add");
+      document.getElementById('tagemployeeId').value = '';
+      document.getElementById('tagemployeeName').value = '';
+      document.getElementById('tagemployeeNote').value = '';
+      showModal();
+    }
+
+    /**
+     * فتح المودال للتعديل
+     */
+    async function openModalForEdit(id) {
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+
+      editModeTagEmployeeId = id;
+      try {
+        const resp = await fetch(`/api/tagemployee/${id}`, {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!resp.ok) throw new Error('فشل جلب بيانات علامة');
+        const tagData = await resp.json();
+
+        document.getElementById('modalTitle').textContent = getTranslate('tagemployee_modal_title_edit');
+        document.getElementById('tagemployeeId').value = tagData._id || '';
+        document.getElementById('tagemployeeName').value = tagData.name || '';
+        document.getElementById('tagemployeeNote').value = tagData.note || '';
+
+        showModal();
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      }
+    }
+
+    /**
+     * حفظ (إضافة/تعديل)
+     */
+    async function saveTagEmployee() {
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+
+      const tagemployeeId = document.getElementById('tagemployeeId').value;
+      const tagemployeeName = document.getElementById('tagemployeeName').value.trim();
+      const tagemployeeNote = document.getElementById('tagemployeeNote').value.trim();
+
+      const bodyObj = {
+        name: tagemployeeName,
+        note: tagemployeeNote
+      };
+
+      try {
+        let url = '/api/tagemployee';
+        let method = 'POST';
+        if (tagemployeeId) {
+          url = `/api/tagemployee/${tagemployeeId}`;
+          method = 'PUT';
+        }
+
+        const resp = await fetch(url, {
+          method,
+          headers: {
+            'Authorization': 'Bearer ' + authToken,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(bodyObj)
+        });
+        if (!resp.ok) {
+          throw new Error(getTranslate(tagemployeeId ? 'tagemployee_msg_fail_edit' : 'tagemployee_msg_fail_add'));
+        }
+
+        successMsg.textContent = getTranslate(tagemployeeId ? 'tagemployee_msg_success_edit' : 'tagemployee_msg_success_add');
+        closeModal();
+        loadTagEmployees();
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      }
+    }
+
+    /**
+     * حذف علامة
+     */
+    async function deleteTagEmployee(id) {
+      const errorMsg = document.getElementById('errorMsg');
+      const successMsg = document.getElementById('successMsg');
+      errorMsg.textContent = '';
+      successMsg.textContent = '';
+
+      if (!confirm(getTranslate('tagemployee_msg_confirm_delete'))) return;
+      try {
+        const resp = await fetch(`/api/tagemployee/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': 'Bearer ' + authToken
+          }
+        });
+        if (!resp.ok) throw new Error(getTranslate('tagemployee_msg_fail_delete'));
+        successMsg.textContent = getTranslate('tagemployee_msg_success_delete');
+        loadTagEmployees();
+      } catch (err) {
+        errorMsg.textContent = err.message;
+      }
+    }
+
+    /**
+     * عرض/إخفاء المودال
+     */
+    function showModal() {
+      document.getElementById('tagemployeeModal').style.display = 'flex';
+    }
+    function closeModal() {
+      document.getElementById('tagemployeeModal').style.display = 'none';
+      document.getElementById('tagemployeeId').value = '';
+      document.getElementById('modalTitle').textContent = getTranslate('tagemployee_modal_title_add');
+      document.getElementById('tagemployeeName').value = '';
+      document.getElementById('tagemployeeNote').value = '';
+    }
+
+    /**
+     * التوغل بين القوائم الفرعية
+     */
+    function toggleSubMenu(id) {
+      var submenu = document.getElementById(id);
+      if (submenu.style.display === "none" || submenu.style.display === "") {
+        submenu.style.display = "block";
+      } else {
+        submenu.style.display = "none";
+      }
+    }
+    // document.addEventListener("DOMContentLoaded", function () {
+    //   var submenus = document.querySelectorAll('.submenu');
+    //   submenus.forEach(function (submenu) {
+    //     if (submenu.querySelector('.navItem.active')) {
+    //       submenu.style.display = "block";
+    //     }
+    //   });
+    // });
+
+    /**
+     * تسجيل الخروج
+     */
+    function logout() {
+      localStorage.removeItem('authToken');
+      window.location.href = 'login.html';
+    }
+
+    /**
+     * == الترجمة ==
+     */
+    function getTranslate(key) {
+      return translations[key] || "";
+    }
+    async function loadLanguageFile(lang) {
+      try {
+        const response = await fetch(`${TAGEMPLOYEE_LANG_PATH}/${lang}_tagemployee.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}_tagemployee.json`);
+        }
+        translations = await response.json();
+      } catch (error) {
+        console.error("TagEmployee translation file error:", error);
+      }
+    }
+    function applyTranslations(lang) {
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+      document.documentElement.lang = lang;
+
+      // تطبيق النصوص على العناصر data-lng="..."
+      document.querySelectorAll('[data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+        if (translations[key]) {
+          el.textContent = translations[key];
+        }
+      });
+
+      // تطبيق placeholder
+      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-lng-placeholder');
+        if (translations[key]) {
+          el.placeholder = translations[key];
+        }
+      });
+    }
+    async function setLanguage(lang) {
+      await loadLanguageFile(lang);
+      localStorage.setItem(LANG_KEY, lang);
+      applyTranslations(lang);
+
+      await loadSidebarLangFile(lang);
+      applySidebarTranslation();
+
+    }
+
+    /**
+     * تغيير اللغة من الـ select
+     */
+    document.getElementById('langSelector').addEventListener('change', function () {
+      setLanguage(this.value).then(() => loadTagEmployees());
+    });
+
+    /**
+     * عند تحميل الصفحة
+     */
+    window.addEventListener('DOMContentLoaded', async () => {
+      let storedLang = localStorage.getItem(LANG_KEY);
+      if (!storedLang) storedLang = 'en';
+      await loadLanguageFile(storedLang);
+      applyTranslations(storedLang);
+    });
+
+    function loadSiebar() {
+      fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.querySelector('.sidebar').innerHTML = data;
+          var submenus = document.querySelectorAll('.submenu');
+          submenus.forEach(function (submenu) {
+            if (submenu.querySelector('.navItem.active')) {
+              submenu.style.display = "block";
+            }
+          });
+          addActiveToSubmenuClass(4);
+        })
+        .catch(error => console.error('Error loading sidebar:', error));
+    }
+
+    async function loadSidebarLangFile(lang) {
+      try {
+        const response = await fetch(`./lang/${lang}_sidebar.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}_sidebar.json`);
+        }
+        sidebarLabels = await response.json();
+
+      } catch (error) {
+        console.error("Report translation file error:", error);
+      }
+    }
+
+    function applySidebarTranslation() {
+      document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+
+        if (sidebarLabels[key]) {
+          el.textContent = sidebarLabels[key];
+        }
+      });
+    }
+
+    loadSiebar();
+
+    function addActiveToSubmenuClass(childIndex) {
+      const submenu = document.getElementById('staffManagementSubmenu');
+      submenu.style.display = "block";
+      const navItems = submenu.getElementsByClassName('navItem');
+      if (childIndex >= 1 && childIndex <= navItems.length) {
+        Array.from(navItems).forEach(item => item.classList.remove('active'));
+        navItems[childIndex - 1].classList.add('active');
+      } else {
+        console.error('Child index out of bounds');
+      }
+    }
+
+  </script>
+</body>
+
+</html>

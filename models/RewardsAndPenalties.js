@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const rpSchema = new Schema({
   employee_name: { type: String, required: true },
-  enroll_id: { type: Number, required: true },
+  enroll_id: { type: String, required: true },
   date: { type: Date, required: true },
   amount: { type: Number, required: true },
   reason: { type: String },

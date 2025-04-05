@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar">
 
 <head>
   <meta charset="UTF-8">
@@ -53,6 +53,7 @@
       font-family: 'Tajawal', sans-serif;
       background: #f2f2f2;
       direction: rtl;
+      /* افتراضياً بالعربية */
     }
 
     /* رأس الصفحة */
@@ -94,8 +95,8 @@
       background: #c82333;
     }
 
-        /* تنسيق للقوائم الفرعية لتظهر كفرع */
-        .submenu {
+    /* تنسيق للقوائم الفرعية لتظهر كفرع */
+    .submenu {
       border-left: 2px solid #dee2e6;
       margin-left: 15px;
       padding-left: 10px;
@@ -224,6 +225,24 @@
       border: 1px solid #ccc;
     }
 
+    /* زر إعادة الإرسال */
+    #resendButton {
+      background: #17a2b8;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+      display: none;
+      /* مخفي افتراضيًا */
+    }
+
+    #resendButton:hover {
+      background: #138496;
+    }
+
     /* جدول الأوامر */
     table {
       width: 100%;
@@ -269,6 +288,11 @@
       color: #721c24;
     }
 
+    .statusApproved {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
     /* شاشة التحميل (Overlay) */
     .loadingOverlay {
       position: fixed;
@@ -301,17 +325,119 @@
         transform: rotate(360deg);
       }
     }
+
+    /* ====== إضافة تنسيقات المودال لزر "ارسال الموظفين للاجهزة" ====== */
+    /* خلفية المودال */
+    .modalOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: none;
+      /* مخفي افتراضيًا */
+      justify-content: center;
+      align-items: center;
+      z-index: 999999;
+      /* أعلى من الـloadingOverlay */
+    }
+
+    .modalContent {
+      background-color: #fff;
+      width: 60%;
+      max-width: 800px;
+      padding: 20px;
+      border-radius: 8px;
+      position: relative;
+      max-height: 80%;
+      overflow-y: auto;
+    }
+
+    .modalHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .modalHeader h2 {
+      margin: 0;
+    }
+
+    .closeModalBtn {
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+    }
+
+    /* قائمة الموظفين داخل المودال */
+    .employeesTable {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .employeesTable th,
+    .employeesTable td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .modalFooter {
+      margin-top: 15px;
+      text-align: right;
+    }
+
+    .sendBtn {
+      background-color: #28a745;
+      color: #fff;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .sendBtn:hover {
+      background-color: #218838;
+    }
+
+    /* الأجهزة كعلامات (Chips) */
+    .device-chip {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin: 2px;
+      font-size: 0.8rem;
+      color: #fff;
+    }
+
+    /* حقل الفلترة (القسم) */
+    .filterSection {
+      margin-bottom: 10px;
+    }
+
+    .filterSection label {
+      font-weight: 600;
+    }
+
+    .filterSection select {
+      margin-right: 10px;
+    }
   </style>
 </head>
 
 <body onload="initPage()">
   <!-- هيدر -->
   <header>
-    <h1>نظام إدارة الحضور والانصراف - الأوامر</h1>
+    <h1 data-lng="requests_header_title">نظام إدارة الحضور والانصراف - الأوامر</h1>
     <div>
-      <button onclick="logout()">خروج</button>
-      <!-- اختيار اللغة (مثل صفحة اللوجن) -->
-      <select id="langSelector" id="langSelector">
+      <button onclick="logout()" data-lng="logout_button_text">Logout</button>
+      <!-- اختيار اللغة -->
+      <select id="langSelector">
         <option value="en">English</option>
         <option value="ar">العربية</option>
       </select>
@@ -340,21 +466,39 @@
         <select id="searchStatus" onchange="filterRequestsLocally()">
           <option value="" data-lng="all_statuses">كل الحالات</option>
           <option value="pending" data-lng="pending">انتظار</option>
-          <option value="done" data-lng="done">منجزة</option>
           <option value="rejected" data-lng="rejected">مرفوضة</option>
+          <option value="approved" data-lng="approved">موافقة</option>
+          <option value="done">منتهية</option>
         </select>
+
+        <!-- زر إعادة الإرسال يظهر فقط عند اختيار عناصر -->
+        <button id="resendButton" onclick="resendSelectedRequests()">Resend</button>
       </div>
 
-      <!-- جدول الأوامر -->
+      <!-- ====== زر جديد لفتح مودال إرسال الموظفين للأجهزة ====== -->
+      <button id="openSendEmployeesModal" onclick="openSendEmployeesModal()" data-lng="send_employees"
+        style="margin-bottom:15px; background:#28a745; color:#fff; border:none; padding:8px 14px; border-radius:4px; cursor:pointer;">
+        ارسال الموظفين للاجهزة
+      </button>
+
+      <!-- جدول الأوامر (جميع الحقول) -->
       <table id="requestsTable">
         <thead>
           <tr>
-            <th data-lng="leaves_table_header_index">#</th>
-            <th data-lng="device_name">اسم الجهاز</th>
-            <th data-lng="status">الحالة</th>
-            <th data-lng="last_execution_date">آخر تاريخ تنفيذ</th>
-            <th data-lng="execution_count">عدد مرات التنفيذ</th>
-            <th data-lng="result">النتيجة</th>
+            <!-- عمود اختيار/إلغاء اختيار الكل -->
+            <th><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
+            <th data-lng="colIndex">#</th>
+            <th data-lng="colDeviceName">اسم الجهاز</th>
+            <th data-lng="colActionType">نوع العملية (ActionType)</th>
+            <th data-lng="colSN">SN</th>
+            <th data-lng="colOperationType">عملية (operation_type)</th>
+            <th data-lng="colRepeat">التكرار (repeat)</th>
+            <th data-lng="colRunningTimes">عدد مرات التنفيذ</th>
+            <th data-lng="colResult">النتيجة</th>
+            <th data-lng="colURL">الرابط</th>
+            <th data-lng="colCreatedAt">تاريخ الإنشاء</th>
+            <th data-lng="colDateDone">تاريخ الإنهاء</th>
+            <th data-lng="colUpdatedAt">تاريخ التحديث</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -362,300 +506,129 @@
     </div>
 
     <!-- الشريط الجانبي -->
-    <div class="sidebar">
-      
-          
-            <!-- الرئيسية -->
-            <div class="navItem menu-group-header" onclick="location.href='dashboard.html'">
-              <i class="bi bi-house-fill"></i>
-              <span data-lng="navOverview">الرئيسية</span>
-            </div>
-      
-            <!-- ادارة الموظفين -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('staffManagementSubmenu')">
-              <i class="bi bi-people-fill"></i>
-              <span data-lng="staffManagement">ادارة الموظفين</span>
-            </div>
-            <div id="staffManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='employee.html'">
-                <i class="bi bi-person-lines-fill"></i>
-                <span data-lng="navEmployees">الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='department.html'">
-                <i class="bi bi-building"></i>
-                <span data-lng="navDepartment">الأقسام</span>
-              </div>
-            </div>
-      
-            <!-- التقارير -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('reportsSubmenu')">
-              <i class="bi bi-bar-chart-line-fill"></i>
-              <span data-lng="reports">التقارير</span>
-            </div>
-      
-            <div id="reportsSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='report.html'">
-                <i class="bi bi-bar-chart-line-fill"></i>
-                <span data-lng="navReport"></span>
-              </div>
-      
-              <div class="navItem" onclick="location.href='attend.html'">
-                <i class="bi bi-journal-check"></i>
-                <span data-lng="navAttend">تقرير الحضور</span>
-              </div>
-      
-      
-              <div class="navItem" onclick="location.href='employee-summary-report.html'">
-                <i class="bi bi-people-fill"></i>
-                <span data-lng="employee_summary_report">تقرير ملخص الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='rule.html'">
-                <i class="bi bi-braces"></i>
-                <span data-lng="navRules">القواعد (Rules)</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاجهزة -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('deviceManagementSubmenu')">
-              <i class="bi bi-device-hdd-fill"></i>
-              <span data-lng="deviceManagement">ادارة الاجهزة</span>
-            </div>
-            <div id="deviceManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='devices.html'">
-                <i class="bi bi-laptop"></i>
-                <span data-lng="navDevices">الأجهزة</span>
-              </div>
-              <div class="navItem active" onclick="location.href='requests.html'">
-                <i class="bi bi-list-check"></i>
-                <span data-lng="navOrders">الأوامر</span>
-              </div>
-              <div class="navItem" onclick="location.href='importemployee.html'">
-                <i class="bi bi-person-exclamation"></i>
-                <span data-lng="unregistered">الموظفين غير المسجلين</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الدوام -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('workManagementSubmenu')">
-              <i class="bi bi-calendar-event-fill"></i>
-              <span data-lng="workManagement">ادارة الدوام</span>
-            </div>
-            <div id="workManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='leaves.html'">
-                <i class="bi bi-calendar3"></i>
-                <span data-lng="navLeaves">الإجازات</span>
-              </div>
-              <div class="navItem" onclick="location.href='rewards.html'">
-                <i class="bi bi-gift-fill"></i>
-                <span data-lng="navRewards">المكافئات</span>
-              </div>
-              <div class="navItem" onclick="location.href='time-based-leaves.html'">
-                <i class="bi bi-clock-fill"></i>
-                <span data-lng="leaves_sidebar_time_leaves">إجازات زمنية</span>
-              </div>
-              
-              <div class="navItem" onclick="location.href='holidays.html'">
-                <i class="bi bi-calendar-event"></i>
-                <span data-lng="navHolidays">العطل الرسمية</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاوقات -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('timeManagementSubmenu')">
-              <i class="bi bi-clock-fill"></i>
-              <span data-lng="timeManagement">ادارة الاوقات</span>
-            </div>
-            <div id="timeManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='shifts.html'">
-                <i class="bi bi-hourglass-split"></i>
-                <span data-lng="navshift">الشفتات</span>
-              </div>
-              <div class="navItem" onclick="location.href='TimeSlot.html'">
-                <i class="bi bi-watch"></i>
-                <span data-lng="navSlot">الأوقات</span>
-              </div>
-              <div class="navItem" onclick="location.href='public-settings.html'">
-                <i class="bi bi-gear"></i>
-                <span data-lng="public_settings">الإعدادات</span>
-              </div>
-            </div>
-          </div>
-      
-          <script>
-            // دالة لتبديل عرض وإخفاء القائمة الفرعية
-            function toggleSubMenu(id) {
-              var submenu = document.getElementById(id);
-              if (submenu.style.display === "none" || submenu.style.display === "") {
-                submenu.style.display = "block";
-              } else {
-                submenu.style.display = "none";
-              }
-            }
-      
-            // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
-            // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
-            document.addEventListener("DOMContentLoaded", function () {
-              var submenus = document.querySelectorAll('.submenu');
-              submenus.forEach(function (submenu) {
-                if (submenu.querySelector('.navItem.active')) {
-                  submenu.style.display = "block";
-                }
-              });
-            });
-          </script>
-   
+    <div class="sidebar"></div>
+  </div>
+
+  <!-- ========== مودال ارسال الموظفين للاجهزة ========== -->
+  <div class="modalOverlay" id="sendEmployeesModal">
+    <div class="modalContent">
+      <div class="modalHeader">
+        <h2 data-lng="send_employees">ارسال الموظفين للاجهزة</h2>
+        <button class="closeModalBtn" onclick="closeSendEmployeesModal()">&times;</button>
+      </div>
+
+      <div class="filterSection">
+        <label data-lng="filterDepartment">فلترة حسب القسم:</label>
+        <select id="departmentFilter" onchange="filterEmployeesByDepartment()">
+          <option value="" data-lng="all">الكل</option>
+          <!-- سيتم تعبئة باقي الأقسام dynamically -->
+        </select>
+      </div>
+
+      <table class="employeesTable" id="employeesTable">
+        <thead>
+          <tr>
+            <th><input type="checkbox" id="selectAllEmployees" onclick="toggleSelectAllEmployees()"></th>
+            <th data-lng="name">الاسم</th>
+            <th data-lng="department">القسم</th>
+            <th data-lng="devices">الأجهزة</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- سيتم تعبئة بيانات الموظفين ديناميكياً -->
+        </tbody>
+      </table>
+
+      <div class="modalFooter">
+        <button class="sendBtn" onclick="sendSelectedEmployees()" data-lng="send">ارسال</button>
+      </div>
+    </div>
+  </div>
 
   <script>
+    // دالة لتبديل عرض وإخفاء القائمة الفرعية
+    function toggleSubMenu(id) {
+      var submenu = document.getElementById(id);
+      if (submenu.style.display === "none" || submenu.style.display === "") {
+        submenu.style.display = "block";
+      } else {
+        submenu.style.display = "none";
+      }
+    }
+
+    // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
+    // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
+    // document.addEventListener("DOMContentLoaded", function () {
+    //   var submenus = document.querySelectorAll('.submenu');
+    //   submenus.forEach(function (submenu) {
+    //     if (submenu.querySelector('.navItem.active')) {
+    //       submenu.style.display = "block";
+    //     }
+    //   });
+    // });
+
     let authToken = null;
     let allRequests = [];
-    let translations = {}; // General translations
-    let leavesTranslations = {}; // Leaves-specific translations
+    let translations = {};      // الترجمة العامة
+    let leavesTranslations = {}; // الترجمة الخاصة بالـ requests (سابقًا leaves)
 
-    const LANG_PATH = './lang';        // Folder for JSON language files
+    const LANG_PATH = './lang';         // مجلد ملفات الترجمة
     const LANG_KEY = 'lng';
-    const LEAVES_LANG_KEY = 'lang'; // Make sure the key is consistent across pages
-    const LEAVES_LANG_PATH = './lang'; // Path to ar_leaves.json and en_leaves.json
+    const LEAVES_LANG_KEY = 'lang';     // يمكن إبقاؤه كما هو
+    const LEAVES_LANG_PATH = './lang';  // مسار ملفات الترجمة
 
     function initPage() {
       let storedLang = localStorage.getItem(LANG_KEY);
-      // If no language is stored, set default to 'en'
+      // إذا لم يختر المستخدم لغة من قبل، تصبح الافتراضية English
       if (!storedLang) {
         storedLang = 'en';
-        localStorage.setItem(LANG_KEY, storedLang); // Store default language
+        localStorage.setItem(LANG_KEY, storedLang);
       }
       document.getElementById('langSelector').value = storedLang;
-      if (storedLang === 'ar') {
-        document.documentElement.dir = 'rtl';
-      } else {
-        document.documentElement.dir = 'ltr';
-      }
-      // Set the language
+
+      // تغيير اتجاه الصفحة بناءً على اللغة
+      document.documentElement.dir = (storedLang === 'ar') ? 'rtl' : 'ltr';
+
+      // ضبط اللغة
       setLanguage(storedLang).then(() => {
-        // Check if the user is authenticated
+        // التحقق من التوكن
         authToken = localStorage.getItem('authToken');
         if (!authToken) {
           window.location.href = 'login.html';
           return;
         }
+        // جلب البيانات وعرضها
         loadRequests();
+
+        // ====== تحميل بيانات الموظفين والاجهزة للمودال ======
+        loadEmployeesAndDevices();
       });
     }
 
     async function setLanguage(lang) {
-      await loadLanguageFile(lang); // Load the general language file
-      await loadLeavesLangFile(lang); // Load the leaves-specific language file
-      localStorage.setItem(LANG_KEY, lang); // Store the selected language
-      // Apply translations to the page content
+      await loadLanguageFile(lang);      // الترجمة العامة
+      await loadLeavesLangFile(lang);    // الترجمة الخاصة بالـrequests
+      localStorage.setItem(LANG_KEY, lang);
+
+      // تطبيق الترجمة
       applyTranslations(lang);
       applyRequestsTranslations(lang);
 
-      // Set the language (lang) and text direction (dir)
-      document.documentElement.lang = lang;
-      console.log(lang);
-      if (lang === 'ar') {
-        document.documentElement.dir = 'rtl';
-      }
-      else {
-        document.documentElement.dir = 'ltr';
-      }
-    }
-
-    function applyTranslations(lang) {
-
+      // ضبط اللغة في وسم الـhtml
       document.documentElement.lang = lang;
       document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-      // Apply translations to elements with data-lng attribute
-      document.querySelectorAll('[data-lng]').forEach(el => {
-        const key = el.getAttribute('data-lng');
-        if (translations[key]) {
-          if (el.tagName === 'OPTION') {
-            el.textContent = translations[key]; // Apply translation to <option> text
-          } else {
-            el.textContent = translations[key]; // Apply translation to other elements
-          }
-        }
-      });
 
-      // Apply translations to placeholders
-      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-lng-placeholder');
-        if (translations[key]) {
-          el.placeholder = translations[key];
-        }
-      });
+      await loadSidebarLangFile(lang);
+      applySidebarTranslation();
 
-      // Apply translations to options
-      document.querySelectorAll('[data-lng-option]').forEach(el => {
-        const key = el.getAttribute('data-lng-option');
-        if (translations[key]) {
-          el.textContent = translations[key];
-        }
-      });
     }
 
-    function applyRequestsTranslations(lang) {
-      console.log(`Loading leaves translations for ${lang} from ${LEAVES_LANG_PATH}/${lang}_requests.json`);
-
-      // Apply leaves-specific translations to elements with data-lng attribute
-      document.querySelectorAll('[data-lng]').forEach(el => {
-        const key = el.getAttribute('data-lng');
-        if (leavesTranslations[key]) {
-          // For elements like <H2>, <DIV>, <SPAN>, set textContent
-          if (el.tagName === 'H2' || el.tagName === 'DIV' || el.tagName === 'SPAN') {
-            el.textContent = leavesTranslations[key];
-          } else {
-            // For other elements, set innerHTML
-            el.innerHTML = leavesTranslations[key];
-          }
-        }
-      });
-
-      // Apply translations to placeholders (using data-lng-placeholder attribute)
-      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-lng-placeholder');
-        if (leavesTranslations[key]) {
-          el.placeholder = leavesTranslations[key]; // Set translated placeholder
-        }
-      });
-
-      // Apply translations to options (for <select> dropdowns)
-      document.querySelectorAll('option[data-lng]').forEach(option => {
-        const key = option.getAttribute('data-lng');
-        if (leavesTranslations[key]) {
-          option.textContent = leavesTranslations[key]; // Set translated option text
-        }
-      });
-
-      // Update the modal title translation if present
-      const modalTitle = document.getElementById('modalTitle');
-      if (modalTitle && leavesTranslations['leaves_modal_title_add']) {
-        modalTitle.textContent = leavesTranslations['leaves_modal_title_add'];
-      }
-
-      // Update the <title> with leaves-specific title
-      if (leavesTranslations['leaves_head_title']) {
-        document.title = leavesTranslations['leaves_head_title'];
-      }
-
-      // Update the header title if present
-      const headerTitle = document.querySelector('header h1');
-      if (headerTitle && leavesTranslations['leaves_header_title']) {
-        headerTitle.textContent = leavesTranslations['leaves_header_title'];
-      }
-
-      // Update the logout button if present
-      const logoutButton = document.querySelector('header button');
-      if (logoutButton && leavesTranslations['leaves_logout']) {
-        logoutButton.textContent = leavesTranslations['leaves_logout'];
-      }
-    }
-
-    // Function to load the general language file
+    // تحميل ملف ترجمة عام
     async function loadLanguageFile(lang) {
       try {
-        const response = await fetch(`${LEAVES_LANG_PATH}/${lang}_requests.json`); // General lang file (e.g., en.json or ar.json)
+        const response = await fetch(`${LEAVES_LANG_PATH}/${lang}_requests.json`);
         if (!response.ok) {
-          throw new Error(`Error loading ${lang}.json`);
+          throw new Error(`Error loading ${lang}_requests.json`);
         }
         translations = await response.json();
       } catch (error) {
@@ -663,12 +636,12 @@
       }
     }
 
-    // Function to load the leaves language file
+    // تحميل ملف ترجمة خاص
     async function loadLeavesLangFile(lang) {
       try {
-        const response = await fetch(`${LEAVES_LANG_PATH}/${lang}_requests.json`); // Specific leaves lang file (e.g., en_leaves.json or ar_leaves.json)
+        const response = await fetch(`${LEAVES_LANG_PATH}/${lang}_requests.json`);
         if (!response.ok) {
-          throw new Error(`Error loading ${lang}_leaves.json`);
+          throw new Error(`Error loading ${lang}_requests.json`);
         }
         leavesTranslations = await response.json();
       } catch (error) {
@@ -676,58 +649,96 @@
       }
     }
 
+    function applyTranslations(lang) {
+      document.documentElement.lang = lang;
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+      // تطبيق الترجمة على العناصر التي تحوي data-lng
+      document.querySelectorAll('[data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+        if (translations[key]) {
+          // إذا كان العنصر خيار في select
+          if (el.tagName === 'OPTION') {
+            el.textContent = translations[key];
+          } else {
+            el.textContent = translations[key];
+          }
+        }
+      });
+
+      // تطبيق الترجمة على placeholder
+      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-lng-placeholder');
+        if (translations[key]) {
+          el.placeholder = translations[key];
+        }
+      });
+    }
+
+    function applyRequestsTranslations(lang) {
+      // لو لديك نصوص إضافية مخصصة
+      document.querySelectorAll('[data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+        if (leavesTranslations[key]) {
+          if (el.tagName === 'H2' || el.tagName === 'SPAN' || el.tagName === 'DIV' || el.tagName === 'BUTTON') {
+            el.textContent = leavesTranslations[key];
+          } else {
+            el.innerHTML = leavesTranslations[key];
+          }
+        }
+      });
+      // placeholder
+      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-lng-placeholder');
+        if (leavesTranslations[key]) {
+          el.placeholder = leavesTranslations[key];
+        }
+      });
+      // option
+      document.querySelectorAll('option[data-lng]').forEach(option => {
+        const key = option.getAttribute('data-lng');
+        if (leavesTranslations[key]) {
+          option.textContent = leavesTranslations[key];
+        }
+      });
+    }
+
     function logout() {
       localStorage.removeItem('authToken');
       window.location.href = 'login.html';
     }
 
-    // Language selection event listener
+    // تغيير اللغة عند اختيار المستخدم من القائمة
     document.getElementById('langSelector').addEventListener('change', (event) => {
       const selectedLang = event.target.value;
-      setLanguage(selectedLang); // Set the new language and apply changes
-      clearMessages()
+      setLanguage(selectedLang);
+      clearMessages();
     });
-    document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
-      const key = el.getAttribute('data-lng-placeholder');
-      if (translations[key]) {
-        el.placeholder = translations[key]; // Set translated placeholder
-      }
-    });
-    // Show loading screen
+
     function showLoading() {
       document.getElementById('loadingOverlay').style.display = 'flex';
     }
-
-    // Hide loading screen
     function hideLoading() {
       document.getElementById('loadingOverlay').style.display = 'none';
     }
-
-    // Show error message
     function showError(msg) {
       const errorMsg = document.getElementById('errorMsg');
       errorMsg.textContent = msg;
       errorMsg.style.display = 'block';
-      // Hide success message
       document.getElementById('successMsg').style.display = 'none';
     }
-
-    // Show success message
     function showSuccess(msg) {
       const successMsg = document.getElementById('successMsg');
       successMsg.textContent = msg;
       successMsg.style.display = 'block';
-      // Hide error message
       document.getElementById('errorMsg').style.display = 'none';
     }
-
-    // Hide messages
     function clearMessages() {
       document.getElementById('errorMsg').style.display = 'none';
       document.getElementById('successMsg').style.display = 'none';
     }
 
-    // Fetch requests from API
+    // جلب البيانات (الأوامر)
     async function loadRequests() {
       clearMessages();
       showLoading();
@@ -736,7 +747,7 @@
           headers: { 'Authorization': 'Bearer ' + authToken }
         });
         if (!resp.ok) {
-          throw new Error(translations['leaves_msg_error_fetch_vacation']);
+          throw new Error('Error fetching requests');
         }
         const data = await resp.json();
         allRequests = data;
@@ -748,55 +759,60 @@
       }
     }
 
-    // Render requests in the table
+    // عرض البيانات في الجدول (الأوامر)
     function renderRequests(reqArray) {
       const tb = document.querySelector('#requestsTable tbody');
       tb.innerHTML = '';
 
       reqArray.forEach((r, i) => {
-        const lastExec = r.last_executed_date
-          ? new Date(r.last_executed_date).toLocaleString('en-GB')
-          : '';
-
-        const runs = r.running_times || 0;
+        const sn = r.body?.sn || '';
+        const createdAt = r.createdAt ? new Date(r.createdAt).toLocaleString('en-GB') : '';
+        const dateDone = r.date_done ? new Date(r.date_done).toLocaleString('en-GB') : '';
+        const updatedAt = r.updatedAt ? new Date(r.updatedAt).toLocaleString('en-GB') : '';
+        const repeat = r.repeat || '';
+        const runningTimes = r.running_times ?? 0;
+        const result = r.result || '';
+        const actionType = r.ActionType || '';
+        const operationType = r.operation_type || '';
+        const deviceName = r.device_name || '';
 
         let rowClass = '';
-        let statusText = '';
-
         if (r.status === 'pending') {
           rowClass = 'statusPending';
-          statusText = translations['wait'];
         } else if (r.status === 'done') {
           rowClass = 'statusDone';
-          statusText = translations['finished'];
+        } else if (r.status === 'approved') {
+          rowClass = 'statusApproved';
         } else if (r.status === 'rejected') {
           rowClass = 'statusRejected';
-          statusText = translations['canceled'];
-        } else {
-          statusText = r.status || '';
         }
 
-        const resultText = r.result || '';
-
+        const rowId = r._id || '';
         const tr = document.createElement('tr');
-
-        if (rowClass) {
-          tr.classList.add(rowClass);
-        }
+        if (rowClass) tr.classList.add(rowClass);
 
         tr.innerHTML = `
+          <td>
+            <input type="checkbox" class="rowCheckbox" value="${rowId}" onclick="updateResendButtonVisibility()">
+          </td>
           <td>${i + 1}</td>
-          <td>${r.device_name || ''}</td>
-          <td>${statusText}</td>
-          <td>${lastExec}</td>
-          <td>${runs}</td>
-          <td>${resultText}</td>
+          <td>${deviceName}</td>
+          <td>${actionType}</td>
+          <td>${sn}</td>
+          <td>${operationType}</td>
+          <td>${repeat}</td>
+          <td>${runningTimes}</td>
+          <td>${result}</td>
+          <td>${r.url || ''}</td>
+          <td>${createdAt}</td>
+          <td>${dateDone}</td>
+          <td>${updatedAt}</td>
         `;
         tb.appendChild(tr);
       });
     }
 
-    // Filter requests locally
+    // فلترة بسيطة لجدول الأوامر
     function filterRequestsLocally() {
       const deviceVal = document.getElementById('searchDevice').value.toLowerCase().trim();
       const statusVal = document.getElementById('searchStatus').value;
@@ -812,18 +828,403 @@
       });
 
       renderRequests(filtered);
+      document.getElementById('resendButton').style.display = 'none';
+      document.getElementById('selectAll').checked = false;
     }
-    // Initialize language settings on page load
-    window.addEventListener('DOMContentLoaded', async () => {
-      let storedLang = localStorage.getItem(LANG_KEY) || 'en';
-      await loadLanguageFile(storedLang);
-      await loadLeavesLangFile(storedLang);
-      applyTranslations(storedLang);
-      applyRequestsTranslations(storedLang);
-    });
+
+    function toggleSelectAll() {
+      const checkAll = document.getElementById('selectAll').checked;
+      const rowCheckboxes = document.querySelectorAll('.rowCheckbox');
+      rowCheckboxes.forEach(ch => {
+        ch.checked = checkAll;
+      });
+      updateResendButtonVisibility();
+    }
+
+    function updateResendButtonVisibility() {
+      const checkedItems = document.querySelectorAll('.rowCheckbox:checked');
+      const resendBtn = document.getElementById('resendButton');
+      if (checkedItems.length > 0) {
+        resendBtn.style.display = 'inline-block';
+      } else {
+        resendBtn.style.display = 'none';
+      }
+    }
+
+    function getTranslate(key) {
+      return translations.hasOwnProperty(key) ? translations[key] : key;
+    }
+
+    async function resendSelectedRequests() {
+      clearMessages();
+      showLoading();
+
+      try {
+        const checkedItems = document.querySelectorAll('.rowCheckbox:checked');
+        const ids = Array.from(checkedItems).map(x => x.value);
+
+        if (!ids.length) {
+          showError("noRequests");
+          hideLoading();
+          return;
+        }
+
+        const resp = await fetch('/api/requests/resend', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + authToken
+          },
+          body: JSON.stringify({ ids })
+        });
+
+        if (!resp.ok) {
+          throw new Error(getTranslate("resendError"));
+        }
+
+        const result = await resp.json();
+        if (result.success) {
+          showSuccess(result.message || getTranslate("success"));
+        } else {
+          showError(result.message || getTranslate("resendError"));
+        }
+
+        loadRequests();
+
+      } catch (err) {
+        showError(err.message);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    /* ============================= *
+     *   القسم الخاص بالمودال الجديد *
+     * ============================= */
+
+    let allEmployees = [];
+    let allDevices = [];
+
+    function openSendEmployeesModal() {
+      document.getElementById('sendEmployeesModal').style.display = 'flex';
+    }
+
+    function closeSendEmployeesModal() {
+      document.getElementById('sendEmployeesModal').style.display = 'none';
+    }
+
+    async function loadEmployeesAndDevices() {
+      try {
+        showLoading();
+
+        const empRes = await fetch('/api/employees?page=1&limit=999999', {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!empRes.ok) {
+          throw new Error(getTranslate('fetchEmpError'));
+        }
+        const empData = await empRes.json();
+        allEmployees = empData.data || [];
+
+        const devRes = await fetch('/api/devices', {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        if (!devRes.ok) {
+          throw new Error(getTranslate('fetchDevicesError'));
+        }
+        const devData = await devRes.json();
+        allDevices = devData;
+
+        hideLoading();
+        renderEmployeesTable(allEmployees, allDevices);
+        fillDepartmentFilterOptions(allEmployees);
+      } catch (error) {
+        showError(error.message);
+        hideLoading();
+      }
+    }
+
+    function renderEmployeesTable(employees, devices) {
+      const tbody = document.querySelector('#employeesTable tbody');
+      tbody.innerHTML = '';
+
+      // إظهار فقط من لديه أجهزة
+      const filteredEmployees = employees.filter(emp => emp.devices && emp.devices.length > 0);
+
+      filteredEmployees.forEach((emp) => {
+        const deviceIds = emp.devices || [];
+        const deviceChipsHTML = deviceIds.map((dId, i) => {
+          const devObj = devices.find(d => d._id === dId);
+          if (!devObj) return '';
+
+          const colors = ["#007bff", "#17a2b8", "#28a745", "#ffc107", "#dc3545", "#6f42c1"];
+          const color = colors[i % colors.length];
+          return `<span class="device-chip" style="background-color:${color}">${devObj.name || 'Unknown'}</span>`;
+        }).join('');
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><input type="checkbox" class="employeeCheckbox" value="${emp._id}"></td>
+          <td>${emp.name || ''}</td>
+          <td>${emp.department || ''}</td>
+          <td>${deviceChipsHTML}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function fillDepartmentFilterOptions(employees) {
+      const deptSelect = document.getElementById('departmentFilter');
+      const allDepartments = employees.map(e => e.department).filter(Boolean);
+      const uniqueDepts = [...new Set(allDepartments)];
+
+      for (let i = deptSelect.options.length - 1; i > 0; i--) {
+        deptSelect.remove(i);
+      }
+
+      uniqueDepts.forEach(dept => {
+        const opt = document.createElement('option');
+        opt.value = dept;
+        opt.textContent = dept;
+        deptSelect.appendChild(opt);
+      });
+    }
+
+    function filterEmployeesByDepartment() {
+      const selectedDept = document.getElementById('departmentFilter').value;
+      if (!selectedDept) {
+        renderEmployeesTable(allEmployees, allDevices);
+      } else {
+        const filtered = allEmployees.filter(emp => emp.department === selectedDept && emp.devices && emp.devices.length > 0);
+        const tbody = document.querySelector('#employeesTable tbody');
+        tbody.innerHTML = '';
+
+        filtered.forEach((emp) => {
+          const deviceIds = emp.devices || [];
+          const deviceChipsHTML = deviceIds.map((dId, i) => {
+            const devObj = allDevices.find(d => d._id === dId);
+            if (!devObj) return '';
+
+            const colors = ["#007bff", "#17a2b8", "#28a745", "#ffc107", "#dc3545", "#6f42c1"];
+            const color = colors[i % colors.length];
+            return `<span class="device-chip" style="background-color:${color}">${devObj.name || 'Unknown'}</span>`;
+          }).join('');
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><input type="checkbox" class="employeeCheckbox" value="${emp._id}"></td>
+            <td>${emp.name || ''}</td>
+            <td>${emp.department || ''}</td>
+            <td>${deviceChipsHTML}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+    }
+
+    function toggleSelectAllEmployees() {
+      const checkAll = document.getElementById('selectAllEmployees').checked;
+      const checkboxes = document.querySelectorAll('.employeeCheckbox');
+      checkboxes.forEach(ch => {
+        ch.checked = checkAll;
+      });
+    }
+
+    async function sendSelectedEmployees() {
+      clearMessages();
+      showLoading();
+
+      try {
+        const checkedItems = document.querySelectorAll('.employeeCheckbox:checked');
+        const selectedEmpIds = Array.from(checkedItems).map(ch => ch.value);
+
+        if (!selectedEmpIds.length) {
+          showError(getTranslate('noEmployees'));
+          hideLoading();
+          return;
+        }
+
+        const selectedEmployees = allEmployees.filter(e => selectedEmpIds.includes(e._id));
+
+        for (let emp of selectedEmployees) {
+          const userName = emp.name || '';
+          const enrollId = emp.enroll_id || '';
+          const department = emp.department || '';
+          const card = emp.card || '';
+          const zoneid = emp.week_zone || 0;
+          const devicesIds = emp.devices || [];
+
+          // الحالة 1 + 2 + 3
+          const hasImage = !!emp.image;
+          const hasFingerprint = !!emp.fingerprint;
+
+          for (let dId of devicesIds) {
+            const devObj = allDevices.find(d => d._id === dId);
+            if (!devObj) continue;
+
+            const deviceSN = devObj.serial || '';
+            const deviceName = devObj.name || '';
+
+            // إذا كانت الصورة موجودة
+            if (hasImage) {
+              const bodyData = {
+                url: devObj.serverip + "/api/setuserinfo",
+                body: {
+                  sn: deviceSN,
+                  userInfo: {
+                    enrollid: enrollId,
+                    name: userName,
+                    backupnum: 50,
+                    admin: 0,
+                    record: emp.image.replace(/^data:image\/\w+;base64,/, ""),
+                    zoneid: zoneid,
+                    departmant: department,
+                    card: card
+                  }
+                },
+                ActionType: "FaceId",
+                device_name: deviceName,
+                operation_type: "setUserInfo"
+              };
+              await fetch('/api/requests', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer ' + authToken
+                },
+                body: JSON.stringify(bodyData)
+              });
+            }
+
+            // إذا كان البصمة موجودة
+            if (hasFingerprint) {
+              const bodyDataFingerprint = {
+                url: devObj.serverip + "/api/setuserinfo",
+                body: {
+                  sn: deviceSN,
+                  userInfo: {
+                    enrollid: enrollId,
+                    name: userName,
+                    backupnum: 0,
+                    admin: 0,
+                    record: emp.fingerprint,
+                    zoneid: zoneid,
+                    departmant: department,
+                    card: card
+                  }
+                },
+                ActionType: "Fingerprint",
+                device_name: deviceName,
+                operation_type: "setUserInfo"
+              };
+              await fetch('/api/requests', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer ' + authToken
+                },
+                body: JSON.stringify(bodyDataFingerprint)
+              });
+            }
+
+            // إذا الاثنين غير موجودين
+            if (!hasImage && !hasFingerprint) {
+              const bodyDataEmpty = {
+                url: devObj.serverip + "/api/setuserinfo",
+                body: {
+                  sn: deviceSN,
+                  userInfo: {
+                    enrollid: enrollId,
+                    name: userName,
+                    backupnum: 0,
+                    admin: 0,
+                    record: "",
+                    zoneid: zoneid,
+                    departmant: department,
+                    card: card
+                  }
+                },
+                ActionType: "Info person",
+                device_name: deviceName,
+                operation_type: "setUserInfo"
+              };
+              await fetch('/api/requests', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Bearer ' + authToken
+                },
+                body: JSON.stringify(bodyDataEmpty)
+              });
+            }
+          }
+        }
+
+        hideLoading();
+        showSuccess(getTranslate('success'));
+        closeSendEmployeesModal();
+        loadRequests();
+      } catch (error) {
+        showError(error.message);
+        hideLoading();
+      }
+    }
+
+    function loadSiebar() {
+      fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.querySelector('.sidebar').innerHTML = data;
+          var submenus = document.querySelectorAll('.submenu');
+          submenus.forEach(function (submenu) {
+            if (submenu.querySelector('.navItem.active')) {
+              submenu.style.display = "block";
+            }
+          });
+
+          addActiveToSubmenuClass(2);
+        })
+        .catch(error => console.error('Error loading sidebar:', error));
+    }
+
+    async function loadSidebarLangFile(lang) {
+      try {
+        const response = await fetch(`${LANG_PATH}/${lang}_sidebar.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}_sidebar.json`);
+        }
+        sidebarLabels = await response.json();
+
+      } catch (error) {
+        console.error("Report translation file error:", error);
+      }
+    }
+
+    function applySidebarTranslation() {
+      document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+
+        if (sidebarLabels[key]) {
+          el.textContent = sidebarLabels[key];
+        }
+      });
+    }
+
+    loadSiebar();
+
+    function addActiveToSubmenuClass(childIndex) {
+      const submenu = document.getElementById('deviceManagementSubmenu');
+      submenu.style.display = "block";
+      const navItems = submenu.getElementsByClassName('navItem');
+      if (childIndex >= 1 && childIndex <= navItems.length) {
+        Array.from(navItems).forEach(item => item.classList.remove('active'));
+        navItems[childIndex - 1].classList.add('active');
+      } else {
+        console.error('Child index out of bounds');
+      }
+    }
 
   </script>
-
 </body>
 
 </html>

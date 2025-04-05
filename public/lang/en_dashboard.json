@@ -1,6 +1,7 @@
 {
   "sidebar_title": "Menu",
   "sidebar_dashboard": "Dashboard",
+  "navBranch":"Branches",  
   "sidebar_employees": "Employees",
   "sidebar_attendance_report": "Attendance Report",
   "leaves_sidebar_time_leaves":"Partial Time Request",
@@ -32,10 +33,6 @@
   "dash_head_title": "Attendance Management System - Dashboard",
   "dash_system_name": "Attendance Management System",
   "dash_logout": "Logout",
-  "dash_filter_month": "Select Month:",
-  "dash_filter_day": "Select Day:",
-  "dash_filter_button": "Fetch Stats",
-
   "dash_card_total_employees": "Total Employees",
   "dash_card_total_departments": "Total Departments",
   "dash_card_total_holidays": "Official Holidays",
@@ -75,7 +72,7 @@
 
   "dash_table_pending_vacations": "Pending Vacations",
   "dash_table_employee": "Employee",
-  "dash_table_leave_type": "Leave Type",
+  "dash_table_leave_type": "Leave Reason",
 
   "dash_table_latest_fingerprints": "Latest 5 Fingerprint Logs",
   "dash_table_status": "Status",
@@ -102,8 +99,16 @@
   "attend_sidebar_departments": "Departments",
   "attend_sidebar_settings": "Settings",
   "leaves_type": "Leave Types",
-
+  "dash_filter_week": "Week:",
+  "dash_filter_from_date": "From:",
+  "dash_filter_to_date": "To:",
+  "dash_filter_reset_button": "Rest",
+  "buttons.resetFilters": "Rest",
+  "dash_filter_month": "Select Month:",
+  "dash_filter_day": "Select Day:",
+  "dash_filter_button": "Fetch Stats",
   
+  "totalDepartments":"ss",
   "date":"Date",
   "failed_to_bring_pending_leave":"Failed to bring pending leaves",
   "no_holidays_waiting":"No holidays waiting",
@@ -126,6 +131,7 @@
   "err_8": "Failed to fetch leaves",
   "err_9": "Failed to fetch attendance data for the chart",
   "err_10": "Failed to fetch data for the selected period"
+  
 
 }
   

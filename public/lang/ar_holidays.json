@@ -82,6 +82,8 @@
     "holidays_msg_error_edit": "فشل تعديل العطلة الرسمية",
     "holidays_msg_success_add": "تم إضافة العطلة الرسمية بنجاح.",
     "holidays_msg_success_edit": "تم تعديل العطلة الرسمية بنجاح.",
+    "holidays_modal_start_label": "بداية العطلة",
+    "holidays_modal_end_label": "نهاية العطلة",
     "holidays_msg_success_delete": "تم حذف العطلة الرسمية بنجاح."
   }
   

@@ -3,42 +3,24 @@
 
 <head>
   <meta charset="UTF-8">
-  <title data-lng="rules_page_title">نظام إدارة الحضور - إدارة القواعد (Rules)</title>
+  <title data-i18n="rules_page_title">نظام إدارة الحضور - إدارة القواعد (Rules)</title>
 
-  <!-- خطوط Tajawal (للعربية) وOpen Sans (للإنجليزية) -->
+  <!-- خط Tajawal -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
 
   <!-- أيقونات Bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
+  <!-- مكتبة Select2 و jQuery (للبحث في القوائم المنسدلة) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
   <style>
     html {
-      animation: fadeIn .3s ease-in forwards;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-
-      to {
-        opacity: 1;
-      }
-    }
-
-    /* عند العربية: الخط Tajawal + RTL */
-    html[lang="ar"] body {
       font-family: 'Tajawal', sans-serif;
-      direction: rtl;
-    }
-
-    /* عند الإنجليزية: الخط Open Sans + LTR */
-    html[lang="en"] body {
-      font-family: 'Open Sans', sans-serif;
-      direction: ltr;
     }
 
     body {
@@ -76,14 +58,15 @@
       background: #c82333;
     }
 
-    /* اختيار اللغة */
-    #langSelector {
-      margin-left: 10px;
-      padding: 6px;
+    header select {
+      margin-right: 10px;
+      padding: 4px;
       border-radius: 4px;
-      border: 1px solid #ccc;
+      border: none;
+      font-family: inherit;
     }
-    /* تنسيق للقوائم الفرعية لتظهر كفرع */
+
+    /* الشريط الجانبي (Sidebar) */
     .submenu {
       border-left: 2px solid #dee2e6;
       margin-left: 15px;
@@ -95,13 +78,7 @@
       font-weight: bold;
       background: #dee2e6;
     }
-    .container {
-      display: flex;
-      flex-direction: row-reverse;
-      /* عند العربية */
-    }
 
-    /* الشريط الجانبي */
     .sidebar {
       width: 240px;
       background: #fff;
@@ -149,13 +126,31 @@
       color: #fff;
     }
 
-    /* المحتوى الرئيسي */
+    .container {
+      display: flex;
+      flex-direction: row-reverse;
+    }
+
+    .sidebar {
+      width: 240px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      min-height: 100vh;
+      padding: 20px 10px;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 15px;
+      font-size: 1rem;
+      text-align: center;
+      color: #444;
+    }
+
     .mainContent {
       flex: 1;
       padding: 20px;
     }
 
-    /* رسائل الخطأ والنجاح */
     .errorMsg,
     .successMsg {
       margin: 10px 0;
@@ -171,7 +166,6 @@
       color: green;
     }
 
-    /* زر إضافة قاعدة جديدة */
     .addBtn {
       background: #28a745;
       color: #fff;
@@ -182,13 +176,14 @@
       font-size: 0.9rem;
       border: none;
       cursor: pointer;
+      font-family: inherit;
     }
 
     .addBtn:hover {
       background: #218838;
     }
 
-    /* الجدول */
+    /* تحسينات إضافية على الجدول */
     table {
       width: 100%;
       border-collapse: collapse;
@@ -196,6 +191,8 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       border-radius: 6px;
       overflow: hidden;
+      margin-bottom: 20px;
+      direction: rtl;
     }
 
     table thead {
@@ -227,109 +224,95 @@
       color: #0056b3;
     }
 
-    /* المودال Overlay */
+    /* ============= تحديث تصميم المودال ============= */
     .modalOverlay {
       display: none;
       position: fixed;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      justify-content: center;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
       align-items: center;
-      z-index: 9999;
+      justify-content: center;
+      padding: 20px;
     }
 
     .modalContent {
-      width: 600px;
-      max-width: 90%;
-      border-radius: 8px;
       background: #fff;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 800px;
+      /* زيادة العرض ليكون أكثر أناقة */
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      animation: fadeInModal 0.3s ease;
-      position: relative;
-    }
-
-    @keyframes fadeInModal {
-      from {
-        transform: scale(0.9);
-        opacity: 0;
-      }
-
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
+      max-height: 90vh;
     }
 
     .modalHeader {
-      background: #007bff;
-      color: #fff;
-      padding: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 15px 20px;
+      background: #007bff;
+      color: #fff;
     }
 
     .modalHeader h2 {
       margin: 0;
-      font-size: 1rem;
+      font-size: 1.5rem;
     }
 
     .modalCloseBtn {
-      background: none;
+      background: transparent;
       border: none;
       color: #fff;
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       cursor: pointer;
-      transition: color 0.3s;
-    }
-
-    .modalCloseBtn:hover {
-      color: #ffdddd;
     }
 
     .modalBody {
       padding: 20px;
+      overflow-y: auto;
+      background: #f9f9f9;
+      flex: 1;
     }
 
     .modalBody label {
       display: block;
-      margin: 8px 0 4px;
-      font-weight: 500;
+      margin-bottom: 5px;
+      font-weight: bold;
     }
 
     .modalBody input,
     .modalBody select,
     .modalBody textarea {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
+      margin-bottom: 15px;
       border: 1px solid #ccc;
-      border-radius: 4px;
-      margin-bottom: 10px;
-      font-size: 0.9rem;
-      font-family: inherit;
+      border-radius: 5px;
+      font-size: 1rem;
     }
 
     .modalActions {
       display: flex;
       justify-content: flex-end;
       gap: 10px;
-      padding: 10px 20px;
+      padding: 15px 20px;
+      background: #f1f1f1;
     }
 
     .modalSaveBtn,
     .modalCancelBtn {
+      padding: 10px 20px;
       border: none;
-      border-radius: 4px;
-      padding: 8px 14px;
-      font-size: 0.9rem;
+      border-radius: 5px;
+      font-size: 1rem;
       cursor: pointer;
-      transition: background 0.3s;
     }
 
     .modalSaveBtn {
@@ -350,323 +333,443 @@
       background: #5a6268;
     }
 
-    /* جداول الشروط والإجراءات */
-    .conditionsTable,
-    .actionsTable {
-      background: #f9f9f9;
-      border: 1px solid #ccc;
+    /* ================================================= */
+    /* تحسينات على الشروط والإجراءات */
+    .conditionsBlock {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .conditionsBlockHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .conditionsBlockHeader select {
+      padding: 6px 8px;
       border-radius: 4px;
+      border: 1px solid #ddd;
+      background: #fff;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+
+    .conditionsBlockHeader button {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+      font-family: inherit;
+      margin: -12px 15px 0;
+      white-space: nowrap;
+    }
+
+    .conditionsBlockHeader button:hover {
+      background: #c82333;
+      transform: translateY(-1px);
+    }
+
+    .conditionRow {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+      align-items: center;
+      padding: 8px;
+      background: #f8f9fa;
+      border-radius: 4px;
+      flex-wrap: wrap;
+    }
+
+    .conditionRow select {
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .conditionRow .operatorSelect {
+      max-width: 120px;
+    }
+
+    .conditionRow .valueContainer {
+      flex: 2;
+      min-width: 180px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conditionRow .valueContainer input[type="checkbox"] {
+      transform: scale(1.2);
+      margin-right: 5px;
+      cursor: pointer;
+    }
+
+    .conditionRow .valueContainer label {
+      font-size: 0.85rem;
+      margin: 0;
+      font-weight: normal;
+      white-space: nowrap;
+    }
+
+    .deleteConditionBtn {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.3s;
+      font-family: inherit;
+    }
+
+    .deleteConditionBtn:hover {
+      background: #c82333;
+      transform: translateY(-1px);
+    }
+
+    .addConditionBtn {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-top: 8px;
+      font-family: inherit;
+    }
+
+    .addConditionBtn:hover {
+      background: #0056b3;
+    }
+
+    .addSubGroupBtn {
+      background: #17a2b8;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-top: 8px;
+      font-family: inherit;
+    }
+
+    .addSubGroupBtn:hover {
+      background: #138496;
+    }
+
+    /* تحسينات على جدول الإجراءات */
+    #actionsTable {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
       margin-bottom: 10px;
       width: 100%;
+      direction: rtl;
     }
 
-    .conditionsTable th,
-    .actionsTable th {
-      background: #e9ecef;
-      text-align: center;
+    #actionsTable th {
+      background: #f8f9fa;
+      color: #444;
+      font-weight: 500;
+      padding: 10px;
+    }
+
+    #actionsTable td {
       padding: 8px;
-    }
-
-    .conditionsTable td,
-    .actionsTable td {
-      padding: 6px;
+      border-top: 1px solid #eee;
       vertical-align: middle;
-      text-align: center;
     }
 
-    .conditionsTable select,
-    .actionsTable select {
-      width: 100%;
-      font-size: 0.85rem;
+    #actionsTable select.searchableSelect {
+      width: 100% !important;
     }
 
-    .conditionsTable input,
-    .actionsTable input {
-      width: 100%;
+    #actionsTable select,
+    #actionsTable input {
+      padding: 6px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
       font-size: 0.85rem;
-      padding: 4px;
+      background: #fff;
+      width: 100%;
+      font-family: inherit;
+    }
+
+    #actionsTable button {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.3s;
+      font-family: inherit;
+    }
+
+    #actionsTable button:hover {
+      background: #c82333;
+      transform: translateY(-1px);
+    }
+
+    /* تحكم بقسم القيمة/المتغير في الإجراءات */
+    .actionValueContainer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .actionValueContainer input[type="checkbox"] {
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+
+    .actionValueContainer label {
+      font-size: 0.85rem;
+      margin: 0;
+      font-weight: normal;
+      white-space: nowrap;
+    }
+
+    .form-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .form-wrapper .form-group {
+      max-width: 50%;
+      flex-basis: 50%;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
+
+    .form-wrapper .form-group input,
+    .form-wrapper .form-group select {
+      box-sizing: border-box;
+      height: 43px;
+      border-radius: 13px;
+      background-color: #cccccc2b;
+      padding-right: 10px;
+      padding-left: 10px;
+      box-sizing: border-box;
+    }
+
+    .form-wrapper .form-group-checkbox {
+      display: flex;
+    }
+
+    .form-wrapper .form-group-checkbox label {
+      margin: 0 10px;
+    }
+
+    .form-wrapper .form-group-checkbox input[type="checkbox"] {
+      width: auto;
+      margin: 0;
+      height: auto;
+    }
+
+    .add_conditions_block_button,
+    .add_action_button {
+      margin-bottom: 10px;
+      background: #6c757d;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-top: 8px;
+      font-family: inherit;
     }
   </style>
 </head>
 
 <body onload="initPage()">
-
+  <!-- رأس الصفحة مع اختيار اللغة -->
   <header>
-    <h1 data-lng="rules_header_title">نظام إدارة الحضور - إدارة القواعد (Rules)</h1>
+    <h1 data-i18n="rules_header_title">نظام إدارة الحضور - إدارة القواعد (Rules)</h1>
     <div>
-      <button onclick="logout()" data-lng="rules_logout">خروج</button>
       <select id="langSelector">
         <option value="en">English</option>
         <option value="ar">العربية</option>
       </select>
+      <button onclick="logout()" data-i18n="logout_button">تسجيل خروج</button>
     </div>
   </header>
 
   <div class="container">
-    <!-- المحتوى الرئيسي -->
     <div class="mainContent">
       <div class="errorMsg" id="errorMsg"></div>
       <div class="successMsg" id="successMsg"></div>
-
-      <button class="addBtn" onclick="openModalForAdd()" data-lng="rules_button_add">إضافة قاعدة جديدة</button>
-
-      <!-- الجدول -->
+      <button class="addBtn" onclick="openModalForAdd()" data-i18n="add_rule_button">إضافة قاعدة جديدة</button>
+      <!-- جدول عرض القواعد -->
       <table id="rulesTable">
         <thead>
           <tr>
-            <th data-lng="rules_table_index">#</th>
-            <th data-lng="rules_table_ruleName">اسم القاعدة</th>
-            <th data-lng="rules_table_priority">الأولوية</th>
-            <th data-lng="rules_table_stopOnMatch">StopOnMatch?</th>
-            <th data-lng="rules_table_control">تحكم</th>
+            <th data-i18n="table_header_index">#</th>
+            <th data-i18n="table_header_rule_name">اسم القاعدة</th>
+            <th data-i18n="table_header_priority">الأولوية</th>
+            <th data-i18n="table_header_stop_on_match">إيقاف عند التطابق؟</th>
+            <th data-i18n="table_header_control">تحكم</th>
           </tr>
         </thead>
         <tbody></tbody>
       </table>
     </div>
+    <!-- القائمة الجانبية -->
+    <div class="sidebar"></div>
 
-    <!-- الشريط الجانبي -->
-    <div class="sidebar">
-      
-          
-            <!-- الرئيسية -->
-            <div class="navItem menu-group-header" onclick="location.href='dashboard.html'">
-              <i class="bi bi-house-fill"></i>
-              <span data-lng="navOverview">الرئيسية</span>
-            </div>
-      
-            <!-- ادارة الموظفين -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('staffManagementSubmenu')">
-              <i class="bi bi-people-fill"></i>
-              <span data-lng="staffManagement">ادارة الموظفين</span>
-            </div>
-            <div id="staffManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='employee.html'">
-                <i class="bi bi-person-lines-fill"></i>
-                <span data-lng="navEmployees">الموظفين</span>
-              </div>
-              <div class="navItem" onclick="location.href='department.html'">
-                <i class="bi bi-building"></i>
-                <span data-lng="navDepartment">الأقسام</span>
-              </div>
-            </div>
-      
-            <!-- التقارير -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('reportsSubmenu')">
-              <i class="bi bi-bar-chart-line-fill"></i>
-              <span data-lng="reports">التقارير</span>
-            </div>
-      
-            <div id="reportsSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='report.html'">
-                <i class="bi bi-bar-chart-line-fill"></i>
-                <span data-lng="navReport"></span>
-              </div>
-      
-              <div class="navItem" onclick="location.href='attend.html'">
-                <i class="bi bi-journal-check"></i>
-                <span data-lng="navAttend">تقرير الحضور</span>
-              </div>
-      
-      
-              <div class="navItem" onclick="location.href='employee-summary-report.html'">
-                <i class="bi bi-people-fill"></i>
-                <span data-lng="employee_summary_report">تقرير ملخص الموظفين</span>
-              </div>
-              <div class="navItem active" onclick="location.href='rule.html'">
-                <i class="bi bi-braces"></i>
-                <span data-lng="navRules">القواعد (Rules)</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاجهزة -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('deviceManagementSubmenu')">
-              <i class="bi bi-device-hdd-fill"></i>
-              <span data-lng="deviceManagement">ادارة الاجهزة</span>
-            </div>
-            <div id="deviceManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='devices.html'">
-                <i class="bi bi-laptop"></i>
-                <span data-lng="navDevices">الأجهزة</span>
-              </div>
-              <div class="navItem" onclick="location.href='requests.html'">
-                <i class="bi bi-list-check"></i>
-                <span data-lng="navOrders">الأوامر</span>
-              </div>
-              <div class="navItem" onclick="location.href='importemployee.html'">
-                <i class="bi bi-person-exclamation"></i>
-                <span data-lng="unregistered">الموظفين غير المسجلين</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الدوام -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('workManagementSubmenu')">
-              <i class="bi bi-calendar-event-fill"></i>
-              <span data-lng="workManagement">ادارة الدوام</span>
-            </div>
-            <div id="workManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='leaves.html'">
-                <i class="bi bi-calendar3"></i>
-                <span data-lng="navLeaves">الإجازات</span>
-              </div>
-              <div class="navItem" onclick="location.href='rewards.html'">
-                <i class="bi bi-gift-fill"></i>
-                <span data-lng="navRewards">المكافئات</span>
-              </div>
-              <div class="navItem" onclick="location.href='time-based-leaves.html'">
-                <i class="bi bi-clock-fill"></i>
-                <span data-lng="leaves_sidebar_time_leaves">إجازات زمنية</span>
-              </div>
-              
-              <div class="navItem" onclick="location.href='holidays.html'">
-                <i class="bi bi-calendar-event"></i>
-                <span data-lng="navHolidays">العطل الرسمية</span>
-              </div>
-            </div>
-      
-            <!-- ادارة الاوقات -->
-            <div class="navItem menu-group-header" onclick="toggleSubMenu('timeManagementSubmenu')">
-              <i class="bi bi-clock-fill"></i>
-              <span data-lng="timeManagement">ادارة الاوقات</span>
-            </div>
-            <div id="timeManagementSubmenu" class="submenu" style="display: none;">
-              <div class="navItem" onclick="location.href='shifts.html'">
-                <i class="bi bi-hourglass-split"></i>
-                <span data-lng="navshift">الشفتات</span>
-              </div>
-              <div class="navItem" onclick="location.href='TimeSlot.html'">
-                <i class="bi bi-watch"></i>
-                <span data-lng="navSlot">الأوقات</span>
-              </div>
-              <div class="navItem" onclick="location.href='public-settings.html'">
-                <i class="bi bi-gear"></i>
-                <span data-lng="public_settings">الإعدادات</span>
-              </div>
-            </div>
-          </div>
-      
-          <script>
-            // دالة لتبديل عرض وإخفاء القائمة الفرعية
-            function toggleSubMenu(id) {
-              var submenu = document.getElementById(id);
-              if (submenu.style.display === "none" || submenu.style.display === "") {
-                submenu.style.display = "block";
-              } else {
-                submenu.style.display = "none";
-              }
-            }
-      
-            // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
-            // وفي حال وجوده، نقوم بفتح القائمة الفرعية تلقائياً.
-            document.addEventListener("DOMContentLoaded", function () {
-              var submenus = document.querySelectorAll('.submenu');
-              submenus.forEach(function (submenu) {
-                if (submenu.querySelector('.navItem.active')) {
-                  submenu.style.display = "block";
-                }
-              });
-            });
-          </script>
-   
-  <!-- مودال إضافة/تعديل قاعدة -->
+    <script>
+      // دالة لتبديل عرض وإخفاء القائمة الفرعية
+      function toggleSubMenu(id) {
+        var submenu = document.getElementById(id);
+        if (submenu.style.display === "none" || submenu.style.display === "") {
+          submenu.style.display = "block";
+        } else {
+          submenu.style.display = "none";
+        }
+      }
+      // عند تحميل الصفحة، نقوم بفحص إذا كان أي عنصر ضمن القائمة الفرعية يحمل الكلاس "active"
+      // document.addEventListener("DOMContentLoaded", function () {
+      //   var submenus = document.querySelectorAll('.submenu');
+      //   submenus.forEach(function (submenu) {
+      //     if (submenu.querySelector('.navItem.active')) {
+      //       submenu.style.display = "block";
+      //     }
+      //   });
+      // });
+    </script>
+  </div>
+
+  <!-- ==================== مودال إضافة/تعديل القاعدة ==================== -->
   <div class="modalOverlay" id="ruleModal">
     <div class="modalContent">
       <div class="modalHeader">
-        <h2 id="modalTitle" data-lng="rules_modal_title_add">إضافة قاعدة</h2>
+        <h2 id="modalTitle" data-i18n="modal_title_add">إضافة قاعدة</h2>
         <button class="modalCloseBtn" onclick="closeModal()">×</button>
       </div>
       <div class="modalBody">
-        <input type="hidden" id="ruleId" />
 
-        <label for="ruleName" data-lng="modal_label_ruleName">اسم القاعدة:</label>
-        <input type="text" id="ruleName" data-lng-placeholder="modal_placeholder_ruleName"
-          placeholder="مثال: Late Condition" />
+        <div class="form-wrapper">
+          <input type="hidden" id="ruleId" />
 
-        <label for="rulePriority" data-lng="modal_label_rulePriority">الأولوية (priority):</label>
-        <input type="number" id="rulePriority" value="0" />
+          <div class="form-group">
+            <label for="ruleName" data-i18n="rule_name_label">اسم القاعدة:</label>
+            <input type="text" id="ruleName" placeholder="" data-i18n-placeholder="rule_name_placeholder">
+          </div>
 
-        <div style="margin-bottom: 10px;">
-          <input type="checkbox" id="ruleStopOnMatch" />
-          <label for="ruleStopOnMatch" data-lng="modal_label_ruleStopOnMatch">إيقاف عند أول تطابق؟</label>
+          <div class="form-group">
+            <label for="rulePriority" data-i18n="rule_priority_label">الأولوية (priority):</label>
+            <input type="number" id="rulePriority" value="0">
+          </div>
+
+          <div class="form-group">
+            <label for="ruleValidFrom" data-i18n="valid_from_label">تاريخ البداية (Valid From):</label>
+            <input type="date" id="ruleValidFrom">
+          </div>
+
+          <div class="form-group">
+            <label for="ruleValidTo" data-i18n="valid_to_label">تاريخ النهاية (Valid To):</label>
+            <input type="date" id="ruleValidTo">
+          </div>
+
+          <div class="form-group form-group-checkbox">
+            <input type="checkbox" id="ruleStopOnMatch">
+            <label for="ruleStopOnMatch" data-i18n="stop_on_match_label">إيقاف عند أول تطابق؟</label>
+          </div>
+
         </div>
 
-        <label for="ruleValidFrom" data-lng="modal_label_validFrom">تاريخ البداية (Valid From):</label>
-        <input type="date" id="ruleValidFrom" />
+        <!-- قسم الشروط مع دعم الأقسام الفرعية -->
+        <div id="conditionsSectionForAdd">
+          <h4 data-i18n="conditions_heading">
+            الشروط (يمكنك إضافة شروط فرعية AND/OR)
+          </h4>
+          <div id="conditionsContainer"></div>
+          <button class="add_conditions_block_button" onclick="addNewConditionsBlock()"
+            data-i18n="add_conditions_block_button">
+            إضافة مجموعة شروط رئيسية
+          </button>
+        </div>
 
-        <label for="ruleValidTo" data-lng="modal_label_validTo">تاريخ النهاية (Valid To):</label>
-        <input type="date" id="ruleValidTo" />
-
-        <h5 data-lng="modal_heading_conditions">الشروط (conditions)</h5>
-        <table class="conditionsTable" id="conditionsTable">
+        <h4 data-i18n="actions_heading">الإجراءات (Actions)</h4>
+        <table id="actionsTable">
           <thead>
             <tr>
-              <th data-lng="modal_conditions_field">Field</th>
-              <th data-lng="modal_conditions_operator">Operator</th>
-              <th data-lng="modal_conditions_value">Value</th>
-              <th data-lng="modal_conditions_delete">حذف</th>
-            </tr>
-          </thead>
-          <tbody id="conditionsTableBody"></tbody>
-        </table>
-        <button style="margin-bottom: 10px;" onclick="addConditionRow()" data-lng="modal_button_add_condition">إضافة
-          شرط</button>
-
-        <h5 data-lng="modal_heading_actions">الإجراءات (actions)</h5>
-        <table class="actionsTable" id="actionsTable">
-          <thead>
-            <tr>
-              <th data-lng="modal_actions_field">Field</th>
-              <th data-lng="modal_actions_type">Type</th>
-              <th data-lng="modal_actions_value">Value</th>
-              <th data-lng="modal_actions_delete">حذف</th>
+              <th>Field</th>
+              <th>Type</th>
+              <th>Value / Variable</th>
+              <th data-i18n="delete">حذف</th>
             </tr>
           </thead>
           <tbody id="actionsTableBody"></tbody>
         </table>
-        <button onclick="addActionRow()" data-lng="modal_button_add_action">إضافة إجراء</button>
+        <button class="add_action_button" onclick="addActionRow()" data-i18n="add_action_button">إضافة إجراء</button>
       </div>
       <div class="modalActions">
-        <button class="modalCancelBtn" onclick="closeModal()" data-lng="modal_button_cancel">إلغاء</button>
-        <button class="modalSaveBtn" onclick="saveRule()" data-lng="modal_button_save_rule">حفظ</button>
+        <button class="modalCancelBtn" onclick="closeModal()" data-i18n="modal_cancel_button">إلغاء</button>
+        <button class="modalSaveBtn" onclick="saveRule()" data-i18n="modal_save_button">حفظ</button>
       </div>
     </div>
   </div>
+  <!-- =================================================================================== -->
 
   <script>
-    /* ----------------------------------------
-     *   1) إعداد اللغة - الترجمة الديناميكية
-     * ---------------------------------------- */
+    /* ---------------------------------------
+       دالة الترجمة ودوال تحميل الملف
+    --------------------------------------- */
+    const LANG_PATH = './lang';
     const LANG_KEY = 'lng';
-    const RULES_LANG_PATH = './lang';
     let translations = {};
 
-    function getTranslate(key) {
-      return translations[key] || "";
+    function t(key) {
+      return translations[key] || key;
     }
 
     async function loadLanguageFile(lang) {
       try {
-        const response = await fetch(`${RULES_LANG_PATH}/${lang}_rules.json`);
+        const response = await fetch(`${LANG_PATH}/${lang}_rules.json`);
         if (!response.ok) {
           throw new Error(`Error loading ${lang}_rules.json`);
         }
         translations = await response.json();
       } catch (error) {
-        console.error("Rules translation file error:", error);
+        console.error("Error loading language file:", error);
       }
     }
 
     function applyTranslations(lang) {
       document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
       document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[key]) {
+          el.textContent = translations[key];
+        }
+      });
       document.querySelectorAll('[data-lng]').forEach(el => {
         const key = el.getAttribute('data-lng');
         if (translations[key]) {
           el.textContent = translations[key];
         }
       });
-      document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-lng-placeholder');
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
         if (translations[key]) {
           el.placeholder = translations[key];
         }
@@ -677,30 +780,69 @@
       await loadLanguageFile(lang);
       localStorage.setItem(LANG_KEY, lang);
       applyTranslations(lang);
-    }
 
-    window.addEventListener('DOMContentLoaded', async () => {
-      let storedLang = localStorage.getItem(LANG_KEY) || 'ar';
-      await loadLanguageFile(storedLang);
-      applyTranslations(storedLang);
-    });
+      await loadSidebarLangFile(lang);
+      applySidebarTranslation();
+
+    }
 
     document.getElementById('langSelector').addEventListener('change', async function () {
       await setLanguage(this.value);
+      initSearchableSelects();
     });
 
-    /* ----------------------------------------
-     *   2) إدارة القواعد
-     * ---------------------------------------- */
+    window.addEventListener('load', async () => {
+      let storedLang = localStorage.getItem(LANG_KEY);
+      if (!storedLang) {
+        storedLang = 'ar';
+      }
+      document.getElementById('langSelector').value = storedLang;
+      await setLanguage(storedLang);
+    });
+
+    /* ---------------------------------------
+       وظائف صفحة إدارة القواعد
+    --------------------------------------- */
     let authToken = null;
     let allRules = [];
     let editModeRuleId = null;
 
+    const AVAILABLE_FIELDS = [
+      "event", "check_in1", "check_out", "rest_breaks", "total_rest_minutes", "total_rest_duration",
+      "delay_minutes", "early_exit_minutes", "overtime_minutes", "status_code", "attendance_date",
+      "employee_name", "department_id", "department_name", "daily_salary", "hour_price", "overtime_price",
+      "works_for_daily_wage", "official_working_hours", "endDayOffset", "minimum_working_hours_overtime",
+      "base_work_hours", "work_hours", "salary_earned_for_work", "overtime_entitlement", "late_cutting_by_count",
+      "early_cutting_by_count", "absent_cutting", "late_arrival_deduction", "early_exit_deduction",
+      "rest_cutting", "net_salary_before_rounding", "net_salary", "rewards_penalties_amount",
+      "is_vacation_day", "is_paid_vacation", "vacation_status", "leave_duration_for_entry",
+      "leave_duration_for_exit", "attendance_status", "enroll_id"
+    ];
+
+    const AVAILABLE_OPERATORS = [
+      { val: "eq", label: "Equal" },
+      { val: "ne", label: "Not Equal" },
+      { val: "gt", label: "Greater Than" },
+      { val: "lt", label: "Smaller Than" },
+      { val: "gte", label: "Greater Than or Equal" },
+      { val: "lte", label: "Smaller Than or Equal" },
+      { val: "gtTime", label: "Time More" },
+      { val: "ltTime", label: "Time Less" }
+    ];
+
+    const AVAILABLE_ACTION_TYPES = [
+      { val: "set", label: "set (تعيين)" },
+      { val: "increment", label: "increment (زيادة/نقصان)" },
+      { val: "multiply", label: "multiply (ضرب)" },
+      { val: "time_adjust", label: "time_adjust (تعديل الوقت)" }
+    ];
+
     function initPage() {
       authToken = localStorage.getItem('authToken');
       if (!authToken) {
-        window.location.href = 'login.html';
-        return;
+        // توكن افتراضي للتجربة
+        authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2NhMDNhZWU2MjZhNGM1NDRhYmNlMjciLCJ1c2VyTmFtZSI6Im1vbSIsImJyYW5jaCI6W10sImlhdCI6MTc0MTM2NjQ4MywiZXhwIjoxNzQxMzk1MjgzfQ.U-MDjk1TWDG_CORwNj_yP5STzHwqtFtb7N_pMfH9Bxg";
+        localStorage.setItem('authToken', authToken);
       }
       loadRules();
     }
@@ -715,7 +857,6 @@
       const successMsg = document.getElementById('successMsg');
       errorMsg.textContent = '';
       successMsg.textContent = '';
-
       try {
         const resp = await fetch('/api/rules', {
           headers: { 'Authorization': 'Bearer ' + authToken }
@@ -752,16 +893,20 @@
 
     function openModalForAdd() {
       editModeRuleId = null;
-      document.getElementById('modalTitle').textContent = getTranslate("rules_modal_title_add");
+      document.getElementById('modalTitle').textContent = translations['modal_title_add'] || "إضافة قاعدة";
       document.getElementById('ruleId').value = '';
       document.getElementById('ruleName').value = '';
       document.getElementById('rulePriority').value = '0';
       document.getElementById('ruleStopOnMatch').checked = false;
       document.getElementById('ruleValidFrom').value = '';
       document.getElementById('ruleValidTo').value = '';
-      document.getElementById('conditionsTableBody').innerHTML = '';
+
+      document.getElementById('conditionsSectionForAdd').style.display = 'block';
+      document.getElementById('conditionsContainer').innerHTML = '';
       document.getElementById('actionsTableBody').innerHTML = '';
+
       showModal();
+      initSearchableSelects();
     }
 
     async function openModalForEdit(ruleId) {
@@ -770,7 +915,6 @@
       const successMsg = document.getElementById('successMsg');
       errorMsg.textContent = '';
       successMsg.textContent = '';
-
       try {
         const resp = await fetch(`/api/rules/${ruleId}`, {
           headers: { 'Authorization': 'Bearer ' + authToken }
@@ -780,18 +924,33 @@
         }
         const rule = await resp.json();
 
-        document.getElementById('modalTitle').textContent = getTranslate("rules_modal_title_edit");
+        document.getElementById('modalTitle').textContent = translations['modal_title_edit'];
         document.getElementById('ruleId').value = rule._id || '';
         document.getElementById('ruleName').value = rule.name || '';
         document.getElementById('rulePriority').value = rule.priority || 0;
         document.getElementById('ruleStopOnMatch').checked = rule.stopOnMatch ? true : false;
         document.getElementById('ruleValidFrom').value = rule.validFrom ? rule.validFrom.substring(0, 10) : '';
         document.getElementById('ruleValidTo').value = rule.validTo ? rule.validTo.substring(0, 10) : '';
-        document.getElementById('conditionsTableBody').innerHTML = '';
+
+        document.getElementById('conditionsSectionForAdd').style.display = 'block';
+        const container = document.getElementById('conditionsContainer');
+        container.innerHTML = '';
+        // إذا كان هنالك شروط موزعة في عدة مجموعات
+        if (rule.conditionsGroups && rule.conditionsGroups.length > 0) {
+          rule.conditionsGroups.forEach(group => {
+            container.appendChild(createConditionsBlock(group));
+          });
+        }
+        // إذا كانت الشروط السابقة في حقل conditionsBlock مفرد (للتوافق مع بعض الإصدارات القديمة)
+        else if (rule.conditionsBlock) {
+          container.appendChild(createConditionsBlock(rule.conditionsBlock));
+        }
+
         document.getElementById('actionsTableBody').innerHTML = '';
-        (rule.conditions || []).forEach(cond => addConditionRow(cond));
         (rule.actions || []).forEach(act => addActionRow(act));
+
         showModal();
+        initSearchableSelects();
       } catch (err) {
         errorMsg.textContent = err.message;
       }
@@ -810,29 +969,49 @@
       const validFrom = document.getElementById('ruleValidFrom').value;
       const validTo = document.getElementById('ruleValidTo').value;
 
-      const condRows = document.querySelectorAll('#conditionsTableBody tr');
-      let conditions = [];
-      condRows.forEach(row => {
-        const selects = row.querySelectorAll('select');
-        const inputs = row.querySelectorAll('input');
-        const field = selects[0].value;
-        const operator = selects[1].value;
-        const value = inputs[0].value.trim();
-        if (field && operator) {
-          conditions.push({ field, operator, value });
+      let conditionsGroups = null;
+      if (document.getElementById('conditionsSectionForAdd').style.display !== 'none') {
+        const conditionsBlocks = document.getElementById('conditionsContainer').querySelectorAll('.conditionsBlock');
+        let groupsArray = [];
+        conditionsBlocks.forEach(block => {
+          const collectedBlock = collectConditionsBlock(block);
+          if (collectedBlock) groupsArray.push(collectedBlock);
+        });
+        if (groupsArray.length > 0) {
+          conditionsGroups = groupsArray;
         }
-      });
+      }
 
       const actRows = document.querySelectorAll('#actionsTableBody tr');
       let actions = [];
       actRows.forEach(row => {
         const selects = row.querySelectorAll('select');
-        const inputs = row.querySelectorAll('input');
-        const field = selects[0].value;
-        const type = selects[1].value;
-        const value = inputs[0].value.trim();
+        // النمط: [fieldSelect, typeSelect, varSelect (أو فارغ)]
+        const field = selects[0].value; // Field
+        const type = selects[1].value; // Action Type
+
+        // الآن نتحقق من القيمة أو المتغير
+        // checkbox value
+        const useVarCheckbox = row.querySelector('.actionValueContainer input[type="checkbox"]');
+        const isVariable = useVarCheckbox && useVarCheckbox.checked;
+
+        // إذا هو متغير، نأخذ من الـ select, غير ذلك من الـ input
+        let theValue = '';
+        if (isVariable) {
+          const varSelect = row.querySelector('.actionValueContainer select.searchableSelect');
+          theValue = varSelect.value.trim();
+        } else {
+          const valInput = row.querySelector('.actionValueContainer input[type="text"]');
+          theValue = valInput.value.trim();
+        }
+
         if (field && type) {
-          actions.push({ field, type, value });
+          actions.push({
+            field,
+            type,
+            valueType: isVariable ? 'variable' : 'constant',
+            value: theValue
+          });
         }
       });
 
@@ -842,9 +1021,13 @@
         stopOnMatch,
         validFrom,
         validTo,
-        conditions,
+        conditionsGroups,
         actions
       };
+
+      if (conditionsGroups === null) {
+        delete bodyObj.conditionsGroups;
+      }
 
       try {
         let method = 'POST';
@@ -853,7 +1036,6 @@
           method = 'PUT';
           url = `/api/rules/${ruleId}`;
         }
-
         const resp = await fetch(url, {
           method,
           headers: {
@@ -865,7 +1047,6 @@
         if (!resp.ok) {
           throw new Error(`فشل ${ruleId ? 'تعديل' : 'إضافة'} القاعدة. (status=${resp.status})`);
         }
-
         successMsg.textContent = ruleId ? 'تم تعديل القاعدة بنجاح' : 'تم إضافة القاعدة بنجاح';
         closeModal();
         loadRules();
@@ -879,9 +1060,7 @@
       const successMsg = document.getElementById('successMsg');
       errorMsg.textContent = '';
       successMsg.textContent = '';
-
       if (!confirm('هل أنت متأكد من الحذف؟')) return;
-
       try {
         const resp = await fetch(`/api/rules/${ruleId}`, {
           method: 'DELETE',
@@ -900,115 +1079,355 @@
     function showModal() {
       document.getElementById('ruleModal').style.display = 'flex';
     }
+
     function closeModal() {
       document.getElementById('ruleModal').style.display = 'none';
       document.getElementById('ruleId').value = '';
-      document.getElementById('modalTitle').textContent = getTranslate("rules_modal_title_add");
+      document.getElementById('modalTitle').textContent = translations['modal_title_add'] || "إضافة قاعدة";
       document.getElementById('ruleName').value = '';
       document.getElementById('rulePriority').value = '0';
       document.getElementById('ruleStopOnMatch').checked = false;
       document.getElementById('ruleValidFrom').value = '';
       document.getElementById('ruleValidTo').value = '';
-      document.getElementById('conditionsTableBody').innerHTML = '';
+      document.getElementById('conditionsContainer').innerHTML = '';
       document.getElementById('actionsTableBody').innerHTML = '';
+      document.getElementById('conditionsSectionForAdd').style.display = 'block';
     }
 
-    /* ----------------------------------------
-     *   8) الحقول والعمليات الممكنة
-     * ---------------------------------------- */
-    const AVAILABLE_FIELDS = [
-      "event", "check_in", "check_out", "rest_breaks", "total_rest_minutes", "total_rest_duration",
-      "delay_minutes", "early_exit_minutes", "overtime_minutes", "status_code", "attendance_date",
-      "employee_name", "department_id", "department_name", "daily_salary", "hour_price", "overtime_price",
-      "works_for_daily_wage", "official_working_hours", "endDayOffset", "minimum_working_hours_overtime",
-      "base_work_hours", "work_hours", "salary_earned_for_work", "overtime_entitlement", "late_cutting_by_count",
-      "early_cutting_by_count", "absent_cutting", "late_arrival_deduction", "early_exit_deduction",
-      "rest_cutting", "net_salary_before_rounding", "net_salary", "rewards_penalties_amount",
-      "is_vacation_day", "is_paid_vacation", "vacation_status", "leave_duration_for_entry",
-      "leave_duration_for_exit", "attendance_status", "enroll_id"
-    ];
-
-    const AVAILABLE_OPERATORS = [
-      { val: "eq", label: "==" },
-      { val: "ne", label: "!=" },
-      { val: "gt", label: ">" },
-      { val: "lt", label: "<" },
-      { val: "gte", label: ">=" },
-      { val: "lte", label: "<=" },
-      { val: "gtTime", label: "وقت أكبر من" },
-      { val: "ltTime", label: "وقت أصغر من" }
-    ];
-
-    const AVAILABLE_ACTION_TYPES = [
-      { val: "set", label: "set (تعيين)" },
-      { val: "increment", label: "increment (زيادة/نقصان)" },
-      { val: "multiply", label: "multiply (ضرب)" },
-      { val: "time_adjust", label: "time_adjust (تعديل الوقت)" }
-    ];
-
-    function addConditionRow(cond = { field: '', operator: '', value: '' }) {
-      const tBody = document.getElementById('conditionsTableBody');
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>
-          <select>
-            ${AVAILABLE_FIELDS.map(f => {
-        const sel = (cond.field === f) ? 'selected' : '';
-        return `<option value="${f}" ${sel}>${f}</option>`;
-      }).join('')}
-          </select>
-        </td>
-        <td>
-          <select>
-            ${AVAILABLE_OPERATORS.map(o => {
-        const sel = (cond.operator === o.val) ? 'selected' : '';
-        return `<option value="${o.val}" ${sel}>${o.label}</option>`;
-      }).join('')}
-          </select>
-        </td>
-        <td>
-          <input type="text" value="${cond.value}">
-        </td>
-        <td>
-          <button type="button" style="background:#dc3545;color:#fff;border:none;padding:4px 8px;border-radius:4px;cursor:pointer;" onclick="removeRow(this)" data-lng="modal_button_remove">حذف</button>
-        </td>
-      `;
-      tBody.appendChild(row);
-    }
-
-    function addActionRow(action = { field: '', type: '', value: '' }) {
+    /* ----------------------------------
+       التعامل مع الإجراءات (Actions)
+    ---------------------------------- */
+    function addActionRow(action = { field: '', type: '', value: '', valueType: 'constant' }) {
       const tBody = document.getElementById('actionsTableBody');
       const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>
-          <select>
-            ${AVAILABLE_FIELDS.map(f => {
+
+      // بناء قائمة الخيارات الخاصة بالحقل
+      const fieldOptionsHtml = AVAILABLE_FIELDS.map(f => {
         const sel = (action.field === f) ? 'selected' : '';
-        return `<option value="${f}" ${sel}>${f}</option>`;
-      }).join('')}
-          </select>
-        </td>
-        <td>
-          <select>
-            ${AVAILABLE_ACTION_TYPES.map(a => {
+        return `<option value="${f}" ${sel}>${t(f)}</option>`;
+      }).join('');
+
+      // بناء قائمة الخيارات الخاصة بنوع الإجراء
+      const actionTypeOptionsHtml = AVAILABLE_ACTION_TYPES.map(a => {
         const sel = (action.type === a.val) ? 'selected' : '';
         return `<option value="${a.val}" ${sel}>${a.label}</option>`;
-      }).join('')}
+      }).join('');
+
+      // نحدد هل يستخدم قيمة متغيرة أم ثابتة
+      const isVariable = (action.valueType === 'variable');
+      // بناء قائمة الحقول في حالة اختيار المتغير
+      const variableOptionsHtml = AVAILABLE_FIELDS.map(f => {
+        const sel = (action.value === f && isVariable) ? 'selected' : '';
+        return `<option value="${f}" ${sel}>${t(f)}</option>`;
+      }).join('');
+
+      // قيمة النص إن كانت ثابتة
+      const textValue = (!isVariable) ? action.value : '';
+
+      row.innerHTML = `
+        <td>
+          <select class="searchableSelect">
+            ${fieldOptionsHtml}
           </select>
         </td>
         <td>
-          <input type="text" value="${action.value}">
+          <select class="searchableSelect">
+            ${actionTypeOptionsHtml}
+          </select>
         </td>
         <td>
-          <button type="button" style="background:#dc3545;color:#fff;border:none;padding:4px 8px;border-radius:4px;cursor:pointer;" onclick="removeRow(this)" data-lng="modal_button_remove">حذف</button>
+          <div class="actionValueContainer">
+            <input type="checkbox" ${isVariable ? 'checked' : ''} onchange="toggleActionValueType(this)">
+            <label>${translations['use_variable_label'] || 'استخدام متغير؟'}</label>
+            
+            <!-- حقل إدخال النص -->
+            <input type="text" value="${textValue}" style="${isVariable ? 'display:none;' : ''}">
+            
+            <!-- قائمة اختيار المتغير -->
+            <select class="searchableSelect" style="${isVariable ? '' : 'display:none;'}">
+              <option value="">--  ${translations['select_variable'] || 'اختر متغير'} --</option>
+              ${variableOptionsHtml}
+            </select>
+          </div>
+        </td>
+        <td>
+          <button type="button" onclick="removeRow(this)">${translations['delete'] || 'حذف'}</button>
         </td>
       `;
       tBody.appendChild(row);
+      initSearchableSelects();
+    }
+
+    function toggleActionValueType(checkbox) {
+      // إذا تم التحديد، نعطل حقل النص ونظهر قائمة المتغيرات
+      const container = checkbox.closest('.actionValueContainer');
+      const textInput = container.querySelector('input[type="text"]');
+      const varSelect = container.querySelector('select.searchableSelect');
+      if (checkbox.checked) {
+        textInput.style.display = 'none';
+        varSelect.style.display = 'block';
+      } else {
+        textInput.style.display = 'block';
+        varSelect.style.display = 'none';
+      }
     }
 
     function removeRow(btn) {
       btn.parentElement.parentElement.remove();
     }
+
+    /* ----------------------------------
+       التعامل مع الشروط (Conditions)
+    ---------------------------------- */
+    function addNewConditionsBlock() {
+      const container = document.getElementById('conditionsContainer');
+      const block = createConditionsBlock();
+      container.appendChild(block);
+    }
+
+    function createConditionsBlock(obj = { operator: 'AND', conditions: [], subConditions: [] }) {
+      const blockDiv = document.createElement('div');
+      blockDiv.className = 'conditionsBlock';
+
+      const header = document.createElement('div');
+      header.className = 'conditionsBlockHeader';
+
+      const operatorSelect = document.createElement('select');
+      operatorSelect.innerHTML = `
+        <option value="AND" ${obj.operator === 'AND' ? 'selected' : ''}>AND</option>
+        <option value="OR" ${obj.operator === 'OR' ? 'selected' : ''}>OR</option>
+      `;
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.textContent = translations['delete_group'] || 'حذف هذه المجموعة';
+      deleteBtn.onclick = () => { blockDiv.remove(); };
+
+      header.appendChild(operatorSelect);
+      header.appendChild(deleteBtn);
+      blockDiv.appendChild(header);
+
+      const conditionsList = document.createElement('div');
+      conditionsList.className = 'conditionsList';
+      (obj.conditions || []).forEach(cond => {
+        conditionsList.appendChild(createConditionRow(cond));
+      });
+
+      const addCondBtn = document.createElement('button');
+      addCondBtn.className = 'addConditionBtn';
+      addCondBtn.textContent = translations['add_condition'] || 'إضافة شرط';
+      addCondBtn.onclick = () => {
+        conditionsList.appendChild(createConditionRow());
+      };
+      blockDiv.appendChild(conditionsList);
+      blockDiv.appendChild(addCondBtn);
+
+      const subContainer = document.createElement('div');
+      subContainer.className = 'subConditions';
+      (obj.subConditions || []).forEach(sc => {
+        subContainer.appendChild(createConditionsBlock(sc));
+      });
+
+      const addSubBtn = document.createElement('button');
+      addSubBtn.className = 'addSubGroupBtn';
+      addSubBtn.textContent = translations['add_sub_group'] || 'إضافة مجموعة فرعية';
+      addSubBtn.onclick = () => {
+        subContainer.appendChild(createConditionsBlock());
+      };
+
+      blockDiv.appendChild(subContainer);
+      blockDiv.appendChild(addSubBtn);
+
+      return blockDiv;
+    }
+
+    function createConditionRow(cond = { field: '', operator: 'eq', value: '', valueType: 'constant' }) {
+      const rowDiv = document.createElement('div');
+      rowDiv.className = 'conditionRow';
+
+      // بناء قائمة حقول الشرط
+      const fieldOptionsHtml = AVAILABLE_FIELDS.map(f => {
+        const sel = (cond.field === f) ? 'selected' : '';
+        return `<option value="${f}" ${sel}>${t(f)}</option>`;
+      }).join('');
+
+      // بناء قائمة المشغلات (operator)
+      const operatorOptionsHtml = AVAILABLE_OPERATORS.map(o => {
+        const sel = (cond.operator === o.val) ? 'selected' : '';
+        return `<option value="${o.val}" ${sel}>${o.label}</option>`;
+      }).join('');
+
+      // تحديد إن كان الشرط يستخدم متغير
+      const isVariable = (cond.valueType === 'variable');
+
+      // قائمة المتغيرات
+      const variableOptions = AVAILABLE_FIELDS.map(f => {
+        const sel = (cond.value === f && isVariable) ? 'selected' : '';
+        return `<option value="${f}" ${sel}>${t(f)}</option>`;
+      }).join('');
+
+      // قيمة ثابتة (لو لم يكن متغير)
+      const textValue = (!isVariable) ? cond.value : '';
+
+      rowDiv.innerHTML = `
+        <select class="searchableSelect">
+          ${fieldOptionsHtml}
+        </select>
+        <select class="searchableSelect operatorSelect">
+          ${operatorOptionsHtml}
+        </select>
+        <div class="valueContainer">
+          <input type="checkbox" ${isVariable ? 'checked' : ''} onchange="toggleConditionValueType(this)">
+          <label>${translations['use_variable_label'] || 'استخدام متغير؟'}</label>
+
+          <!-- حقل القيمة الثابتة -->
+          <input type="text" value="${textValue}" style="${isVariable ? 'display:none;' : ''}">
+
+          <!-- حقل اختيار المتغير -->
+          <select class="searchableSelect" style="${isVariable ? '' : 'display:none;'}">
+            <option value="">-- ${translations['select_variable'] || 'اختر متغير'} --</option>
+            ${variableOptions}
+          </select>
+        </div>
+        <button class="deleteConditionBtn">${translations['delete'] || 'حذف'}</button>
+      `;
+
+      // اضغط زر الحذف
+      rowDiv.querySelector('.deleteConditionBtn').onclick = () => {
+        rowDiv.remove();
+      };
+
+      setTimeout(initSearchableSelects, 0);
+
+      return rowDiv;
+    }
+
+    function toggleConditionValueType(checkbox) {
+      const container = checkbox.closest('.valueContainer');
+      const textInput = container.querySelector('input[type="text"]');
+      const varSelect = container.querySelector('select.searchableSelect');
+      if (checkbox.checked) {
+        textInput.style.display = 'none';
+        varSelect.style.display = 'block';
+      } else {
+        textInput.style.display = 'block';
+        varSelect.style.display = 'none';
+      }
+    }
+
+    function collectConditionsBlock(blockDiv) {
+      if (!blockDiv) return null;
+      const operator = blockDiv.querySelector('.conditionsBlockHeader select').value;
+      let conditions = [];
+      const conditionRows = blockDiv.querySelectorAll('.conditionsList .conditionRow');
+      conditionRows.forEach(row => {
+        const selects = row.querySelectorAll('select');
+        // [fieldSelect, operatorSelect, variableSelect (يمكن أن يكون مخفياً)]
+        const field = selects[0].value;
+        const op = selects[1].value;
+
+        const valueContainer = row.querySelector('.valueContainer');
+        const useVarCheckbox = valueContainer.querySelector('input[type="checkbox"]');
+        const isVariable = useVarCheckbox.checked;
+        let val = '';
+        if (isVariable) {
+          const varSelect = valueContainer.querySelector('select.searchableSelect');
+          val = varSelect.value.trim();
+        } else {
+          const txt = valueContainer.querySelector('input[type="text"]');
+          val = txt.value.trim();
+        }
+
+        if (field || op || val) {
+          conditions.push({
+            field: field,
+            operator: op,
+            valueType: isVariable ? 'variable' : 'constant',
+            value: val
+          });
+        }
+      });
+      let subConditions = [];
+      const subBlocks = blockDiv.querySelectorAll(':scope > .subConditions > .conditionsBlock');
+      subBlocks.forEach(sb => {
+        let subObj = collectConditionsBlock(sb);
+        if (subObj) subConditions.push(subObj);
+      });
+      if (conditions.length === 0 && subConditions.length === 0) {
+        return null;
+      }
+      return { operator, conditions, subConditions };
+    }
+
+    /* ----------------------------------
+       تهيئة خاصية البحث في الـ select
+    ---------------------------------- */
+    function initSearchableSelects() {
+      const currentLang = localStorage.getItem(LANG_KEY) || 'ar';
+      $(document).find('.searchableSelect').each(function () {
+        if (!$(this).hasClass("select2-hidden-accessible")) {
+          $(this).select2({
+            width: '100%',
+            dir: currentLang === 'ar' ? 'rtl' : 'ltr',
+            dropdownParent: $('#ruleModal')
+          });
+        }
+      });
+    }
+
+    function loadSiebar() {
+      fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.querySelector('.sidebar').innerHTML = data;
+          var submenus = document.querySelectorAll('.submenu');
+          submenus.forEach(function (submenu) {
+            if (submenu.querySelector('.navItem.active')) {
+              submenu.style.display = "block";
+            }
+          });
+
+          addActiveToSubmenuClass(4);
+        })
+        .catch(error => console.error('Error loading sidebar:', error));
+    }
+
+    async function loadSidebarLangFile(lang) {
+      try {
+        const response = await fetch(`${LANG_PATH}/${lang}_sidebar.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}_sidebar.json`);
+        }
+        sidebarLabels = await response.json();
+
+      } catch (error) {
+        console.error("Report translation file error:", error);
+      }
+    }
+
+    function applySidebarTranslation() {
+      document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+
+        if (sidebarLabels[key]) {
+          el.textContent = sidebarLabels[key];
+        }
+      });
+    }
+
+    loadSiebar();
+
+    function addActiveToSubmenuClass(childIndex) {
+      const submenu = document.getElementById('reportsSubmenu');
+      submenu.style.display = "block";
+      const navItems = submenu.getElementsByClassName('navItem');
+      if (childIndex >= 1 && childIndex <= navItems.length) {
+        Array.from(navItems).forEach(item => item.classList.remove('active'));
+        navItems[childIndex - 1].classList.add('active');
+      } else {
+        console.error('Child index out of bounds');
+      }
+    }
+
   </script>
 </body>
 

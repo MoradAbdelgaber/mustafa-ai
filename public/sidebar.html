@@ -1,0 +1,161 @@
+<style>
+.sidebar{
+  width: 280px;
+}
+  .navItem {
+    position: relative;
+    white-space: nowrap;
+}
+html[lang="ar"] .submenu {
+    border-right: 2px solid #dee2e6;
+    border-left: none;
+    margin-right: 10px;
+    padding-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 0;
+    padding-left: 0;
+}
+    span.beta{
+      background-color: #17a2b8;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.6rem;
+    }
+</style>
+<!-- أمثلة على القائمة الجانبية -->
+<div class="navItem menu-group-header" onclick="location.href='dashboard.html'">
+  <i class="bi bi-house-fill"></i> 
+  <span data-lng="overview">الرئيسية </span>
+</div>
+
+<div class="navItem menu-group-header" onclick="toggleSubMenu('staffManagementSubmenu')">
+  <i class="bi bi-people-fill"></i>
+  <span data-lng="staff_manangement">ادارة الموظفين</span>
+</div>
+<div id="staffManagementSubmenu" class="submenu" style="display: none;">
+  <div class="navItem" onclick="location.href='employee.html'">
+    <i class="bi bi-person-lines-fill"></i>
+    <span data-lng="employees">الموظفين</span>
+  </div>
+  <div class="navItem" onclick="location.href='department.html'">
+    <i class="bi bi-building"></i>
+    <span data-lng="departments">الأقسام</span>
+  </div>
+  <div class="navItem" onclick="location.href='branches.html'">
+    <i class="bi bi-diagram-3"></i>
+    <span data-lng="branches">الفروع</span>
+  </div>
+  <div class="navItem" onclick="location.href='tagemployee.html'">
+    <i class="bi bi-person-lines-fill"></i>
+    <span data-lng="tag_employee">علامة الموظف</span>
+  </div>
+</div>
+
+
+<div class="navItem menu-group-header" onclick="toggleSubMenu('reportsSubmenu')">
+  <i class="bi bi-bar-chart-line-fill"></i>
+  <span data-lng="reports">التقارير</span>
+</div>
+<div id="reportsSubmenu" class="submenu" style="display: none;">
+  <div class="navItem" onclick="location.href='report.html'">
+    <i class="bi bi-bar-chart-line-fill"></i>
+    <span data-lng="att_report"></span>
+  </div>
+  <div class="navItem" onclick="location.href='attend.html'">
+    <i class="bi bi-journal-check"></i>
+    <span data-lng="att_log">تقرير الحضور</span>
+  </div>
+  <div class="navItem" onclick="location.href='employee-summary-report.html'">
+    <i class="bi bi-people-fill"></i>
+    <span data-lng="emp_summary_report">تقرير ملخص الموظفين</span>
+  </div>
+  <div class="navItem" onclick="location.href='rule.html'">
+    <i class="bi bi-braces"></i>
+    <span data-lng="advance_rules">القواعد (Rules)</span>
+    <span class="beta">Beta</span> 
+  </div>
+  <div class="navItem" onclick="location.href='mainrules.html'">
+    <i class="bi bi-braces"></i>
+    <span data-lng="mainrules">القواعد الرئيسية</span> 
+    <span class="beta">Beta</span> 
+  </div>
+  <div class="navItem" onclick="location.href='sudden-fingerprint.html'">
+    <i class="bi bi-bar-chart-line-fill"></i>
+    <span data-lng="suddenly_check_report">التحقق من التقرير فجأة</span>
+    <span class="beta">Beta</span> 
+  </div>
+</div>
+
+<div class="navItem menu-group-header" onclick="toggleSubMenu('deviceManagementSubmenu')">
+  <i class="bi bi-device-hdd-fill"></i>
+  <span data-lng="device_management">ادارة الاجهزة</span>
+</div>
+<div id="deviceManagementSubmenu" class="submenu" style="display: none;">
+  <div class="navItem" onclick="location.href='devices.html'">
+    <i class="bi bi-laptop"></i>
+    <span data-lng="devices">الأجهزة</span>
+  </div>
+  <div class="navItem" onclick="location.href='requests.html'">
+    <i class="bi bi-list-check"></i>
+    <span data-lng="requests">الأوامر</span>
+  </div>
+  <div class="navItem" onclick="location.href='importemployee.html'">
+    <i class="bi bi-person-exclamation"></i>
+    <span data-lng="un_employees">الموظفين غير المسجلين</span>
+  </div>
+  <div class="navItem" onclick="location.href='importemployee-zk.html'">
+    <i class="bi bi-sliders"></i>
+    <span data-lng="transfer_from_other_brand">نقل من علامة تجارية أخرى</span>
+  </div>
+</div>
+
+<div class="navItem menu-group-header" onclick="toggleSubMenu('workManagementSubmenu')">
+  <i class="bi bi-calendar-event-fill"></i>
+  <span data-lng="work_management">ادارة الدوام</span>
+</div>
+<div id="workManagementSubmenu" class="submenu" style="display: none;">
+  <div class="navItem" onclick="location.href='leaves.html'">
+    <i class="bi bi-calendar3"></i>
+    <span data-lng="leaves">الإجازات</span>
+  </div>
+  <div class="navItem" onclick="location.href='rewards.html'">
+    <i class="bi bi-gift-fill"></i>
+    <span data-lng="rewards_penalties">المكافئات</span>
+  </div>
+  <div class="navItem" onclick="location.href='time-based-leaves.html'">
+    <i class="bi bi-clock-fill"></i>
+    <span data-lng="partial_time_request">إجازات زمنية</span>
+  </div>
+  <div class="navItem" onclick="location.href='holidays.html'">
+    <i class="bi bi-calendar-event"></i>
+    <span data-lng="official_holidays">العطل الرسمية</span>
+  </div>
+  <div class="navItem" onclick="location.href='leaves-type.html'">
+    <i class="bi bi-briefcase-fill"></i>
+    <span data-lng="leaves_types">أنواع الإجازات</span>
+  </div>
+  <div class="navItem" onclick="location.href='extra-minutes.html'">
+    <i class="bi bi-clock-fill"></i>
+    <span data-lng="extra-minutes">الدقائق الإضافية</span>
+  </div>
+</div>
+
+<div class="navItem menu-group-header" onclick="toggleSubMenu('timeManagementSubmenu')">
+  <i class="bi bi-clock-fill"></i>
+  <span data-lng="time_managment">ادارة الاوقات</span>
+</div>
+<div id="timeManagementSubmenu" class="submenu" style="display: none;">
+  <div class="navItem" onclick="location.href='shifts.html'">
+    <i class="bi bi-hourglass-split"></i>
+    <span data-lng="shifts">الشفتات</span>
+  </div>
+  <div class="navItem" onclick="location.href='TimeSlot.html'">
+    <i class="bi bi-watch"></i>
+    <span data-lng="time_slot">الأوقات</span>
+  </div>
+  <div class="navItem" onclick="location.href='public-settings.html'">
+    <i class="bi bi-gear"></i>
+    <span data-lng="public_settings">الإعدادات</span>
+  </div>
+</div>
