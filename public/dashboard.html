@@ -744,6 +744,10 @@
         return `${year}-${month}-${day}`;
       }
 
+      function getTranslate(key) {
+        return dashTranslations.hasOwnProperty(key) ? translations[key] : key;
+      }
+
       // استدعاء API الموحد وتحديث كافة البيانات بما في ذلك الجداول
       function loadDashboardData() {
         const monthVal = document.getElementById('monthPicker').value;
@@ -1005,9 +1009,7 @@
         }
       }
 
-      function getTranslate(key) {
-        return dashTranslations.hasOwnProperty(key) ? translations[key] : key;
-      }
+
 
       function applyDashboardTranslations(lang) {
         document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
