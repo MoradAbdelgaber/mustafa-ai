@@ -745,7 +745,6 @@
       }
 
       function getTranslate(key) {
-        console.log(dashTranslations);
         return dashTranslations.hasOwnProperty(key) ? dashTranslations[key] : key;
       }
 
@@ -952,12 +951,12 @@
                 tdTime.textContent = new Date(log.time).toLocaleString();
                 let statusText = "";
                 switch (log.event) {
-                  case 1: statusText = getTranslate("Check IN"); break;
-                  case 2: statusText = getTranslate("Check Out"); break;
-                  case 3: statusText = getTranslate("Enter Break"); break;
-                  case 4: statusText = getTranslate("Exit Break"); break;
+                  case 1: statusText = getTranslate("Check_IN"); break;
+                  case 2: statusText = getTranslate("Check_Out"); break;
+                  case 3: statusText = getTranslate("Enter_Break"); break;
+                  case 4: statusText = getTranslate("Exit_Break"); break;
                   case 5: statusText = getTranslate("Special"); break;
-                  default: statusText = getTranslate("No Event");
+                  default: statusText = getTranslate("No_Event");
                 }
                 tdStatus.textContent = statusText;
                 tr.appendChild(tdName);
