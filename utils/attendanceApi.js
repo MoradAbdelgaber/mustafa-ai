@@ -56,7 +56,7 @@ class AttendanceApi {
   async saveCheck(serialNo, record) {
     const body = {
       enrollid: record.enrollid,
-      name: "",
+      name: record.name,
       time: record.time,
       fetch_date: new Date().toISOString(),
       image: record.image ?? "",
