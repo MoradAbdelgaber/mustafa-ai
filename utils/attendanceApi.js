@@ -69,7 +69,7 @@ class AttendanceApi {
         ? process.env.appPortLocal
         : process.env.appPort;
 
-    return axios.post(`http://localhost:${port}/ap/fingerprints/socket`, body);
+    return axios.post(`http://localhost:${port}/api/fingerprints/socket`, body);
   }
 }
 
