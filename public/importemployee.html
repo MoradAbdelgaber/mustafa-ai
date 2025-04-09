@@ -600,8 +600,8 @@
         myHeaders.append('Authorization', 'Bearer ' + safeDeviceToken);
         myHeaders.append('Content-Type', 'application/json');
 
-        const url = `${serverIp}/api/getuserlist`;
-        const bodyObj = { sn: serial, from: 0, to: 10000 };
+        const url = `${serverIp}/api/getuserfulllist`;
+        const bodyObj = { sn: serial };
 
         const resp = await fetch(url, {
           method: 'POST',
