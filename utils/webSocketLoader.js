@@ -253,14 +253,29 @@ class WebSocketLoader {
 
   // دوال للعمليات المختلفة
 
-  async getUserList(sn, from = 0, to = 100) {
+  async getUserList(sn, firstPage = true) {
     const payload = {
       cmd: "getuserlist",
-      stn: true,
-      from,
-      to,
+      stn: firstPage,
     };
     return await this.sendCommand(sn, payload);
+  }
+
+  async getUserFullList(sn) {
+    let users = [];
+    let count = 1;
+    do {
+      const result = await this.getUserList(sn, count == 1, owner);
+      users = users.concat(result.record);
+      count = result.count;
+    } while (count);
+
+    return {
+      ret: "getuserfulllist",
+      sn,
+      result: true,
+      record: users,
+    };
   }
 
   async getUserInfo(sn, enrollid, backupnum) {

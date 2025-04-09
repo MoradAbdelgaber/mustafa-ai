@@ -165,18 +165,36 @@ const webSocketLoader = new WebSocketLoader();
 
 // نقطة النهاية: getuserlist
 appAPI.post("/api/getuserlist", async (req, res) => {
-  const { sn, from, to } = req.body;
+  const { sn, firstPage } = req.body;
   if (!sn) {
     console.error("getuserlist: SN is required");
     return res.status(400).json({ error: "SN is required" });
   }
   try {
     console.log(`getuserlist: Processing for SN ${sn}`);
-    const data = await webSocketLoader.getUserList(sn, from, to);
+    const data = await webSocketLoader.getUserList(sn, firstPage);
     console.log("getuserlist: Success", data);
     res.json({ success: true, data });
   } catch (error) {
     console.error("getuserlist Error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// نقطة النهاية: getuserfulllist
+appAPI.post("/api/getuserfulllist", async (req, res) => {
+  const { sn } = req.body;
+  if (!sn) {
+    console.error("getuserfulllist: SN is required");
+    return res.status(400).json({ error: "SN is required" });
+  }
+  try {
+    console.log(`getuserfulllist: Processing for SN ${sn}`);
+    const data = await webSocketLoader.getUserFullList(sn);
+    console.log("getuserfulllist: Success", data);
+    res.json({ success: true, data });
+  } catch (error) {
+    console.error("getuserfulllist Error:", error);
     res.status(500).json({ error: error.message });
   }
 });
