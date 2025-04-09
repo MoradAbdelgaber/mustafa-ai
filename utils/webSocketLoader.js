@@ -268,6 +268,7 @@ class WebSocketLoader {
       const result = await this.getUserList(sn, count == 1);
       users = users.concat(result.record);
       count = result.count;
+      if (count == 1) break;
     } while (count);
 
     return {
