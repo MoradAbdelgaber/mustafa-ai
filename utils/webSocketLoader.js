@@ -3,6 +3,7 @@ const AttendanceApi = require("./attendanceApi");
 const crypto = require("crypto");
 const { readFile } = require("fs/promises");
 const { join, dirname } = require("path");
+const Device = require("../models/Device");
 const secretKey = "morad";
 const secretIv = "mostafa";
 const openLimit = true;
@@ -133,11 +134,7 @@ class WebSocketLoader {
   async handleSendLog(ws, jsonMsg) {
     const records = jsonMsg.record;
     //save logs
-    for (let record of records) {
-      await this.attendanceApi.saveCheck(jsonMsg.sn, record).catch((err) => {
-        console.log(err.response?.data);
-      });
-    }
+    await this.attendanceApi.saveLogs(jsonMsg.sn, records);
 
     // logging
     records.forEach((record) => {
@@ -486,17 +483,28 @@ class WebSocketLoader {
   }
 
   async addUserInfo(sn, userInfo) {
-    const payload = {
-      cmd: "adduser",
-      flag: 2,
-      ...userInfo,
-    };
-
     //check live session
     const session = this.#registeredDevices.get(sn);
     if (!session) {
       throw new Error(`No session found for device with SN: ${sn}`);
     }
+
+    //check device
+    const device = await Device.findOne({ serial: sn });
+    if (!device) {
+      throw new Error(`Device with SN: ${sn} not found`);
+    }
+
+    //check old devices
+    if (device.oldFlag && userInfo.backupnum == 50) {
+      userInfo.backupnum = 20; // default for faceId reg. in old devices
+    }
+
+    const payload = {
+      cmd: "adduser",
+      flag: 2,
+      ...userInfo,
+    };
 
     console.log(`Sending payload to device ${sn}: ${JSON.stringify(payload)}`);
     session.send(JSON.stringify(payload));

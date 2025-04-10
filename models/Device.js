@@ -17,6 +17,11 @@ const DeviceSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+
+    oldFlag: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
