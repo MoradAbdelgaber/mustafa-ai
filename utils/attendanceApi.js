@@ -57,8 +57,7 @@ class AttendanceApi {
     //check device
     const device = await Device.findOne({ serial: sn });
     if (!device) {
-      console.log(`Device with SN: ${sn} not found For Save Logs`);
-      return;
+      throw new Error(`Device with SN: ${sn} not found For Save Logs`);
     }
 
     //update events for old devices
@@ -88,7 +87,7 @@ class AttendanceApi {
 
     //save logs
     for (let record of records) {
-      await this.attendanceApi.saveCheck(sn, record).catch((err) => {
+      await this.saveCheck(sn, record).catch((err) => {
         console.log(err.response?.data);
       });
     }
