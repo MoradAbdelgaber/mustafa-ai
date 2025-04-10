@@ -4,7 +4,7 @@
   "sidebar_employees": "الموظفين",
   "sidebar_attendance_report": "تقرير الحضور",
   "sidebar_shifts": "النوبات",
-  "leaves_sidebar_time_leaves":"طلبات الاجازات الزمنية",
+  "leaves_sidebar_time_leaves": "طلبات الاجازات الزمنية",
   "sidebar_timeslots": "الفترات الزمنية",
   "navOverview": "نظرة عامة",
   "staffManagement": "ادارة الموظفين",
@@ -38,8 +38,6 @@
   "devices_page_title": "الأجهزة - نظام الحضور",
   "devices_header_title": "نظام إدارة الحضور والانصراف - الأجهزة",
   "devices_btn_logout": "خروج",
-
-
   "devices_sidebar_menu_title": "القائمة",
   "devices_sidebar_overview": "نظرة عامة",
   "devices_sidebar_employees": "الموظفون",
@@ -53,31 +51,27 @@
   "devices_sidebar_requests": "الأوامر",
   "devices_sidebar_department": "الأقسام",
   "devices_sidebar_settings": "الإعدادات",
-
-
-
   "devices_modal_add_title": "إضافة جهاز",
   "devices_modal_edit_title": "تعديل جهاز",
   "devices_modal_label_name": "اسم الجهاز:",
   "devices_modal_label_serial": "الرقم التسلسلي:",
+  "devices_modal_label_oldFlag": "اصدار قديم:",
   "devices_modal_label_serverip": "IP السيرفر:",
   "devices_modal_label_status": "الحالة:",
   "all_statuses": "كل الحالات",
   "devices_modal_status_option_true": "مفعل",
   "devices_modal_status_option_false": "معطل",
-  "devices_modal_button_save": "حفظ", 
-
-
+  "devices_modal_button_save": "حفظ",
   "devices_table_th_no": "#",
   "devices_table_th_name": "اسم الجهاز",
   "devices_table_th_serial": "الرقم التسلسلي",
   "devices_table_th_serverip": "IP السيرفر",
   "devices_table_th_status": "الحالة",
   "devices_table_th_creation": "تاريخ الإضافة",
+  "devices_table_th_oldFlag": "أصدار قديم",
   "devices_table_th_control": "التحكم",
   "devices_table_th_actions": "الإجراءات",
   "devices_table_th_connection": "حالة الاتصال",
-
   "offline": "غير متصل",
   "online": "متصل",
   "setTime": "ضبط الوقت",
@@ -88,30 +82,6 @@
   "Clean_Admin": "مسح المسؤولين",
   "Open_Door": "فتح الباب",
   "confirm": "هل انت متأكد؟",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   "devices_modal_settings_title": "إعدادات الجهاز",
   "devices_modal_settings_button_save": "حفظ الإعدادات",
   "devices_modal_lock_title": "ضبط المناطق الزمنية",
@@ -119,7 +89,6 @@
   "devices_modal_questionnaire_title": "الاستبيان",
   "devices_modal_questionnaire_button_send": "إرسال",
   "devices_modal_info_title": "معلومات الجهاز",
-
   "devices_msg_confirm_delete": "هل أنت متأكد أنك تريد حذف هذا الجهاز؟",
   "devices_msg_error_fetch": "فشل في جلب الأجهزة",
   "devices_msg_error_fetch_one": "فشل في جلب معلومات الجهاز",
@@ -131,7 +100,6 @@
   "devices_msg_success_edit": "تم تعديل الجهاز بنجاح.",
   "devices_msg_success_delete": "تم حذف الجهاز بنجاح.",
   "devices_msg_success_action": "تم تنفيذ العملية بنجاح.",
-
   "devices_table_control_titles_edit": "تعديل",
   "devices_table_control_titles_delete": "حذف",
   "devices_table_control_titles_settings": "الإعدادات",
@@ -139,7 +107,6 @@
   "devices_table_control_titles_lock": "ضبط المناطق الزمنية",
   "devices_table_control_titles_questionnaire": "الاستبيان",
   "devices_table_control_titles_info": "معلومات الجهاز",
-
   "devices_action_select_placeholder": "اختر العملية",
   "devices_action_settime": "ضبط وقت الجهاز",
   "devices_action_reboot": "إعادة تشغيل",
@@ -148,15 +115,12 @@
   "devices_action_initsys": "تهيئة النظام",
   "devices_action_cleanadmin": "مسح المسؤولين",
   "devices_action_opendoor": "فتح الباب",
-
   "devices_connection_checking": "جاري الفحص...",
   "devices_connection_connected": "متصل",
   "devices_connection_disconnected": "غير متصل",
-
   "devices_modal_placeholders_deviceName": "مثال: جهاز بصمة 1",
   "devices_modal_placeholders_deviceSerial": "مثال: 12345-ABCDE",
   "devices_modal_placeholders_serverIp": "مثال: 192.168.1.50",
-
   "devices_msg_loading": "جاري التحميل...",
   "devices_msg_pull_logs": "جاري سحب السجلات من الجهاز...",
   "devices_msg_pull_logs_done": "تم الانتهاء من سحب السجلات.",
@@ -167,9 +131,6 @@
   "devices_msg_save_settings": "تم حفظ الإعدادات بنجاح.",
   "noDevice": "لا يوجد جهاز محدد!",
   "no_current_device": "لا يوجد جهاز محدد لإرسال الاستبيان إليه!",
-
-
-
   "devices_search_name_label": "اسم الجهاز:",
   "deviceSerial": "الرقم التسلسلي للجهاز:",
   "devices_search_name_placeholder": "بحث بالاسم",
@@ -179,25 +140,15 @@
   "devices_search_serverip_placeholder": "بحث بـ IP السيرفر",
   "devices_search_status_label": "الحالة:",
   "devices_search_creation_label": "تاريخ الإضافة:",
-
   "devices_add_button": "إضافة جهاز",
-
-
-  
-
   "devices_settings_title": "إعدادات الجهاز",
   "devices_settings_save_button": "حفظ الإعدادات",
-
   "devices_lockmodal_title": "ضبط أوقات السماحية",
   "devices_lockmodal_day_zone": "يوم المنطقة الزمنية",
   "devices_lockmodal_save_button": "حفظ",
-
   "devices_questionnaire_title": "الاستبيان",
   "devices_questionnaire_send_button": "إرسال",
-
   "devices_info_title": "معلومات الجهاز",
-
-
   "time_zone": "المنطقة الزمنية",
   "zone_no": "الرقم",
   "zone_1": "منطقة زمنية1",
@@ -205,7 +156,6 @@
   "zone_3": "منطقة زمنية3",
   "zone_4": "منطقة زمنية4",
   "zone_5": "منطقة زمنية5",
-
   "week_zone": "أسبوع المنطقة الزمنية",
   "week_zone_no": "الرقم",
   "day_1": "الأحد",
@@ -215,12 +165,9 @@
   "day_5": "الخميس",
   "day_6": "الجمعة",
   "day_7": "السبت",
-
   "open_time": "الوقت الاعتباري للفتح",
   "visitor_time": "وقت الزائر",
   "save": "حفظ",
-
-
   "Questionnaire": "استبيان",
   "enabel_quest": "تمكين الاستبيان",
   "use_table": "استخدام الجدول التلقائي",
@@ -252,27 +199,7 @@
   "event_tables": "جدول الأحداث",
   "start": "البداية",
   "end": "النهاية",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  "settings" :"============= settings first 3 ==========",
-  
+  "settings": "============= settings first 3 ==========",
   "registration_options": "خيارات التسجيل",
   "rfid_free_reg": "تسجيل مجاني للبطاقة",
   "rfid_auto_reg": "استعمال البطاقة لتسجيل الحضور",
@@ -300,92 +227,81 @@
   "reboottime1": "وقت إعادة التشغيل 1",
   "reboottime2": "وقت إعادة التشغيل 2",
   "reboottime3": "وقت إعادة التشغيل 3",
-
-
   "section_4_title": "إعدادات الصوت والعرض",
-  "volume":"مستوى الصوت",
-  "tts_voice":"الصوت النصي (تحويل النص إلى كلام)",
-  "multifaces":"Multi-Faces",
-  "showresulttime":"مدة عرض النتيجة",
-  "screensavertime":"وقت الشاشة التوقف",
-  "sleeptime":"وضع السكون",
-  "live_detect":"اكتشاف حي",
-  "show_avatar":"إظهار صورة الوجه",
-
+  "volume": "مستوى الصوت",
+  "tts_voice": "الصوت النصي (تحويل النص إلى كلام)",
+  "multifaces": "Multi-Faces",
+  "showresulttime": "مدة عرض النتيجة",
+  "screensavertime": "وقت الشاشة التوقف",
+  "sleeptime": "وضع السكون",
+  "live_detect": "اكتشاف حي",
+  "show_avatar": "إظهار صورة الوجه",
   "section_5_title": "إعدادات الخصوصية والتعرف",
-  "managers":"عدد المدراء",
-  "hide_privacy":"إخفاء الخصوصية",
-  "fcmatch_level":"مستوى مطابقة الوجه",
-  "live_treshold":"عتبة الاكتشاف الحي",
-  "wear_mask":"ارتداء قناع",
-  "mask_treshold":"عتبة القناع",
-  "filllight_period":"فترة الإضاءة",
-  "exposure_value":"قيمة التعرض",
-  "online_debug":"تصحيح عبر الإنترنت",
-
+  "managers": "عدد المدراء",
+  "hide_privacy": "إخفاء الخصوصية",
+  "fcmatch_level": "مستوى مطابقة الوجه",
+  "live_treshold": "عتبة الاكتشاف الحي",
+  "wear_mask": "ارتداء قناع",
+  "mask_treshold": "عتبة القناع",
+  "filllight_period": "فترة الإضاءة",
+  "exposure_value": "قيمة التعرض",
+  "online_debug": "تصحيح عبر الإنترنت",
   "section_6_title": "إعدادات الباب",
-  "door_opentime":"وقت فتح الباب",
-  "stranger_lock":"قفل الغرباء",
-  "door_password":"كلمة مرور الباب",
-  "multiusers":"دخول متعدد",
-  "card_reversal":"عكس البطاقة",
-  "outwg_shot":"إخراج Wiegand قصير",
-  "door_interlock":"تشابك الأبواب",
-  "door_firealarmin":"مدخل إنذار الحريق",
-  "door_trycount":"عدد المحاولات",
-  "timezone_punchs":"ضربات المنطقة الزمنية",
-  "access_denied_nolog":"منع الوصول بلا سجل",
-  "outof_notimzone_denied":"رفض خارج الوقت المسموح",
-
+  "door_opentime": "وقت فتح الباب",
+  "stranger_lock": "قفل الغرباء",
+  "door_password": "كلمة مرور الباب",
+  "multiusers": "دخول متعدد",
+  "card_reversal": "عكس البطاقة",
+  "outwg_shot": "إخراج Wiegand قصير",
+  "door_interlock": "تشابك الأبواب",
+  "door_firealarmin": "مدخل إنذار الحريق",
+  "door_trycount": "عدد المحاولات",
+  "timezone_punchs": "ضربات المنطقة الزمنية",
+  "access_denied_nolog": "منع الوصول بلا سجل",
+  "outof_notimzone_denied": "رفض خارج الوقت المسموح",
   "section_7_title": "إعدادات الشبكة",
-  "deviceid":"رقم الجهاز",
-  "netportnum":"رقم منفذ الشبكة",
-  "use_bs":"استخدام BS",
-  "use_domain_name":"استخدام اسم النطاق",
-  "bs_domain_name":"اسم النطاق BS",
-  "serverip_":"IP السيرفر",
-  "serverport_":"منفذ السيرفر",
-  "server_response_time":"وقت استجابة السيرفر",
-  "use_eth_dhcp":"استخدام DHCP",
-  "netipaddress":"عنوان IP الشبكة",
-  "netmask":"قناع الشبكة",
-  "netgateway":"بوابة",
-  "dns_server_ip":"IP خادم DNS",
-  "use_wlan_dhcp":"استخدام DHCP WLAN",
-  "wlan_ip_address":"عنوان IP WLAN",
-  "wlan_net_mask":"قناع الشبكة WLAN",
-  "wlan_gateway":"بوابة WLAN",
-
+  "deviceid": "رقم الجهاز",
+  "netportnum": "رقم منفذ الشبكة",
+  "use_bs": "استخدام BS",
+  "use_domain_name": "استخدام اسم النطاق",
+  "bs_domain_name": "اسم النطاق BS",
+  "serverip_": "IP السيرفر",
+  "serverport_": "منفذ السيرفر",
+  "server_response_time": "وقت استجابة السيرفر",
+  "use_eth_dhcp": "استخدام DHCP",
+  "netipaddress": "عنوان IP الشبكة",
+  "netmask": "قناع الشبكة",
+  "netgateway": "بوابة",
+  "dns_server_ip": "IP خادم DNS",
+  "use_wlan_dhcp": "استخدام DHCP WLAN",
+  "wlan_ip_address": "عنوان IP WLAN",
+  "wlan_net_mask": "قناع الشبكة WLAN",
+  "wlan_gateway": "بوابة WLAN",
   "section_8_title": "إعدادات متنوعة",
-  "line_notify":"إخطار الخط",
-  "app_token":"رمز التطبيق",
-  "shift_weekend":"عطلة نهاية الأسبوع",
-  "auto_sign":"توقيع تلقائي",
-  "time_format":"تنسيق الوقت",
-  "date_format":"تنسيق التاريخ",
-  "language":"لغة",
-  "screensaver_wakeup":"استيقاظ الشاشة التوقف",
-  "label_style":"نمط التسمية",
-  "identify_distance":"مسافة التعرف",
-  "verifymode":"وضع التحقق",
-  "use_qrcode":"استخدام QR",
-  "filllight":"الإضاءة الإضافية",
-  "door_sensor_type":"نوع مستشعر الباب",
-  "door_antipass":"منع العبور",
-  "wiegand_output_mode":"وضع إخراج Wiegand",
-  "wiegand_output_bit":"بت إخراج Wiegand",
-  "card_disp_format":"تنسيق عرض البطاقة",
-  "combaurate":"منفذ الاتصال",
-  "server_verify":"تحقق من السيرفر",
-  "password":"كلمة المرور",
-
-
-  "enable":"مفعل",
-  "disable":"معطل",
-  "option_yes":"نعم",
-  "option_no":"لا",
-  "settings2" :"============= settings 4 => 7 =========="
-
-
-
+  "line_notify": "إخطار الخط",
+  "app_token": "رمز التطبيق",
+  "shift_weekend": "عطلة نهاية الأسبوع",
+  "auto_sign": "توقيع تلقائي",
+  "time_format": "تنسيق الوقت",
+  "date_format": "تنسيق التاريخ",
+  "language": "لغة",
+  "screensaver_wakeup": "استيقاظ الشاشة التوقف",
+  "label_style": "نمط التسمية",
+  "identify_distance": "مسافة التعرف",
+  "verifymode": "وضع التحقق",
+  "use_qrcode": "استخدام QR",
+  "filllight": "الإضاءة الإضافية",
+  "door_sensor_type": "نوع مستشعر الباب",
+  "door_antipass": "منع العبور",
+  "wiegand_output_mode": "وضع إخراج Wiegand",
+  "wiegand_output_bit": "بت إخراج Wiegand",
+  "card_disp_format": "تنسيق عرض البطاقة",
+  "combaurate": "منفذ الاتصال",
+  "server_verify": "تحقق من السيرفر",
+  "password": "كلمة المرور",
+  "enable": "مفعل",
+  "disable": "معطل",
+  "option_yes": "نعم",
+  "option_no": "لا",
+  "settings2": "============= settings 4 => 7 =========="
 }
