@@ -767,10 +767,12 @@
             for="serverIp">ServerIP:</label>
           <input type="text" id="serverIp" placeholder="192.168.1.50" />
 
-          <label id="devices_modal_oldflag_label" data-lng="devices_table_th_oldFlag" for="oldFlag">
-            Old Flag:
-          </label>
-          <input type="checkbox" id="oldFlag" />
+
+          <label id="devices_modal_oldFlag_label" data-lng="devices_modal_label_oldFlag" for="oldFlag">OldFlag:</label>
+          <select id="oldFlag">
+            <option value="true" data-lng-option="devices_modal_status_option_true">Enabled</option>
+            <option value="false" data-lng-option="devices_modal_status_option_false">Disabled</option>
+          </select>
 
           <label data-lng="timeZoneLable" for="deviceTimeZone">timeZone:</label>
           <input list="timezones" id="deviceTimeZone" data-lng-placeholder="timeZone" />
@@ -2001,7 +2003,7 @@
         document.getElementById('deviceName').value = '';
         document.getElementById('deviceSerial').value = '';
         document.getElementById('serverIp').value = '';
-        document.getElementById('oldFlag').value = '';
+        document.getElementById('oldFlag').value = 'true';
         document.getElementById('deviceStatus').value = 'true';
 
         showModal();
@@ -2024,9 +2026,9 @@
           document.getElementById('deviceName').value = d.name || '';
           document.getElementById('deviceSerial').value = d.serial || '';
           document.getElementById('serverIp').value = d.serverip || '';
-          document.getElementById('oldFlag').value = d.oldFlag || '';
           document.getElementById('deviceTimeZone').value = d.timeZone
           document.getElementById('deviceStatus').value = d.status ? 'true' : 'false';
+          document.getElementById('oldFlag').value = d.oldFlag ? 'true' : 'false';
 
           showModal();
         } catch (err) {
@@ -2045,9 +2047,9 @@
         const name = document.getElementById('deviceName').value.trim();
         const serial = document.getElementById('deviceSerial').value.trim();
         const serverip = document.getElementById('serverIp').value.trim();
-        const oldFlag = document.getElementById('oldFlag').value.trim();
         const timeZone = document.getElementById('deviceTimeZone').value
         const statusVal = (document.getElementById('deviceStatus').value === 'true');
+        const oldFlag = (document.getElementById('oldFlag').value === 'true');
 
         if (!name || !serial || !serverip || !timeZone) return
 
@@ -2257,6 +2259,7 @@
         document.getElementById('deviceSerial').value = '';
         document.getElementById('serverIp').value = '';
         document.getElementById('deviceStatus').value = 'true';
+        document.getElementById('oldFlag').value = 'true';
       }
 
       // سحب السجلات
