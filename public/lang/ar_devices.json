@@ -68,7 +68,7 @@
   "devices_table_th_serverip": "IP السيرفر",
   "devices_table_th_status": "الحالة",
   "devices_table_th_creation": "تاريخ الإضافة",
-  "devices_table_th_oldFlag": "أصدار قديم",
+  "devices_table_th_oldFlag": "اصدار قديم",
   "devices_table_th_control": "التحكم",
   "devices_table_th_actions": "الإجراءات",
   "devices_table_th_connection": "حالة الاتصال",
