@@ -1920,6 +1920,8 @@
             <td>${d.timeZone || ''}</td>
             <td data-lng='${d.status ? 'devices_modal_status_option_true' : 'devices_modal_status_option_false'}'>${getTranslate(d.status ? 'devices_modal_status_option_true' : 'devices_modal_status_option_false')}</td>
             <td>${creationDate}</td>
+            <td data-lng='${d.oldFlag ? 'devices_modal_status_option_true' : 'devices_modal_status_option_false'}'>${getTranslate(d.status ? 'devices_modal_status_option_true' : 'devices_modal_status_option_false')}</td>
+
             <td>
               <i class="bi bi-pencil-fill actionIcon" data-lng-hover-title='devices_table_control_titles_edit'
                  title=${getTranslate('devices_table_control_titles_edit')}
