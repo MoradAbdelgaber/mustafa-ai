@@ -44,7 +44,7 @@ exports.createLog = async (req, res) => {
     return res.status(400).json({ error: "Error creating log" });
   }
 };
-//حذف مجموعة بصمات 
+//حذف مجموعة بصمات
 exports.bulkDelete = async (req, res) => {
   try {
     const { ids } = req.body;
@@ -72,17 +72,30 @@ exports.bulkDelete = async (req, res) => {
     return res.status(400).json({ error: "حدث خطأ أثناء حذف السجلات" });
   }
 };
-//تحويل بصمات 
+//تحويل بصمات
 exports.modifyFingerprints = async (req, res) => {
   try {
-    const { fingerprintIds, newEnrollId, newName, modificationReason } = req.body;
+    const { fingerprintIds, newEnrollId, newName, modificationReason } =
+      req.body;
 
     // تحقق من وجود جميع الحقول المطلوبة
-    if (!fingerprintIds || !Array.isArray(fingerprintIds) || fingerprintIds.length === 0) {
-      return res.status(400).json({ error: "يجب توفير fingerprintIds كمصفوفة غير فارغة" });
+    if (
+      !fingerprintIds ||
+      !Array.isArray(fingerprintIds) ||
+      fingerprintIds.length === 0
+    ) {
+      return res
+        .status(400)
+        .json({ error: "يجب توفير fingerprintIds كمصفوفة غير فارغة" });
     }
-    if (newEnrollId === undefined || newName === undefined || !modificationReason) {
-      return res.status(400).json({ error: "يجب توفير newEnrollId و newName و modificationReason" });
+    if (
+      newEnrollId === undefined ||
+      newName === undefined ||
+      !modificationReason
+    ) {
+      return res.status(400).json({
+        error: "يجب توفير newEnrollId و newName و modificationReason",
+      });
     }
 
     // تحديث السجلات التي يملكها المستخدم الحالي والتي تقع ضمن fingerprintIds
@@ -92,8 +105,8 @@ exports.modifyFingerprints = async (req, res) => {
         $set: {
           enrollid: newEnrollId,
           name: newName,
-          modificationReason,         // سجل سبب التعديل
-          modificationDate: new Date()  // يمكن إضافة تاريخ التعديل إن رغبت
+          modificationReason, // سجل سبب التعديل
+          modificationDate: new Date(), // يمكن إضافة تاريخ التعديل إن رغبت
         },
       }
     );
@@ -353,5 +366,108 @@ exports.deleteLog = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(400).json({ error: "Error deleting log" });
+  }
+};
+
+exports.getLogsGroupedByEmployeeAndDay = async (req, res) => {
+  try {
+    let { from, to, enrollid, event, page = 1, limit = 20 } = req.query;
+    const filter = {};
+
+    // حدّد المالك (المستخدم) في الفلتر
+    if (req.userId) filter.owner = req.userId;
+
+    if (req.employee) {
+      filter.enrollid = req.employee.enroll_id;
+    }
+
+    // فلترة بالتاريخ على حقل time
+    if (from && to) {
+      filter.time = { $gte: new Date(from), $lte: new Date(to) };
+    } else if (from) {
+      filter.time = { $gte: new Date(from) };
+    } else if (to) {
+      filter.time = { $lte: new Date(to) };
+    }
+
+    // فلترة بالـ enrollid إذا أرسل
+    if (enrollid) {
+      filter.enrollid = parseInt(enrollid, 10);
+    }
+
+    // فلترة بالـ event إذا أرسل
+    if (event) {
+      filter.event = parseInt(event, 10);
+    }
+
+    page = parseInt(page, 10);
+    limit = parseInt(limit, 10);
+
+    if (page === 0) {
+      const allLogs = await FingerPrintLog.aggregate()
+        .match(filter)
+        .match({
+          time: { $type: "date" },
+        })
+        .group({
+          _id: {
+            enrollid: "$enrollid",
+            date: { $dateToString: { format: "%Y-%m-%d", date: "$time" } },
+          },
+          records: { $push: "$$ROOT" },
+        })
+        .sort({ "_id.date": -1 });
+
+      return res.json({
+        logs: allLogs,
+        totalCount: allLogs.length,
+        page: 0,
+        limit: allLogs.length,
+      });
+    }
+
+    const logs = await FingerPrintLog.aggregate()
+      .match(filter)
+      .match({
+        time: { $type: "date" },
+      })
+      .group({
+        _id: {
+          enrollid: "$enrollid",
+          date: { $dateToString: { format: "%Y-%m-%d", date: "$time" } },
+        },
+        records: { $push: "$$ROOT" },
+      })
+      .sort({ "_id.date": -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    //total count
+    const groupCount = await FingerPrintLog.aggregate()
+      .match(filter)
+      .match({
+        time: { $type: "date" },
+      })
+      .group({
+        _id: {
+          enrollid: "$enrollid",
+          date: { $dateToString: { format: "%Y-%m-%d", date: "$time" } },
+        },
+        records: { $push: "$$ROOT" },
+      })
+      .count("count");
+
+    const totalCount = groupCount[0] || { count: 0 };
+
+    return res.json({
+      logs,
+      totalCount: totalCount.count,
+      currentPage: page,
+      limit,
+      totalPages: Math.ceil(totalCount.count / limit),
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Error fetching logs" });
   }
 };

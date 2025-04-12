@@ -1,12 +1,14 @@
 <style>
-.sidebar{
-  width: 280px;
-}
+  .sidebar {
+    width: 280px;
+  }
+
   .navItem {
     position: relative;
     white-space: nowrap;
-}
-html[lang="ar"] .submenu {
+  }
+
+  html[lang="ar"] .submenu {
     border-right: 2px solid #dee2e6;
     border-left: none;
     margin-right: 10px;
@@ -14,18 +16,19 @@ html[lang="ar"] .submenu {
     margin-bottom: 5px;
     margin-left: 0;
     padding-left: 0;
-}
-    span.beta{
-      background-color: #17a2b8;
-      color: #fff;
-      padding: 6px 10px;
-      border-radius: 8px;
-      font-size: 0.6rem;
-    }
+  }
+
+  span.beta {
+    background-color: #17a2b8;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.6rem;
+  }
 </style>
 <!-- أمثلة على القائمة الجانبية -->
 <div class="navItem menu-group-header" onclick="location.href='dashboard.html'">
-  <i class="bi bi-house-fill"></i> 
+  <i class="bi bi-house-fill"></i>
   <span data-lng="overview">الرئيسية </span>
 </div>
 
@@ -66,6 +69,10 @@ html[lang="ar"] .submenu {
     <i class="bi bi-journal-check"></i>
     <span data-lng="att_log">تقرير الحضور</span>
   </div>
+  <div class="navItem" onclick="location.href='attend-v2.html'">
+    <i class="bi bi-journal-check"></i>
+    <span data-lng="att_log_2">تقرير الحضور ٢</span>
+  </div>
   <div class="navItem" onclick="location.href='employee-summary-report.html'">
     <i class="bi bi-people-fill"></i>
     <span data-lng="emp_summary_report">تقرير ملخص الموظفين</span>
@@ -73,17 +80,17 @@ html[lang="ar"] .submenu {
   <div class="navItem" onclick="location.href='rule.html'">
     <i class="bi bi-braces"></i>
     <span data-lng="advance_rules">القواعد (Rules)</span>
-    <span class="beta">Beta</span> 
+    <span class="beta">Beta</span>
   </div>
   <div class="navItem" onclick="location.href='mainrules.html'">
     <i class="bi bi-braces"></i>
-    <span data-lng="mainrules">القواعد الرئيسية</span> 
-    <span class="beta">Beta</span> 
+    <span data-lng="mainrules">القواعد الرئيسية</span>
+    <span class="beta">Beta</span>
   </div>
   <div class="navItem" onclick="location.href='sudden-fingerprint.html'">
     <i class="bi bi-bar-chart-line-fill"></i>
     <span data-lng="suddenly_check_report">التحقق من التقرير فجأة</span>
-    <span class="beta">Beta</span> 
+    <span class="beta">Beta</span>
   </div>
 </div>
 

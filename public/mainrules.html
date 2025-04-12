@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
   <meta charset="UTF-8">
 
@@ -24,8 +25,7 @@
   <!-- خطوط من جوجل -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
     rel="stylesheet">
 
   <style>
@@ -33,9 +33,15 @@
     html {
       animation: fadeIn .3s ease-in forwards;
     }
+
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
 
     /* عند العربية: الخط Tajawal + RTL */
@@ -92,6 +98,7 @@
       padding-left: 10px;
       margin-bottom: 5px;
     }
+
     .menu-group-header {
       font-weight: bold;
       background: #dee2e6;
@@ -106,7 +113,8 @@
 
     .containerLayout {
       display: flex;
-      flex-direction: row-reverse; /* لعرض المحتوى الرئيسي يمين والسيدبار يسار (في حالة العربية) */
+      flex-direction: row-reverse;
+      /* لعرض المحتوى الرئيسي يمين والسيدبار يسار (في حالة العربية) */
     }
 
     .mainContent {
@@ -156,6 +164,7 @@
       background: #007bff;
       color: #fff;
     }
+
     .navItem.active i {
       color: #fff;
     }
@@ -167,8 +176,14 @@
       font-size: 0.95rem;
       font-weight: 600;
     }
-    .errorMsg { color: red; }
-    .successMsg { color: green; }
+
+    .errorMsg {
+      color: red;
+    }
+
+    .successMsg {
+      color: green;
+    }
 
     #langSelector {
       margin: 10px;
@@ -184,41 +199,48 @@
       background-color: #fff;
       padding: 2rem;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       max-width: 900px;
       margin: auto;
     }
+
     .help-text {
       font-size: 0.9rem;
       color: #777;
     }
+
     .btn-primary {
       width: 100%;
     }
+
     .multi-select {
       height: 150px;
     }
+
     .variable-list {
       background-color: #f2f2f2;
       padding: 1rem;
       border-radius: 5px;
       margin-top: 0.5rem;
     }
+
     .variable-list ul {
       margin: 0;
       padding-left: 1rem;
     }
+
     .variable-list li {
       margin-bottom: 0.25rem;
       line-height: 1.6;
     }
+
     .variable-list code {
       background-color: #e8e8e8;
       padding: 0 4px;
       border-radius: 3px;
     }
 
-    .modal-header{
+    .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -226,30 +248,33 @@
       background: #007bff;
       color: #fff;
     }
+
     .modal-header .btn-close {
       background: transparent;
-    border: none;
-    color: #fff !important;
-    font-size: 1.5rem;
-    cursor: pointer !important;
-    margin: 0 !important;
-    opacity: 1 !important;
+      border: none;
+      color: #fff !important;
+      font-size: 1.5rem;
+      cursor: pointer !important;
+      margin: 0 !important;
+      opacity: 1 !important;
     }
 
-    .form-wrapper{
+    .form-wrapper {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
     }
-    .form-wrapper .form-group{
+
+    .form-wrapper .form-group {
       max-width: 50%;
       flex-basis: 50%;
       padding: 0 10px;
       box-sizing: border-box;
     }
+
     .form-wrapper .form-group input,
-    .form-wrapper .form-group select{
+    .form-wrapper .form-group select {
       box-sizing: border-box;
       height: 43px;
       border-radius: 13px;
@@ -258,33 +283,37 @@
       padding-left: 10px;
       box-sizing: border-box;
     }
-    .form-wrapper .form-group-checkbox{
+
+    .form-wrapper .form-group-checkbox {
       display: flex;
     }
-    .form-wrapper .form-group-checkbox label{
+
+    .form-wrapper .form-group-checkbox label {
       margin: 0 10px;
     }
 
-    .form-wrapper .form-group-checkbox{
+    .form-wrapper .form-group-checkbox {
       display: flex;
       margin-top: 27px;
     }
-    .form-wrapper .form-group-checkbox label{
+
+    .form-wrapper .form-group-checkbox label {
       margin: 0 10px;
     }
-    .form-wrapper .form-group-checkbox input[type="checkbox"]{
+
+    .form-wrapper .form-group-checkbox input[type="checkbox"] {
       width: auto;
       margin: 0;
       height: auto;
       border-radius: 0;
-    background-color: blue;
+      background-color: blue;
     }
 
-    .modal-footer button[type="submit"]{
+    .modal-footer button[type="submit"] {
       width: auto;
     }
 
-    .select2-container--default .select2-selection--multiple{
+    .select2-container--default .select2-selection--multiple {
       min-height: 43px;
       border-radius: 13px;
       background-color: #cccccc2b;
@@ -292,7 +321,6 @@
       padding-left: 10px;
       box-sizing: border-box;
     }
-
   </style>
 
   <!-- مكتبة Bootstrap الأساسية (من نموذج القواعد) -->
@@ -330,19 +358,15 @@
           <!-- اسم القاعدة -->
           <div class="mb-3 form-group">
             <label for="ruleName" class="form-label" data-lng="agg_rule_name">اسم القاعدة</label>
-            <input
-              type="text"
-              class="form-control"
-              id="ruleName"
-              name="name"
-              data-lng-placeholder="agg_rule_name_placeholder"
-              placeholder="مثال: خصم عند التأخير الزائد">
+            <input type="text" class="form-control" id="ruleName" name="name"
+              data-lng-placeholder="agg_rule_name_placeholder" placeholder="مثال: خصم عند التأخير الزائد">
             <div class="help-text" data-lng="agg_rule_name_help">اكتب اسمًا واضحًا يعبّر عن الغرض من القاعدة.</div>
           </div>
 
           <!-- تطبيق على جميع الموظفين -->
           <div class="mb-3 form-check form-group form-group-checkbox">
-            <input class="form-check-input" type="checkbox" id="applyToAll" name="applyToAll" value="true" onchange="toggleEmployeeDept(this.checked)">
+            <input class="form-check-input" type="checkbox" id="applyToAll" name="applyToAll" value="true"
+              onchange="toggleEmployeeDept(this.checked)">
             <label class="form-check-label" for="applyToAll" data-lng="agg_apply_all">تطبيق على جميع الموظفين؟</label>
           </div>
 
@@ -352,7 +376,8 @@
             <select multiple class="form-select multi-select" id="employeeIds" name="applyToEmployeeIds[]">
               <!-- يتم ملؤه ديناميكياً -->
             </select>
-            <div class="help-text" data-lng="agg_select_employees_help">اضغط مع الاستمرار على زر Ctrl لاختيار أكثر من موظف.</div>
+            <div class="help-text" data-lng="agg_select_employees_help">اضغط مع الاستمرار على زر Ctrl لاختيار أكثر من
+              موظف.</div>
           </div>
 
           <!-- اختيار الأقسام -->
@@ -361,7 +386,8 @@
             <select multiple class="form-select multi-select" id="departmentIds" name="applyToDepartmentIds[]">
               <!-- يتم ملؤه ديناميكياً -->
             </select>
-            <div class="help-text" data-lng="agg_select_departments_help">يمكنك اختيار أكثر من قسم بالضغط المستمر على Ctrl.</div>
+            <div class="help-text" data-lng="agg_select_departments_help">يمكنك اختيار أكثر من قسم بالضغط المستمر على
+              Ctrl.</div>
           </div>
 
           <!-- تاريخ البداية والنهاية -->
@@ -384,15 +410,13 @@
 
           <!-- سكربت الشرط -->
           <div class="mb-3 form-group" style="max-width:100%;flex-basis:100%;">
-            <label for="conditionScript" class="form-label" data-lng="agg_condition_label">الشرط (Condition Script)</label>
-            <textarea
-              class="form-control"
-              id="conditionScript"
-              name="conditionScript"
-              rows="3"
+            <label for="conditionScript" class="form-label" data-lng="agg_condition_label">الشرط (Condition
+              Script)</label>
+            <textarea class="form-control" id="conditionScript" name="conditionScript" rows="3"
               data-lng-placeholder="agg_condition_placeholder"
               placeholder="مثال: tardiesCount > 3 && frequency === 'monthly'"></textarea>
-            <div class="help-text" data-lng="agg_condition_help">اكتب التعبير الشرطي مستخدمًا متغيرات JavaScript عادية.</div>
+            <div class="help-text" data-lng="agg_condition_help">اكتب التعبير الشرطي مستخدمًا متغيرات JavaScript عادية.
+            </div>
 
             <!-- قائمة المتغيرات الشائعة -->
             <div class="variable-list form-group" style="max-width:100%;flex-basis:100%;">
@@ -400,32 +424,47 @@
               <ul>
                 <li><code>tardiesCount</code>: <span data-lng="agg_var_tardiesCount">عدد التأخيرات</span></li>
                 <li><code>absentCount</code>: <span data-lng="agg_var_absentCount">عدد الغيابات</span></li>
-                <li><code>totalDelayMinutes</code>: <span data-lng="agg_var_totalDelayMins">مجموع دقائق التأخير</span></li>
-                <li><code>totalEarlyExitMinutes</code>: <span data-lng="agg_var_totalEarlyExit">مجموع دقائق الخروج المبكر</span></li>
-                <li><code>totalOvertimeMinutes</code>: <span data-lng="agg_var_totalOvertime">مجموع دقائق العمل الإضافي</span></li>
+                <li><code>totalDelayMinutes</code>: <span data-lng="agg_var_totalDelayMins">مجموع دقائق التأخير</span>
+                </li>
+                <li><code>totalEarlyExitMinutes</code>: <span data-lng="agg_var_totalEarlyExit">مجموع دقائق الخروج
+                    المبكر</span></li>
+                <li><code>totalOvertimeMinutes</code>: <span data-lng="agg_var_totalOvertime">مجموع دقائق العمل
+                    الإضافي</span></li>
                 <li><code>leavesCount</code>: <span data-lng="agg_var_leavesCount">عدد الإجازات</span></li>
                 <li><code>frequency</code>: <span data-lng="agg_var_frequency">التكرار</span></li>
                 <li><code>sumDelayMinutes</code>: <span data-lng="agg_var_sumDelay">مجموع دقائق التأخير</span></li>
-                <li><code>sumEarlyExitMinutes</code>: <span data-lng="agg_var_sumEarlyExit">مجموع دقائق الخروج المبكر</span></li>
+                <li><code>sumEarlyExitMinutes</code>: <span data-lng="agg_var_sumEarlyExit">مجموع دقائق الخروج
+                    المبكر</span></li>
                 <li><code>sumOT</code>: <span data-lng="agg_var_sumOT">مجموع دقائق العمل الإضافي</span></li>
                 <li><code>sumAbs</code>: <span data-lng="agg_var_sumAbs">مجموع الغيابات</span></li>
                 <li><code>sumRewards</code>: <span data-lng="agg_var_sumRewards">مجموع المكافآت</span></li>
                 <li><code>sumPenalties</code>: <span data-lng="agg_var_sumPenalties">مجموع العقوبات</span></li>
                 <li><code>sumNet</code>: <span data-lng="agg_var_sumNet">المجموع الصافي</span></li>
-                <li><code>sumTotalRestDuration</code>: <span data-lng="agg_var_sumRest">مجموع إجمالي مدة الاستراحة</span></li>
-                <li><code>sumBaseWork</code>: <span data-lng="agg_var_sumBaseWork">مجموع ساعات العمل الأساسية</span></li>
+                <li><code>sumTotalRestDuration</code>: <span data-lng="agg_var_sumRest">مجموع إجمالي مدة
+                    الاستراحة</span></li>
+                <li><code>sumBaseWork</code>: <span data-lng="agg_var_sumBaseWork">مجموع ساعات العمل الأساسية</span>
+                </li>
                 <li><code>countPaidLeaves</code>: <span data-lng="agg_var_countPaid">عدد الإجازات المدفوعة</span></li>
-                <li><code>countUnpaidLeaves</code>: <span data-lng="agg_var_countUnpaid">عدد الإجازات غير المدفوعة</span></li>
-                <li><code>countPendingLeaves</code>: <span data-lng="agg_var_countPending">عدد الإجازات المعلقة</span></li>
-                <li><code>countTimeBasedLeaves</code>: <span data-lng="agg_var_countTimeBased">عدد الإجازات القائمة على الوقت</span></li>
-                <li><code>sumEntryLeaveMins</code>: <span data-lng="agg_var_sumEntry">مجموع دقائق بدء الإجازة</span></li>
-                <li><code>sumExitLeaveMins</code>: <span data-lng="agg_var_sumExit">مجموع دقائق انتهاء الإجازة</span></li>
-                <li><code>officialHolidayCount</code>: <span data-lng="agg_var_officialHoliday">عدد العطلات الرسمية</span></li>
+                <li><code>countUnpaidLeaves</code>: <span data-lng="agg_var_countUnpaid">عدد الإجازات غير
+                    المدفوعة</span></li>
+                <li><code>countPendingLeaves</code>: <span data-lng="agg_var_countPending">عدد الإجازات المعلقة</span>
+                </li>
+                <li><code>countTimeBasedLeaves</code>: <span data-lng="agg_var_countTimeBased">عدد الإجازات القائمة على
+                    الوقت</span></li>
+                <li><code>sumEntryLeaveMins</code>: <span data-lng="agg_var_sumEntry">مجموع دقائق بدء الإجازة</span>
+                </li>
+                <li><code>sumExitLeaveMins</code>: <span data-lng="agg_var_sumExit">مجموع دقائق انتهاء الإجازة</span>
+                </li>
+                <li><code>officialHolidayCount</code>: <span data-lng="agg_var_officialHoliday">عدد العطلات
+                    الرسمية</span></li>
                 <li><code>restDayCount</code>: <span data-lng="agg_var_restDayCount">عدد أيام الراحة</span></li>
                 <li><code>workingDayCount</code>: <span data-lng="agg_var_workingDayCount">عدد أيام العمل</span></li>
-                <li><code>week_work_offcount</code>: <span data-lng="agg_var_weekOffCount">عدد أيام عطلة الأسبوع</span></li>
-                <li><code>sumRequiredWorkHours</code>: <span data-lng="agg_var_sumRequired">مجموع ساعات العمل المطلوبة</span></li>
-                <li><code>expectedWorkDays</code>: <span data-lng="agg_var_expectedDays">عدد أيام العمل المتوقعة</span></li>
+                <li><code>week_work_offcount</code>: <span data-lng="agg_var_weekOffCount">عدد أيام عطلة الأسبوع</span>
+                </li>
+                <li><code>sumRequiredWorkHours</code>: <span data-lng="agg_var_sumRequired">مجموع ساعات العمل
+                    المطلوبة</span></li>
+                <li><code>expectedWorkDays</code>: <span data-lng="agg_var_expectedDays">عدد أيام العمل المتوقعة</span>
+                </li>
               </ul>
               <strong data-lng="agg_var_operations">العمليات الشائعة:</strong>
               <ul>
@@ -435,7 +474,8 @@
                 <li><code>&amp;&amp;</code> <span data-lng="agg_op_and">و (AND)</span></li>
                 <li><code>||</code> <span data-lng="agg_op_or">أو (OR)</span></li>
               </ul>
-              <p><span data-lng="agg_var_example_label">مثال:</span> <em>(tardiesCount &gt; 3) &amp;&amp; (frequency === 'monthly')</em></p>
+              <p><span data-lng="agg_var_example_label">مثال:</span> <em>(tardiesCount &gt; 3) &amp;&amp; (frequency ===
+                  'monthly')</em></p>
             </div>
           </div>
 
@@ -447,7 +487,8 @@
               <option value="weekly" data-lng="agg_frequency_weekly">أسبوعي</option>
               <option value="monthly" data-lng="agg_frequency_monthly" selected>شهري</option>
             </select>
-            <div class="help-text" data-lng="agg_frequency_help">اختر "شهري" إذا أردت التطبيق على مستوى الشهر، أو "أسبوعي" أو "يومي".</div>
+            <div class="help-text" data-lng="agg_frequency_help">اختر "شهري" إذا أردت التطبيق على مستوى الشهر، أو
+              "أسبوعي" أو "يومي".</div>
           </div>
 
           <!-- نوع الإجراء -->
@@ -465,27 +506,18 @@
           <!-- قيمة الإجراء -->
           <div class="mb-3 form-group">
             <label for="actionValue" class="form-label" data-lng="agg_action_value_label">قيمة الإجراء</label>
-            <input
-              type="number"
-              class="form-control"
-              id="actionValue"
-              name="actionValue"
-              data-lng-placeholder="agg_action_value_placeholder"
-              placeholder="مثال: 10000">
+            <input type="number" class="form-control" id="actionValue" name="actionValue"
+              data-lng-placeholder="agg_action_value_placeholder" placeholder="مثال: 10000">
             <div class="help-text" data-lng="agg_action_value_help">حدد المبلغ أو عدد الأيام حسب نوع الإجراء.</div>
           </div>
 
           <!-- الرسالة التوضيحية -->
           <div class="mb-3 form-group">
             <label for="message" class="form-label" data-lng="agg_message_label">الرسالة التوضيحية</label>
-            <input
-              type="text"
-              class="form-control"
-              id="message"
-              name="message"
-              data-lng-placeholder="agg_message_placeholder"
-              placeholder="مثال: خصم بسبب كثرة التأخير">
-            <div class="help-text" data-lng="agg_message_help">تُعرض هذه الرسالة في التقرير لتوضيح سبب تنفيذ الإجراء.</div>
+            <input type="text" class="form-control" id="message" name="message"
+              data-lng-placeholder="agg_message_placeholder" placeholder="مثال: خصم بسبب كثرة التأخير">
+            <div class="help-text" data-lng="agg_message_help">تُعرض هذه الرسالة في التقرير لتوضيح سبب تنفيذ الإجراء.
+            </div>
           </div>
 
           <!-- زر الحفظ -->
@@ -501,7 +533,7 @@
       <!-- ============ نهاية نموذج إضافة القاعدة ============ -->
 
       <!-- مودال تعديل القاعدة -->
-      <div class="modal fade" id="editRuleModal" tabindex="-1" >
+      <div class="modal fade" id="editRuleModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <form id="editRuleForm" onsubmit="handleEditSubmit(event)">
@@ -513,28 +545,26 @@
 
                 <div class="form-wrapper">
                   <input type="hidden" id="editRuleId" name="id">
-                  
+
                   <!-- حقل اسم القاعدة -->
                   <div class="mb-3 form-group">
                     <label for="editRuleName" class="form-label" data-lng="agg_rule_name">اسم القاعدة</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="editRuleName"
-                      name="name"
-                      data-lng-placeholder="agg_rule_name_placeholder"
-                      placeholder="مثال: خصم عند التأخير الزائد">
+                    <input type="text" class="form-control" id="editRuleName" name="name"
+                      data-lng-placeholder="agg_rule_name_placeholder" placeholder="مثال: خصم عند التأخير الزائد">
                   </div>
 
                   <!-- تطبيق على جميع الموظفين -->
                   <div class="mb-3 form-check form-group form-group-checkbox">
-                    <input class="form-check-input" type="checkbox" id="editApplyToAll" name="applyToAll" value="true" onchange="toggleEmployeeDeptEdit(this.checked)">
-                    <label class="form-check-label" for="editApplyToAll" data-lng="agg_apply_all">تطبيق على جميع الموظفين؟</label>
+                    <input class="form-check-input" type="checkbox" id="editApplyToAll" name="applyToAll" value="true"
+                      onchange="toggleEmployeeDeptEdit(this.checked)">
+                    <label class="form-check-label" for="editApplyToAll" data-lng="agg_apply_all">تطبيق على جميع
+                      الموظفين؟</label>
                   </div>
 
                   <!-- اختيار الموظفين -->
                   <div class="mb-3 form-group">
-                    <label for="editEmployeeIds" class="form-label" data-lng="agg_select_employees">اختر الموظفين</label>
+                    <label for="editEmployeeIds" class="form-label" data-lng="agg_select_employees">اختر
+                      الموظفين</label>
                     <select multiple class="form-select multi-select" id="editEmployeeIds" name="applyToEmployeeIds[]">
                       <!-- يتم ملؤه ديناميكياً -->
                     </select>
@@ -542,37 +572,36 @@
 
                   <!-- اختيار الأقسام -->
                   <div class="mb-3 form-group">
-                    <label for="editDepartmentIds" class="form-label" data-lng="agg_select_departments">اختر الأقسام</label>
-                    <select multiple class="form-select multi-select" id="editDepartmentIds" name="applyToDepartmentIds[]">
+                    <label for="editDepartmentIds" class="form-label" data-lng="agg_select_departments">اختر
+                      الأقسام</label>
+                    <select multiple class="form-select multi-select" id="editDepartmentIds"
+                      name="applyToDepartmentIds[]">
                       <!-- يتم ملؤه ديناميكياً -->
                     </select>
                   </div>
 
                   <!-- تواريخ البداية والنهاية -->
                   <div class="mb-3 form-group">
-                      <label for="editStartDate" class="form-label" data-lng="agg_start_date">تاريخ البداية</label>
-                      <input type="date" class="form-control" id="editStartDate" name="startDate">
+                    <label for="editStartDate" class="form-label" data-lng="agg_start_date">تاريخ البداية</label>
+                    <input type="date" class="form-control" id="editStartDate" name="startDate">
                   </div>
 
                   <div class="mb-3 form-group">
-                      <label for="editEndDate" class="form-label" data-lng="agg_end_date">تاريخ النهاية</label>
-                      <input type="date" class="form-control" id="editEndDate" name="endDate">
+                    <label for="editEndDate" class="form-label" data-lng="agg_end_date">تاريخ النهاية</label>
+                    <input type="date" class="form-control" id="editEndDate" name="endDate">
                   </div>
 
                   <!-- سكربت الشرط -->
                   <div class="mb-3 form-group" style="max-width:100%;flex-basis:100%;">
-                    <label for="editConditionScript" class="form-label" data-lng="agg_condition_label">الشرط (Condition Script)</label>
-                    <textarea
-                      class="form-control"
-                      id="editConditionScript"
-                      name="conditionScript"
-                      rows="3"
+                    <label for="editConditionScript" class="form-label" data-lng="agg_condition_label">الشرط (Condition
+                      Script)</label>
+                    <textarea class="form-control" id="editConditionScript" name="conditionScript" rows="3"
                       data-lng-placeholder="agg_condition_placeholder"
                       placeholder="مثال: tardiesCount > 3 && frequency === 'monthly'"></textarea>
                   </div>
 
-                   <!-- نوع التكرار -->
-                   <div class="mb-3 form-group">
+                  <!-- نوع التكرار -->
+                  <div class="mb-3 form-group">
                     <label for="editFrequency" class="form-label" data-lng="agg_frequency">نوع التكرار</label>
                     <select class="form-select" id="editFrequency" name="frequency">
                       <option value="daily" data-lng="agg_frequency_daily">يومي</option>
@@ -594,31 +623,23 @@
 
                   <!-- قيمة الإجراء -->
                   <div class="mb-3 form-group">
-                    <label for="editActionValue" class="form-label" data-lng="agg_action_value_label">قيمة الإجراء</label>
-                    <input
-                      type="number"
-                      class="form-control"
-                      id="editActionValue"
-                      name="actionValue"
-                      data-lng-placeholder="agg_action_value_placeholder"
-                      placeholder="مثال: 10000">
+                    <label for="editActionValue" class="form-label" data-lng="agg_action_value_label">قيمة
+                      الإجراء</label>
+                    <input type="number" class="form-control" id="editActionValue" name="actionValue"
+                      data-lng-placeholder="agg_action_value_placeholder" placeholder="مثال: 10000">
                   </div>
 
                   <!-- الرسالة التوضيحية -->
                   <div class="mb-3 form-group">
                     <label for="editMessage" class="form-label" data-lng="agg_message_label">الرسالة التوضيحية</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="editMessage"
-                      name="message"
-                      data-lng-placeholder="agg_message_placeholder"
-                      placeholder="مثال: خصم بسبب كثرة التأخير">
+                    <input type="text" class="form-control" id="editMessage" name="message"
+                      data-lng-placeholder="agg_message_placeholder" placeholder="مثال: خصم بسبب كثرة التأخير">
                   </div>
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-lng="agg_btn_cancel">إلغاء</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                  data-lng="agg_btn_cancel">إلغاء</button>
                 <button type="submit" class="btn btn-primary" data-lng="agg_btn_save_edit">حفظ التعديلات</button>
               </div>
             </form>
@@ -656,7 +677,7 @@
       } catch (error) {
         console.error("Translation file error:", error);
       }
-  
+
     }
 
     // إرجاع النص المترجم بناءً على المفتاح
@@ -717,7 +738,7 @@
         setLanguage(this.value);
       });
 
-     
+
 
     });
   </script>
@@ -767,7 +788,7 @@
       loadRules();               // تحميل القواعد وعرضها في الجدول
 
       initSelect2DepartmentToAddForm();
-      
+
 
     });
 
@@ -781,19 +802,19 @@
       fetch('/api/employees?page=1&limit=9999999', {
         headers: { 'Authorization': 'Bearer ' + token }
       })
-      .then(res => res.json())
-      .then(data => {
-        const employeeSelect = document.getElementById('employeeIds');
-        employeeSelect.innerHTML = '';
-        let employees = Array.isArray(data) ? data : (data.data || []);
-        employees.forEach(emp => {
-          const option = document.createElement('option');
-          option.value = emp.enroll_id || emp._id || emp.id;
-          option.textContent = emp.name || ('موظف ' + (emp._id || emp.id));
-          employeeSelect.appendChild(option);
-        });
-      })
-      .catch(err => console.error('خطأ أثناء جلب الموظفين:', err));
+        .then(res => res.json())
+        .then(data => {
+          const employeeSelect = document.getElementById('employeeIds');
+          employeeSelect.innerHTML = '';
+          let employees = Array.isArray(data) ? data : (data.data || []);
+          employees.forEach(emp => {
+            const option = document.createElement('option');
+            option.value = emp.enroll_id || emp._id || emp.id;
+            option.textContent = emp.name || ('موظف ' + (emp._id || emp.id));
+            employeeSelect.appendChild(option);
+          });
+        })
+        .catch(err => console.error('خطأ أثناء جلب الموظفين:', err));
     }
 
     // تحميل الأقسام لنموذج الإضافة
@@ -806,22 +827,22 @@
       fetch('/api/departments', {
         headers: { 'Authorization': 'Bearer ' + token }
       })
-      .then(res => res.json())
-      .then(data => {
-        const deptSelect = document.getElementById('departmentIds');
-        deptSelect.innerHTML = '';
-        let departments = Array.isArray(data) ? data : (data.data || []);
-        departments.forEach(dep => {
-          const option = document.createElement('option');
-          option.value = dep._id || dep.id;
-          option.textContent = dep.department || dep.name || ('قسم ' + (dep._id || dep.id));
-          deptSelect.appendChild(option);
-        });
+        .then(res => res.json())
+        .then(data => {
+          const deptSelect = document.getElementById('departmentIds');
+          deptSelect.innerHTML = '';
+          let departments = Array.isArray(data) ? data : (data.data || []);
+          departments.forEach(dep => {
+            const option = document.createElement('option');
+            option.value = dep._id || dep.id;
+            option.textContent = dep.department || dep.name || ('قسم ' + (dep._id || dep.id));
+            deptSelect.appendChild(option);
+          });
 
-        
 
-      })
-      .catch(err => console.error('خطأ أثناء جلب الأقسام:', err));
+
+        })
+        .catch(err => console.error('خطأ أثناء جلب الأقسام:', err));
 
     }
 
@@ -835,19 +856,19 @@
       fetch('/api/employees?page=1&limit=9999999', {
         headers: { 'Authorization': 'Bearer ' + token }
       })
-      .then(res => res.json())
-      .then(data => {
-        const employeeSelect = document.getElementById('editEmployeeIds');
-        employeeSelect.innerHTML = '';
-        let employees = Array.isArray(data) ? data : (data.data || []);
-        employees.forEach(emp => {
-          const option = document.createElement('option');
-          option.value = emp.enroll_id || emp._id || emp.id;
-          option.textContent = emp.name || ('موظف ' + (emp._id || emp.id));
-          employeeSelect.appendChild(option);
-        });
-      })
-      .catch(err => console.error('خطأ أثناء جلب الموظفين:', err));
+        .then(res => res.json())
+        .then(data => {
+          const employeeSelect = document.getElementById('editEmployeeIds');
+          employeeSelect.innerHTML = '';
+          let employees = Array.isArray(data) ? data : (data.data || []);
+          employees.forEach(emp => {
+            const option = document.createElement('option');
+            option.value = emp.enroll_id || emp._id || emp.id;
+            option.textContent = emp.name || ('موظف ' + (emp._id || emp.id));
+            employeeSelect.appendChild(option);
+          });
+        })
+        .catch(err => console.error('خطأ أثناء جلب الموظفين:', err));
     }
 
     // تحميل الأقسام للمودال
@@ -860,19 +881,19 @@
       fetch('/api/departments', {
         headers: { 'Authorization': 'Bearer ' + token }
       })
-      .then(res => res.json())
-      .then(data => {
-        const deptSelect = document.getElementById('editDepartmentIds');
-        deptSelect.innerHTML = '';
-        let departments = Array.isArray(data) ? data : (data.data || []);
-        departments.forEach(dep => {
-          const option = document.createElement('option');
-          option.value = dep._id || dep.id;
-          option.textContent = dep.department || dep.name || ('قسم ' + (dep._id || dep.id));
-          deptSelect.appendChild(option);
-        });
-      })
-      .catch(err => console.error('خطأ أثناء جلب الأقسام:', err));
+        .then(res => res.json())
+        .then(data => {
+          const deptSelect = document.getElementById('editDepartmentIds');
+          deptSelect.innerHTML = '';
+          let departments = Array.isArray(data) ? data : (data.data || []);
+          departments.forEach(dep => {
+            const option = document.createElement('option');
+            option.value = dep._id || dep.id;
+            option.textContent = dep.department || dep.name || ('قسم ' + (dep._id || dep.id));
+            deptSelect.appendChild(option);
+          });
+        })
+        .catch(err => console.error('خطأ أثناء جلب الأقسام:', err));
     }
 
     // تفعيل وتعطيل حقول اختيار الموظفين والأقسام لنموذج الإضافة
@@ -910,21 +931,21 @@
         },
         body: JSON.stringify(data)
       })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('فشل حفظ القاعدة. رمز الاستجابة: ' + res.status);
-        }
-        return res.json();
-      })
-      .then(result => {
-        alert(getTranslate("agg_msg_saved"));
-        form.reset();
-        loadRules(); // تحديث الجدول بعد الإضافة
-      })
-      .catch(err => {
-        console.error('خطأ أثناء حفظ القاعدة:', err);
-        alert(getTranslate("agg_msg_save_error") + ': ' + err.message);
-      });
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('فشل حفظ القاعدة. رمز الاستجابة: ' + res.status);
+          }
+          return res.json();
+        })
+        .then(result => {
+          alert(getTranslate("agg_msg_saved"));
+          form.reset();
+          loadRules(); // تحديث الجدول بعد الإضافة
+        })
+        .catch(err => {
+          console.error('خطأ أثناء حفظ القاعدة:', err);
+          alert(getTranslate("agg_msg_save_error") + ': ' + err.message);
+        });
     }
 
     // جلب القواعد وعرضها في جدول
@@ -937,14 +958,14 @@
       fetch('/api/flexibleAggregateRule', {
         headers: { 'Authorization': 'Bearer ' + token }
       })
-      .then(res => res.json())
-      .then(rules => {
-        const container = document.getElementById('rulesTableContainer');
-        if (!Array.isArray(rules)) {
-          container.innerHTML = `<p>${getTranslate("agg_no_rules_yet")}</p>`;
-          return;
-        }
-        let tableHTML = `<table class="table table-bordered">
+        .then(res => res.json())
+        .then(rules => {
+          const container = document.getElementById('rulesTableContainer');
+          if (!Array.isArray(rules)) {
+            container.innerHTML = `<p>${getTranslate("agg_no_rules_yet")}</p>`;
+            return;
+          }
+          let tableHTML = `<table class="table table-bordered">
           <thead>
             <tr>
               <th>${translations["agg_table_name"]}</th>
@@ -958,10 +979,10 @@
             </tr>
           </thead>
           <tbody>`;
-        rules.forEach(rule => {
-          const start = rule.startDate ? new Date(rule.startDate).toLocaleDateString('ar-EG') : '';
-          const end = rule.endDate ? new Date(rule.endDate).toLocaleDateString('ar-EG') : '';
-          tableHTML += `<tr>
+          rules.forEach(rule => {
+            const start = rule.startDate ? new Date(rule.startDate).toLocaleDateString('ar-EG') : '';
+            const end = rule.endDate ? new Date(rule.endDate).toLocaleDateString('ar-EG') : '';
+            tableHTML += `<tr>
             <td>${rule.name || ''}</td>
             <td>${start}</td>
             <td>${end}</td>
@@ -976,11 +997,11 @@
                 </div>
             </td>
           </tr>`;
-        });
-        tableHTML += `</tbody></table>`;
-        container.innerHTML = tableHTML;
-      })
-      .catch(err => console.error('خطأ أثناء جلب القواعد:', err));
+          });
+          tableHTML += `</tbody></table>`;
+          container.innerHTML = tableHTML;
+        })
+        .catch(err => console.error('خطأ أثناء جلب القواعد:', err));
     }
 
     // دالة حذف القاعدة
@@ -995,20 +1016,20 @@
         method: 'DELETE',
         headers: { 'Authorization': 'Bearer ' + token }
       })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('فشل حذف القاعدة. رمز الاستجابة: ' + res.status);
-        }
-        return res.json();
-      })
-      .then(result => {
-        alert(getTranslate("agg_msg_deleted"));
-        loadRules();
-      })
-      .catch(err => {
-        console.error('خطأ أثناء حذف القاعدة:', err);
-        alert(getTranslate("agg_msg_delete_error") + ': ' + err.message);
-      });
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('فشل حذف القاعدة. رمز الاستجابة: ' + res.status);
+          }
+          return res.json();
+        })
+        .then(result => {
+          alert(getTranslate("agg_msg_deleted"));
+          loadRules();
+        })
+        .catch(err => {
+          console.error('خطأ أثناء حذف القاعدة:', err);
+          alert(getTranslate("agg_msg_delete_error") + ': ' + err.message);
+        });
     }
 
     // فتح مودال التعديل وملء الحقول ببيانات القاعدة
@@ -1033,7 +1054,7 @@
 
         // تحديد الخيارات المطابقة للقيم
         if (rule.applyToEmployeeIds && Array.isArray(rule.applyToEmployeeIds)) {
-         
+
           rule.applyToEmployeeIds.forEach(val => {
             for (let option of empSelect.options) {
               if (option.value == val) {
@@ -1057,10 +1078,10 @@
           });
 
           initSelect2DepartmentToEditForm();
-          
+
         }
 
-     
+
 
       }, 500);
 
@@ -1071,56 +1092,56 @@
       document.getElementById('editActionType').value = rule.actionType || 'removeAmount';
       document.getElementById('editActionValue').value = rule.actionValue || '';
       document.getElementById('editMessage').value = rule.message || '';
-      
+
       toggleEmployeeDeptEdit(rule.applyToAll);
 
       const editModal = new bootstrap.Modal(document.getElementById('editRuleModal'));
       editModal.show();
 
-     
+
 
     }
 
-  
 
-    function initSelect2EmployeeToEditForm(){
+
+    function initSelect2EmployeeToEditForm() {
       $('#editEmployeeIds').select2({
-          width: '100%',
-          placeholder: translations['choose_employee'],
-          allowClear: true,
-          multiple: true,
-          dropdownParent: $('#editRuleForm .form-group')
-        });
+        width: '100%',
+        placeholder: translations['choose_employee'],
+        allowClear: true,
+        multiple: true,
+        dropdownParent: $('#editRuleForm .form-group')
+      });
     }
 
-    function initSelect2DepartmentToEditForm(){
+    function initSelect2DepartmentToEditForm() {
       $('#editDepartmentIds').select2({
-          width: '100%',
-          placeholder: translations['choose_department'],
-          allowClear: true,
-          multiple: true,
-          dropdownParent: $('#editRuleForm .form-group')
-        });
+        width: '100%',
+        placeholder: translations['choose_department'],
+        allowClear: true,
+        multiple: true,
+        dropdownParent: $('#editRuleForm .form-group')
+      });
     }
 
     function initSelect2DepartmentToAddForm() {
 
-        $('#employeeIds').select2({
-          width: '100%',
-          placeholder: translations['choose_employee'],
-          allowClear: true,
-          multiple: true
-          // dropdownParent: $('#editRuleForm .modalBody')
-        });
+      $('#employeeIds').select2({
+        width: '100%',
+        placeholder: translations['choose_employee'],
+        allowClear: true,
+        multiple: true
+        // dropdownParent: $('#editRuleForm .modalBody')
+      });
 
-        $('#departmentIds').select2({
-          width: '100%',
-          placeholder: translations['choose_employee'],
-          allowClear: true,
-          multiple: true
-        });
+      $('#departmentIds').select2({
+        width: '100%',
+        placeholder: translations['choose_employee'],
+        allowClear: true,
+        multiple: true
+      });
 
-  }
+    }
 
     // التعامل مع إرسال نموذج التعديل
     function handleEditSubmit(event) {
@@ -1146,78 +1167,79 @@
         },
         body: JSON.stringify(data)
       })
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('فشل تعديل القاعدة. رمز الاستجابة: ' + res.status);
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('فشل تعديل القاعدة. رمز الاستجابة: ' + res.status);
+          }
+          return res.json();
+        })
+        .then(result => {
+          alert(getTranslate("agg_msg_edited"));
+          const modalEl = document.getElementById('editRuleModal');
+          const modalInstance = bootstrap.Modal.getInstance(modalEl);
+          modalInstance.hide();
+          loadRules();
+        })
+        .catch(err => {
+          console.error('خطأ أثناء تعديل القاعدة:', err);
+          alert(getTranslate("agg_msg_edit_error") + ': ' + err.message);
+        });
+    }
+
+    function loadSiebar() {
+      fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.querySelector('.sidebar').innerHTML = data;
+          var submenus = document.querySelectorAll('.submenu');
+          submenus.forEach(function (submenu) {
+            if (submenu.querySelector('.navItem.active')) {
+              submenu.style.display = "block";
+            }
+          });
+          addActiveToSubmenuClass(6);
+        })
+        .catch(error => console.error('Error loading sidebar:', error));
+    }
+
+    async function loadSidebarLangFile(lang) {
+      try {
+        const response = await fetch(`./lang/${lang}_sidebar.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}_sidebar.json`);
         }
-        return res.json();
-      })
-      .then(result => {
-        alert(getTranslate("agg_msg_edited"));
-        const modalEl = document.getElementById('editRuleModal');
-        const modalInstance = bootstrap.Modal.getInstance(modalEl);
-        modalInstance.hide();
-        loadRules();
-      })
-      .catch(err => {
-        console.error('خطأ أثناء تعديل القاعدة:', err);
-        alert(getTranslate("agg_msg_edit_error") + ': ' + err.message);
+        sidebarLabels = await response.json();
+
+      } catch (error) {
+        console.error("Report translation file error:", error);
+      }
+    }
+
+    function applySidebarTranslation() {
+      document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+
+        if (sidebarLabels[key]) {
+          el.textContent = sidebarLabels[key];
+        }
       });
     }
 
-    function loadSiebar(){
-        fetch('sidebar.html')
-              .then(response => response.text())
-              .then(data => {
-                  document.querySelector('.sidebar').innerHTML = data;
-                    var submenus = document.querySelectorAll('.submenu');
-                    submenus.forEach(function (submenu) {
-                      if (submenu.querySelector('.navItem.active')) {
-                        submenu.style.display = "block";
-                      }
-                    });
-                    addActiveToSubmenuClass(5);
-              })
-              .catch(error => console.error('Error loading sidebar:', error));
-      }
-  
-      async function loadSidebarLangFile(lang) {
-        try {
-          const response = await fetch(`./lang/${lang}_sidebar.json`);
-          if (!response.ok) {
-            throw new Error(`Error loading ${lang}_sidebar.json`);
-          }
-          sidebarLabels = await response.json();
+    loadSiebar();
 
-        } catch (error) {
-          console.error("Report translation file error:", error);
-        }
+    function addActiveToSubmenuClass(childIndex) {
+      const submenu = document.getElementById('reportsSubmenu');
+      submenu.style.display = "block";
+      const navItems = submenu.getElementsByClassName('navItem');
+      if (childIndex >= 1 && childIndex <= navItems.length) {
+        Array.from(navItems).forEach(item => item.classList.remove('active'));
+        navItems[childIndex - 1].classList.add('active');
+      } else {
+        console.error('Child index out of bounds');
       }
+    }
 
-      function applySidebarTranslation(){
-          document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
-              const key = el.getAttribute('data-lng');
-              
-              if (sidebarLabels[key]) {
-                el.textContent = sidebarLabels[key];
-              }
-          });
-      }
-
-      loadSiebar();
-
-      function addActiveToSubmenuClass(childIndex) {
-          const submenu = document.getElementById('reportsSubmenu');
-          submenu.style.display = "block";
-          const navItems = submenu.getElementsByClassName('navItem');
-          if (childIndex >= 1 && childIndex <= navItems.length) {
-              Array.from(navItems).forEach(item => item.classList.remove('active'));
-              navItems[childIndex - 1].classList.add('active');
-          } else {
-              console.error('Child index out of bounds');
-          }
-      }
-      
   </script>
 </body>
+
 </html>

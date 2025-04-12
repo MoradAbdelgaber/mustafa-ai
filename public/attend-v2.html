@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+  <meta charset="UTF-8">
+  <title data-lng="attend_head_title"></title>
+
+  <!-- مكتبة jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- مكتبة Select2 (اختياري) -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <!-- أيقونات Bootstrap (لأيقونات التحرير والحذف) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- خط Tajawal وOpen Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    html {
+      animation: fadeIn .3s ease-in forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* عند العربية: Tajawal + RTL */
+    html[lang="ar"] body {
+      font-family: 'Tajawal', sans-serif;
+      direction: rtl;
+    }
+
+    /* عند الإنجليزية: Open Sans + LTR */
+    html[lang="en"] body {
+      font-family: 'Open Sans', sans-serif;
+      direction: ltr;
+    }
+
+    /* زر اختيار اللغة */
+    #langSelector {
+      margin: 10px;
+      padding: 6px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
+    }
+
+    /* رأس الصفحة */
+    header {
+      background: linear-gradient(45deg, #0062cc, #004085);
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    header button {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+
+    header button:hover {
+      background: #c82333;
+    }
+
+    /* تنسيق للقوائم الفرعية لتظهر كفرع */
+    .submenu {
+      border-left: 2px solid #dee2e6;
+      margin-left: 15px;
+      padding-left: 10px;
+      margin-bottom: 5px;
+    }
+
+    .menu-group-header {
+      font-weight: bold;
+      background: #dee2e6;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row-reverse;
+    }
+
+    .mainContent {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .sidebar {
+      width: 240px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      min-height: 100vh;
+      padding: 20px 10px;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 15px;
+      font-size: 1rem;
+      text-align: center;
+      color: #444;
+    }
+
+    .navItem {
+      padding: 12px 10px;
+      margin: 6px 0;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #333;
+      font-weight: 500;
+      transition: background 0.3s, color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .navItem i {
+      font-size: 1.1rem;
+      color: #666;
+      transition: color 0.3s;
+    }
+
+    .navItem:hover {
+      background: #f0f0f0;
+    }
+
+    .navItem.active {
+      background: #007bff;
+      color: #fff;
+    }
+
+    .navItem.active i {
+      color: #fff;
+    }
+
+    .errorMsg,
+    .successMsg {
+      margin: 10px 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .errorMsg {
+      color: red;
+    }
+
+    .successMsg {
+      color: green;
+    }
+
+
+    .searchFilters {
+      background: #fff;
+      padding: 10px;
+      margin-bottom: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .searchFilters label {
+      margin-right: 4px;
+      font-weight: 500;
+    }
+
+    .searchFilters select,
+    .searchFilters input[type="date"],
+    .searchFilters input[type="text"],
+    .searchFilters input[type="datetime-local"] {
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+
+    .pagination {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .pagination button {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: background 0.3s;
+    }
+
+    .pagination button:hover {
+      background: #0056b3;
+    }
+
+    .pagination span {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .pagination button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    table thead {
+      background: #007bff;
+      color: #fff;
+    }
+
+    table th,
+    table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+      font-size: 0.9rem;
+      vertical-align: middle;
+    }
+
+    table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .timeCell {
+      text-align: start;
+
+      span {
+        display: inline-block;
+        direction: ltr;
+      }
+    }
+
+
+    @keyframes fadeInModal {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    #loaderOverlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 99999;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body onload="initPage()">
+
+  <!-- شريط الهيدر -->
+  <header>
+    <h1 data-lng="attend_head_title"></h1>
+    <div>
+      <button onclick="logout()" data-lng="attend_logout"></button>
+      <select id="langSelector" class="lang-select">
+        <option value="en">English</option>
+        <option value="ar">العربية</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- شاشة تحميل (لودينغ) -->
+  <div id="loaderOverlay" data-lng="loading"></div>
+
+  <!-- الحاوية العامة -->
+  <div class="container">
+    <!-- المحتوى الرئيسي -->
+    <div class="mainContent">
+      <div class="errorMsg" id="errorMsg"></div>
+      <div class="successMsg" id="successMsg"></div>
+
+      <!-- فلاتر البحث -->
+      <div class="searchFilters">
+        <!-- اختيار موظف بالاسم (جديد) -->
+        <label for="searchEmployeeDropdown" data-lng="attend_label_search_employee_name"></label>
+        <select id="searchEmployeeDropdown" style="width:200px;"></select>
+
+        <label for="searchFrom" data-lng="attend_filter_from_label"></label>
+        <input type="date" id="searchFrom" />
+
+        <label for="searchTo" data-lng="attend_filter_to_label"></label>
+        <input type="date" id="searchTo" />
+
+        <label for="searchEnrollId" data-lng="attend_filter_enroll_label"></label>
+        <input type="text" id="searchEnrollId" data-lng-placeholder="placeholder-ex" placeholder="" />
+
+
+
+        <button data-lng="attend_filter_button_search" onclick="startSearch()"
+          style="background: #17a2b8; color: #fff; border:none; padding: 8px 14px; border-radius:4px; cursor:pointer;">
+        </button>
+      </div>
+
+
+      <!-- أقسام التصفح (Pagination) + زر عرض الكل + زر حذف محدد + زر حذف الكل -->
+      <div class="pagination">
+        <button id="prevPageBtn" onclick="prevPage()" data-lng="attend_pagination_prev"></button>
+        <span id="pageInfo" data-lng="attend_pagination_info"></span>
+        <button id="nextPageBtn" onclick="nextPage()" data-lng="attend_pagination_next"></button>
+
+        <button onclick="showAllFingerprints()" style="background:#6c757d;" data-lng="attend_filter_button_showall">
+        </button>
+
+      </div>
+
+
+      <!-- جدول السجلات -->
+      <table id="fingerprintsTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th data-lng="attend_table_header_enroll"></th>
+            <th data-lng="attend_table_header_name"></th>
+            <th data-lng="attend_table_header_date"></th>
+            <th data-lng="attend_table_header_time"></th>
+            <th data-lng="attend_table_header_totalWork"></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- الشريط الجانبي -->
+    <div class="sidebar"></div>
+
+    <script>
+      // دالة لتبديل عرض وإخفاء القائمة الفرعية
+      function toggleSubMenu(id) {
+        var submenu = document.getElementById(id);
+        if (submenu.style.display === "none" || submenu.style.display === "") {
+          submenu.style.display = "block";
+        } else {
+          submenu.style.display = "none";
+        }
+      }
+
+    </script>
+
+
+
+    <!-- كل الأكواد الأصلية للجافاسكربت + الأكواد المضافة -->
+    <script>
+      let authToken = null;
+
+      // متغيرات التصفح
+      let currentPage = 1;
+      let totalPages = 1;
+      let pageSize = 10;
+
+      // مصفوفة الموظفين (للاستخدام في السيلكت)
+      let employees = [];
+      // مصفوفة أحدث بيانات البصمات بعد الجلب (لاستخدامها في إعادة الرسم + الحذف الجماعي)
+      let lastFingerprintsData = [];
+
+      const LANG_PATH = './lang'; // مجلد ملفات JSON
+      const LANG_KEY = 'attend';
+      let translations = {};
+      function getTranslate(key) {
+        return translations[key] || '';
+      }
+
+      async function loadLanguageFile(lang) {
+        try {
+          const response = await fetch(`${LANG_PATH}/${lang}_${LANG_KEY}.json`);
+          if (!response.ok) {
+            throw new Error(`Error loading ${lang}.json`);
+          }
+          translations = await response.json();
+        } catch (error) {
+          console.error("Error loading translation file:", error);
+        }
+      }
+
+      function applyTranslations(lang) {
+        // تغيير اتجاه الصفحة ولغتها
+        document.documentElement.lang = lang;
+        document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+
+        // تطبيق النصوص على العناصر data-lng="..."
+        document.querySelectorAll('[data-lng]').forEach(el => {
+          const key = el.getAttribute('data-lng');
+          if (translations[key]) {
+            el.textContent = translations[key];
+          }
+        });
+
+        // تطبيق placeholder
+        document.querySelectorAll('[data-lng-placeholder]').forEach(el => {
+          const key = el.getAttribute('data-lng-placeholder');
+          if (translations[key]) {
+            el.placeholder = translations[key];
+          }
+        });
+
+        // تطبيق نص للأوبشن
+        document.querySelectorAll('[data-lng-option]').forEach(el => {
+          const key = el.getAttribute('data-lng-option');
+          if (translations[key]) {
+            el.textContent = translations[key];
+          }
+        });
+
+        // تطبيق الـtitle عند الـhover
+        document.querySelectorAll('[data-lng-hover-title]').forEach(el => {
+          const key = el.getAttribute('data-lng-hover-title');
+          if (translations[key]) {
+            el.setAttribute('title', translations[key])
+          }
+        });
+      }
+
+      function getStringByKey(key) {
+        return translations[key];
+      }
+
+      async function setLanguage(lang) {
+        await loadLanguageFile(lang);
+        localStorage.setItem("lng", lang);
+        applyTranslations(lang);
+
+        await loadSidebarLangFile(lang);
+        applySidebarTranslation();
+
+      }
+
+      async function initPage() {
+        authToken = localStorage.getItem('authToken');
+        if (!authToken) {
+          window.location.href = 'login.html';
+          return;
+        }
+
+        // تحميل الموظفين
+        await loadEmployees();
+        setupSelect2();
+
+        // تحميل أول مرة
+        loadFingerprints(1);
+
+        // اللغة
+        let storedLang = localStorage.getItem("lng");
+        if (!storedLang) {
+          storedLang = 'en'; // افتراضي إنجليزي
+        }
+        await setLanguage(storedLang);
+        document.getElementById('langSelector').value = storedLang;
+      }
+
+      // تغيير اللغة من الـselect
+      document.getElementById('langSelector').addEventListener('change', async function () {
+        await setLanguage(this.value);
+        localStorage.setItem("lng", this.value);
+        setupSelect2(); // إعادة ضبط الـ Select2 للعناصر ذات العلاقة
+      });
+
+      // تفعيل Select2
+      function setupSelect2() {
+        const text = getStringByKey("select_employee") || "Select";
+        $(document).ready(function () {
+          $('#employeeSelect').select2({
+            width: '100%',
+            placeholder: text,
+            dropdownParent: $('#fingerprintModal .modalBody')
+          });
+          $('#employeeSelect').on('change', onEmployeeSelectChange);
+
+          // مخصص لمودال تحويل البصمات
+          $('#transferFromEmployeeSelect').select2({
+            width: '100%',
+            placeholder: 'Select',
+            dropdownParent: $('#transferFingerprintsModal .modalBody')
+          });
+          $('#transferToEmployeeSelect').select2({
+            width: '100%',
+            placeholder: 'Select New Employee',
+            dropdownParent: $('#transferFingerprintsModal .modalBody')
+          });
+
+          // البحث بالسيلكت الجديد (في البحث)
+          $('#searchEmployeeDropdown').select2({
+            width: '200px',
+            placeholder: 'Select',
+            allowClear: true
+          }).on('change', onSearchEmployeeDropdownChange);
+        });
+      }
+
+      function onSearchEmployeeDropdownChange() {
+        const selValue = $('#searchEmployeeDropdown').val();
+        if (!selValue) {
+          // لو تم إلغاء الاختيار نُفرغ حقل الـEnroll
+          document.getElementById('searchEnrollId').value = '';
+          return;
+        }
+        const emp = employees.find(e => e._id === selValue);
+        if (emp) {
+          document.getElementById('searchEnrollId').value = emp.enroll_id || '';
+        }
+      }
+
+      function showLoader(show) {
+        document.getElementById('loaderOverlay').style.display = show ? 'flex' : 'none';
+      }
+
+      function logout() {
+        localStorage.removeItem('authToken');
+        window.location.href = 'login.html';
+      }
+
+      // تحميل البصمات
+      function startSearch() {
+        loadFingerprints(1);
+      }
+      function showAllFingerprints() {
+        loadFingerprints(0);
+      }
+
+      async function loadFingerprints(pageNumber) {
+        const errorMsg = document.getElementById('errorMsg');
+        const successMsg = document.getElementById('successMsg');
+        errorMsg.textContent = '';
+        successMsg.textContent = '';
+
+        const fromVal = document.getElementById('searchFrom').value;
+        const toVal = document.getElementById('searchTo').value;
+        const enrollVal = document.getElementById('searchEnrollId').value.trim();
+
+        let queryParams = [];
+        if (fromVal) queryParams.push(`from=${fromVal}`);
+        if (toVal) queryParams.push(`to=${toVal}`);
+        if (enrollVal) queryParams.push(`enrollid=${enrollVal}`);
+
+        if (pageNumber !== 0) {
+          queryParams.push(`page=${pageNumber}`);
+          queryParams.push(`limit=${pageSize}`);
+        } else {
+          queryParams.push(`page=0`);
+        }
+
+        const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
+
+        showLoader(true);
+        try {
+          const resp = await fetch('/api/fingerprints/grouped-day-employee' + queryString, {
+            headers: { 'Authorization': 'Bearer ' + authToken }
+          });
+          if (!resp.ok) {
+            const text = getStringByKey("attend_msg_error_fetch") || "خطأ في جلب البيانات";
+            throw new Error(text);
+          }
+          const data = await resp.json();
+
+          let fingerprints = data.logs || [];
+          currentPage = data.currentPage || 1;
+          totalPages = data.totalPages || 1;
+
+          if (data.page === 0) {
+            currentPage = 0;
+            totalPages = 1;
+          }
+
+          lastFingerprintsData = fingerprints; // حفظ آخر بيانات
+          renderFingerprints(lastFingerprintsData);
+          updatePaginationUI();
+        } catch (err) {
+          errorMsg.textContent = err.message;
+          console.error(err);
+        } finally {
+          showLoader(false);
+        }
+      }
+
+      function updatePaginationUI() {
+        const pageInfo = document.getElementById('pageInfo');
+        const prevBtn = document.getElementById('prevPageBtn');
+        const nextBtn = document.getElementById('nextPageBtn');
+
+        if (currentPage === 0) {
+          const text = getStringByKey("view_all_records") || "عرض كل السجلات";
+          pageInfo.textContent = text;
+          prevBtn.disabled = true;
+          nextBtn.disabled = true;
+        } else {
+          const textPage = getStringByKey("page") || "الصفحة";
+          const textFrom = getStringByKey("from") || "من";
+          const infoStr = `${textPage} ${currentPage} ${textFrom} ${totalPages}`;
+          pageInfo.textContent = infoStr;
+          prevBtn.disabled = (currentPage <= 1);
+          nextBtn.disabled = (currentPage >= totalPages);
+        }
+      }
+      function prevPage() {
+        if (currentPage > 1) {
+          loadFingerprints(currentPage - 1);
+        }
+      }
+      function nextPage() {
+        if (currentPage < totalPages) {
+          loadFingerprints(currentPage + 1);
+        }
+      }
+
+
+      function renderFingerprints(arr) {
+        const tb = document.querySelector('#fingerprintsTable tbody');
+        tb.innerHTML = '';
+        arr.forEach((item, idx) => {
+          const tr = createFingerprintRow(item, idx);
+          tb.appendChild(tr);
+        });
+      }
+
+      function calculateTotalWorkHours(dateStrings) {
+        if (!Array.isArray(dateStrings)) return 0;
+
+        // Sort dates to be safe
+        const sorted = dateStrings
+          .map(d => new Date(d))
+          .sort((a, b) => a - b);
+
+        let totalMs = 0;
+
+        for (let i = 0; i < sorted.length; i += 2) {
+          const inTime = sorted[i];
+          const outTime = sorted[i + 1];
+
+          if (inTime && outTime) {
+            totalMs += outTime - inTime; // in milliseconds
+          }
+        }
+
+        const totalHours = totalMs / (1000 * 60 * 60); // convert ms to hours
+        return totalHours.toFixed(2); // keep 2 decimal places
+      }
+
+      function createFingerprintRow(item, index) {
+
+        let timeVal = item.records.map(record => {
+          return `<span>${new Date(record.time).toLocaleTimeString()}</span>`
+        }).reverse().join(' - ');
+
+        let totalWork = calculateTotalWorkHours(item.records.map(record => record.time));
+
+
+        const tr = document.createElement('tr');
+
+        // index + 1 (لو أردنا رقم تتابعي)
+        const rowIndex = index + 1;
+
+        tr.innerHTML = `
+        <td> ${rowIndex}</td>
+        <td>${item._id.enrollid || ''}</td>
+        <td>${item.records[0]?.name || ''}</td>
+        <td>${item._id.date || ''}</td>
+        <td class="timeCell">${timeVal}</td>
+        <td>${totalWork}</td>
+          `;
+        return tr;
+      }
+
+      // تحميل قائمة الموظفين
+      async function loadEmployees() {
+        showLoader(true);
+        try {
+          const resp = await fetch('/api/employees?page=1&limit=9999', {
+            headers: { 'Authorization': 'Bearer ' + authToken }
+          });
+          if (!resp.ok) throw new Error(getStringByKey("attend_msg_error_fetch_employees") || "خطأ في جلب الموظفين");
+
+          const data = await resp.json();
+          employees = data.data || [];
+
+
+          // تعبئة select (اسم الموظف) في خانة البحث searchEmployeeDropdown
+          const searchEmpDropdown = document.getElementById('searchEmployeeDropdown');
+          searchEmpDropdown.innerHTML = '<option value=""></option>'; // لإتاحة allowClear
+          employees.forEach(e => {
+            const opt = document.createElement('option');
+            opt.value = e._id;
+            opt.textContent = e.name || (`موظف ${e.enroll_id} `);
+            searchEmpDropdown.appendChild(opt);
+          });
+
+        } catch (err) {
+          console.error(err);
+        } finally {
+          showLoader(false);
+        }
+      }
+
+      function onEmployeeSelectChange() {
+        const sel = document.getElementById('employeeSelect');
+        const selectedVal = sel.value;
+        const emp = employees.find(e => e._id == selectedVal);
+        if (emp) {
+          document.getElementById('enrollIdInput').value = emp.enroll_id || '';
+          document.getElementById('nameInput').value = emp.name || '';
+        } else {
+          document.getElementById('enrollIdInput').value = '';
+          document.getElementById('nameInput').value = '';
+        }
+      }
+
+    </script>
+
+    <!-- سكربت الترجمة (الكود الأصلي) -->
+    <script>
+      const ATTEND_LANG_KEY = 'lng'; // نفس المفتاح المستخدم في بقية الصفحات
+      const ATTEND_LANG_PATH = './lang';
+
+      async function loadAttendLangFile(lang) {
+        try {
+          const response = await fetch(`${ATTEND_LANG_PATH}/${lang}_attend.json`);
+          if (!response.ok) {
+            throw new Error(`Error loading ${lang}_attend.json`);
+          }
+          attendTranslations = await response.json();
+        } catch (error) {
+          console.error("Attendance translation file error:", error);
+        }
+      }
+
+      window.addEventListener('DOMContentLoaded', async () => {
+        let storedLang = localStorage.getItem(ATTEND_LANG_KEY);
+        if (!storedLang) {
+          storedLang = 'ar';
+        }
+        await loadAttendLangFile(storedLang);
+        // هنا يمكن تطبيق الترجمة الإضافية إن لزم
+      });
+
+      function loadSiebar() {
+        fetch('sidebar.html')
+          .then(response => response.text())
+          .then(data => {
+            document.querySelector('.sidebar').innerHTML = data;
+            var submenus = document.querySelectorAll('.submenu');
+            submenus.forEach(function (submenu) {
+              if (submenu.querySelector('.navItem.active')) {
+                submenu.style.display = "block";
+              }
+            });
+
+            addActiveToSubmenuClass(3);
+          })
+          .catch(error => console.error('Error loading sidebar:', error));
+      }
+
+      async function loadSidebarLangFile(lang) {
+        try {
+          const response = await fetch(`${LANG_PATH}/${lang}_sidebar.json`);
+          if (!response.ok) {
+            throw new Error(`Error loading ${lang}_sidebar.json`);
+          }
+          sidebarLabels = await response.json();
+
+        } catch (error) {
+          console.error("Report translation file error:", error);
+        }
+      }
+
+      function applySidebarTranslation() {
+        document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+          const key = el.getAttribute('data-lng');
+
+          if (sidebarLabels[key]) {
+            el.textContent = sidebarLabels[key];
+          }
+        });
+      }
+
+      loadSiebar();
+
+      function addActiveToSubmenuClass(childIndex) {
+        const submenu = document.getElementById('reportsSubmenu');
+        submenu.style.display = "block";
+        const navItems = submenu.getElementsByClassName('navItem');
+        if (childIndex >= 1 && childIndex <= navItems.length) {
+          Array.from(navItems).forEach(item => item.classList.remove('active'));
+          navItems[childIndex - 1].classList.add('active');
+        } else {
+          console.error('Child index out of bounds');
+        }
+      }
+
+    </script>
+</body>
+
+</html>

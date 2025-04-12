@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html lang="ar">
+
 <head>
   <meta charset="UTF-8">
   <title>بصمة مفاجئة</title>
   <!-- xlsx -->
   <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
-  
+
   <!-- خط Tajawal من Google Fonts (مثال) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-  
+
   <style>
     /* ====== تأثير Fade-In عند تحميل الصفحة ====== */
     html {
       animation: fadeIn .3s ease-in forwards;
     }
+
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
 
     /* عند العربية: الخط Tajawal + RTL */
@@ -27,6 +34,7 @@
       direction: rtl;
       overflow-x: hidden;
     }
+
     /* عند الإنجليزية: الخط Open Sans + LTR */
     html[lang="en"] body {
       font-family: 'Open Sans', sans-serif;
@@ -37,16 +45,31 @@
     /* قلب ترتيب العنصرين (sidebar, mainContent) عند العربية */
     html[lang="ar"] .container {
       display: flex;
-      flex-direction: row-reverse; /* Sidebar على اليمين */
+      flex-direction: row-reverse;
+      /* Sidebar على اليمين */
     }
+
     html[lang="en"] .container {
       display: flex;
-      flex-direction: row; /* Sidebar على اليسار */
+      flex-direction: row;
+      /* Sidebar على اليسار */
     }
-    html[lang="ar"] .sidebar { order: 1; }
-    html[lang="ar"] .mainContent { order: 0; }
-    html[lang="en"] .sidebar { order: 0; }
-    html[lang="en"] .mainContent { order: 1; }
+
+    html[lang="ar"] .sidebar {
+      order: 1;
+    }
+
+    html[lang="ar"] .mainContent {
+      order: 0;
+    }
+
+    html[lang="en"] .sidebar {
+      order: 0;
+    }
+
+    html[lang="en"] .mainContent {
+      order: 1;
+    }
 
     * {
       box-sizing: border-box;
@@ -72,10 +95,12 @@
       justify-content: space-between;
       align-items: center;
     }
+
     header h1 {
       margin: 0;
       font-size: 1.2rem;
     }
+
     header button {
       background: #dc3545;
       color: #fff;
@@ -86,6 +111,7 @@
       font-size: 0.9rem;
       transition: background 0.3s;
     }
+
     header button:hover {
       background: #c82333;
     }
@@ -109,12 +135,14 @@
       min-height: 100vh;
       padding: 20px 10px;
     }
+
     .sidebar h2 {
       margin-bottom: 15px;
       font-size: 1rem;
       text-align: center;
       color: #444;
     }
+
     .navItem {
       padding: 12px 10px;
       margin: 6px 0;
@@ -124,9 +152,11 @@
       font-weight: 500;
       transition: background 0.3s, color 0.3s;
     }
+
     .navItem:hover {
       background: #f0f0f0;
     }
+
     .navItem.active {
       background: #007bff;
       color: #fff;
@@ -144,10 +174,12 @@
       gap: 10px;
       align-items: center;
     }
+
     .filters label {
       margin-right: 6px;
       font-weight: 500;
     }
+
     .filters select,
     .filters input[type="date"],
     .filters input[type="month"],
@@ -159,6 +191,7 @@
       min-width: 140px;
       font-size: 0.9rem;
     }
+
     .filters button {
       background: #007bff;
       color: #fff;
@@ -169,6 +202,7 @@
       font-size: 0.9rem;
       transition: background 0.3s;
     }
+
     .filters button:hover {
       background: #0056b3;
     }
@@ -180,6 +214,7 @@
       gap: 20px;
       margin-bottom: 20px;
     }
+
     .card {
       background: #fff;
       border-radius: 6px;
@@ -189,12 +224,14 @@
       padding: 15px;
       text-align: center;
     }
+
     .card h3 {
       margin: 0;
       font-size: 1.1rem;
       margin-bottom: 8px;
       color: #444;
     }
+
     .card .value {
       font-size: 1.6rem;
       color: #007bff;
@@ -211,10 +248,12 @@
       overflow: hidden;
       margin-bottom: 20px;
     }
+
     table thead {
       background: #007bff;
       color: #fff;
     }
+
     table th,
     table td {
       border: 1px solid #ddd;
@@ -223,6 +262,7 @@
       font-size: 0.9rem;
       vertical-align: middle;
     }
+
     table tbody tr:hover {
       background: #f9f9f9;
     }
@@ -241,6 +281,7 @@
       padding-left: 10px;
       margin-bottom: 5px;
     }
+
     html[lang="ar"] .submenu {
       border-left: none;
       border-right: 2px solid #dee2e6;
@@ -254,10 +295,12 @@
     #reportTable {
       overflow: visible;
     }
+
     .menu-group-header {
       font-weight: bold;
       background: #dee2e6;
     }
+
     .summaryRow {
       background: #ffe5b4;
       font-weight: bold;
@@ -269,6 +312,7 @@
       gap: 10px;
       margin-bottom: 10px;
     }
+
     .exportPrintButtons button {
       background: #28a745;
       border: none;
@@ -279,13 +323,16 @@
       cursor: pointer;
       transition: background 0.3s;
     }
+
     .exportPrintButtons button:hover {
       background: #218838;
     }
+
     /* زر الطباعة بلون آخر */
     #customPrintBtn {
       background: #6f42c1;
     }
+
     #customPrintBtn:hover {
       background: #5a379c;
     }
@@ -302,6 +349,7 @@
       overflow: auto;
       background-color: rgba(0, 0, 0, 0.5);
     }
+
     #langSelector {
       margin: 10px;
       padding: 6px;
@@ -309,6 +357,7 @@
       border-radius: 4px;
       border: 1px solid #ccc;
     }
+
     .modal-content {
       background-color: #fff;
       margin: 50px auto;
@@ -318,22 +367,26 @@
       max-width: 1000px;
       position: relative;
     }
+
     .modal-header,
     .modal-body,
     .modal-footer {
       padding: 10px;
       margin-bottom: 10px;
     }
+
     .modal-header {
       border-bottom: 1px solid #ccc;
       color: #fff;
       padding: 15px;
       background: #007bff;
     }
+
     .modal-header h2 {
       margin: 0;
       font-size: 1.2rem;
     }
+
     .closeBtn {
       position: absolute;
       top: 4px;
@@ -345,15 +398,18 @@
       cursor: pointer;
       font-size: 2rem;
     }
+
     .modal-body {
       display: flex;
       flex-wrap: wrap;
       gap: 15px;
     }
+
     .modal-footer {
       border-top: 1px solid #ccc;
       text-align: left;
     }
+
     .modal-footer button {
       background: #007bff;
       border: none;
@@ -362,6 +418,7 @@
       border-radius: 4px;
       cursor: pointer;
     }
+
     .modal-footer button:hover {
       background: #0056b3;
     }
@@ -377,11 +434,13 @@
       background: #fafafa;
       width: 160px;
     }
+
     .columnToggleItem label {
       cursor: pointer;
       margin-bottom: 4px;
       display: inline-block;
     }
+
     .columnToggleItem input[type="text"] {
       width: 60px;
       margin-top: 2px;
@@ -393,6 +452,7 @@
     .deptHeaderRow {
       background-color: #cce5ff !important;
     }
+
     .empHeaderRow {
       background-color: #d4edda !important;
     }
@@ -407,6 +467,7 @@
       margin-bottom: 20px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+
     .apiSummaryHeader {
       font-size: 1rem;
       font-weight: bold;
@@ -417,11 +478,13 @@
       border-radius: 4px;
       color: #333;
     }
+
     .apiSummaryGrid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 10px;
     }
+
     .apiSummaryField {
       background: #ffffff;
       border: 1px solid #eee;
@@ -435,12 +498,15 @@
       transition: background 0.3s;
       min-height: 80px;
     }
+
     .apiSummaryField:nth-child(2n) {
       background: #f8f9fa;
     }
+
     .apiSummaryField:hover {
       background: #f1f3f5;
     }
+
     .apiSummaryLabel {
       background-color: #e3f2fd;
       color: #333;
@@ -451,6 +517,7 @@
       padding: 5px;
       text-align: center;
     }
+
     .apiSummaryValue {
       font-size: 1.2rem;
       color: #007bff;
@@ -465,10 +532,12 @@
       border-collapse: collapse;
       margin-top: 10px;
     }
+
     .scheduleTable thead {
       background: #17a2b8;
       color: #fff;
     }
+
     .scheduleTable th,
     .scheduleTable td {
       border: 1px solid #ddd;
@@ -484,6 +553,7 @@
       margin: 2px;
       border: none;
     }
+
     .btnSmall:hover {
       opacity: 0.9;
     }
@@ -501,6 +571,7 @@
       align-items: center;
       z-index: 9999;
     }
+
     .modalContent {
       width: 400px;
       max-width: 90%;
@@ -516,10 +587,19 @@
       overflow-y: auto;
       border: 2px solid #eee;
     }
+
     @keyframes fadeInModal {
-      from { opacity: 0; transform: scale(0.95); }
-      to   { opacity: 1; transform: scale(1); }
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
+
     .modalHeader {
       background: #007bff;
       color: #fff;
@@ -528,10 +608,12 @@
       justify-content: space-between;
       align-items: center;
     }
+
     .modalHeader h2 {
       margin: 0;
       font-size: 1.1rem;
     }
+
     .modalCloseBtn {
       background: none;
       border: none;
@@ -540,18 +622,22 @@
       cursor: pointer;
       transition: color 0.3s;
     }
+
     .modalCloseBtn:hover {
       color: #ffdddd;
     }
+
     .modalBody {
       padding: 20px;
     }
+
     .modalBody label {
       display: block;
       margin: 8px 0 4px;
       font-weight: 500;
       font-size: 0.9rem;
     }
+
     .modalBody input,
     .modalBody select,
     .modalBody textarea {
@@ -568,12 +654,14 @@
       position: relative;
       display: inline-block;
     }
+
     .dateMenuIcon {
       cursor: pointer;
       margin-left: 4px;
       color: #007bff;
       font-size: 0.9rem;
     }
+
     .dateMenuDropdown {
       display: none;
       position: absolute;
@@ -587,10 +675,12 @@
       z-index: 9999;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     }
+
     html[lang="ar"] .dateMenuDropdown {
       right: 0;
       left: auto;
     }
+
     .dateMenuDropdown .dropdownItem {
       padding: 8px 10px;
       cursor: pointer;
@@ -601,6 +691,7 @@
       gap: 5px;
       border-bottom: 1px solid #ddd;
     }
+
     .dateMenuDropdown .dropdownItem:hover {
       background: #f0f0f0;
     }
@@ -611,9 +702,11 @@
       flex-direction: column;
       gap: 10px;
     }
+
     .vacationModalBody label {
       font-weight: 600;
     }
+
     .vacationModalBody select,
     .vacationModalBody textarea {
       font-size: 0.9rem;
@@ -621,6 +714,7 @@
       border: 1px solid #ccc;
       padding: 6px;
     }
+
     .vacationModalBody textarea {
       resize: vertical;
       min-height: 60px;
@@ -631,12 +725,14 @@
       flex-direction: column;
       gap: 10px;
     }
+
     .form-inner-row {
       display: flex;
       flex-wrap: wrap;
       gap: 0 !important;
       flex-direction: row !important;
     }
+
     .form-inner-row .form-row {
       flex-basis: 50%;
       max-width: 50%;
@@ -644,6 +740,7 @@
       padding: 0 10px;
       margin-bottom: 10px;
     }
+
     .form-inner-row .form-row input,
     .form-inner-row .form-row select,
     .form-inner-row .form-row textarea {
@@ -655,9 +752,11 @@
       border-radius: 8px;
       padding: 11px 18px;
     }
+
     .penaltyRewardModalBody label {
       font-weight: 600;
     }
+
     .penaltyRewardModalBody input,
     .penaltyRewardModalBody textarea {
       font-size: 0.9rem;
@@ -665,6 +764,7 @@
       border: 1px solid #ccc;
       padding: 6px;
     }
+
     .penaltyRewardModalBody textarea {
       resize: vertical;
       min-height: 60px;
@@ -675,9 +775,11 @@
       flex-direction: column;
       gap: 10px;
     }
+
     .timeBasedLeaveModalBody label {
       font-weight: 600;
     }
+
     .timeBasedLeaveModalBody input,
     .timeBasedLeaveModalBody select,
     .timeBasedLeaveModalBody textarea {
@@ -686,6 +788,7 @@
       border: 1px solid #ccc;
       padding: 6px;
     }
+
     .timeBasedLeaveModalBody textarea {
       resize: vertical;
       min-height: 60px;
@@ -709,11 +812,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   </header>
-  
+
   <div class="container">
     <!-- المحتوى الرئيسي -->
     <div class="mainContent">
-      
+
       <!-- أزرار التصدير والطباعة -->
       <div class="exportPrintButtons">
         <button id="exportExcelBtn" onclick="exportTableToExcel('reportTable', 'AttendanceReport')">
@@ -722,52 +825,52 @@
         </button>
         <button id="customPrintBtn" onclick="printCustomReport()">
           <i class="bi bi-printer-fill"></i>
-            <span data-lng="print_design"></span>
+          <span data-lng="print_design"></span>
         </button>
-        
+
         <!-- زر فتح المودال -->
         <button style="background:#17a2b8;" onclick="openColumnModal()">
           <i class="bi bi-layout-sidebar-inset"></i>
-            <span data-lng="report_customize_columns"></span>
+          <span data-lng="report_customize_columns"></span>
         </button>
       </div>
-      
+
       <!-- فلاتر -->
       <div class="filters">
         <label for="weekSelect" data-lng="week">الأسبوع:</label>
         <input type="week" id="weekSelect" onchange="onWeekChange()" />
-        
+
         <label for="monthSelect" data-lng="month">الشهر:</label>
         <input type="month" id="monthSelect" onchange="onMonthChange()" />
-        
+
         <label for="startDate" data-lng="start_date">من تاريخ:</label>
         <input type="date" id="startDate" value="2024-12-01" />
-        
+
         <label for="endDate" data-lng="end_date">إلى تاريخ:</label>
         <input type="date" id="endDate" value="2024-12-31" />
-        
+
         <!-- حقلين لتحديد الوقت (حسب الطلب) -->
         <label for="startTime" data-lng="start_time">وقت البداية:</label>
         <input type="time" id="startTime" value="07:00" />
-        
+
         <label for="endTime" data-lng="end_time">وقت النهاية:</label>
         <input type="time" id="endTime" value="07:30" />
-        
+
         <label for="employeeSelect" data-lng="employee">الموظف:</label>
         <select id="employeeSelect" multiple>
           <option value="0" data-lng="all_employees">جميع الموظفين</option>
         </select>
-        
+
         <label for="departmentSelect" data-lng="department">القسم:</label>
         <select id="departmentSelect">
           <option value="0" data-lng="all_departments">جميع الأقسام</option>
         </select>
-        
+
         <label for="tagEmployeeSelect" data-lng="employee_tag">بحث حسب التاك:</label>
         <select id="tagEmployeeSelect" multiple>
           <option value="0">جميع التاكات</option>
         </select>
-        
+
         <label for="statusSelect" data-lng="status:">الحالة:</label>
         <select id="statusSelect" onchange="renderReport()">
           <option value="" data-lng="all_statuses">جميع الحالات</option>
@@ -779,7 +882,7 @@
           <option value="late_and_early_exit" data-lng="late_and_early_exit">متأخر + خروج مبكر</option>
           <option value="overtime" data-lng="overtime">أوفر تايم</option>
         </select>
-        
+
         <label>
           <input type="checkbox" id="groupByDeptCheckbox" onchange="renderReport()" data-lng="group_by_dept">
           <span data-lng="check_department">تجميع حسب القسم</span>
@@ -788,21 +891,22 @@
           <input type="checkbox" id="groupByEmpCheckbox" data-lng="group_by_emp" onchange="renderReport()">
           <span data-lng="check_employee">تجميع حسب الموظف</span>
         </label>
-        
+
         <!-- Checkbox إظهار الملخص الإضافي -->
         <label>
-          <input type="checkbox" id="showApiSummaryCheckbox" data-lng="show_api_summary" onchange="toggleApiSummaryVisibility()">
+          <input type="checkbox" id="showApiSummaryCheckbox" data-lng="show_api_summary"
+            onchange="toggleApiSummaryVisibility()">
           <span data-lng="show_api_summary">إظهار ملخص الـ API الإضافي</span>
         </label>
         <button onclick="loadReport()" data-lng="report">جلب التقرير</button>
       </div>
-      
+
       <!-- قسم الملخص الإضافي من الـ API (مخفي افتراضيًا) -->
       <div id="apiSummaryContainer" class="apiSummaryContainer">
         <div class="apiSummaryHeader" data-lng="additional_summary_system">ملخص إضافي من النظام</div>
         <div class="apiSummaryGrid" id="apiSummaryGrid"></div>
       </div>
-      
+
       <!-- بطاقات الملخص الإحصائي -->
       <div class="cards">
         <div class="card">
@@ -822,7 +926,7 @@
           <div class="value" id="netSum">-</div>
         </div>
       </div>
-      
+
       <div class="errorMsg" id="errorMsg"></div>
       <div class="tbl_wrapper">
         <!-- جدول العرض في الواجهة -->
@@ -831,15 +935,15 @@
           <tbody></tbody>
         </table>
       </div>
-      
+
     </div>
     <!-- /mainContent -->
-    
+
     <!-- القائمة الجانبية -->
     <div class="sidebar"></div>
     <!-- /sidebar -->
   </div> <!-- /container -->
-  
+
   <!-- ===== مودال تخصيص الأعمدة ===== -->
   <div id="columnModal" class="modal">
     <div class="modal-content">
@@ -852,8 +956,8 @@
             <input type="checkbox" id="useDynamicHourPrice" data-lng="active-dynmic-prices" />
             <span data-lng="active_dynmic_hour_prices"></span>
           </label>
-          <br/>
-          <br/>
+          <br />
+          <br />
           <label>
             <span data-lng="round_to"></span>
             <input type="number" id="roundValue" placeholder="like 1or 5$" />
@@ -869,7 +973,7 @@
     </div>
   </div>
   <!-- /مودال -->
-  
+
   <!-- ========== الأكواد (نفس كود "بصمة مفاجئة" مع الحفاظ على الدوال كما هي) ========== -->
   <script>
     let authToken = null;         // سيُؤخذ من localStorage
@@ -905,14 +1009,14 @@
 
       // التقاط اللغة المخزّنة
       let storedLang = localStorage.getItem(LANG_KEY) || 'ar';
-      document.getElementById('langSelector').addEventListener('change', function() {
+      document.getElementById('langSelector').addEventListener('change', function () {
         setLanguage(this.value);
       });
       // تعيين اللغة الإفتراضية
       setLanguage(storedLang).catch(error => {
         console.error("حدث خطأ أثناء تحميل ملفات اللغة:", error);
       });
-      
+
       setTodayAsDefaultDate();
       loadEmployees();
       loadDepartments();
@@ -923,7 +1027,7 @@
 
     }
 
-    
+
     // دوال تغيير اللغة وتحميل ملفات الترجمة
     async function setLanguage(lang) {
       // تحميل ترجمات عامة
@@ -1224,7 +1328,7 @@
     }
 
     // الدالة الرئيسية لجلب التقرير
-    async function loadReport() { 
+    async function loadReport() {
       isTableLoaded = true;
       const errorMsg = document.getElementById('errorMsg');
       errorMsg.textContent = '';
@@ -2380,13 +2484,13 @@
             <div class="header">
               <div class="report-title">${reportTranslations['attend_report']} ${startDate} ${reportTranslations['to']} ${endDate}</div>
               ${(deptName || empName)
-                ? `<div class="sub-header">
+            ? `<div class="sub-header">
                      ${deptName ? (`<strong>${reportTranslations['department']}:</strong> ${deptName}`) : ''}
                      ${deptName && empName ? ' | ' : ''}
                      ${empName ? (`<strong>${reportTranslations['employee']}:</strong> ${empName}`) : ''}
                    </div>`
-                : ''
-              }
+            : ''
+          }
             </div>
         `);
 
@@ -2555,58 +2659,58 @@
     //   });
     // });
 
-    function loadSiebar(){
-        fetch('sidebar.html')
-              .then(response => response.text())
-              .then(data => {
-                  document.querySelector('.sidebar').innerHTML = data;
-                    var submenus = document.querySelectorAll('.submenu');
-                    submenus.forEach(function (submenu) {
-                      if (submenu.querySelector('.navItem.active')) {
-                        submenu.style.display = "block";
-                      }
-                    });
-                    addActiveToSubmenuClass(6);
-              })
-              .catch(error => console.error('Error loading sidebar:', error));
-      }
-  
-      async function loadSidebarLangFile(lang) {
-        try {
-          const response = await fetch(`./lang/${lang}_sidebar.json`);
-          if (!response.ok) {
-            throw new Error(`Error loading ${lang}_sidebar.json`);
-          }
-          sidebarLabels = await response.json();
-
-        } catch (error) {
-          console.error("Report translation file error:", error);
-        }
-      }
-
-      function applySidebarTranslation(){
-          document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
-              const key = el.getAttribute('data-lng');
-              
-              if (sidebarLabels[key]) {
-                el.textContent = sidebarLabels[key];
-              }
+    function loadSiebar() {
+      fetch('sidebar.html')
+        .then(response => response.text())
+        .then(data => {
+          document.querySelector('.sidebar').innerHTML = data;
+          var submenus = document.querySelectorAll('.submenu');
+          submenus.forEach(function (submenu) {
+            if (submenu.querySelector('.navItem.active')) {
+              submenu.style.display = "block";
+            }
           });
-      }
+          addActiveToSubmenuClass(7);
+        })
+        .catch(error => console.error('Error loading sidebar:', error));
+    }
 
-      loadSiebar();
+    async function loadSidebarLangFile(lang) {
+      try {
+        const response = await fetch(`./lang/${lang}_sidebar.json`);
+        if (!response.ok) {
+          throw new Error(`Error loading ${lang}_sidebar.json`);
+        }
+        sidebarLabels = await response.json();
 
-      function addActiveToSubmenuClass(childIndex) {
-          const submenu = document.getElementById('reportsSubmenu');
-          submenu.style.display = "block";
-          const navItems = submenu.getElementsByClassName('navItem');
-          if (childIndex >= 1 && childIndex <= navItems.length) {
-              Array.from(navItems).forEach(item => item.classList.remove('active'));
-              navItems[childIndex - 1].classList.add('active');
-          } else {
-              console.error('Child index out of bounds');
-          }
+      } catch (error) {
+        console.error("Report translation file error:", error);
       }
+    }
+
+    function applySidebarTranslation() {
+      document.querySelectorAll('.sidebar [data-lng]').forEach(el => {
+        const key = el.getAttribute('data-lng');
+
+        if (sidebarLabels[key]) {
+          el.textContent = sidebarLabels[key];
+        }
+      });
+    }
+
+    loadSiebar();
+
+    function addActiveToSubmenuClass(childIndex) {
+      const submenu = document.getElementById('reportsSubmenu');
+      submenu.style.display = "block";
+      const navItems = submenu.getElementsByClassName('navItem');
+      if (childIndex >= 1 && childIndex <= navItems.length) {
+        Array.from(navItems).forEach(item => item.classList.remove('active'));
+        navItems[childIndex - 1].classList.add('active');
+      } else {
+        console.error('Child index out of bounds');
+      }
+    }
 
   </script>
 
@@ -2840,4 +2944,5 @@
     </div>
   </div>
 </body>
+
 </html>

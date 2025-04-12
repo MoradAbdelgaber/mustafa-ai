@@ -127,5 +127,7 @@
   "خروج (2)": "Check Out (2)",
   "دخول اجازة (3)": "Break In (3)",
   "خروج اجازة (4)": "Break Out (4)",
-  "غير معروف": "UnKnown"
+  "غير معروف": "UnKnown",
+  "attend_table_header_totalWork": "Total Work",
+  "attend_table_header_date": "Date"
 }
