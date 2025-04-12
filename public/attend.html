@@ -1129,6 +1129,7 @@
                   const mapDay = groupBy(arr2, extractDay);
                   devObj[devKey] = mapDay;
                 }
+                console.log(devObj);
                 groupedData[empKey] = devObj;
               }
             } else {
@@ -1155,7 +1156,6 @@
             groupedData = mapDay;
           }
         }
-        console.log(groupedData);
         // الآن نرسم الـHTML بناءً على التركيبة
         // استخدام دالة recursive أو شبيهة لمعالجة التجميع
         function renderGrouped(obj, depth) {
