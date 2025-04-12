@@ -1,6 +1,7 @@
 const axios = require("axios");
 const ApiRequest = require("../models/ApiRequest");
 const Device = require("../models/Device");
+const Employee = require("../models/Employee");
 class AttendanceApi {
   getPendingRequests() {
     return ApiRequest.find({ status: "pending" }).lean();
@@ -53,6 +54,39 @@ class AttendanceApi {
     return { success: true };
   }
 
+  updateOldFlagEvents(records) {
+    records.forEach((record) => {
+      //check in
+      if (record.event == 5) {
+        record.event = 1;
+      }
+
+      //check out
+      if (record.event == 6) {
+        record.event = 2;
+      }
+
+      //break in
+      if (record.event == 7) {
+        record.event = 3;
+      }
+
+      //break out
+      if (record.event == 8) {
+        record.event = 4;
+      }
+    });
+  }
+
+  async updateOldFlagRecordsName(owner, records) {
+    for (let record of records) {
+      const emp = await Employee.findOne({ enroll_id: record.enrollid, owner });
+      if (emp) {
+        record.name = emp.name;
+      }
+    }
+  }
+
   async saveLogs(sn, records) {
     //check device
     const device = await Device.findOne({ serial: sn });
@@ -60,29 +94,12 @@ class AttendanceApi {
       throw new Error(`Device with SN: ${sn} not found For Save Logs`);
     }
 
-    //update events for old devices
+    //old device
     if (device.oldFlag) {
-      records.forEach((record) => {
-        //check in
-        if (record.event == 5) {
-          record.event = 1;
-        }
-
-        //check out
-        if (record.event == 6) {
-          record.event = 2;
-        }
-
-        //break in
-        if (record.event == 7) {
-          record.event = 3;
-        }
-
-        //break out
-        if (record.event == 8) {
-          record.event = 4;
-        }
-      });
+      //update events
+      this.updateOldFlagEvents(records);
+      //update name for records
+      await this.updateOldFlagRecordsName(device.owner, records);
     }
 
     //save logs
