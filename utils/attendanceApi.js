@@ -85,6 +85,8 @@ class AttendanceApi {
         record.name = emp.name;
       }
     }
+
+    console.log(`records after edit ` + records);
   }
 
   async saveLogs(sn, records) {
