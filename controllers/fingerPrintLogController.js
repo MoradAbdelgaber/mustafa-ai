@@ -416,7 +416,7 @@ exports.getLogsGroupedByEmployeeAndDay = async (req, res) => {
           },
           records: { $push: "$$ROOT" },
         })
-        .sort({ "_id.date": -1 });
+        .sort({ "_id.date": -1, "_id.enrollid": 1 });
 
       return res.json({
         logs: allLogs,
@@ -438,7 +438,7 @@ exports.getLogsGroupedByEmployeeAndDay = async (req, res) => {
         },
         records: { $push: "$$ROOT" },
       })
-      .sort({ "_id.date": -1 })
+      .sort({ "_id.date": -1, "_id.enrollid": 1 })
       .skip((page - 1) * limit)
       .limit(limit);
 
